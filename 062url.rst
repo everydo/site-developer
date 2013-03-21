@@ -1,0 +1,18 @@
+﻿.. Contents::
+
+URL生成
+=========
+
+登陆地址生成
+-------------------
+
+- absoluteURL (context, request)
+
+  生成context（当前对象）的可以被访问的URL
+  request是必须的变量
+
+- resourceURL('binary.gif','fileimg'):
+
+  静态资源缓存url, 可以在缓存目下的fileimg 子目录中找到一张叫做 binary.gif 的图片。
+  有些系统自带的图标/css，需要缓存，可以通过这个得到
+
