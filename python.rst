@@ -46,6 +46,3 @@ call_script('zopen.api.calc', a, b)
                 view.title = html.get('title', '')
                 view.description = html.get('description', '')
 
-Ajax/KSS请求
------------------------
-
