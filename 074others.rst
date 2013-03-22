@@ -50,15 +50,6 @@ getOperationOption(context, option_name=None, default=None):
     # 是否开发版
     ('apps_scripting', '允许开发软件包', '','bool','function'),
 
-ItinyTable
--------------
-
-动态表格数据查询
-
-- ``queryRows(**kw)``: 列出满足指定条件的数据行,kw指定列的条件
-- sum(expr): expr 是一个表达式, 比如 "price * num"
-
-
 getDisplayTime(time, format)
 -----------------------------------
 人性化的时间显示	time 是datetime类型，或者timestampe的浮点数。Format可为：
@@ -87,10 +78,6 @@ IObjectLogManager
   #text，日志信息
   listLogs()  #日志列表
   
-
-
-
-
 易度工具函数
 ---------------
 - “osf_crypt”:防泄密外发打包函数
@@ -108,9 +95,7 @@ IObjectLogManager
          print document_convert(content="<h3>标题1</h3>\n 今天是个好日子！！！", from_mime="text/plain", to_mime="text/html")
          >> {'main':{'content': '<html>\n<head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head>\n<body>\n<h3>\xe6\xa0\x87\xe9\xa2\x981</h3><br> \xe4\xbb\x8a\xe5\xa4\xa9\xe6\x98\xaf\xe4\xb8\xaa\xe5\xa5\xbd\xe6\x97\xa5\xe5\xad\x90\xef\xbc\x81\xef\xbc\x81\xef\xbc\x81</body>\n</html>', 'title': 'index'}, 'attachments': [] }
           
-    
-
-
+  
 在易度中，出于安全的考虑，对Python的一些常用包做了控制：
 
 Python的一些常用包
