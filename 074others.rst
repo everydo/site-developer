@@ -4,8 +4,6 @@
 .. Contents::
 .. sectnum::
 
-.. contents::
-
 标签组
 ---------------
 
