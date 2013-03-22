@@ -78,20 +78,9 @@ apply_to这个list里面可以有的值及对应解释如下::
   'Image'				图片
   'Document'			        文档
 
-接口和类型
----------------------------------------------
 
+PersistentList，PersistentDict
+================================================
+Python的基础类型包括list和dict，都是mutable的，这2种对象发生变更修改，不会字段通知ZODB更新数据库。这样导致数据修改不能保存。
 
-不同的对象，通过接口来标识其类型，比如文件、帖子、文件夹、批注等。
-
-系统包括如下接口::
-
-  接口	        说明	         完整标识
-  IFile	        文件	         zopen.content.interfaces.IFile
-  IFolder	文件夹	         zopen.content.interfaces.IFolder
-  IApplet	应用	         zopen.apps.interfaces.IApplet
-  IDataManager	数据/流程管理器	 zopen.flow.interfaces.IDataManager
-
-判断一个对象是不是文件，可使用如下语句：
-
-IFile.providedBy(context)
+为了解决这一问题，对于需要保存的数据库中的数据，应该采用PersistentList来代替list，使用PersistentDict代替dict。他们的使用接口其实是一致的。
