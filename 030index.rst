@@ -144,3 +144,59 @@ result是一个list，len(result)可得到结果的数量。
 2. 如果将字段的名称和上面索引的名称保持相同，也可以自动索引
 3. 有些需要特殊搜索的，可以手工加入到DublinCore的subjects中进行搜索
 
+搜索日志
+----------------------------------
+搜索日志使用IIndexer接口，有以下外部API:
+
+- list_parts() # 列出所有可用的数据库
+- get_last_part() # 得到最后一个在使用的数据库
+- add_document(part_name, index, uid=None, data=None, flush=True) # 添加一个索引
+- replace_document(part_name, uid, index, data=None, flush=True) # 替换一个索引
+- delete_document(part_name, uids, flush=True) # 删除一个索引
+- search(parts=None, query=None, orderby=None, start=None, stop=None) # 搜索
+
+看个例子，搜索24小时内，admin用户下载操作记录, 按时间递减排序:::
+
+ import time
+ # 构建查询条件
+ query = []
+ # 限制是下载操作
+ query.append(['operation', u'download', ''])
+ # 限制用户是admin
+ query.append(['displayname', u'admin', ''])
+ # 限制是24小时内的日志
+ now = time.time()
+ before_one_days = now - 24*3600
+ query.append(['timestamp', [float(before_one_days), float(now)], 'range'])
+ # 搜索, 按时间递减排序
+ # query 如果不给，就搜索全部的日志
+ site = getSite()
+ results = IIndexer(site).search(query=query, orderby='-timestamp')
+
+操作是一个列表，包含’操作ID‘， ’内容‘， ’操作类型‘，
+
+操作类型有’anyof‘, ’allof‘, ’parse‘, ‘range’，‘’  四种
+ - ‘’，内容必须是Unicode类型
+ - ‘parse’， 内容必须是Unicode类型，操作ID必须是列表，内容的值是模糊匹配
+ - ‘anyof’, 内容必须是列表，代表这个操作的值可以是这些内容任意一个
+ - ‘allof’, 内容必须是列表，代表这个操作的值必须匹配所有的内容
+ - ‘range’，搜索时间相关的时候使用，内容必须是列表，且应该只有两个值，表示开始时间和结束时间
+
+目前可以搜索的操作分别是:::
+
+ download downloadPDF : 下载 和 下载PDF 操作
+ upload created newPlan newProject newFlow   : 5种创建操作
+ save editoutside editTask editPlan editProject newrevision : 6种编辑操作
+ rename renameProject : 2种重命名操作
+ copy move : 拷贝 和 移动 操作
+ removed delete : 2种删除操作
+ subscription : 订阅操作
+ comment : 评论操作
+ print ： 打印操作
+ sendSMS sendSmsReport ： 发送短信 和 发送短信报告 操作
+ sendout : 外发操作
+ assign : 分配权限操作
+ pending published return private free activeProject holdProject closeProject：改变状态操作
+ login logout : 登录 和 登出 操作
+ 
+ 
