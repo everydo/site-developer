@@ -68,6 +68,7 @@ action的定义
 - new : 新建
 - upload：上传
 - comment: 评论
-- new_revision: 上传新版本
-- workflow_sign ： 流程任务分配
-- workflow_resign ： 流程任务重新分配
+- new_revision: 更新版本
+- fix_revision: 定版
+- workflow_sign ： 触发流程任务
+- workflow_resign ： 更改流程任务
