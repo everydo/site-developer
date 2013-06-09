@@ -64,9 +64,10 @@ action的定义
 ==============================
 每个action对应的各种翻译msgid为： action_xxx
 
-- new : 新建
-- submit: 提交
-- retract: 收回
-- publish: 发布
 - share： 分享
-- newrevision: 上传新版本
+- new : 新建
+- upload：上传
+- comment: 评论
+- new_revision: 上传新版本
+- workflow_sign ： 流程任务分配
+- workflow_resign ： 流程任务重新分配
