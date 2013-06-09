@@ -16,29 +16,13 @@
 - updateOrder(order): 更新排序
 
 
-“IFileSender”: 文件外发
-------------------------------------
+“ISessionAuthorizer”: 临时授权
+------------------------------------------------
+主要用于文件下载的临时授权，比如在借阅时候的临时授权
 
-- sendFile(request, creator, send_to, deadline, hashid=None, attach_type=['mail'], password='', description='', send_mail=True)::
-  
-    """ 发送一个文件
-            creator: 发送人的principal_id
-            send_to: 收件人，如['firewood@gmail.com', 'firewood1@gmail.com']
-            deadline: 查看过期时间，datetime类型
-            hashid: 外发历史的hash id，新建时可以为空
-            attach_type: 权限(preview: 预览，src: 下载源文件，'pdf': 下载为pdf)
-            password: 查看密码，可以为空
-            description: 外发说明文字
-    """
-
-
-
-- sendLink(request, creator, send_to, deadline, hashid=None, attach_type=['preview', 'src', 'pdf'], 
-  password='', description='',send_mail=False): 
-
-  获得一个临时授权的链接
-
-- listHistory() 查看临时授权历史
+- set_permissions(permissions)：设置权限
+- check_permission(permission): 检查是否有某个权限
+- list_permissions()：列出全部的权限
 
 IFolderManager
 ------------------
