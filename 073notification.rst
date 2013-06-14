@@ -70,5 +70,5 @@ action的定义
 - comment: 评论
 - new_revision: 更新版本
 - fix_revision: 定版
-- workflow_sign ： 触发流程任务
-- workflow_resign ： 更改流程任务
+- workflow_sign ： 触发流程
+- workflow_resign ： 更改流程
