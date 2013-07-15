@@ -1,4 +1,4 @@
-.. contents::
+﻿.. contents::
 
 对象的状态
 ===========================
@@ -9,6 +9,8 @@ modify: 发布流程
 - modify.default	草稿
 - modify.pending	待审
 - modify.archived	发布/存档 (只读)
+- modify.history_default 普通历史版本
+- modify.history_archived 发布的历史版本
 
 visible: 保密流程
 
