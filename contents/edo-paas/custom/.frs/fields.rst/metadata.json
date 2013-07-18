@@ -1,0 +1,13 @@
+{
+    "main": {
+        "contenttype": "Document"
+    },
+    "dublin": {
+        "title": "表单定义详解",
+        "description": "理解各种表单字段",
+        "creators": [
+            "潘俊勇"
+        ],
+        "created": "2010-04-05 19:26:31.723203"
+    }
+}

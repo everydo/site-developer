@@ -1,0 +1,13 @@
+{
+    "main": {
+        "contenttype": "Document"
+    },
+    "dublin": {
+        "title": "书写表达式",
+        "description": "在表达式中可以用哪些变量，含义如何？",
+        "creators": [
+            "pjy"
+        ],
+        "created": "2010-04-29 09:54:37.032342"
+    }
+}
