@@ -1,5 +1,5 @@
 ---
-title: 搜索和查询
+title: 索引和查询
 ---
 
 .. contents::

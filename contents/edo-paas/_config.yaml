@@ -1,3 +1,4 @@
 title: 易度PaaS开发平台
-order: [index.rst, api, tut]
+order: [index.rst, tut, api]
+exclude: [img, cert]
 theme: default.html
