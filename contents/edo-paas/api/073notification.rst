@@ -1,4 +1,8 @@
-﻿.. Contents::
+﻿---
+title: 通知
+---
+
+.. Contents::
 .. sectnum::
 
 

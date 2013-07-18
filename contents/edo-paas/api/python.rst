@@ -1,3 +1,7 @@
+---
+title: python脚本
+---
+
 .. Contents::
 
 用途

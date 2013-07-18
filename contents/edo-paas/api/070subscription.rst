@@ -1,3 +1,7 @@
+---
+title: 订阅
+---
+
 .. Contents::
 .. sectnum::
 

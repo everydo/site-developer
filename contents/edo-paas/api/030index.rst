@@ -1,3 +1,7 @@
+---
+title: 搜索和查询
+---
+
 .. contents::
 .. sectnum::
 

@@ -1,3 +1,7 @@
+---
+title: 权限和认证
+---
+
 .. contents::
 
 登录和权限
@@ -128,3 +132,16 @@ IGrantManager(obj).getRolesForPermission(permission_id)
 得到上层以及全局的授权信息
 
 IGrantManager(obj).getInheritedRolesForPermission(permission_id)
+
+临时授权（仅针对文件下载）
+==============================
+
+接口API：ISessionAuthorizer
+
+- set_permissions(permissions):
+  """在session中设置对文件的权限"""
+
+- check_permissions(permission):
+   """检查权限""" 
+
+ 
