@@ -1,0 +1,235 @@
+Metadata-Version: 1.1
+Name: collective.recipe.modwsgi
+Version: 2.0
+Summary: WSGI from buildout
+Home-page: https://github.com/wichert/collective.recipe.modwsgi
+Author: Wichert Akkerman
+Author-email: wichert@wiggy.net
+License: ZPL
+Description: Introduction
+        ============
+        
+        ''collective.recipe.modwsgi'' is a `zc.buildout`_ recipe which creates
+        a `paste.deploy`_ entry point for mod_wsgi_.
+        
+        It is very simple to use. This is a minimal ''buildout.cfg'' file
+        which creates a WSGI script mod_python can use::
+        
+            [buildout]
+            parts = mywsgiapp
+        
+            [mywsgiapp]
+            recipe = collective.recipe.modwsgi
+            eggs = mywsgiapp
+            config-file = ${buildout:directory}/production.ini
+        
+        This will create a small python script in parts/mywsgiapp called
+        ''wsgi'' which mod_wsgi can load. You can also use the optional
+        ''extra-paths'' option to specify extra paths that are added to
+        the python system path.
+        
+        The apache configuration for this buildout looks like this::
+        
+            WSGIScriptAlias /mysite /home/me/buildout/parts/mywsgiapp/wsgi
+        
+            <Directory /home/me/buildout>
+                Order deny,allow
+                Allow from all
+            </Directory>
+        
+        If the python script must be accessed from somewhere else than the buildout
+        parts folder, you can use the optional ''target'' option to tell the recipe
+        where the script should be created.
+        
+        For instance, the configuration for the mywsgiapp part could look like this::
+        
+            [mywsgiapp]
+            recipe = collective.recipe.modwsgi
+            eggs = mywsgiapp
+            target = /var/www/myapp.wsgi
+            config-file = ${buildout:directory}/production.ini
+        
+        The recipe would then create the script at /var/www/myapp.wsgi.
+        
+        Note that the directory containing the target script must already exist on
+        the filesystem prior to running the recipe and be writeable.
+        
+        The apache configuration for this buildout would then look like this::
+        
+            WSGIScriptAlias /mysite /var/www/myapp.wsgi
+        
+            <Directory /var/www>
+                Order deny,allow
+                Allow from all
+            </Directory>
+        
+        This recipe does not fully install packages, which means that console scripts
+        will not be created. If you need console scripts you can add a second
+        buildout part which uses `z3c.recipe.scripts`_ to do a full install.
+        
+        Configuration files with multiple applications
+        ----------------------------------------------
+        
+        It is possible to specify multiple applications or pipelines in a single
+        configuration file. If you do this you can specify which application to
+        run by using the ``app_name`` option. For example if your ini files looks
+        like this::
+        
+            [app:my_app]
+            use = egg:my_application
+        
+            [pipeline:production]
+            pipeline = my_app
+             
+            [pipeline:devel]
+            pipeline =
+                egg:WebError#evalerror
+            my_app
+        
+        This specifies two way to run the your application: a *production*
+        configuration which runs the application directly, and a *devel*
+        configuration which also runs the WebError interactive debugger to
+        catch errors. To use the production pipeline in mod_wsgi supply
+        the app_name parameter::
+        
+            [mywsgiapp]
+            recipe = collective.recipe.modwsgi
+            eggs = mywsgiapp
+            app_name = production
+            config-file = ${buildout:directory}/production.ini
+        
+        .. _zc.buildout: http://pypi.python.org/pypi/zc.buildout
+        .. _paste.deploy: http://pythonpaste.org/deploy/
+        .. _mod_wsgi: http://code.google.com/p/modwsgi/
+        .. _z3c.recipe.scripts: http://pypi.python.org/pypi/z3c.recipe.scripts
+        
+        Changelog
+        =========
+        
+        2.0 - March 12, 2013
+        --------------------
+        
+        - Add Python 3 support. Patch submitted by Richard Mitchell. 
+        
+        
+        1.7 - June 19, 2012
+        -------------------
+        
+        - Add option to configure where target script will be created.
+          Patch submitted by David Convent.
+        
+        
+        1.6 - January 31, 2012
+        ----------------------
+        
+        - Fix packaging error.
+        
+        
+        1.5 - January 31, 2012
+        ----------------------
+        
+        - Add option to configure which application to load from a .ini file.
+          Patch submitted by Stephan Hof.
+        
+        
+        1.4 - January 15, 2012
+        ----------------------
+        
+        - Fix typo in the .ini handling logic for configuration files that do not
+          contain logging settings.
+          [aclark]
+        
+        
+        1.3 - January 13, 2012
+        ----------------------
+        
+        - Gracefully handle .ini files that do not contain logging configuration.
+          [wichert]
+        
+        - don't overwrite existing file permissions when setting execute permission.
+          This fixes `issue 1
+          <https://github.com/wichert/collective.recipe.modwsgi/pull/1>`_
+          [fredj]
+        
+        1.2 - August 7, 2009
+        --------------------
+        
+        - Initialise the python logging module. Based on a patch from Philip Kershaw,
+          which was based on a discussion on pylons-discuss:
+          http://groups.google.com/group/pylons-discuss/browse_thread/thread/9b9add4529b3779c?pli=1
+          [wichert]
+        
+        
+        1.1 - April 20, 2009
+        --------------------
+        
+        * Add an 'extra-paths' option, similar the the zc.recipe.egg one.
+          [chrism]
+        
+        
+        1.0 - October 16, 2008
+        ----------------------
+        
+        * No changes.
+          [wichert]
+        
+        
+        
+        1.0rc1 - June 30, 2008
+        ----------------------
+        
+        * Update the generated wrapper to test if a path is already in sys.path
+          before adding it. This prevents paths being duplicated in sys.path
+          when mod_wsgi reloads the module.
+          [wichert]
+        
+        
+        
+        1.0b3 - June 23, 2008
+        ---------------------
+        
+        * Do not make the recipe a subclass of zc.recipe.egg.Eggs but
+          use a local instance to determine the working set.
+          [wichert]
+        
+        * Format the sys.path changes in the wrapper to make it more
+          human readable. This is purely cosmetic to help with debugging.
+          [wichert]
+        
+        * Also recreate the wsgi wrapper file when updating a buildout part.
+          This is needed to get get changes to versions in the working set
+          (such as different version pins) reflected in the wrapper.
+          [wichert]
+        
+        
+        
+        1.0b2 - June 13, 2008
+        ---------------------
+        
+        * Call the Eggs constructor as well: working_set() needs too many of the
+          internal variables it sets for us to set them ourselves. This fixes
+          the recipe breaking when using find-links in buildout.
+          [wichert]
+        
+        
+        
+        1.0b1 - June 13, 2008
+        ---------------------
+        
+        * Initial release
+          [wichert]
+        
+        
+Keywords: wsgi buildout
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Framework :: Buildout :: Recipe
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Zope Public License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.4
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3

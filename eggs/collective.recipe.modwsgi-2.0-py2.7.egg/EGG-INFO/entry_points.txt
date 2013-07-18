@@ -1,0 +1,4 @@
+
+      [zc.buildout]
+      default = collective.recipe.modwsgi:Recipe
+      

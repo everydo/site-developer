@@ -1,0 +1,17 @@
+.gitignore
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+collective/__init__.py
+collective.recipe.modwsgi.egg-info/PKG-INFO
+collective.recipe.modwsgi.egg-info/SOURCES.txt
+collective.recipe.modwsgi.egg-info/dependency_links.txt
+collective.recipe.modwsgi.egg-info/entry_points.txt
+collective.recipe.modwsgi.egg-info/namespace_packages.txt
+collective.recipe.modwsgi.egg-info/requires.txt
+collective.recipe.modwsgi.egg-info/top_level.txt
+collective.recipe.modwsgi.egg-info/zip-safe
+collective/recipe/__init__.py
+collective/recipe/modwsgi/__init__.py
+docs/HISTORY.txt

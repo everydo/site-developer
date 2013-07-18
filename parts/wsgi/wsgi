@@ -1,0 +1,47 @@
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
+import sys
+syspaths = [
+    '/home/panjy/git/zcms',
+    '/home/panjy/git/edo-paas/eggs/PyYAML-3.10-py2.7-linux-x86_64.egg',
+    '/home/panjy/git/edo-paas/eggs/Markdown-2.3.1-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/WebHelpers-1.3-py2.7.egg',
+    '/usr/lib/python2.7/dist-packages',
+    '/usr/lib/python2.7/dist-packages',
+    '/home/panjy/git/edo-paas/eggs/docutils-0.10-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/Pygments-1.6-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/pyramid-1.4.2-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/Paste-1.7.5.1-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/MarkupSafe-0.18-py2.7-linux-x86_64.egg',
+    '/home/panjy/git/edo-paas/eggs/PasteDeploy-1.5.0-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/translationstring-1.1-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/venusian-1.0a8-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/zope.deprecation-4.0.2-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/zope.interface-4.0.5-py2.7-linux-x86_64.egg',
+    '/home/panjy/git/edo-paas/eggs/repoze.lru-0.6-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/WebOb-1.2.3-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/Mako-0.8.1-py2.7.egg',
+    '/home/panjy/git/edo-paas/eggs/Chameleon-2.11-py2.7.egg',
+    ]
+
+for path in reversed(syspaths):
+    if path not in sys.path:
+        sys.path[0:0]=[path]
+
+
+from paste.deploy import loadapp
+
+if sys.version_info >= (2, 6):
+    from logging.config import fileConfig
+else:
+    from paste.script.util.logging_config import fileConfig
+
+
+configfile = "/home/panjy/git/edo-paas/production.ini"
+try:
+    fileConfig(configfile)
+except configparser.NoSectionError:
+    pass
+application = loadapp("config:" + configfile, name=None)
