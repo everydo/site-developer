@@ -1,1 +1,3 @@
 title: 快速教程
+order: [index.rst, pkg.rst, deploy.rst]
+exclude: [img, pic]
