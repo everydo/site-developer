@@ -1,5 +1,6 @@
 ---
 title: AJAX交互
+description: 编写ajax交互应用
 ---
 
 .. Contents::

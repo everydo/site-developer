@@ -1,5 +1,6 @@
 ﻿---
 title: 状态
+description: 系统状态机模型
 ---
 
 .. contents::

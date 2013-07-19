@@ -1,5 +1,6 @@
 ---
 title: 对象数据库
+description: 系统的所有数据，都以对象的形式存放在一个对象数据库(ZODB)中。ZODB数据库是一个NoSQL数据库，数据的存取直接封装在对象操作中，而不是采用SQL语句。本章介绍数据的存储和访问方法。
 ---
 
 ==================
@@ -9,7 +10,6 @@ title: 对象数据库
 .. Contents::
 .. sectnum::
 
-系统的所有数据，都以对象的形式存放在一个对象数据库(ZODB)中。ZODB数据库是一个NoSQL数据库，数据的存取直接封装在对象操作中，而不是采用SQL语句。
 
 树状对象关系
 =====================
@@ -168,4 +168,54 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 判断一个对象是不是文件，可使用如下语句：
 
 IFile.providedBy(context)
+
+对象属性
+==============================================
+
+对象的属性，通过接口分类如下
+
+流程单的属性
+--------------------------------------
+
+得到流程单的表单自定义字段的值
+
+IFieldStorage(context)['field_name']
+
+如果context是表单，那更简单的写法是：
+
+context['field_name']
+
+设置信息
+--------------------------------------
+
+包括流程和扩展应用的设置，可采用如下方法得到：
+
+ISettings(context)['location']
+
+当然这里的context，应该是流程容器或者应用，如果是在流程中取设置，即是container
+
+都柏林核心元数据
+--------------------------------------
+
+系统的所有对象，都包括一组标准的元数据，也就是所谓的都柏林核心元数据（这是一个图书馆元数据国际标准）
+
+- IDublinCore(obj).title 对象的标题
+
+- IDublinCore(obj).description 对象的描述信息
+
+- IDublinCore(obj).identifier 这个也就是文件的编号
+
+  注意：文件的编号默认和对象的永久标识是相同的，但是编号是可以自由调整的
+
+- IDublinCore(obj).creators 对象的创建人
+
+  注意，这是个list类型的对象
+
+- IDublinCore(obj).created 对象的创建时间
+
+- IDublinCore(obj).modified 对象的修改时间
+
+- IDublinCore(obj).expires 对象的失效时间
+
+- IDublinCore(obj).effective 对象的生效时间
 

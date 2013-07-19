@@ -1,2 +1,3 @@
 title: 平台API
-order: [000preface.rst, 010zodb.rst, 020attributes.rst, 030index.rst, 040usr.rst, 065file.rst, 067permission.rst, 068form.rst, 070subscription.rst, 071comments.rst, 073notification.rst, 074others.rst, 075states.rst, 076log.rst, 077relation.rst, 078session_authorizer.rst, 090setup.rst, kss.rst, python.rst]
+description: 系统的介绍平台提供的开发接口
+order: [zodb.rst, indexer.rst, orginfo.rst, file.rst, permission.rst, form.rst, msg.rst, others.rst, state.rst, log.rst, relation.rst,  setup.rst, kss.rst, python.rst]

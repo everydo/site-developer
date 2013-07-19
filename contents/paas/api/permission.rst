@@ -1,5 +1,6 @@
 ---
 title: 权限和认证
+description: 登录、授权、角色、
 ---
 
 .. contents::
@@ -133,15 +134,14 @@ IGrantManager(obj).getRolesForPermission(permission_id)
 
 IGrantManager(obj).getInheritedRolesForPermission(permission_id)
 
-临时授权（仅针对文件下载）
-==============================
-
+ 
+“ISessionAuthorizer”: 临时授权
+------------------------------------------------
 接口API：ISessionAuthorizer
 
-- set_permissions(permissions):
-  """在session中设置对文件的权限"""
+主要用于文件下载的临时授权
 
-- check_permissions(permission):
-   """检查权限""" 
+- set_permissions(permissions)：设置权限
+- check_permission(permission): 检查是否有某个权限
+- list_permissions()：列出全部的权限
 
- 

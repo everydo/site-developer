@@ -1,5 +1,6 @@
 ---
 title: 文件管理
+description: 文件操作和访问相关接口：版本管理、文件夹管理、临时授权等
 ---
 
 .. Contents::
@@ -19,14 +20,6 @@ title: 文件管理
 - orderedFolders(): 返回排序后的文件夹集合 
 - updateOrder(order): 更新排序
 
-
-“ISessionAuthorizer”: 临时授权
-------------------------------------------------
-主要用于文件下载的临时授权，比如在借阅时候的临时授权
-
-- set_permissions(permissions)：设置权限
-- check_permission(permission): 检查是否有某个权限
-- list_permissions()：列出全部的权限
 
 IFolderManager
 ------------------

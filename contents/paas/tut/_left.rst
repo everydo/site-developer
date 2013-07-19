@@ -1,7 +1,7 @@
-
 .. navtree::
    :root_depth: 1
-   :class: nav nav-list bs-docs-sidenav
+
+NEW！！ `《易度脚本开发指南》 <http://download.zopen.cn/releases/docs/%E6%98%93%E5%BA%A6%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.pdf>`__ 
 
 .. raw:: html
 

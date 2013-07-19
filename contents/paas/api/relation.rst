@@ -1,5 +1,6 @@
 ---
 title: 关系
+description: 对象管理引擎
 ---
 
 =================
@@ -57,18 +58,5 @@ title: 关系
   IRelation(doc1).remove('attachment', doc2) # 删除上面设置的那条关系
   IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) # 设置关系的元数据（关系不存在不会建立该关系）
   IRelations(doc1).get_target_metadata('attachment', doc2) # 得到关系的元数据（关系不存在返回None）
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

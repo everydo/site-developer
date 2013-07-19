@@ -1,5 +1,6 @@
 ---
 title: 用户管理
+description: 用户、组织结构和团队访问接口org_info
 ---
 
 .. contents::

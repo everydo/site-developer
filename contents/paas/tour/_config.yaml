@@ -1,0 +1,3 @@
+title: 平台介绍
+order: [index.rst, pkg.rst, deploy.rst]
+exclude: [img, pic]

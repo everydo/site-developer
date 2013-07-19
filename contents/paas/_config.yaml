@@ -1,5 +1,5 @@
 title: 易度PaaS开发平台
-order: [index.rst, tut, api]
+order: [index.rst, tour, tut, api, blog]
 exclude: [img, cert]
 theme_base: http://localhost:6543/themes/paas/
 theme: index.html
