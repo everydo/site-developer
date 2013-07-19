@@ -124,7 +124,7 @@ PADDING-RIGHT: 0px; PADDING-LEFT: 0px;PADDING-BOTTOM: 0px; MARGIN-left:20px;marg
 #portal-footer-nav img{margin:0px 42px}
 #portal-footer-nav p{margin-top:1em}
 #portal-footer-nav p span{margin:0px 20px}
-#portal-footer-nav table{margin:15px 0px}
+#portal-footer-nav table{margin:15px 0px; width: 100%}
 /* plone css */
 
 li div a:hover { 
