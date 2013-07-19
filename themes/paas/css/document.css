@@ -53,7 +53,7 @@
 #portal-globalnav LI A {
         padding: 18px 18px 20px 18px;  MARGIN: 0px; COLOR: #FFF; BACKGROUND-REPEAT: no-repeat; HEIGHT: auto; BACKGROUND-COLOR: transparent! important; TEXT-DECORATION: none;margin-left:15px
 }
-#portal-globalnav LI.selected A {
+#portal-globalnav LI.active A {
         COLOR: #FFF; background-color:#C4AC09 !important; PADDING-BOTTOM: 20px;PADDING-TOP:18px
 }
 #portal-globalnav LI A:hover {
