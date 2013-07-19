@@ -11,10 +11,10 @@
 ===========================
 本站点使用ZCMS构建，运行方法为：
 
-   python bootstrap.py
-   bin/buildout
-   bin/pserve development.ini
+     python bootstrap.py
+     bin/buildout
+     bin/pserve development.ini
 
 详细参见：
 
-  https://github.com/everydo/zcms
+     https://github.com/everydo/zcms
