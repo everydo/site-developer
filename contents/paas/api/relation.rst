@@ -22,14 +22,18 @@ description: 对象管理引擎
 接口API：IRelations
 -----------------------------------
 
-- add(type, obj， metadata={}):添加对obj的type类型关系 
-     type:关系类型 
-     obj：被关联对象
-     metadata：这条关系的元数据
+- add(type, obj， metadata={})
+
+  添加对obj的type类型关系 
+
+  -   type:关系类型 
+  -   obj：被关联对象
+  -   metadata：这条关系的元数据
  
 - remove(type, obj):删除对obj的type类型关系
-     type:关系类型 
-     obj：被关联对象
+
+  -   type:关系类型 
+  -   obj：被关联对象
 
 - set_target_metadata(type, obj, metadata):设置某条关系的元数据
 
@@ -52,11 +56,21 @@ description: 对象管理引擎
 
 使用事例
 ----------------------
-::
+将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
   
-  IRelation(doc1).add('attachment', doc2) # 将doc2设置为doc1的附件（doc1指向doc2的附件关系）
-  IRelation(doc1).remove('attachment', doc2) # 删除上面设置的那条关系
-  IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) # 设置关系的元数据（关系不存在不会建立该关系）
-  IRelations(doc1).get_target_metadata('attachment', doc2) # 得到关系的元数据（关系不存在返回None）
+  IRelation(doc1).add('attachment', doc2) 
 
+删除上面设置的那条关系::
+
+  IRelation(doc1).remove('attachment', doc2) 
+
+设置关系的元数据（关系不存在不会建立该关系）::
+
+  IRelations(doc1).set_target_metadata('attachment', 
+                doc2, 
+                {'number':01, 'size':23}) 
+
+得到关系的元数据（关系不存在返回None）::
+
+  IRelations(doc1).get_target_metadata('attachment', doc2) 
 

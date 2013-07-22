@@ -1,2 +1,4 @@
-title: 订餐应用
+title: 《订餐应用教程》
 description: 一步一步教你完成一个订餐应用
+order: [preface.rst, requirement.rst, form.rst, fields.rst, flow1.rst, flow2.rst]
+exclude: [img]

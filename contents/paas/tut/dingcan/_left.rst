@@ -1,3 +1,9 @@
+开发教程：
+
 .. navtree::
    :root_depth: 1
-   :class: nav nav-list bs-docs-sidenav
+
+订餐教程实例：
+
+.. navtree::
+   :root_depth: 2
