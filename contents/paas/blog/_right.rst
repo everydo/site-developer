@@ -9,8 +9,7 @@
         </dt>
       <dd class="portletItem">
 
-
-.. news::
+.. news:: 博客
    :size: 20
    :path: blog
 
@@ -18,8 +17,9 @@
 
       </dd>
       <dd class="portletItem portletFooter">
-        <a href="http://everydo.com/blog/">更多</a>
+        <a href="http://paas.everydo.com/blog/">更多</a>
       </dd>
       </dl>
     </div>
   </div>
+
