@@ -32,11 +32,14 @@ td#portal-column-one,
 td#portal-column-two {
     vertical-align: top;
     border-collapse:collapse;
-    width:194px; 
   /*  background-image:url(../img/col-bg.png);
     background-repeat:repeat-x	*/
 
 }
+td#portal-column-two {
+    width:194px;
+}
+
 td#portal-column-content{
        vertical-align: top;
        border-collapse:collapse;

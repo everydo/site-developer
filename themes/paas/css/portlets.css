@@ -43,6 +43,8 @@
 .portletItemDetails {
 	DISPLAY: block; TEXT-ALIGN: right
 }
+.portletItem ul{ margin-top:0; margin-LEFT:0;}
+.portletItem ul span { DISPLAY:block; text-align:right;}
 .portletFooter {
 	PADDING-RIGHT: 1em; PADDING-LEFT: 1em; PADDING-BOTTOM: 0.25em; MARGIN: 0px; PADDING-TOP: 0.25em; TEXT-ALIGN: right
 }
