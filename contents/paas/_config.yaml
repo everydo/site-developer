@@ -1,6 +1,5 @@
 title: 易度开发者
 order: [index.rst, tour, open, tut, api, blog]
 exclude: [img, cert]
-theme: default.html
 theme_base: http://download.zopen.cn/themes/paas/
 theme: index.html
