@@ -72,28 +72,6 @@
 PADDING-RIGHT: 0px; PADDING-LEFT: 0px;PADDING-BOTTOM: 0px; MARGIN-left:20px;margin-right:20px; PADDING-TOP: 0px;margin-bottom:1em}
 
 #portal-info {MARGIN: 0px auto; WIDTH: 952px! important; POSITION: relative; height:708px}
-#portal-banner{
-	position:absolute;
-	width:952px;
-	height:329px;
-	top:-4px;
-	background:#E7DE9D;
-	}
-#portal-banner img{margin-top:46px;margin-left:8px}
-
-
-#portal-opensourceinfo{
-	position:absolute;
-	width:952px;
-	height:376px;
-	top: 515px;
-	background:#F0EAC1;}
-#portal-opensourceinfo h3{
-		color:#588511;margin-left:40px
-}
-#portal-opensourceinfo ul {line-height:25px;color:#000;font-size:15px;margin-left:56px}
-
-
 
 #portal-footer {
 	MARGIN: 0px auto;! important; POSITION: relative; color:#FFF;background:url(../img/bg-4.png)
