@@ -1,6 +1,5 @@
 title: 易度开发者中心
 order: [index.rst, tour, tut, api, open, blog]
 exclude: [img, cert]
-#theme_base: http://192.168.1.115:6543/themes/developer
-theme_base: http://download.zopen.cn/themes/developer
+theme_base: /themes/developer
 theme: index.html
