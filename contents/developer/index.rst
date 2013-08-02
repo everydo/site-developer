@@ -2,20 +2,15 @@
 title: 首页
 ---
 
-
 .. raw:: html
 
-
-  <style type="text/css">
-    #content {margin:0}
-  </style>
-
-  <div style="padding: 1em; background: #F0EAC1;"><img src="img/banner.png">
-
-  <div style="padding: 1em;">
+    <style type="text/css">
+      #portal-column-content {background: #F0EAC1;}
+      #portal-column-two {display:none}
+    </style>
 
 ==============================
-欢迎来到易度开发者中心
+欢迎来到易度开发者中心!
 ==============================
 
 易度开发平台: 轻松扩展开发新应用，满足个性化的需求！
@@ -38,7 +33,3 @@ title: 首页
 - 消息通知接口
 - 短信发送接口
 
-
-.. raw:: html
-   </div>
-  </div>

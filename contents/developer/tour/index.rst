@@ -6,7 +6,6 @@ title: 定制开发快速导览
 易度PaaS应用引擎
 ========================
 
-.. image:: img/kaifapingtai.png
 
 
 易度办公平台，包括了PaaS(Platform as a Service)应用引擎功能，提供了应用快速在线开发和部署的环境。

@@ -1,0 +1,1 @@
+.. image:: img/banner.png
