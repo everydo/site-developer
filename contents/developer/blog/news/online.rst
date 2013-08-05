@@ -13,6 +13,6 @@ PaaS: Platform as a Service，开发平台即服务。
 
 为方便各位开发定制人员更好的学习易度定制开发的方法，特开辟此独立站点：
 
-http://paas.everydo.com
+http://developer.everydo.com
 
 欢迎各位为常来访问！
