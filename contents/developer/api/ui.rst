@@ -71,7 +71,7 @@ node_template用于渲染每个节点内容，采用handlerbar的模版
 
 node_template的例子如下::
 
-   <a class="KSSActionServer KSSAjaxLoad{{#if flag}} navTreeCurrentItem{{/if}}" kssattr:url="{{url}}/@@single_select_view" href="{{url}}{{view}}" title="{{title}}"><img src="{{icon}}"> {{title}}</a>
+   <a href="{{url}}{{view}}" title="{{title}}"><img src="{{icon}}"> {{title}}</a>
 
 其他
 ================
