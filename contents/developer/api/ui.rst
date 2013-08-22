@@ -14,37 +14,64 @@ render_navtree(navtree_data, node_template=None)
 
 navtree_data的例子如下::
 
-               {'name':'pnoderoot',
-                'title':'level1_root',
+             [              
+               {
+                'title': 'level1_root',
                 'url': absoluteURL(self.context, self.request),
-                ‘state’:collasped/expanded/loading,
-                ‘obj’:
-                    'view': '/@@view.html',
-                'icon':'',
+                'icon': '',
                 'children':
-                [
-                    {'name':'pnode1',
-                    'title':'level1_1',
-                    'url': absoluteURL(self.context, self.request),
-                    'view': '/@@view.html',
-                    'icon':'/@@/file.gif',
-                    'children':[],
+                  [
+                    {
+                     'title': 'level1_1',
+                     'url': absoluteURL(self.context, self.request),
+                     'icon': '',
+                     'children':[],
                     },
-                   {'name':'pnode2',
-                    'title':'level1_2',
-                    'url': absoluteURL(self.context, self.request),
-                    'icon':'/@@/file.gif',
-                    'children':
+                    {
+                     'title': 'level1_2',
+                     'url': absoluteURL(self.context, self.request),
+                     'icon': '',
+                     'children':
                         [
-                            {'name':'snode1',
-                            'title':'level2_1',
-                            'url': absoluteURL(self.context, self.request),
-                            'icon':'/@@/file.gif',
-                            'children':[],
-                            },
-                         。。。
+                          {
+                           'title':'level2_1',
+                           'url': absoluteURL(self.context, self.request),
+                           'icon':'',
+                           'children':[],
+                          },
+                        ]
+                     }
+                   ]
+                 }
+               ]
 
-node_template用于渲染每个节点，是handlerbar的模版结构
+结构示例
+
+    * level1_root
+
+      + level1_1
+
+      + level1_2
+
+        - level2_1
+
+数据随模板指定，其中有几个内置变量用于导航树的节点。
+
+内置变量
+
+1. children 值为None,不会出现展开图标。没有key表示用于Ajax展开情况。
+
+#. classes 为节点的class赋值
+
+#. expanded 节点展开，默认不展开
+
+#. attributes 节点属性设置，例如 'attributes': "param1='true' param2='false'"
+
+node_template用于渲染每个节点内容，采用handlerbar的模版
+
+node_template的例子如下::
+
+   <a class="KSSActionServer KSSAjaxLoad{{#if flag}} navTreeCurrentItem{{/if}}" kssattr:url="{{url}}/@@single_select_view" href="{{url}}{{view}}" title="{{title}}"><img src="{{icon}}"> {{title}}</a>
 
 其他
 ================
