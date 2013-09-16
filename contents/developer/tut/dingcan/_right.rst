@@ -3,12 +3,12 @@
     <div id="leftcolumn" class="edoBox">
         <dl class="portlet portlet-navigation-tree">
             <dt class="portletHeader">
-                <a class="title" href="http://paas.everydo.com/tour/">开发教程</a>
+                <a class="title" href="http://developer.everydo.com/tour/">开发教程</a>
             </dt>
             <dd class="portletItem">
 
     <li class="navTreeItem visualNoMarker node"
-       kssattr:nodeurl="http://paas.everydo.com/tour/index.rst">
+       kssattr:nodeurl="http://developer.everydo.com/tour/index.rst">
        <div class="visualIcon contenttype-folder">
 
 .. navtree::
@@ -35,7 +35,7 @@ NEW！！ `《易度脚本开发指南》 <http://download.zopen.cn/releases/doc
             <dd class="portletItem">
 
     <li class="navTreeItem visualNoMarker node"
-       kssattr:nodeurl="http://paas.everydo.com/tour/index.rst">
+       kssattr:nodeurl="http://developer.everydo.com/tour/index.rst">
        <div class="visualIcon contenttype-folder">
 
 .. navtree::

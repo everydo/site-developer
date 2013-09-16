@@ -57,6 +57,7 @@ public class demo_search {
 	     String from = 
 		     "<D:from>"+
 				"<D:scope>"+
+					"<D:href>/</D:href>"+
 					"<D:depth>infinity</D:depth>"+
 				"</D:scope>"+
 			"</D:from>";

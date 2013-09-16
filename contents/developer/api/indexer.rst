@@ -253,4 +253,5 @@ ITagsanager(sheet).addTag('完成', exclude=True)
    [(按产品, (wps, (游戏, (天下, 传奇)), 毒霸)),
     (按部门, (研发, 市场))]
 
+- check_required(tags): 返回遗漏的标签分组list
 

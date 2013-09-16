@@ -3,12 +3,11 @@
     <div id="leftcolumn" class="edoBox">
         <dl class="portlet portlet-navigation-tree">
             <dt class="portletHeader">
-                <a class="title" href="http://paas.everydo.com/tour/">平台介绍</a>
+                <a class="title" href="http://developer.everydo.com/tour/">平台介绍</a>
             </dt>
             <dd class="portletItem">
 
-    <li class="navTreeItem visualNoMarker node"
-       kssattr:nodeurl="http://paas.everydo.com/tour/index.rst">
+    <li class="navTreeItem visualNoMarker node">
        <div class="visualIcon contenttype-folder">
 
 .. navtree::
