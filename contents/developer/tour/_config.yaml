@@ -1,3 +1,4 @@
-title: 平台介绍
-order: [index.rst, pkg.rst, deploy.rst]
+title: 开发教程
+description: 一组快速入门的开发教程
+order: [index.rst, pkg.rst, deploy.rst, hello.rst, lightweight.rst, dingcan, faq.rst, python.rst, zpt.rst]
 exclude: [img, pic]

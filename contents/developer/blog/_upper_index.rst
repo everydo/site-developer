@@ -1,2 +1,2 @@
-.. image:: img/blog.png
+.. image:: img/kaifapingtai.png
    :width: 100%

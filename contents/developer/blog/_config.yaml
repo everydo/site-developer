@@ -1,2 +1,3 @@
 title: 博客
 exclude: [index.rst, img]
+theme: home.html
