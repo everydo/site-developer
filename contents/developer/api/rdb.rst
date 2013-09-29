@@ -12,4 +12,27 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 
 关系数据库访问采用类似python db-api的接口，底层做了连接池管理
 
-TODO
+
+
+支持的数据库
+-----------------
+
+- Mysql
+- Oracle
+- Microsoft SQL Server
+- PostgreSQL
+
+接口:  get_connection
+------------------------------
+
+连接参数：
+
+- db_type (参数选择：mysql、ms_sql_server、oracle、 postgresql)
+- 其他连接参数（由使用的连接包决定）
+
+数据库连接包：
+
+- mysql：mysql-python
+
+
+
