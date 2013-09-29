@@ -6,6 +6,14 @@ title: 界面组件
 界面组件
 ==================
 
+.. sectnum::
+.. contents::
+
+IStatusMessage 显示状态信息
+-------------------------------
+	 
+“IStatusMessage”,界面上显示状态信息
+
 导航树
 ========
 render_navtree(navtree_data, node_template=None)
@@ -77,24 +85,25 @@ node_template的例子如下::
 ================
 renderFilePreview
 
-render_subscribe_button
-
-render_subscription_portlet
-
-render_notification_portlet
-
-render_comment_portlet
-
 render_sendout_macro
 
 render_sendout_login
 
-render_favorite_button
-
-render_facetag_portlet
-
-render_tags
-
 render_views_menu
 
 render_batch
+
+render_subscribe_button(context, request)        # 关注按钮
+
+render_notification_portlet(context, request)     # 通知方式面板
+
+render_subscription_portlet(context, request)    # 关注面板
+
+render_comment_portlet(context, request)        # 评注组件
+
+render_favorite_button(context, request)    # 收藏按钮(参数show_text默认True)
+
+render_facetag_portlet(context, request)     # 标签组面板
+
+render_tags(context, request)     # 标签(参数parent默认False)
+
