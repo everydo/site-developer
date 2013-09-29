@@ -91,17 +91,6 @@ IStatusMessage
 	 
 “IStatusMessage”,界面上显示状态信息
 
-IObjectLogManager
-----------------------
-“IObjectLogManager”:,记录日志
-
-可使用方法：::
-
-  addObjectLog(operation,text)
-  #operation,操作类型
-  #text，日志信息
-  listLogs()  #日志列表
-  
 易度工具函数
 ---------------
 - “osf_crypt”:防泄密外发打包函数
