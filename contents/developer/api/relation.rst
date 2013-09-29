@@ -16,7 +16,6 @@ description: 对象管理引擎
 - "shortcut" 快捷方式
 - "favorite" 收藏
 - "attachment" 附件
-- "collection" 专辑
 
 
 接口API：IRelations

@@ -1,6 +1,6 @@
 ﻿---
 title: 其他接口
-description: 界面相关的一组接口
+description: 界面相关的一组接口，以及小工具
 ---
 
 常用方法
@@ -39,8 +39,6 @@ request.response是当前请求的返回信息：
  render_favorite_button(context, request)    # 收藏按钮(参数show_text默认True)
  render_facetag_portlet(context, request)     # 标签组面板
  render_tags(context, request)     # 标签(参数parent默认False)
-
- 
 
 地址生成
 -------------------
