@@ -46,7 +46,7 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
     - 项目地址：  http://www.pygresql.org/readme.html
 
 
-使用示范：
+使用示范：:::
 
 
       connection = get_db_connection('mysql', user='username', passwd='password', db='python')
