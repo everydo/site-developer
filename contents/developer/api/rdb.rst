@@ -34,42 +34,76 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 
 - mysql：
     - mysql-python
-    - 项目地址：https://pypi.python.org/pypi/MySQL-python
+    - 项目地址: `https://pypi.python.org/pypi/MySQL-python <https://pypi.python.org/pypi/MySQL-python>`_   
 - Microsoft SQL Server:
     - pymssql
-    - 项目地址： https://code.google.com/p/pymssql/ 
+    - 项目地址： `https://code.google.com/p/pymssql <https://code.google.com/p/pymssql>`_  
 - Oracle:
     - cx_Oracle
-    - 项目地址： http://cx-oracle.sourceforge.net‎
+    - 项目地址： `http://cx-oracle.sourceforge.net‎ <http://cx-oracle.sourceforge.net‎>`_ 
 - PostgreSQL: 
     - PyGreSQL
-    - 项目地址：  http://www.pygresql.org/readme.html
+    - 项目地址：  `http://www.pygresql.org/readme.html <http://www.pygresql.org/readme.html>`_ 
 
 
+<<<<<<< HEAD
 使用示范：:::
+=======
+使用示范-mysql ::
+>>>>>>> 增加postgresql使用示范
 
-
-      connection = get_db_connection('mysql', user='username', passwd='password', db='python')
+      # mysql
+      connection = get_db_connection('mysql', host='127.0.0.1', user='username', passwd='password', db='python')
       cursor = connection.cursor()
  
- 
+      #执行一个查询
+      cursor.execute("SELECT VERSION()")
+      #取得上个查询的结果，是单个结果
+      data = cur.fetchone()
+      print "Database version : %s " % data
+
+
       value = [1,"inserted ?"];
       # 插入一条记录
       cursor.execute("insert into test values(%s,%s)",value);
  
-      values=[]
-      # 生成插入参数值
-      for i in range(20):
-          values.append((i,'Hello mysqldb, I am recoder ' + str(i)))
- 
+      values=[(1, "hello I`m recode 1"), (2, "hello I`m recode 2"), (3, "hello I`m recode 3")] 
+      
       # 插入多条记录
       cursor.executemany("""insert into test values(%s,%s) """,values);
+
       connection.commit()
  
       # 关闭连接，释放资源
       cursor.close();
 
+使用示范-postgresql ::
+
+      # postgresql
+      pgdb_conn = get_db_connection('postgresql', host='127.0.0.1', user='username', passwd='password', dbname='python')
+ 
+      #查询表 1         
+      sql_desc = "select * from tbl_product3"  
+      for row in pgdb_conn.query(sql_desc).dictresult():  
+          print row  
+   
+      #查询表2          
+      sql_desc = "select * from tbl_test_port"  
+      for row in pgdb_conn.query(sql_desc).dictresult():  
+          print row   
+   
+
+      #插入记录     
+      sql_desc = "INSERT INTO tbl_product3(sv_productname) values('apple')"  
+      try:  
+          pgdb_conn.query(sql_desc)  
+      except Exception, e:  
+          print 'insert record into table failed'  
+          pgdb_conn.close()    
+          return      
 
 
+      # 关闭连接，释放资源
+      pgdb_conn.close()         
 
 
