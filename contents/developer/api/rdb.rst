@@ -27,23 +27,18 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 
 连接参数：
 
-- db_type (可选：mysql、ms_sql_server、oracle、 postgresql)
-- 其他连接参数（由使用的连接包决定）
+- db_type (连接的数据库类型，支持：mysql、ms_sql_server、oracle、 postgresql)
+- 其他连接参数（具体查看所使用的连接包的文档）
 
-所使用的数据库连接包：
+数据库连接包文档地址：
 
-- mysql：
-    - mysql-python
-    - 项目地址: `https://pypi.python.org/pypi/MySQL-python <https://pypi.python.org/pypi/MySQL-python>`_   
-- Microsoft SQL Server:
-    - pymssql
-    - 项目地址： `https://code.google.com/p/pymssql <https://code.google.com/p/pymssql>`_  
-- Oracle:
-    - cx_Oracle
-    - 项目地址： `http://cx-oracle.sourceforge.net‎ <http://cx-oracle.sourceforge.net‎>`_ 
-- PostgreSQL: 
-    - PyGreSQL
-    - 项目地址：  `http://www.pygresql.org/readme.html <http://www.pygresql.org/readme.html>`_ 
+- mysql： `https://pypi.python.org/pypi/MySQL-python <https://pypi.python.org/pypi/MySQL-python>`_
+
+- Microsoft SQL Server: `https://code.google.com/p/pymssql <https://code.google.com/p/pymssql>`_  
+
+- Oracle:  `http://cx-oracle.sourceforge.net‎ <http://cx-oracle.sourceforge.net‎>`_ 
+
+- PostgreSQL: `http://www.pygresql.org/readme.html <http://www.pygresql.org/readme.html>`_ 
 
 
 
