@@ -35,37 +35,43 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 
 - 返回一个符合 `DB-API 2 <http://www.python.org/dev/peps/pep-0249/>`_ 规范的连接
 
-使用示范 ::
+获得连接对象，根据不同的数据库，所需要的参数也有所不同，例如：
 
-      db_type = 'mysql'
+MySQL ::
 
-      # 连接不同的数据库，kwargs的key有所不同 
-      if db_type == 'mysql':
-          connection = get_db_connection('mysql', host='127.0.0.1', user='username', passwd='password', db='python')
-      elif db_type == 'ms_sql_server':
-          connection = get_db_connection('ms_sql_db', host='127.0.0.1', user='user', password='password', database='python')
-      elif db_type == 'postgresql':
-          connection = get_db_connection('postgresql', host='127.0.0.1', user='user', password='password', database='python')
-      elif db_type == 'oracle':
-          connection = get_db_connection('oracle', user='username', password='passwd', dsn='127.0.0.1:1523/python')
+    connection = get_db_connection('mysql', host='127.0.0.1', user='username', passwd='password', db='python')
 
-      cursor = connection.cursor()
+Microsoft SQL Server ::
+
+     connection = get_db_connection('ms_sql_db', host='127.0.0.1', user='user', password='password', database='python')
+
+PostgreSQL ::
  
-      #执行一个查询
-      cursor.execute("select * from test;")
-      #取得上个查询的结果，是单个结果
-      data = cur.fetchone()
-      print "key is %s, value is  %s " % data[0], data[1]
-
-      # 插入一条记录
-      cursor.execute("insert into test values('key', 'value')")
-
-      # 插入多条记录
-      values=[(1, "hello I`m recode 1"), (2, "hello I`m recode 2"), (3, "hello I`m recode 3")]       
-      cursor.executemany("""insert into test values(%s,%s) """, values)
-
-      connection.commit()
+     connection = get_db_connection('postgresql', host='127.0.0.1', user='user', password='password', database='python')
  
-      # 释放连接， 将连接返回连接池
-      cursor.close()
-      connection.close()
+Oracle ::
+
+     connection = get_db_connection('oracle', user='username', password='passwd', dsn='127.0.0.1:1523/python')
+
+获得连接对象后，不同数据库的操作都是符合 `DB-API 2 <http://www.python.org/dev/peps/pep-0249/>`_ 规范的， 具体使用可以参照以下代码示例 ::
+
+     cursor = connection.cursor()
+ 
+     #执行一个查询
+     cursor.execute("select * from test;")
+     #取得上个查询的结果，是单个结果
+     data = cur.fetchone()
+     print "key is %s, value is  %s " % data[0], data[1]
+
+     # 插入一条记录
+     cursor.execute("insert into test values('key', 'value')")
+
+     # 插入多条记录
+     values=[(1, "hello I`m recode 1"), (2, "hello I`m recode 2"), (3, "hello I`m recode 3")]       
+     cursor.executemany("""insert into test values(%s,%s) """, values)
+
+     connection.commit()
+ 
+     # 释放连接， 将连接返回连接池
+     cursor.close()
+     connection.close()
