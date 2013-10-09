@@ -30,7 +30,7 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 
   - `mysql <https://pypi.python.org/pypi/MySQL-python>`_
   - `Microsoft SQL Server <https://code.google.com/p/pymssql>`_  
-  - `Oracle‎ <http://cx-oracle.sourceforge.net‎>`_ 
+  - `Oracle‎ <http://cx-oracle.sourceforge.net>`_ 
   - `PostgreSQL <http://www.pygresql.org/readme.html>`_ 
 
 - 返回一个符合 `DB-API 2 <http://www.python.org/dev/peps/pep-0249/>`_ 规范的连接
