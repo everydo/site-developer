@@ -25,12 +25,12 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
 接口:  get_db_connection(db_type, \*\*kwargs)
 ------------------------------------------------------
 
-- db_type (连接的数据库类型，支持：mysql、ms_sql_server、oracle、 postgresql)
-- kwargs（具体查看所使用的连接包的文档）
+- db_type (连接的数据库类型，可选：mysql、ms_sql_server、oracle、 postgresql)
+- kwargs（所使用的连接包的connect函数所需的参数，具体参见各连接包的文档）
 
   - `mysql <https://pypi.python.org/pypi/MySQL-python>`_
-  - `Microsoft SQL Server <https://code.google.com/p/pymssql>`_  
-  - `Oracle‎ <http://cx-oracle.sourceforge.net>`_ 
+  - `Microsoft SQL Server <https://code.google.com/p/pymssql/wiki/PymssqlExamples>`_  
+  - `Oracle‎ <http://cx-oracle.sourceforge.net/html/module.html>`_ 
   - `PostgreSQL <http://www.pygresql.org/readme.html>`_ 
 
 - 返回一个符合 `DB-API 2 <http://www.python.org/dev/peps/pep-0249/>`_ 规范的连接
@@ -47,7 +47,7 @@ ZODB数据库适合管理文档和流程，但是在数据分析方面，和传�
       elif db_type == 'postgresql':
           connection = get_db_connection('postgresql', host='127.0.0.1', user='user', password='password', database='python')
       elif db_type == 'oracle':
-          connection = get_db_connection('oracle', 'username','passwd','127.0.0.1:1523/python')
+          connection = get_db_connection('oracle', user='username', password='passwd', dsn='127.0.0.1:1523/python')
 
       cursor = connection.cursor()
  
