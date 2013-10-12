@@ -53,7 +53,7 @@ description: 如何利用SQL接口访问关系数据库
 - db_type:  连接的数据库类型，可选：
 
   - mysql: `MySQL数据库 <https://pypi.python.org/pypi/MySQL-python>`_
-  - ms_sql_server: `Microsoft SQL Server <https://code.google.com/p/pymssql/wiki/PymssqlExamples>`_  
+  - mssql: `Microsoft SQL Server <https://code.google.com/p/pymssql/wiki/PymssqlExamples>`_  
   - oracle: `Oracle数据库 <http://cx-oracle.sourceforge.net/html/module.html>`_ 
   - postgresql: `PostgreSQL <http://www.pygresql.org/readme.html>`_ 
 
@@ -65,7 +65,7 @@ MySQL的连接参数 ::
 
 Microsoft SQL Server的连接参数 ::
 
-     connection = get_db_connection('ms_sql_db', host='127.0.0.1', user='user', password='password', database='test_db')
+     connection = get_db_connection('mssql', host='127.0.0.1', user='user', password='password', database='test_db')
 
 PostgreSQL 的连接参数 ::
  
