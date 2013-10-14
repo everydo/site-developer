@@ -47,6 +47,10 @@ addFile(name, title=u'', description=u'', content_type='text/plain', data='')
 
 添加一个文件
 
+newFile(name, description=u'')
+
+添加一个文件，按模板创建（ppt, doc, xls, pptx, docx, xlsx)
+
 相关方法
 =====================================
 - “renderFilePreview”: 文件预览组件
