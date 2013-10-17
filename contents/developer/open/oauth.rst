@@ -23,10 +23,12 @@ OAuth2接口：应用授权访问
 如何使用Oauth方式登录
 ==================================
 
-易度办公平台区分了用户认证和管理中心（OC）和文档与流程的存储管理中心（WO），OC和WO分别负责不同的内容和功能，应用需要主要不同的API需要向不同的地址发送，在向用户申请授权和调用组织架构、人员方面的API时，需要向OC的地址发送请求，应用在使用文档和流程相关的API的时，需要向WO的地址发送请求。
+易度办公平台区分了用户认证和管理中心（OC）和文档与流程的存储管理中心（WO），OC和WO分别负责不同的内容和功能。
+
+应用使用不同的API时需要向不同的地址发送，在向用户申请授权和调用组织架构、人员方面的API时，需要向OC的地址发送请求，应用在使用文档和流程相关的API的时，需要向WO的地址发送请求。
 
 
-api如何登录
+访问需要授权的API
 --------------------------
 每一次访问需要授权的Api的时候，需要在在请求中加上access_token的Header，所以应用首先需要得到一个access_token,易度开放平台提供了三种不同的access_token获取方式。
 
@@ -37,6 +39,21 @@ access_token的获取方式
 
 应用可以通过用户提供的用户名和密码，直接使用 access_token_ 这个接口直接申请一个access_token, 这个过程无需用户打开网页，点击授权。适合一些用户比较认可的程序使用。
 
+::
+
+  //使用示范
+  https://example.oc.everydo.com/access_token?client_id=12305045775&client_secret=dsdkjk******dsdd&grant_type=password&username=users.admin&password=34398923
+
+  //返回数据
+  {
+       "access_token": "ACCESS_TOKEN",
+       "refresh_token": "REFRESH_TOKEN",
+       "expires_in": 1234,
+       "remind_in":"798114",
+       "uid":"user.admin"
+  }
+
+
 2. 用户网页授权方式
 
 基于用户信息安全理由，用户在很多时候并不愿意轻易透露用户名、密码给第三方的应用，所以我们也支持了一个比较安全的第三方应用授权方式，这种方式需要用户在网页上进行授权。具体流程：
@@ -46,10 +63,43 @@ access_token的获取方式
     3. 如果用户同意授权，应用会获取到一个验证授权码(code)
     4. 应用再次先系统发起请求，验证应用自身的安全性，文档系统返回一个授权令牌(access_token)。
 
+:: 
+
+  //请求
+  https://example.oc.everydo.com/authorize?client_id=123050457758183&redirect_uri=http://www.example.com/response
+
+  //同意授权后会重定向
+  http://www.example.com/response&code=343434
+
+  //应用得到code之后继续向OC发送请求
+  https://example.oc.everydo.com/access_token?client_id=12305045775&client_secret=dsdkjk******dsdd&grant_type=code&code=343434
+
+  //返回数据
+  {
+       "access_token": "ACCESS_TOKEN",
+       "refresh_token": "REFRESH_TOKEN",
+       "expires_in": 1234,
+       "remind_in":"798114",
+       "uid":"user.admin"
+  }
 
 3. refresh_token交换
 
 应用在已经拥有了用户授权的情况下，可能由于access_token已经过期了，或者旧的access_token存在泄密的风险的时候，应用可以通过这种方式去交换获得一个新的access_token。
+
+::
+
+  //使用示范
+  https://example.oc.everydo.com/access_token?client_id=12305045775&client_secret=dsdkjk******dsdd&grant_type=refresh_token&refresh_token=434fhjfhs******dsdkj
+
+  //返回数据
+  {
+       "access_token": "ACCESS_TOKEN",
+       "refresh_token": "REFRESH_TOKEN",
+       "expires_in": 1234,
+       "remind_in":"798114",
+       "uid":"user.admin"
+  }
 
 
 
@@ -95,15 +145,7 @@ authorize
     code        string      验证授权码，用作access_token接口的请求参数换取access_token
     =========== =========== ==========================================================
 
-5. 示例
 
-:: 
-
-  //请求
-  https://example.oc.everydo.com/authorize?client_id=123050457758183&redirect_uri=http://www.example.com/response&response_type=code
-
-  //同意授权后会重定向
-  http://www.example.com/response&code=CODE
 
 access_token
 ------------------
@@ -141,15 +183,5 @@ access_token
     refresh_token   string      用于更新用户的access_token， 只能使用一次
     =============== =========== ========================================================
 
-5. 返回数据
 
-:: 
-
-  {
-       "access_token": "ACCESS_TOKEN",
-       "refresh_token": "REFRESH_TOKEN",
-       "expires_in": 1234,
-       "remind_in":"798114",
-       "uid":"user.admin"
-  }
 
