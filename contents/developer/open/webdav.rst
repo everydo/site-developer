@@ -276,7 +276,7 @@ JAVA SDK：jackrabbit webdav library
 - 更多库介绍： http://wiki.apache.org/jackrabbit/WebDAV 
 - 中文使用资料： http://yiyu.iteye.com/blog/896302 
 
-java demo 代码，参看java子文件夹：
+具体参看 `java demo 代码 <https://github.com/everydo/site-developer/tree/master/contents/developer/open/java>`__
 
 - 查看文件夹和文件（PROPFIND）： 
 - 修改属性（PROPPATCH）： 

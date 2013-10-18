@@ -1,4 +1,5 @@
 title: 开放接口
-exclude: [img]
-order: [oauth.rst, webdav.rst, java]
+exclude: [img, java]
+order: [oauth.rst, webdav.rst]
 description: 易度是一个开放的平台，对外部系统提供全套的操作API，方便其他系统和易度进行集成。
+
