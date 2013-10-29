@@ -118,13 +118,13 @@ notifier_sms: 短信
 
    张三 action：[title] body , 关联对象是 xxx
 
-
 action的定义
 ---------------------------------
 每个action对应的各种翻译msgid为： action_xxx
 
 - share： 分享
 - new : 新建
+- edit: 编辑
 - upload：上传
 - comment: 评论
 - new_revision: 更新版本
