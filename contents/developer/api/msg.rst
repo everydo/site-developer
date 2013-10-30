@@ -131,3 +131,4 @@ action的定义
 - fix_revision: 定版
 - workflow_sign ： 触发流程
 - workflow_resign ： 更改流程
+- remind: 提醒
