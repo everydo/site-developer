@@ -122,6 +122,20 @@ result是一个list，len(result)可得到结果的数量。
     
     do something
 
+全文索引
+-------------------------------
+
+对一个文件对象或文件夹对象，经行全文索引，以便可以通过文件里面的文字，搜索出这个文件对象
+
+例子:::
+    fullTextIndex(obj, recursive=False, include_history=False)
+
+全文索引方法的参数:
+
+- obj #文件对象，或者文件夹对象
+- recursive #如果obj是文件夹对象，则这个参数应该是True，让程序递归对文件夹对象下的文件对象做全文索引
+- include_history #对文件对象的历史版本也做全文索引
+
 结果分页
 -------------------------------
 
