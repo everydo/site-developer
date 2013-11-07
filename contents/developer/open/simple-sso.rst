@@ -26,7 +26,7 @@ description: 利用易度的扩展软件包，实现和外部系统基于时间�
 
 URL接口
 -------
-- 通过一个带签名信息的URL链接来实现的登录，URL地址为:
+- 通过一个带签名信息的URL链接来实现的登录，URL地址为::
 
       http://hoeron.easydo.cn/simple_sso/@@@zopen.simple_sso.sso?username=tt1024&sign=8509c9fb03492a6afea62c4820523b97×tamp=1268901715&came_from=http://OA_SERVER/xxxxx
 
