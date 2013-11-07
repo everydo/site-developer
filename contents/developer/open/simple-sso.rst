@@ -19,6 +19,13 @@ description: 利用易度的扩展软件包，实现和外部系统基于时间�
 
 .. image:: img/simple-sso1.PNG
 
--然后部署这个软件包
+- 然后部署这个软件包
 
 .. image:: img/simple-sso2.png
+
+- 部署完成，进入单点登录界面，会出现“密匙错误”，可在应用设置中设置下应用授权密码和超时失效时间。
+
+.. image:: img/simple-sso3.png
+
+URL接口
+-------
