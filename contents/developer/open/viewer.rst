@@ -11,27 +11,58 @@ description: 在外部系统中，查看易度的文档
 =========
 易度对文档有专业的文档预览、打印、转换PDF等功能，这些功能其他相关系统也需要，比如OA、项目管理等。
 
-方案一：基于单点登录
-=====================================
-如果有文档管理系统的帐号，可以使用这个方法
+出于安全性的考虑，要求对云查看的预览地址进行权限保护：只有指定的人员，在指定的时间内可以访问
 
-1. 利用文档接口，上传文档，同时设置好权限
-2. 利用单点登录确保登录
-3. 内嵌或者弹出方式，打开易度的查看页面
+总体方案
+====================
+OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的文件的URL进行签名，确保调用URL合法。URL合法的标准包括：
 
-弹出页面的接口::
+- 签名正确
+- 请求发生的IP地址匹配(可选)
+- 没有超过使用期限(可选)
 
-   @@mini_viewer?uid=2131231&width=200&height=300
+查看器调用API
+--------------
+::
 
-其中:
+  <div class="viewer" style="height: 100%"></div>
+  <script type="text/javascript"]]>
+    var viewer = EdoViewer.createViewer('.viewer', {
+        serverURL: 'http://viewer.everydo.com',
+        sourceURL: 'http://192.168.12.111/abc.doc',
+        ip: '192.168.1.188', 
+        timestamp: '1268901715',
+        account: '',
+        username: 'panjunyong',
+        signcode: 'asdf123123asdf12', 
+    });
+    viewer.load();
+  </script>
 
-- uid是文档在易度的唯一id, 文档上传的时候可以得到
-- width, height是展示的宽和高
+其中：
 
-方案二：基于开放API
-========================================
-如果需要查看某文档，可以单次申请查看session，可看一个小时
+- serverURL: 云查看服务器的地址,
+- sourceURL: 原始文件的下载地址,
+- ip: 浏览器的ip地址，如不填写则不做IP检查
+- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
+- account: 服务器密匙对应的账户，默认为空即可
+- username: 访问用户的名字，仅作记录用
+- signcode: 签名信息. 
 
+注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
 
-具体API待开放
+签名(signcode)算法
+-------------------
+1. 得到原始文件在服务端的存放地址(location)::
+
+       /files/MD5(sourceURL) + '.' + 文件后缀
+
+2. 使用将下面的信息连接，生成md5，这个md5就是signcode
+
+   - location 
+   - ip
+   - timestamp
+   - account
+   - username 
+   - secret
 
