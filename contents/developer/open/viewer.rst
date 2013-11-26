@@ -35,6 +35,7 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
         account: '',
         username: 'panjunyong',
         signcode: 'asdf123123asdf12', 
+        
     });
     viewer.load();
   </script>
@@ -50,6 +51,23 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
 - signcode: 签名信息. 
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
+
+还可以有更多的参数：
+
+- width：宽度
+- height：高度
+- allow_print：是否允许打印
+- allow_copy：是否允许复制
+- waterprint_text: 水印文字
+- waterprint_size: 水印字体大小
+- waterprint_alpha: 水印透明度
+- waterprint_color：水印颜色
+- waterprint_x: x方向位置
+- waterprint_y: y方向位置
+- waterprint_rotation: 方向旋转(从 0 到 180 的值表示顺时针方向旋转；从 0 到 -180 的值表示逆时针方向旋转)
+- loading_info: 文档正在加载的提示
+- converting_info: 文档正在转换的提示
+- timeout_info: 文档转换超时的提示
 
 签名(signcode)算法
 -------------------
