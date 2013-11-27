@@ -32,6 +32,7 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
         sourceURL: 'http://192.168.12.111/abc.doc',
         ip: '192.168.1.188', 
         timestamp: '1268901715',
+        app_id: '',
         account: '',
         username: 'panjunyong',
         signcode: 'asdf123123asdf12', 
@@ -46,6 +47,7 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
 - sourceURL: 原始文件的下载地址,
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp: 截止时间的时间戳，如果不填写，则永久可查看
+- app_id: 第三方应用的ID，默认为空即可
 - account: 服务器密匙对应的账户，默认为空即可
 - username: 访问用户的名字，仅作记录用
 - signcode: 签名信息. 
@@ -80,6 +82,7 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
    - location 
    - ip
    - timestamp
+   - app_id
    - account
    - username 
    - secret
