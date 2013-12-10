@@ -55,7 +55,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 
    使用这个默认密匙，可以快速启动开发。
 
-3) 使用API申请一个密匙
+3) 对于易度开放平台的用户，如果需要使用云查看，需要使用API申请一个密匙
 
    - 这个需要通过易度办公平台注册一个应用，得到app_key, app_security
    - 通过oauth2得到一个token
@@ -66,6 +66,8 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 
 申请云查看密匙secret
 ------------------------
+这个针对易度开放平台的用户。对于空账户，无需申请。
+
 结合易度开放平台，利用oauth2框架，每个帐号申请自己的secret，接口为::
 
        get_account_security(refresh=False)
@@ -84,7 +86,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 ------------------
 如果文件准备好，可以预先要求云查看服务器进行转换。可发起如下rpc(http)::
 
-   transform(location, source_url, timestamp, account, signcode)
+   transform(location, source_url, timestamp, account, app_id, signcode)
 
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
@@ -98,7 +100,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 --------------------
 如果文件发生变化，可以要求云查看服务器删除之前文件，可发起出现rpc(http)::
 
-   remove(location, timestamp, account, signcode)
+   remove(location, timestamp, account, app_id, signcode)
 
 含义同前，返回值见错误码
 
