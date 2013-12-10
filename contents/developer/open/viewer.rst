@@ -86,7 +86,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 ------------------
 如果文件准备好，可以预先要求云查看服务器进行转换。可发起如下rpc(http)::
 
-   transform(location, source_url, timestamp, account, app_id, signcode)
+   http://server.com/transform?location=&source_url=&timestamp=&account=&app_id=&signcode=
 
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
@@ -101,7 +101,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 --------------------
 如果文件发生变化，可以要求云查看服务器删除之前文件，可发起出现rpc(http)::
 
-   remove(location, timestamp, account, app_id, signcode)
+   http://server.com/remove?location=&timestamp=&account=&app_id=&signcode=
 
 含义同前，返回值见错误码
 
