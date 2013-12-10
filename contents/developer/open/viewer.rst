@@ -91,7 +91,8 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
 - timestamp：失效时间
-- account: 帐号
+- account: 帐号，默认为空
+- app_id: 应用id，默认为空
 - signcode: 签名, 具体算法见后
 
 返回值见错误码
