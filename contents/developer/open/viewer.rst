@@ -7,6 +7,8 @@ description: 在外部系统中，查看易度的文档
 文档查看接口
 =====================
 
+.. sectnum::
+
 需求
 =========
 易度对文档有专业的文档预览、打印、转换PDF等功能，这些功能其他相关系统也需要，比如OA、项目管理等。
@@ -52,9 +54,47 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
    - 通过oauth2得到一个token
    - 使用这个token，利用我们查看的Open API，得到一个云查看的security
 
+核心API
+==================
+
+申请云查看secret
+------------------------
+有三种可能：
+
+1) 使用空帐号，无secret，这个是默认情况，这个最简单，无需计算签名，当然也不会进行权限检查。
+
+2) 对于空帐号，可以在配置文件中设置一个secret。直接使用这个secret进行签名计算
+
+3) 结合易度开放平台，利用oauth2框架，每个帐号申请自己的secret，接口为::
+
+       get_account_security(refresh=False)
+
+   - 如果refresh是True，则刷新一个新secret
+   - 密码对应的account是: account_name.vender_name
+
+发起转换
+------------------
+如果文件准备好，可以预先要求云查看服务器进行转换。可发起如下rpc::
+
+   transform(location, source_url, timestamp, account, signcode)
+
+- location：具体的文件存放位置
+- source_url: 如果文件不存在，在哪里下载
+- timestamp：失效时间
+- account: 帐号
+- signcode: 签名, 具体算法见后
+
+删除文件
+--------------------
+如果文件发生变化，可以要求云查看服务器删除之前文件，可发起出现rpc::
+
+   remove(location, timestamp, account, signcode)
+
+含义同前
+
 查看器调用API
-================
-::
+--------------------
+这个是在浏览器中的js调用::
 
   <div class="viewer" style="height: 100%"></div>
   <script type="text/javascript"]]>
@@ -85,7 +125,7 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
 - account: 服务器密匙对应的账户(zopen.standalone)，默认为空即可
 - username: 访问用户的名字，仅作记录用
 - download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
-- signcode: 签名信息. 
+- signcode: 签名信息. 具体算法见后
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
 
@@ -126,12 +166,4 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
    - username 
    - download_source
    - secret
-
-申请云查看security
-=======================
-
-
-get_account_security(refresh=False)
-
-account: account_name.vender_name
 
