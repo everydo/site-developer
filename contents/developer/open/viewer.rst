@@ -99,7 +99,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 
 删除文件
 --------------------
-如果文件发生变化，可以要求云查看服务器删除之前文件，可发起出现rpc(http)::
+如果文件发生变化，可以要求云查看服务器删除之前文件，可发起如下rpc(http)::
 
    http://server.com/remove?location=&timestamp=&account=&app_id=&signcode=
 
