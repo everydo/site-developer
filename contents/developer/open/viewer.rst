@@ -15,25 +15,58 @@ description: 在外部系统中，查看易度的文档
 
 总体方案
 ====================
+如何得到原始文件
+-------------------------------
+云查看实质对原始文件进行格式转换，并提供转换结果的下载服务。转换的必要条件是云查看需要得到原始文件。
+
+原始文件有2种获得方法：
+
+- 告知原始地址，由易度云查看自动去排队下载
+
+  这种方法要求云查看有权限直接下载原始文件，集成比较简单，而且可以做到按需转换，无需预先全部导入文档到系统。
+  但是对于OA有权限保护的系统，通常需要进行定制处理，允许云查看服务器直接访问原始文件。
+
+- 主动上传原始文件
+
+  利用易度的文件访问API，上传文件。这个API使用比较复杂，但是可以利用易度做文件存储服务。
+
+如何进行权限保护
+------------------------------
 OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的文件的URL进行签名，确保调用URL合法。URL合法的标准包括：
 
 - 签名正确
 - 请求发生的IP地址匹配(可选)
 - 没有超过使用期限(可选)
 
+如何获得一个密匙
+----------------------------
+1. 系统自带一个默认密匙，当账户为空的时候使用。
+
+   这个密匙和向管理员申请获得。
+
+   使用这个默认密匙，可以快速启动开发。
+
+2. 使用API申请一个密匙
+
+   - 这个需要通过易度办公平台注册一个应用，得到app_key, app_security
+   - 通过oauth2得到一个token
+   - 使用这个token，利用我们查看的Open API，得到一个云查看的security
+
 查看器调用API
---------------
+================
 ::
 
   <div class="viewer" style="height: 100%"></div>
   <script type="text/javascript"]]>
     var viewer = EdoViewer.createViewer('.viewer', {
-        serverURL: 'http://viewer.everydo.com',
-        sourceURL: 'http://192.168.12.111/abc.doc',
+        server_url: 'http://viewer.everydo.com',
+        location: '/wo/default.zopen.test/files/abc.doc',
+        source_url: 'http://192.168.12.111/abc.doc',
         ip: '192.168.1.188', 
-        timestamp: '1268901715',
+        timestamp: 1268901715,
         app_id: '',
         account: '',
+        download_source: 1,
         username: 'panjunyong',
         signcode: 'asdf123123asdf12', 
         
@@ -43,13 +76,15 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
 
 其中：
 
-- serverURL: 云查看服务器的地址,
-- sourceURL: 原始文件的下载地址,
+- server_url: 云查看服务器的地址
+- location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
+- source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp: 截止时间的时间戳，如果不填写，则永久可查看
 - app_id: 第三方应用的ID，默认为空即可
-- account: 服务器密匙对应的账户，默认为空即可
+- account: 服务器密匙对应的账户(zopen.standalone)，默认为空即可
 - username: 访问用户的名字，仅作记录用
+- download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
 - signcode: 签名信息. 
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
@@ -72,10 +107,14 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
 - timeout_info: 文档转换超时的提示
 
 签名(signcode)算法
--------------------
-1. 得到原始文件在服务端的存放地址(location)::
+=========================
+使用查看器的程序，如果需要对查看的url进行权限保护，需要传入签名字段。签名的生成算法如下：
+
+1. 得到原始文件在服务端的存放地址(location) :
 
        /files/MD5(sourceURL) + '.' + 文件后缀
+
+   也可以使用其他算法，但是调用查看器的时候，location参数也必须使用这个地址
 
 2. 使用将下面的信息连接，生成md5，这个md5就是signcode
 
@@ -85,5 +124,14 @@ OA 和 云查看服务器共享一套密匙，用于对请求下载转换后的�
    - app_id
    - account
    - username 
+   - download_source
    - secret
+
+申请云查看security
+=======================
+
+
+get_account_security(refresh=False)
+
+account: account_name.vender_name
 

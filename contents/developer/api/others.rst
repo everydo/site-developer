@@ -36,11 +36,15 @@ request.response是当前请求的返回信息：
   生成context（当前对象）的可以被访问的URL
   request是必须的变量
 
-- resourceURL('binary.gif','fileimg'):
+- resource_url('fileimg/binary.gif'):
 
   静态资源缓存url, 可以在缓存目下的fileimg 子目录中找到一张叫做 binary.gif 的图片。
   有些系统自带的图标/css，需要缓存，可以通过这个得到
 
+  另外，扩展应用的资源地址也类似::
+
+     resource_url('zopen.test/abc.css')
+     resource_url('zopen.test/abc.png')
 
 getOperationOption(context, option_name=None, default=None):
 ----------------------------------------------------------------------
