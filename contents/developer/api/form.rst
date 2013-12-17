@@ -315,7 +315,18 @@ old_storage
 如果制作用户自定义流程，一般要求：
 
 - 自定义步骤名为review
-- 自定义步骤的设置项为 steps (动态表格)，步骤名为title
+- 自定义步骤的设置项为 steps (动态表格)，步骤名为title，审核人表为review_table
 
 如果满足上述条件，系统流程图，会自动识别用户自定义流程中的步骤。
+
+::
+
+ IUserDefinedWorkflow(datamanager):
+    """用户自定义工作流 """
+
+    def is__flow():
+        """ 是否是自定义流程 """
+
+    def get_next_step(context):
+        """ 得到下一步的字段信息, 除了基本的步骤定义外，会返回计算好的审核人清单。如果审核人算法不识别，则返回None """
 
