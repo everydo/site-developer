@@ -333,10 +333,11 @@ old_storage
   - title: 步骤名
   - responsible: 审核人查找方式
 
-    - ‘review_table’: 查审核人表
-    – ‘creators’: 创建人审核
-    – ‘handwork’: 手工指定人，必填
-    – ‘handwork_optional’: 手工指定人，可选。如果没有指定跳过该步骤
+    - review_table: 查审核人表
+    - creators: 创建人审核
+    - handwork: 手工指定人，必填
+    - handwork_optional: 手工指定人，可选。如果没有指定跳过该步骤
+
   – 通过条件 condition
 
 - 审核人表为 reviewers
