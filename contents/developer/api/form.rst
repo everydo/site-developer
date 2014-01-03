@@ -316,7 +316,7 @@ old_storage
 
 表单字段的约定
 --------------
-手工指定审核人信息，包括：
+如果希望流程支持手工指定审核人，可在表单中增加字段：
 
 - reviewers: 手工指定的审核人
 - reviewers_optional: 可跳过的手工指定的审核人 
@@ -326,11 +326,20 @@ old_storage
 - step_name: 步骤名
 - reviewer: 审核人 
 
+这2个字段允许编辑的条件是::
+
+        context['_next_step']['step_type'] in ['', '']
+
 流程设置的约定
 -------------------
 - 自定义步骤的设置项为 steps (动态表格)
 
   - title: 步骤名
+  - step_type: 类型
+
+    - 审核
+    - 指定审核人
+
   - responsible: 审核人查找方式
 
     - review_table: 查审核人表
@@ -338,7 +347,7 @@ old_storage
     - handwork: 手工指定人，必填
     - handwork_optional: 手工指定人，可选。如果没有指定跳过该步骤
 
-  – 通过条件 condition
+  - 通过条件 condition
 
 - 审核人表为 reviewers
 
@@ -347,38 +356,52 @@ old_storage
 对步骤的基本定义要求：
 
 - 自定义审核过程的步骤名必须为review
-- review的前序步骤的触发操作脚本，应该计算下一步信息(存放在context['_next_step']中)::
+- review步骤的前一步骤
+
+  - 触发操作脚本
+
+    计算下一步信息(存放在context['_next_step']中)::
     
-    next_step = IUserDefinedSteps(container).calc_next_step(context,
+     next_step = IUserDefinedSteps(container).calc_next_step(context,
             get_responsible_script='zopen.review.get_responsible')
-    if next_step is None:
+     if next_step is None:
         pass 
         # TODO: 步骤完成的处理
 
-- reviewer步骤的触发脚本设置当前任务的名称::
+  - 后续步骤条件::
+
+      {"审核": not context.get('_next_step')}
+
+- reviewer步骤
+
+  - 触发脚本
+
+    设置当前任务的名称::
 
         task.title = context['_next_step']['title']
 
-- review步骤的执行人::
+  - 执行人::
 
         context['_next_step']['responsibles']
 
-- reviewer步骤的通过条件::
+- reviewer步骤 -> 审核通过操作 
+
+  - 通过条件::
  
         IUserDefinedSteps(container).finish_condition(context, task, u'通过')
 
-- reviewer步骤的通过触发脚本::
+  - 触发脚本::
 
-    if 'flowtask.finished' in task.stati:
+     if 'flowtask.finished' in task.stati:
         next_step = IUserDefinedSteps(container).calc_next_step(context,
             get_responsible_script='zopen.review.get_responsible')
         if next_step is None:
             pass
             # TODO 流程结束处理
 
-- 后续步骤表达式::
+  - 后续步骤表达式::
 
-     {'审批': context.get('_next_step')}
+     {'审批': not context.get('_next_step')}
 
 IUserDefinedSteps接口说明
 ---------------------------
@@ -391,7 +414,8 @@ IUserDefinedSteps接口说明
         """ 检查是否是自定义流程 """
 
     def calc_next_step(dataitem, get_responsible_script=''): 
-        """ 计算下一步的步骤信息, 并计入到dataitem['_next_step']中，内容：
+        """ 计算下一步的步骤信息, 并计入到dataitem['_next_step']中，
+            初始化表单中需要手工指定的审核人字段。内容：
 
             step_info信息是流程设置step信息，并增加了负责人repsonsibles
 
