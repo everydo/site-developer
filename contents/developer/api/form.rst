@@ -312,21 +312,104 @@ old_storage
 
   http://www.edodocs.com/tour/doc-flow.rst
 
-如果制作用户自定义流程，一般要求：
+系统能够对自定义流程自动绘制流程图，并提供一组api来简化自定义流程的设计，可参照下面的方法定义。
 
-- 自定义步骤名为review
-- 自定义步骤的设置项为 steps (动态表格)，步骤名为title，审核人表为review_table
+表单字段的约定
+--------------
+手工指定审核人信息，包括：
 
-如果满足上述条件，系统流程图，会自动识别用户自定义流程中的步骤。
+- reviewers: 手工指定的审核人
+- reviewers_optional: 可跳过的手工指定的审核人 
 
+上述2个字段均为动态表格，包括2个子字段：
+
+- step_name: 步骤名
+- reviewer: 审核人 
+
+流程设置的约定
+-------------------
+- 自定义步骤的设置项为 steps (动态表格)
+
+  - title: 步骤名
+  - responsible: 审核人查找方式
+
+    - ‘review_table’: 查审核人表
+    – ‘creators’: 创建人审核
+    – ‘handwork’: 手工指定人，必填
+    – ‘handwork_optional’: 手工指定人，可选。如果没有指定跳过该步骤
+  – 通过条件 condition
+
+- 审核人表为 reviewers
+
+流程步骤定义的约定
+--------------------------
+对步骤的基本定义要求：
+
+- 自定义审核过程的步骤名必须为review
+- review的前序步骤的触发操作脚本，应该计算下一步信息(存放在context['_next_step']中)::
+    
+    next_step = IUserDefinedSteps(container).calc_next_step(context,
+            get_responsible_script='zopen.review.get_responsible')
+    if next_step is None:
+        pass 
+        # TODO: 步骤完成的处理
+
+- reviewer步骤的触发脚本设置当前任务的名称::
+
+        task.title = context['_next_step']['title']
+
+- review步骤的执行人::
+
+        context['_next_step']['responsibles']
+
+- reviewer步骤的通过条件::
+ 
+        IUserDefinedSteps(container).finish_condition(context, task, u'通过')
+
+- reviewer步骤的通过触发脚本::
+
+    if 'flowtask.finished' in task.stati:
+        next_step = IUserDefinedSteps(container).calc_next_step(context,
+            get_responsible_script='zopen.review.get_responsible')
+        if next_step is None:
+            pass
+            # TODO 流程结束处理
+
+- 后续步骤表达式::
+
+     {'审批': context.get('_next_step')}
+
+IUserDefinedSteps接口说明
+---------------------------
 ::
 
- IUserDefinedWorkflow(datamanager):
+ IUserDefinedSteps(datamanager):
     """用户自定义工作流 """
 
-    def is__flow():
-        """ 是否是自定义流程 """
+    def verify():
+        """ 检查是否是自定义流程 """
 
-    def get_next_step(context):
-        """ 得到下一步的字段信息, 除了基本的步骤定义外，会返回计算好的审核人清单。如果审核人算法不识别，则返回None """
+    def calc_next_step(dataitem, get_responsible_script=''): 
+        """ 计算下一步的步骤信息, 并计入到dataitem['_next_step']中，内容：
+
+            step_info信息是流程设置step信息，并增加了负责人repsonsibles
+
+            如果找不到审核人，则自动跳过
+
+        返回值：
+
+            - 如果有下一步，就是 dataitem['_next_step']
+
+            - 如果没有下一步流程，则返回None
+
+        输入值：
+
+            – Dataitem: 当前流程单
+            – get_responsible_script: 如果默认的负责人查找方式找不到下一步的负责人会调用该脚本。
+
+              脚本接受一个参数:查找方式,如’doc_reviewer’, ‘admin’
+        """
+
+    def finish_condition(dataitem, task, action_title) 
+        """ 判断当前是否结束了 """
 
