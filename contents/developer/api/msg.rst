@@ -77,6 +77,11 @@ object_notify可采用用户对对象的订阅方式(短信、邮件、系统消
         exclude_ids: 需要排除的人
         """
 
+如果短信等发送出现问题（比如欠费、没有手机号码），则返回相关错误信息，可将错误信息返回给用户::
+
+    msg = object_notify(....)
+    if msg: IStatusMessage.add(msg, 'warnning')
+
 notifier_message
 ---------------------------------
 
@@ -117,6 +122,11 @@ notifier_sms: 短信
 短信效果::
 
    张三 action：[title] body , 关联对象是 xxx
+
+如果短信等发送出现问题（比如欠费、没有手机号码），则返回相关错误信息，可将错误信息返回给用户::
+
+    msg = notifier_sms.send(....)
+    if msg: IStatusMessage.add(msg, 'warnning')
 
 action的定义
 ---------------------------------
