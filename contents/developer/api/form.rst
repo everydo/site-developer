@@ -318,17 +318,13 @@ old_storage
 --------------
 如果希望流程支持手工指定审核人，可在表单中增加字段：
 
-- reviewers: 手工指定的审核人
-- reviewers_optional: 可跳过的手工指定的审核人 
+- reviewers: 手工指定的审核人, 编辑条件是context.get('_next_step') and context['_next_step']['can_assign']
+- reviewers_optional: 可跳过的手工指定的审核人, 编辑条件是context.get('_next_step') and context['_next_step']['can_assign_optional'] 
 
 上述2个字段均为动态表格，包括2个子字段：
 
 - step_name: 步骤名
 - reviewer: 审核人 
-
-这2个字段允许编辑的条件是::
-
-        context['_next_step']['step_type'] in ['', '']
 
 流程设置的约定
 -------------------
@@ -414,12 +410,8 @@ IUserDefinedSteps接口说明
         """ 检查是否是自定义流程 """
 
     def calc_next_step(dataitem, get_responsible_script=''): 
-        """ 计算下一步的步骤信息, 并计入到dataitem['_next_step']中，
-            初始化表单中需要手工指定的审核人字段。内容：
+        """ 计算下一步的步骤信息, 包括审核人、是否需要指定后续审核人，并计入到dataitem['_next_step']中，详细见下节
 
-            step_info信息是流程设置step信息，并增加了负责人repsonsibles
-
-            如果找不到审核人，则自动跳过
 
         返回值：
 
@@ -437,4 +429,13 @@ IUserDefinedSteps接口说明
 
     def finish_condition(dataitem, task, action_title) 
         """ 判断当前是否结束了 """
+
+context['_next_step']的信息
+--------------------------------------
+calc_next_step方法会在context['_next_step']中存放下一步的步骤信息，包括：
+
+- 流程设置中，步骤所在行的全部信息
+- responsibles: 流程负责人
+- can_assign：是否可指定必填的审核人
+- can_assign_optional: 是否可指定可选的审核人
 
