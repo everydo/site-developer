@@ -34,14 +34,12 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 其中事件event包括:
 
 - modified
-- moved : 这个是移入的事件
 - created: 容器中添加新对象，包括移入和创建
-- moveout: 这个是移出的事件
 - removed：容器中去除对象，包括删除和移出
 - status-added
 - status-removed
 - moved
 - clock
 - login
-- workflow-executed
+- workflow-executed: 工作流执行某步骤
 
