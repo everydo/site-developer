@@ -288,3 +288,14 @@ ITeamManager(context):
 - setTeamMembers(id, members): 设置组员
 - addTeam(id, title, description, members): 添加一个团队
 - removeTeam(id):删除一个团队
+
+人员在线状态查看
+======================
+人员在线状态，可以使用Javascript来查看：
+
+   xmpp.get_user_status(pids=['users.panjunyong', 'users.admin'])
+
+返回：
+
+   {'users.panjunyong':'online', 'users.admin':'offline'}
+

@@ -16,7 +16,6 @@ description: 登录、授权、角色、
 
 - "loginAs":登录
 - "ssoURL": 单点登录
-- ‘user_tracker’: 用户使用记录
 
 
 权限与角色管理
@@ -39,9 +38,10 @@ description: 登录、授权、角色、
 - 'zope.View'：查看的权限
 - 'zopen.Access'：容器/栏目访问的权限
 - 'zopen.Edit'：编辑的权限
-- 'zopen.Add'：添加
-- 'zopen.AddFolder'添加文件夹
-- 'zopen.sso.logined': 是否登录
+- 'zopen.Add'：添加文件、流程单
+- 'zopen.AddFolder': 添加文件夹
+- 'zopen.AddContainer': 添加容器(子栏目)
+- 'zopen.Logined': 是否登录
 
 'zopen.Access'和'zope.View'的区别，存在这个情况，需要进入文件夹，但是不希望查看文件夹包含的文档。
 
@@ -75,6 +75,8 @@ TODO 应对角色定义做更详细的说明
 - 'zopen.Editor' 编辑人
 - 'zopen.Owner' 拥有者
 - 'zopen.Collaborator' 添加人
+- 'zopen.Creator': 文件夹创建人
+- 'zopen.ContainerCreator': 子栏目/容器创建人
 - 'zopen.Responsible' 负责人
 - 'zopen.Subscriber' 订阅人
 - 'zopen.PrivateReader' 超级查看人

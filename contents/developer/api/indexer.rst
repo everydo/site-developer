@@ -64,16 +64,6 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 - 'reviewer':SetIndex, #检查人
 
-3) 未来会去除的
-
-- 'responsible':ValueIndex,#负责人 , 这个未来会去除
-- 'level':ValueIndex, # 级别
-
-- 和查看权限相关的2个内部索引，不会直接使用，默认只搜索有查看权限的内容。设置QuerySet(restricted=False)可搜索所有内容
-
-  - 'allowed_principals':SetIndex, # 可查看的人
-  - 'disallowed_principals':SetIndex, # 禁止查看的人
-
 建立索引
 --------------------------
 
