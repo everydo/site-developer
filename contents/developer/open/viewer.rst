@@ -122,7 +122,6 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
         download_source: 1,
         username: 'panjunyong',
         signcode: 'asdf123123asdf12', 
-        
     });
     viewer.load();
   </script>
@@ -146,6 +145,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 
 - width：宽度
 - height：高度
+- bgcolor: 查看器边框背景的颜色，比如'#ffff'
 - allow_print：是否允许打印
 - allow_copy：是否允许复制
 - waterprint_text: 水印文字
