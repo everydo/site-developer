@@ -43,44 +43,11 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 
 如何获得一个密匙secret
 ----------------------------
-有三种可能：
 
-1) 使用空帐号，无密匙secret，这个是默认情况，这个最简单，无需计算签名，当然也不会进行权限检查。
-
-   这种情况，无需服务端开发，最方便集成
-
-2) 对于空帐号，可以在配置文件中设置一个secret。直接使用这个secret进行签名计算
-
-   这个密匙和向管理员申请获得。
-
-   使用这个默认密匙，可以快速启动开发。
-
-3) 对于易度开放平台的用户，如果需要使用云查看，需要使用API申请一个密匙
-
-   - 这个需要通过易度办公平台注册一个应用，得到app_key, app_security
-   - 通过oauth2得到一个token
-   - 使用这个token，利用我们查看的Open API，得到一个云查看的security
+首先需要在易度账户中心，创建一个云查看实例, 点击云查看站点，进入云查看页面，点击设置签名密匙
 
 核心API
 ==================
-
-申请云查看密匙secret
-------------------------
-这个针对易度开放平台的用户。对于空账户，无需申请。
-
-结合易度开放平台，利用oauth2框架，每个帐号申请自己的secret，接口为::
-
-       get_account_security(refresh=False)
-
-其中：
-
-- 如果refresh是True，则刷新一个新secret
-- 密码对应的account是: account_name.vender_name
-
-返回为::
-
-   {"account":"zopen.test", 
-    "secret":"23asdfa"}
 
 发起转换
 ------------------
@@ -91,7 +58,7 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
 - timestamp：失效时间
-- account: 帐号，默认为空
+- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
 - app_id: 应用id，默认为空
 - signcode: 签名, 具体算法见后
 
@@ -134,10 +101,10 @@ OA 和 云查看服务器共享一套密匙(secret)，用于对请求下载转�
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp: 截止时间的时间戳，如果不填写，则永久可查看
 - app_id: 第三方应用的ID，默认为空即可
-- account: 服务器密匙对应的账户(zopen.standalone)，默认为空即可
+- account: 服务器密匙对应的账户(default.zopen.standalone)
 - username: 访问用户的名字，仅作记录用
 - download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
-- signcode: 签名信息. 具体算法见后
+- signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
 
