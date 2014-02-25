@@ -99,8 +99,8 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 
 可以使用"IObjectMover"接口移动对象或者改名::
 
-   IObjectMover(context).moveTo(parent, new_name)
-   IObjectMover(context).copyTo(parent, new_name)
+    IObjectMover(context).moveTo(parent, new_name)
+    IObjectMover(context).copyTo(parent, new_name)
 
 具体的API包括：
 
