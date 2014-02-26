@@ -1,6 +1,6 @@
 ﻿---
 title: 首页
-theme: default.html
+theme: index.html
 ---
 
 
