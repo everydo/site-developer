@@ -1,0 +1,31 @@
+.footer {
+  color: #999;
+  background-color: #292929;
+  padding: 15px 0;
+}
+
+.footer a {
+  color: #999;
+}
+
+.links {
+  padding-top: 10px;
+  color: #999;
+  text-align: center;
+}
+
+.links a {
+  color: #999;
+}
+
+.weibo {
+  margin-top: 20px;
+}
+
+.docs-container {
+  padding-bottom: 20px;
+}
+
+.sidenav span{
+  margin-left: 20px;
+}

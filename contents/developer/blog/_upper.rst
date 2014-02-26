@@ -1,2 +1,4 @@
-.. image:: /blog/img/kaifapingtai.png
-   :width: 100%
+.. raw:: html
+
+    <h1>博客</h1>
+    <p>欢迎关注、交流</p>

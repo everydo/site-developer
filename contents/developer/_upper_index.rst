@@ -1,2 +1,4 @@
-.. image:: img/banner.png
-   :width: 100%
+.. raw:: html
+
+    <h1>易度开发者中心</h1>
+    <p>轻松扩展应用、外部访问操作</p>
