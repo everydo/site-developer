@@ -3641,7 +3641,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 60px;
+  min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -3795,7 +3795,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 20px 15px;
+  padding: 15px 15px;
   font-size: 18px;
   line-height: 20px;
 }
@@ -3872,8 +3872,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 }
 @media (min-width: 768px) {
@@ -7041,7 +7041,7 @@ h3 {
   border-color: #111f36;
 }
 .docs-nav .navbar-brand {
-  color: #fff;
+  color: #999;
 }
 .docs-nav .navbar-nav > li > a {
   color: #b9c8e0;
