@@ -1,6 +1,6 @@
 ---
 title: 易度官方博客
-theme: home.html
+theme: default.html
 ---
 
 ===========================
