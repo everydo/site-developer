@@ -1,6 +1,6 @@
 title: 易度开发者中心
 order: [index.rst, tour, tut, api, open, blog]
 exclude: [img, cert]
-theme_base: http://127.0.0.1:80/themes/bootstrap
+theme_base: /themes/bootstrap
 theme: default.html
 domain_name: developer.everydo.com
