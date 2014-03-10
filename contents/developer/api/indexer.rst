@@ -112,6 +112,12 @@ result是一个list，len(result)可得到结果的数量。
     
     do something
 
+如果需要对扩展属性中的字段进行搜索，可以在调用filter或parse方法时传入"md"参数。下面的例子表示依据档案扩展属性中的档案编号进行检索:::
+
+  result = QuerySet(restricted=True).\
+           filter(md="archive_archive", archive_number__anyof=['A101', 'C103'])
+
+
 全文索引
 -------------------------------
 
@@ -162,41 +168,24 @@ result是一个list，len(result)可得到结果的数量。
 
 搜索日志
 ----------------------------------
-搜索日志使用IIndexer接口，有以下外部API:
-
-- list_parts() # 列出所有可用的数据库
-- get_last_part() # 得到最后一个在使用的数据库
-- add_document(part_name, index, uid=None, data=None, flush=True) # 添加一个索引
-- replace_document(part_name, uid, index, data=None, flush=True) # 替换一个索引
-- delete_document(part_name, uids, flush=True) # 删除一个索引
-- search(parts=None, query=None, orderby=None, start=None, stop=None) # 搜索
+操作日志的搜索接口与前面的对象搜索基本一致。
 
 看个例子，搜索24小时内，admin用户下载操作记录, 按时间递减排序:::
 
- import time
- # 构建查询条件
- query = []
- # 限制是下载操作
- query.append(['operation', u'download', ''])
- # 限制用户是admin
- query.append(['displayname', u'admin', ''])
- # 限制是24小时内的日志
+ site_name = getSite().__name__
  now = time.time()
- before_one_days = now - 24*3600
- query.append(['timestamp', [float(before_one_days), float(now)], 'range'])
- # 搜索, 按时间递减排序
- # query 如果不给，就搜索全部的日志
- site = getSite()
- results = IIndexer(site).search(query=query, orderby='-timestamp')
+ before_one_days = now - 24 * 3600
+ results = LogQuery(site_name=site_name).\
+     # 限制用户是admin
+     filter(displayname__allof=[u'admin']).\
+     # 限制是下载操作
+     filter(operation__allof=[u'download']).\
+     # 限制是24小时内的日志
+     filter(timestamp__range=(float(before_one_days), float(now))).
+     sort('-timestamp')
+ 
+如果没有parse操作，日志默认就是按照事件倒序排列的，所以.sort('-timestamp')可以省略。
 
-操作是一个列表，包含’操作ID‘， ’内容‘， ’操作类型‘，
-
-操作类型有’anyof‘, ’allof‘, ’parse‘, ‘range’，‘’  四种
- - ‘’，内容必须是Unicode类型
- - ‘parse’， 内容必须是Unicode类型，操作ID必须是列表，内容的值是模糊匹配
- - ‘anyof’, 内容必须是列表，代表这个操作的值可以是这些内容任意一个
- - ‘allof’, 内容必须是列表，代表这个操作的值必须匹配所有的内容
- - ‘range’，搜索时间相关的时候使用，内容必须是列表，且应该只有两个值，表示开始时间和结束时间
 
 目前可以搜索的操作分别是:::
 
