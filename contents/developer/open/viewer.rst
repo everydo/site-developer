@@ -123,11 +123,13 @@ description: 在外部系统中，查看易度的文档
 
 如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
 
+- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
+- instance: 具体的站点好
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
+- targets: 目标文件的mime类型
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp：失效时间
-- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
 - app_id: 应用id，默认为空
 - username: 用户名
 - signcode: 签名, 具体算法见后
@@ -189,11 +191,11 @@ transform: 转换和回调接口
 
 传入参数：
 
-- account_name
-- instance_name
-- location
-- targets=None
-- callback=None
+- account_name: 需要转换的账号
+- instance_name: 需要转换的站点
+- location: 需要转换的文件相对于站点的路径
+- targets: 需要专门的目标Mime类型
+- callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
 
 remove: 删除文件
 --------------------
