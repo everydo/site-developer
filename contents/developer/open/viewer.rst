@@ -75,6 +75,7 @@ description: 在外部系统中，查看易度的文档
         timestamp: 1268901715,
         app_id: '',
         account: '',
+        instance: 'default',
         download_source: 1,
         username: 'panjunyong',
         signcode: 'asdf123123asdf12', 
@@ -90,7 +91,8 @@ description: 在外部系统中，查看易度的文档
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp: 截止时间的时间戳，如果不填写，则永久可查看
 - app_id: 第三方应用的ID，默认为空即可
-- account: 服务器密匙对应的账户(default.zopen.standalone)
+- account: 服务器密匙对应的账户(比如:zopen)
+- instance: account下具体的一个站点名，如果不设置，就是default
 - username: 访问用户的名字，仅作记录用
 - download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
 - signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
@@ -165,7 +167,7 @@ remove: 删除文件
 
 1. 得到原始文件在服务端的存放地址(location) :
 
-       /files/MD5(sourceURL) + '.' + 文件后缀
+       /files/{instance}.{account}/MD5(sourceURL) + '.' + 文件后缀
 
    也可以使用其他算法，但是调用查看器的时候，location参数也必须使用这个地址
 
