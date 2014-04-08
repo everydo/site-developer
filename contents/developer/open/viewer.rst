@@ -117,22 +117,36 @@ description: 在外部系统中，查看易度的文档
 - converting_info: 文档正在转换的提示
 - timeout_info: 文档转换超时的提示
 
-主动发起转换
-------------------
+主动发起转换: /do_transform
+------------------------------
 可直接在浏览器上发起转换请求。
 
-如果文件准备好，可以预先要求云查看服务器进行转换。可发起如下rpc(http)::
-
-   http://server.com/api_transform?location=&source_url=&timestamp=&account=&app_id=&signcode=
+如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
 
 - location：具体的文件存放位置
 - source_url: 如果文件不存在，在哪里下载
+- ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp：失效时间
 - account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
 - app_id: 应用id，默认为空
+- username: 用户名
 - signcode: 签名, 具体算法见后
 
 返回值见错误码
+
+文档比较: /diff
+---------------------
+直接比较2个文档的差异，可传递的参数包括：
+
+- location1: 第一个比较对象的站点路径
+- location2: 第二个比较对象的站点路径
+- ip: 浏览器的ip地址，如不填写则不做IP检查
+- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
+- app_id: 第三方应用的ID，默认为空即可
+- account: 所属账户
+- instance: 所属实例，默认default
+- username: 用户名
+- signcode: 签名信息, 签名算法见后，其中location使用location1+location2计算
 
 开放API
 ==================
