@@ -56,7 +56,7 @@ description: 在外部系统中，查看易度的文档
 
     <script src="http://your.server.ip/static/api.js"></script>
     <script type="text/javascript">
-        cloudview('http://your.server.ip/');
+        cloudview('http://your.server.ip/', account="zopen", instance="default");
     </script>
 
 添加后，您的站点中的文档下载链接(所有后缀为.doc/.docx/.pdf/.zip/ppt等的连接)，会自动转换为云查看链接，从而实现文档的云查看。
@@ -69,12 +69,12 @@ description: 在外部系统中，查看易度的文档
   <script type="text/javascript"]]>
     var viewer = EdoViewer.createViewer('.viewer', {
         server_url: 'http://viewer.everydo.com',
-        location: '/wo/default.zopen.test/files/abc.doc',
+        location: '/asdfa2312132233abc.doc',
         source_url: 'http://192.168.12.111/abc.doc',
         ip: '192.168.1.188', 
         timestamp: 1268901715,
         app_id: '',
-        account: '',
+        account: 'zopen',
         instance: 'default',
         download_source: 1,
         username: 'panjunyong',
@@ -142,17 +142,44 @@ get_secret: 获取查看密匙
 -------------------------------
 得到一个转换密匙
 
+传入参数：
+
+- account_name
+- instance_name
+
+输出：密匙
+
 refresh_secret: 更新查看密匙
 ----------------------------------------
 得到一个新密匙
+
+传入参数：
+
+- account_name
+- instance_name
+
+输出：新的密匙
 
 clear_secret: 清空转换密匙
 -----------------------------------
 清除密匙，这样无需签名，就可以进行文档转换了
 
+传入参数：
+
+- account_name
+- instance_name
+
 transform: 转换和回调接口
 ---------------------------------------
 可主动发起转换，转换完成，进行回调。
+
+传入参数：
+
+- account_name
+- instance_name
+- location
+- targets=None
+- callback=None
 
 remove: 删除文件
 --------------------
@@ -167,7 +194,7 @@ remove: 删除文件
 
 1. 得到原始文件在服务端的存放地址(location) :
 
-       /files/{instance}.{account}/MD5(sourceURL) + '.' + 文件后缀
+       /MD5(source_url) + '.' + 文件后缀
 
    也可以使用其他算法，但是调用查看器的时候，location参数也必须使用这个地址
 
@@ -178,6 +205,7 @@ remove: 删除文件
    - timestamp
    - app_id
    - account
+   - instance
    - username 
    - download_source
    - secret
@@ -199,7 +227,7 @@ HTTP错误返回值
 - 408: ip不匹配
 - 409: 账户不存在
 
-此时范围内容是详细错误原因:
+此时范围内容是详细错误原因::
 
-  {"msg": "文件加密" }
+   {"msg": "文件加密" }
 
