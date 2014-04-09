@@ -160,8 +160,8 @@ get_secret: 获取查看密匙
 
 传入参数：
 
-- account_name
-- instance_name
+- account
+- instance
 
 输出密匙::
 
@@ -173,8 +173,8 @@ refresh_secret: 更新查看密匙
 
 传入参数：
 
-- account_name
-- instance_name
+- account
+- instance
 
 输出新的密匙::
 
@@ -186,8 +186,8 @@ clear_secret: 清空转换密匙
 
 传入参数：
 
-- account_name
-- instance_name
+- account
+- instance
 
 输出::
 
@@ -199,8 +199,8 @@ transform: 转换和回调接口
 
 传入参数：
 
-- account_name: 需要转换的账号
-- instance_name: 需要转换的站点
+- account: 需要转换的账号
+- instance: 需要转换的站点
 - location: 需要转换的文件相对于站点的路径
 - targets: 需要专门的目标Mime类型
 - callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
