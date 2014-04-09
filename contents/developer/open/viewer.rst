@@ -148,7 +148,7 @@ description: 在外部系统中，查看易度的文档
 - account: 所属账户
 - instance: 所属实例，默认default
 - username: 用户名
-- signcode: 签名信息, 签名算法见后，其中location使用location1+location2计算
+- signcode: 签名信息, 签名算法见后，其中location使用location1 + location2计算
 
 开放API
 ==================
@@ -163,7 +163,9 @@ get_secret: 获取查看密匙
 - account_name
 - instance_name
 
-输出：密匙
+输出密匙::
+
+   {'secret': ''}
 
 refresh_secret: 更新查看密匙
 ----------------------------------------
@@ -174,7 +176,9 @@ refresh_secret: 更新查看密匙
 - account_name
 - instance_name
 
-输出：新的密匙
+输出新的密匙::
+
+   {'secret': ''}
 
 clear_secret: 清空转换密匙
 -----------------------------------
@@ -184,6 +188,10 @@ clear_secret: 清空转换密匙
 
 - account_name
 - instance_name
+
+输出::
+
+   {'secret': ''}
 
 transform: 转换和回调接口
 ---------------------------------------
