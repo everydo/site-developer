@@ -142,27 +142,33 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 对象属性/元数据
 ==============================================
 
-对象元数据
+基础属性
 --------------------------------------
 
 系统的所有对象，都包括一组标准的元数据，也就是所谓的都柏林核心元数据（这是一个图书馆元数据国际标准）::
 
   IMetadata(obj)['title'] 对象的标题
   IMetadata(obj)['description'] 对象的描述信息
+  IMetadata(obj)['subjects'] 关键字，分类
   IMetadata(obj)['identifier'] 这个也就是文件的编号
   IMetadata(obj)['creators'] 对象的创建人 注意，这是个list类型的对象
+  IMetadata(obj)['contributors'] 参与人，贡献人
   IMetadata(obj)['created'] 对象的创建时间
   IMetadata(obj)['modified'] 对象的修改时间
   IMetadata(obj)['expires'] 对象的失效时间
   IMetadata(obj)['effective'] 对象的生效时间
 
-对于需要在日历上显示的对象，有如下字段::
+表单定义属性
+------------------
+基础元数据无需定义表单，系统自动维护。也可用通过表单定义，来增加对象属性.
+
+对于需要在日历上显示的对象，有如下表单字段::
 
   IMetadata(obj)['responsibles'] 负责人
   IMetadata(obj)['start'] 开始时间 
   IMetadata(obj)['end'] 结束时间
 
-对于联系人类型的对象，通常可以有如下字段::
+对于联系人类型的对象，通常可以有如下表单字段::
 
   IMetadata(obj)['email'] 邮件
   IMetadata(obj)['mobile'] 手机
@@ -180,11 +186,12 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
   IMetadata(obj)['longitude'] #经度
   IMetadata(obj)['latitude'] # 纬度
 
-可查找所有可用的属性::
+属性集
+---------------
 
-  IMetadata(obj).keys()  # 返回amount, title, description
+为了避免命名冲突，可以定义属性集，来扩展一组属性。
 
-为了避免命名冲突，可以增加前缀，新定义一个属性集，比如::
+属性集通过增加前缀来描述属性，比如::
 
   # 软件包zopen.abc中定义的prop1属性集所定义的经度
   IMetadata(obj)['zopen.abc.prop1.longitude'] 
@@ -271,4 +278,47 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 得到关系的元数据（关系不存在返回None）::
 
   IRelations(doc1).get_target_metadata('attachment', doc2) 
+
+标签组
+============
+
+标签组实现了多维度、多层次、可管理的标签管理。如果要添加一个标签:
+
+ITagsManager(sheet).addTag('完成')
+
+希望同时去除这个标签组中的所在维度其他的标签， 比如"处理中"这样的状态，因为二者不能同存:
+
+ITagsanager(sheet).addTag('完成', exclude=True)
+
+这里使用ITagManager进行标签管理。完整接口为
+
+- listTags(): 得到全部Tags
+- setTags(tags): 更新Tags
+- addTag(tag, exclude=False):
+  添加一个Tag, 如果exclude，则添加的时候， 把FaceTag的同一类的其他标签删除
+- delTag(tag): 删除指定Tag
+- canEdit(): 是否可以编辑
+
+另外，使用IFaceTagSetting可进行标签设置的管理：
+
+- getFaceTagText(): 得到face tag 文字
+- setFaceTagText(text): 
+  设置face tag文字，会自动转换的, 典型如下::
+
+   按产品
+   -wps
+   -游戏
+   -天下
+   -传奇
+   -毒霸
+   按部门
+   -研发
+   -市场
+
+- getFaceTagSetting(): 得到全部的face tag setting::
+
+   [(按产品, (wps, (游戏, (天下, 传奇)), 毒霸)),
+    (按部门, (研发, 市场))]
+
+- check_required(tags): 返回遗漏的标签分组list
 
