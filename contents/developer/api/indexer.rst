@@ -73,21 +73,21 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 建立索引，recursive是否递归::
 
-  IObjectIndexer(obj).indexObject(recursive=False)
+  IObjectIndexer(obj).index(recursive=False)
+  IObjectIndexer(obj).unindex(recursive=False)
 
 对fields字段重建索引,recursive是否递归::
 
-  IObjectIndexer(obj).reindexObject(recursive=False, fields=[])
+  IObjectIndexer(obj).reindex(recursive=False, fields=[])
 
-重建权限索引,recursive是否递归::
+重建权限路径索引,recursive是否递归::
 
-  IObjectIndexer(obj).reindexSecurity(recursive=True)
+  IObjectIndexer(obj).reindex_security(recursive=True)
+  IObjectIndexer(obj).reindex_path(recursive=True)
 
 对一个文件对象或文件夹对象，经行全文索引，以便可以通过文件里面的文字，搜索出这个文件对象 例子::
 
-  IObjectIndexer(obj).indexFulltext(recursive=False, include_history=False)
-
-全文索引方法的参数:
+  IObjectIndexer(obj).index_fulltext(recursive=False, include_history=False)
 
 - recursive #如果obj是文件夹对象，则这个参数应该是True，让程序递归对文件夹对象下的文件对象做全文索引
 - include_history #对文件对象的历史版本也做全文索引
