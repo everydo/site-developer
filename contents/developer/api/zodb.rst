@@ -180,7 +180,11 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
   IMetadata(obj)['longitude'] #经度
   IMetadata(obj)['latitude'] # 纬度
 
-为了避免命名冲突，可以增加前缀，比如::
+可查找所有可用的属性::
+
+  IMetadata(obj).keys()  # 返回amount, title, description
+
+为了避免命名冲突，可以增加前缀，新定义一个属性集，比如::
 
   # 软件包zopen.abc中定义的prop1属性集所定义的经度
   IMetadata(obj)['zopen.abc.prop1.longitude'] 
@@ -189,6 +193,10 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 使用星号，可以直接读取一组属性集，下面返回zopen.abc.prop1属性集的所有内容（一个字典）::
 
   IMetadata(obj)['zopen.abc.prop1.*']
+
+可查找所有可用的属性集名::
+
+  IMetadata(obj).list_collections()  # 返回： [zopen.abc.prop1, ]
 
 如果obj不是容器类型的对象(文件或者表单)，那更简单的写法是::
 
