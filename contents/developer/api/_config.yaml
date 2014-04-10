@@ -1,5 +1,5 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [zodb.rst, indexer.rst, orginfo.rst, file.rst, form.rst, ui.rst,
-        permission.rst, msg.rst,  state.rst, log.rst, relation.rst,  
+        permission.rst, msg.rst,  state.rst, log.rst, 
         rdb.rst, setup.rst, kss.rst, python.rst, others.rst]

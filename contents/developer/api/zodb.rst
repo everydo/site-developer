@@ -1,6 +1,6 @@
 ---
 title: 数据访问
-description: 系统的所有数据，都以对象的形式存放在一个对象数据库(ZODB)中。ZODB数据库是一个NoSQL数据库，数据的存取直接封装在对象操作中，而不是采用SQL语句。本章介绍数据的存储和访问方法。
+description: 系统的所有对象，都父子树状组织存放，有唯一的ID标识，可相互建立关系，并能够管理一组属性。
 ---
 
 ==================
@@ -10,14 +10,11 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 .. Contents::
 .. sectnum::
 
-易度采用一个对象数据库(ZODB)来存储数据。数据操作使用非常方便。
-
 
 树状对象关系
 =====================
 
-
-对象数据库中的主题对象，是一个树状的层次结构关系，如下：::
+对象数据库中的主题对象，是一个树状的层次结构关系，如下::
 
     + 站点根
     |-----+容器（文件夹、项目、部门）
@@ -34,8 +31,8 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 
 脚本中，可使用2个重要的内置变量：
 
-- context，是当前操作的对象
-- container，是当前对象context所在的容器对象，比如文件夹或者数据管理器。
+- context: 是当前操作的对象
+- container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
 
 对于任何一个对象，有如下方法得到其所在的容器信息：
 
@@ -43,7 +40,7 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 - getRoot()得到站点根对象
 
 容器类对象
-==============
+----------------
 文件夹、流程、项目、部门、工作组等，都是容器类对象。
 
 容器对象，是可以包含子对象的容器。可以用dict方法操作包含的子对象:
@@ -62,7 +59,7 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
   getName(context)
 
 添加子对象
-==============
+--------------
 如果要添加一个对象，可以::
 
   container[name] = new_obj
@@ -72,8 +69,7 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
   new_name = INameChooser(container).chooseName(name)
 
 对象路径
-===============
-
+---------------
 易度每个请求url，都是RESTful，由资源和操作2部分组成，比如::
 
  http://mycompanysite.com/files/folder_a/folder_b/@@view.html
@@ -95,8 +91,7 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 - 在流程单的添加表单，由于对象还没添加，按照前面的规则，context应该是数据管理器，但是从统一和简化的角度考虑，我们将context强制指定为None（表示正在创建），而用下面的container来表示数据管理器。
 
 对象移动、复制
-=======================
-
+---------------------
 可以使用"IObjectMover"接口移动对象或者改名::
 
     IObjectMover(context).moveTo(parent, new_name)
@@ -108,18 +103,18 @@ description: 系统的所有数据，都以对象的形式存放在一个对象�
 - def moveable(): 如果这个对象允许移动， 就返回‘True‘, 否则返回‘False’
 - def moveableTo(target, name=None): 如果对象允许移动到target 这个目录就返回‘True‘, 否则返回‘False’
 
-
 对象的永久标识，以及快捷地址
 ======================================
 
 ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
 
-事实上，系统的所有对象，创建后，均会在一个全局的对象注册器intids中注册。一旦注册，系统会用一个长整数来永久标识这个对象。无论以后对象是否移动或者改名，都可以通过这个长整数快速找到对象自身。
+事实上，系统的所有对象，创建后，均会在一个全局的对象注册器intids中注册。一旦注册，系统会用一个长整数来永久标识这个对象。无论以后对象是否移动或者改名，都可以通过这个长整数快速找到对象自身::
 
-- uid = intids.getId(obj)
-  得到对象长整数标识
-- intids.getObject(uid)
-  通过长整数标识，找到对象
+  #通过长整数标识，找到对象
+  intids.getObject(uid)
+
+  #得到对象长整数标识
+  uid = intids.getId(obj)
 
 有了这个长整数标识，可在表单中记录这个标识来传递对象。
 
@@ -127,33 +122,7 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 
    http://example.com/++intid++12312312
 
-对象关系
-===================
- 
-对象之间除了前面介绍的树状包含关系之外，还可以定义各种关系，比如：
-
-- children:比如任务的分解，计划的分解
-- attachment：这个主要用于文件的附件
-- related :一般关联，比如工作日志和任务之间的关联，文件关联等
-- comment_attachment：评注中的附件，和被评注对象之间的关联
-- favorit:内容与收藏之间的关联
-
-关系操作，包括：
-
-- 查找关系::
-
-   for obj in relations.findTargets(context, 'attachment'):
-       print getName(obj)
-
-- 创建关系::
-  
-   related = OneToOneRelationship(self, ['attachment'], [obj])
-   Relations.add( related )
-
-- 删除关系
-
-
-常见的对象
+接口：对象的类型
 ====================
 
 不同的对象，通过接口来标识其类型，比如文件、帖子、文件夹、批注等。
@@ -166,57 +135,132 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
   IApplet	应用	         zopen.apps.interfaces.IApplet
   IDataManager	数据/流程管理器	 zopen.flow.interfaces.IDataManager
 
-判断一个对象是不是文件，可使用如下语句：
+判断一个对象是不是文件，可使用如下语句::
 
-IFile.providedBy(context)
+  IFile.providedBy(context)
 
-对象属性
+对象属性/元数据
 ==============================================
 
-对象的属性，通过接口分类如下
-
-流程单的属性
+对象元数据
 --------------------------------------
 
-得到流程单的表单自定义字段的值
+系统的所有对象，都包括一组标准的元数据，也就是所谓的都柏林核心元数据（这是一个图书馆元数据国际标准）::
 
-IFieldStorage(context)['field_name']
+  IMetadata(obj)['title'] 对象的标题
+  IMetadata(obj)['description'] 对象的描述信息
+  IMetadata(obj)['identifier'] 这个也就是文件的编号
+  IMetadata(obj)['creators'] 对象的创建人 注意，这是个list类型的对象
+  IMetadata(obj)['created'] 对象的创建时间
+  IMetadata(obj)['modified'] 对象的修改时间
+  IMetadata(obj)['expires'] 对象的失效时间
+  IMetadata(obj)['effective'] 对象的生效时间
 
-如果context是表单，那更简单的写法是：
+对于需要在日历上显示的对象，有如下字段::
 
-context['field_name']
+  IMetadata(obj)['responsibles'] 负责人
+  IMetadata(obj)['start'] 开始时间 
+  IMetadata(obj)['end'] 结束时间
 
-设置信息
---------------------------------------
+对于联系人类型的对象，通常可以有如下字段::
 
-包括流程和扩展应用的设置，可采用如下方法得到：
+  IMetadata(obj)['email'] 邮件
+  IMetadata(obj)['mobile'] 手机
 
-ISettings(context)['location']
+经费相关的字段::
 
-当然这里的context，应该是流程容器或者应用，如果是在流程中取设置，即是container
+  IMetadata(obj)['amount'] 
 
-都柏林核心元数据
---------------------------------------
+数量相关的字段::
 
-系统的所有对象，都包括一组标准的元数据，也就是所谓的都柏林核心元数据（这是一个图书馆元数据国际标准）
+  IMetadata(obj)['quantity']
 
-- IDublinCore(obj).title 对象的标题
+对于地理位置对象，通常有如下字段::
 
-- IDublinCore(obj).description 对象的描述信息
+  IMetadata(obj)['longitude'] #经度
+  IMetadata(obj)['latitude'] # 纬度
 
-- IDublinCore(obj).identifier 这个也就是文件的编号
+为了避免命名冲突，可以增加前缀，比如::
 
-  注意：文件的编号默认和对象的永久标识是相同的，但是编号是可以自由调整的
+  # 软件包zopen.abc中定义的prop1属性集所定义的经度
+  IMetadata(obj)['zopen.abc.prop1.longitude'] 
+  IMetadata(obj)['zopen.abc.prop1.title'] # 类似上面的纬度
 
-- IDublinCore(obj).creators 对象的创建人
+使用星号，可以直接读取一组属性集，下面返回zopen.abc.prop1属性集的所有内容（一个字典）::
 
-  注意，这是个list类型的对象
+  IMetadata(obj)['zopen.abc.prop1.*']
 
-- IDublinCore(obj).created 对象的创建时间
+如果obj不是容器类型的对象(文件或者表单)，那更简单的写法是::
 
-- IDublinCore(obj).modified 对象的修改时间
+    obj['title']
+    obj['zopen.abc.prop1.title']
+    obj['zopen.abc.prop1.*']
 
-- IDublinCore(obj).expires 对象的失效时间
+关系
+=================
 
-- IDublinCore(obj).effective 对象的生效时间
+每一个对象都可以和其他的对象建立各种关系。
+
+系统内置关系类型
+-----------------------
+
+- children:比如任务的分解，计划的分解
+- attachment：这个主要用于文件的附件
+- related :一般关联，比如工作日志和任务之间的关联，文件关联等
+- comment_attachment：评注中的附件，和被评注对象之间的关联
+- favorit:内容与收藏之间的关联
+- "shortcut" 快捷方式
+
+接口API：IRelations
+-----------------------------------
+
+- add(type, obj， metadata={})
+
+  添加对obj的type类型关系 
+
+  -   type:关系类型 
+  -   obj：被关联对象
+  -   metadata：这条关系的元数据
+ 
+- remove(type, obj):删除对obj的type类型关系
+
+  -   type:关系类型 
+  -   obj：被关联对象
+
+- set_target_metadata(type, obj, metadata):设置某条关系的元数据
+
+- get_target_metadata(type, obj, metadata):得到某条关系的元数据
+ 
+- list_sources(type):列出所有该类型的被关联对象
+     type:关系类型 
+
+- has_target(type):是否有该类型的关联对象
+
+- has_source(type): 是否有该类型的被关联对象
+
+- list_targets(type):列出所有该类型的关联对象
+     type:关系类型 
+ 
+- set_targets(type, target_list):
+
+- clean():清除该对象的所有关系
+
+
+使用事例
+----------------------
+将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
+  
+  IRelation(doc1).add('attachment', doc2) 
+
+删除上面设置的那条关系::
+
+  IRelation(doc1).remove('attachment', doc2) 
+
+设置关系的元数据（关系不存在不会建立该关系）::
+
+  IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) 
+
+得到关系的元数据（关系不存在返回None）::
+
+  IRelations(doc1).get_target_metadata('attachment', doc2) 
 
