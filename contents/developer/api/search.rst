@@ -62,11 +62,11 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - 'amount':ValueIndex, #总量
 - 'reviewer':SetIndex, #检查人
 
-4) 属性集中的元数据
+属性集中的元数据
 -------------------------------
 所有属性集里面的字段都将进入索引，比如：
 
-- zopen.abc.aa.title
+- archive.title
 
 建立索引
 ===============

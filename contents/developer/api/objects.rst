@@ -207,7 +207,7 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
   IMetadata(obj).get_collection('archive')['archive_number']
 
-表单属性访问
+属性的快捷访问
 ---------------------------
 如果obj表单，那更简单的写法是::
 
