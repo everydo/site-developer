@@ -142,10 +142,6 @@ QuerySet常用操作：
 
            .anyof(number=['A101', 'C103'], collection="archive")
 
-如果是应用自带的属性集，则需要通过 ``app`` 来指定应用的名字::
-
-           .anyof(title=['A101', 'C103'], collection="prop1", app="zopen.abc")
-
 嵌套字段
 --------------------------------
 表单和属性中，存在一种动态表格字段, 可以嵌套一个子表格, 系统也能够搜索子表格中的字段.
@@ -157,10 +153,6 @@ QuerySet常用操作：
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
            anyof(dept=['A101', 'C103'], parent="review_table", collection="archive")
-
-搜索软件包zopen.abc中属性集archive_archive中的动态表格reviewer_table的dept字段::
-
-           anyof(dept=['A101', 'C103'], parent="review_table", collection="prop1" app="zopen.abc")
 
 分用户存储的字段
 ------------------------------
