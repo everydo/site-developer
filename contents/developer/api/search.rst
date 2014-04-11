@@ -102,31 +102,34 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 搜索是对字段进行搜索，我们先看一个例子:::
 
   result = QuerySet(restricted=True).\ 
-           filter(path__anyof=[container]).\
-           filter(subjects__anyof=[‘aa’,’bb’]).
-           exclude(created__range=[None, datetime.datetime.today()]).
-           parse('我爱北京', ['title', 'description'].
+           anyof(path=[container]).\
+           anyof(subjects=[‘aa’,’bb’]).
+           range(created=[None, datetime.datetime.today()]).\
+           parse(title='我爱北京').\
            sort(‘-created’).limit(5)
 
 QuerySet常用操作：
 
-- ``filter(exclude=False, **expression)`` ，这个用 ``___`` 将字段和搜索条件分离
-- ``exclude(**expression)`` #排除条件符合条件的结果
-- parse(text,Fields) #跨字段全文搜索
+- eq: 等于
+- anyof: 满足任何一个
+- allof: 满足全部
+- range: 一个区间范围
+- exclude: 等于
+- exclude_anyof: 满足任何一个
+- exclude_allof: 满足全部
+- exclude_range: 一个区间范围
+- parse #搜索某字段
 - sum(field) #统计某一个字段的和
 - limit(x) #限制返回结果数 
 - sort(Field) #按字段排序， 可已"+" 或"-"开头 , 以"-"开头时倒序排列
 
-搜索过滤条件，包括：
+- ``exclude(**expression)`` #排除条件符合条件的结果
 
-- anyof: 满足任何一个
-- allof: 满足全部
-- range: 一个区间范围
-- 无: 
-
+合并搜索
+-----------
 另外，可以将2个QuerySet相加，进行搜索合并::
 
- result = Queryset().filter(...) + QuerySet().filter(...)
+ result = Queryset().filter(...) | QuerySet().filter(...)
 
 如果2个QeurySet都有排序和sum操作，以第一个为准.
 
@@ -174,6 +177,25 @@ QuerySet常用操作：
 
            filter(_user__anyof=['A101', 'C103'], parent="review_comment", parent="review_comment", collection="archive")
            parse(_value='同意', parent="review_comment", collection="archive")
+
+跨字段全文搜索
+-----------------------
+
+如果搜索所有字段，可简单搜索::
+
+
+如果要搜索多个字段::
+
+   .parse('我北京', fields=['title', 'description'])
+
+如果字段在属性集里面::
+
+   .parse('我北京', fields=['archive.title', 'archive.description'])
+
+如果字段在嵌套字段里面::
+
+   .parse('我北京', fields=['.table.title', '.table.description'])
+   .parse('我北京', fields=['archive.table.title', 'archive.table.description'])
 
 直接采用JSON格式查询
 ----------------------------
