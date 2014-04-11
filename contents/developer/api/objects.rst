@@ -198,13 +198,16 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
 属性集通过增加前缀来描述属性，比如::
 
-  # 软件包zopen.abc中定义的prop1属性集所定义的经度
+  IMetadata(obj)['archive.longitude'] 
+
+软件包中的属性集也可以访问，如软件包zopen.abc中定义的prop1属性集所定义的经度::
+
   IMetadata(obj)['zopen.abc.prop1.longitude'] 
   IMetadata(obj)['zopen.abc.prop1.title'] # 类似上面的纬度
 
 使用星号，可以直接读取一组属性集，下面返回zopen.abc.prop1属性集的所有内容（一个字典）::
 
-  IMetadata(obj)['zopen.abc.prop1.*']
+  IMetadata(obj).get_collection('zopen.abc.prop1')
 
 可查找所有可用的属性集名::
 
@@ -216,7 +219,6 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
     obj['title']
     obj['zopen.abc.prop1.title']
-    obj['zopen.abc.prop1.*']
 
 关系
 =================
@@ -268,7 +270,7 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - clean():清除该对象的所有关系
 
 
-使用事例
+使用示例
 ----------------------
 将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
   
@@ -285,47 +287,4 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 得到关系的元数据（关系不存在返回None）::
 
   IRelations(doc1).get_target_metadata('attachment', doc2) 
-
-标签组
-============
-
-标签组实现了多维度、多层次、可管理的标签管理。如果要添加一个标签:
-
-ITagsManager(sheet).addTag('完成')
-
-希望同时去除这个标签组中的所在维度其他的标签， 比如"处理中"这样的状态，因为二者不能同存:
-
-ITagsanager(sheet).addTag('完成', exclude=True)
-
-这里使用ITagManager进行标签管理。完整接口为
-
-- listTags(): 得到全部Tags
-- setTags(tags): 更新Tags
-- addTag(tag, exclude=False):
-  添加一个Tag, 如果exclude，则添加的时候， 把FaceTag的同一类的其他标签删除
-- delTag(tag): 删除指定Tag
-- canEdit(): 是否可以编辑
-
-另外，使用IFaceTagSetting可进行标签设置的管理：
-
-- getFaceTagText(): 得到face tag 文字
-- setFaceTagText(text): 
-  设置face tag文字，会自动转换的, 典型如下::
-
-   按产品
-   -wps
-   -游戏
-   -天下
-   -传奇
-   -毒霸
-   按部门
-   -研发
-   -市场
-
-- getFaceTagSetting(): 得到全部的face tag setting::
-
-   [(按产品, (wps, (游戏, (天下, 传奇)), 毒霸)),
-    (按部门, (研发, 市场))]
-
-- check_required(tags): 返回遗漏的标签分组list
 
