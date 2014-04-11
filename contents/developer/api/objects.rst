@@ -196,26 +196,29 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
 为了避免命名冲突，可以定义属性集，来扩展一组属性。
 
+使用星号，可以直接读取一组属性集，下面返回用户自定义的档案管理archive属性集的所有内容（一个字典）::
+
+  IMetadata(obj).new_collection('archive')
+  IMetadata(obj).get_collection('archive')
+  IMetadata(obj).remove_collection('archive')
+  IMetadata(obj).list_collections()  # 返回： [archive, ]
+
+得到其中的一个字段值::
+
+  IMetadata(obj).get_collection('archive')['archive_number']
+
 属性集通过增加前缀来描述属性，比如::
 
-  IMetadata(obj)['archive.longitude'] 
+  IMetadata(obj)['archive.archive_number']
 
-软件包中的属性集也可以访问，如软件包zopen.abc中定义的prop1属性集所定义的经度::
+扩展应用中的属性集也可以访问，如应用zopen.abc中定义的prop1属性集所定义的title::
 
-  IMetadata(obj)['zopen.abc.prop1.longitude'] 
-  IMetadata(obj)['zopen.abc.prop1.title'] # 类似上面的纬度
+  IMetadata(obj).get_collection('prop1', app="zopen.abc")['title']
+  IMetadata(obj)['zopen.abc.prop1.title'] # 简写
 
-使用星号，可以直接读取一组属性集，下面返回zopen.abc.prop1属性集的所有内容（一个字典）::
-
-  IMetadata(obj).get_collection('zopen.abc.prop1')
-
-可查找所有可用的属性集名::
-
-  IMetadata(obj).list_collections()  # 返回： [zopen.abc.prop1, ]
-
-非容器的属性访问
+表单属性访问
 ---------------------------
-如果obj不是容器类型的对象(文件或者表单)，那更简单的写法是::
+如果obj表单，那更简单的写法是::
 
     obj['title']
     obj['zopen.abc.prop1.title']

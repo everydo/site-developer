@@ -97,7 +97,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 搜索
 ============
 
-搜索条件和排序
+搜索表达式
 ----------------------
 搜索是对字段进行搜索，我们先看一个例子:::
 
@@ -117,43 +117,63 @@ QuerySet常用操作：
 - limit(x) #限制返回结果数 
 - sort(Field) #按字段排序， 可已"+" 或"-"开头 , 以"-"开头时倒序排列
 
+搜索过滤条件，包括：
+
+- anyof: 满足任何一个
+- allof: 满足全部
+- range: 一个区间范围
+- 无: 
+
+另外，可以将2个QuerySet相加，进行搜索合并::
+
+ result = Queryset().filter(...) + QuerySet().filter(...)
+
+如果2个QeurySet都有排序和sum操作，以第一个为准.
+
 搜索属性集中的属性
 -------------------------
 调用filter或parse方法时，上面的field试用于 内置属性、基础属性和表单属性。
-对于属性集中的字段，则需要增加一个 ``namespace`` 参数。下面的例子表示依据档案扩展属性中的档案编号进行检索:::
+对于属性集中的字段，则需要增加一个 ``collection`` 参数来指明属性集的名称。
 
-           filter(namespace="archive_archive", archive_number__anyof=['A101', 'C103'])
+下面的例子表示依据档案扩展属性中的档案编号进行检索::
 
-           filter(namespace="zopen.abc.prop1", title__anyof=['A101', 'C103'])
+           filter(number__anyof=['A101', 'C103'], collection="archive")
 
-表格类型字段
+如果是应用自带的属性集，则需要通过 ``app`` 来指定应用的名字::
+
+           filter(title__anyof=['A101', 'C103'], collection="prop1", app="zopen.abc")
+
+嵌套字段
 --------------------------------
-表单和属性中，存在一种动态表格字段, 可以嵌套一个子表格。
+表单和属性中，存在一种动态表格字段, 可以嵌套一个子表格, 系统也能够搜索子表格中的字段.
 
-表格字段，也采用 ``namespace`` 来搜索::
+搜索表单中的动态表格reviewer_table中的dept字段::
 
-           # 搜索表单中的动态表格reviewer_table中的dept字段
-           filter(namespace=".reviewer_table", dept__anyof=['A101', 'C103'])
+           filter(dept__anyof=['A101', 'C103'], parent="review_table")
 
-           # 搜索自定义属性集archive_archive中的动态表格reviewer_table的dept字段
-           filter(namespace="archive_archive.reviewer_table", dept__anyof=['A101', 'C103'])
+搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
-           # 搜索软件包zopen.abc中属性集archive_archive中的动态表格reviewer_table的dept字段
-           filter(nampspace="zopen.abc.prop1.reviewer_table", dept__anyof=['A101', 'C103'])
+           filter(dept__anyof=['A101', 'C103'], parent="review_table", collection="archive")
+
+搜索软件包zopen.abc中属性集archive_archive中的动态表格reviewer_table的dept字段::
+
+           filter(dept__anyof=['A101', 'C103'], parent="review_table", collection="prop1" app="zopen.abc")
 
 分用户存储的字段
 ------------------------------
 有些数据，是分用户存储的，比如投票字段、评审意见字段等。
 
-这种字段的数据搜索，也是采用类似表格字段, 内置 ``user`` 和 ``value`` 这2个子字段::
+这种字段的数据搜索，也是采用类似表格字段, 内置 ``_user`` 和 ``_value`` 这2个子字段::
 
-           # 搜索表单中的reviewer_table字段
-           filter(namespace=".review_comment", user__anyof=['users.pan', 'users.zhang'])
-           parse(namespace=".review_comment", value='同意')
+搜索表单中的reviewer_table字段::
 
-           # 搜索属性集中的reviewer_table字段
-           filter(namespace="archive.review_comment", user__anyof=['A101', 'C103'])
-           filter(namespace="archive.review_comment", value='同意')
+           filter(_user__anyof=['users.pan', 'users.zhang'], parent="review_comment")
+           parse(_value='同意', parent="review_comment")
+
+搜索属性集archive中的reviewer_table字段::
+
+           filter(_user__anyof=['A101', 'C103'], parent="review_comment", parent="review_comment", collection="archive")
+           parse(_value='同意', parent="review_comment", collection="archive")
 
 直接采用JSON格式查询
 ----------------------------
