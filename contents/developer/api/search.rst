@@ -129,7 +129,7 @@ QuerySet常用操作：
 -----------
 另外，可以将2个QuerySet相加，进行搜索合并::
 
- result = Queryset().filter(...) | QuerySet().filter(...)
+ result = Queryset().anyof(...) | QuerySet().allof(...).exclude(...)
 
 如果2个QeurySet都有排序和sum操作，以第一个为准.
 
@@ -140,11 +140,11 @@ QuerySet常用操作：
 
 下面的例子表示依据档案扩展属性中的档案编号进行检索::
 
-           filter(number__anyof=['A101', 'C103'], collection="archive")
+           .anyof(number=['A101', 'C103'], collection="archive")
 
 如果是应用自带的属性集，则需要通过 ``app`` 来指定应用的名字::
 
-           filter(title__anyof=['A101', 'C103'], collection="prop1", app="zopen.abc")
+           .anyof(title=['A101', 'C103'], collection="prop1", app="zopen.abc")
 
 嵌套字段
 --------------------------------
@@ -152,31 +152,31 @@ QuerySet常用操作：
 
 搜索表单中的动态表格reviewer_table中的dept字段::
 
-           filter(dept__anyof=['A101', 'C103'], parent="review_table")
+           anyof(dept=['A101', 'C103'], parent="review_table")
 
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
-           filter(dept__anyof=['A101', 'C103'], parent="review_table", collection="archive")
+           anyof(dept=['A101', 'C103'], parent="review_table", collection="archive")
 
 搜索软件包zopen.abc中属性集archive_archive中的动态表格reviewer_table的dept字段::
 
-           filter(dept__anyof=['A101', 'C103'], parent="review_table", collection="prop1" app="zopen.abc")
+           anyof(dept=['A101', 'C103'], parent="review_table", collection="prop1" app="zopen.abc")
 
 分用户存储的字段
 ------------------------------
 有些数据，是分用户存储的，比如投票字段、评审意见字段等。
 
-这种字段的数据搜索，也是采用类似表格字段, 内置 ``_user`` 和 ``_value`` 这2个子字段.
+这种字段的数据搜索，也是采用类似表格字段, 内置 ``__user`` 和 ``__value`` 这2个子字段.
 
 搜索表单中的reviewer_table字段::
 
-           filter(_user__anyof=['users.pan', 'users.zhang'], parent="review_comment")
-           parse(_value='同意', parent="review_comment")
+           anyof(__user=['users.pan', 'users.zhang'], parent="review_comment")
+           parse(__value='同意', parent="review_comment")
 
 搜索属性集archive中的reviewer_table字段::
 
-           filter(_user__anyof=['A101', 'C103'], parent="review_comment", parent="review_comment", collection="archive")
-           parse(_value='同意', parent="review_comment", collection="archive")
+           anyof(__user=['A101', 'C103'], parent="review_comment", parent="review_comment", collection="archive")
+           parse(__value='同意', parent="review_comment", collection="archive")
 
 跨字段全文搜索
 -----------------------
@@ -190,7 +190,7 @@ QuerySet常用操作：
 
 如果字段在属性集里面::
 
-   .parse('我北京', fields=['archive.title', 'archive.description'])
+   .parse('我北京', fields=[{'archive.title', 'archive.description'])
 
 如果字段在嵌套字段里面::
 

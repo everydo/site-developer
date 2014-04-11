@@ -207,21 +207,15 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
   IMetadata(obj).get_collection('archive')['archive_number']
 
-属性集通过增加前缀来描述属性，比如::
-
-  IMetadata(obj)['archive.archive_number']
-
 扩展应用中的属性集也可以访问，如应用zopen.abc中定义的prop1属性集所定义的title::
 
   IMetadata(obj).get_collection('prop1', app="zopen.abc")['title']
-  IMetadata(obj)['zopen.abc.prop1.title'] # 简写
 
 表单属性访问
 ---------------------------
 如果obj表单，那更简单的写法是::
 
     obj['title']
-    obj['zopen.abc.prop1.title']
 
 关系
 =================
