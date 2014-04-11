@@ -76,7 +76,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
   IObjectIndexer(obj).index(recursive=False)
   IObjectIndexer(obj).unindex(recursive=False)
 
-对fields字段重建索引,recursive是否递归::
+对fields字段更新索引,recursive是否递归::
 
   IObjectIndexer(obj).reindex(recursive=False, fields=[])
 
