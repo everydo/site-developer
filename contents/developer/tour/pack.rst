@@ -12,13 +12,13 @@ description: 使用python语言来打包一个应用
 总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
   __init__.py #  软件包基本信息
-  workflows/
-    sales_chance/  # 第一个流程
+  forms/       # 全部表单流程
+    sales_chance/  # 第一个表单流程
       form.py # 表单
       steps.py # 流程步骤
       stages.py # 阶段定义
       config.py # 流程设置属性
-    invoice/  # 第二个流程
+    invoice/  # 第二个表单流程
   metadata/ # 整个应用的属性定义
     settings.py # 应用设置信息
     archive.py # 档案管理属性集
