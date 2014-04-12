@@ -376,3 +376,31 @@ description: 使用python语言来打包一个应用
         def continue( context, container, step, task):
             pass
 
+阶段
+============
+::
+
+    class valid:
+          """需求确认
+
+          分配的新单"""
+
+          # 进入阶段的触发脚本
+          def __init__(context):
+              pass
+
+    class initial:
+          """初始
+
+          确认客户信息有效"""
+
+    class planing:
+          """准备方案
+
+          确认客户信息有效"""
+          
+    class plan_accept:
+          """准备合同
+
+          客户已接受方案，进入合同谈判阶段"""
+
