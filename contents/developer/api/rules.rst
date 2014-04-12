@@ -43,3 +43,19 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 - login
 - workflow-executed: 工作流执行某步骤
 
+相关接口
+==============
+IRuleStorage
+--------------
+
+添加规则：
+
+- addRule()::
+
+    def addRule(self, title, event, description=u'', enabled=True, stop=False, name=False, aoth=True, features=[]):
+
+IRuleAssignmentManager
+-------------------------
+
+用于分配规则
+

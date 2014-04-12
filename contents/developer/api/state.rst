@@ -81,6 +81,6 @@ nextStates(self, prefix)
 =========================
 流程里面可以设置阶段，这个阶段也可以使用状态引擎来操作。
 
-每个阶段所对应的状态名为 stage.stage_name
+每个阶段所对应的状态名为 `stage.stage_name`
 
 可以使用IStateMachine接口来调整流程单所处的阶段

@@ -1,5 +1,20 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
-order: [objects.rst, search.rst, orginfo.rst, file.rst, form.rst, ui.rst,
-        permission.rst, msg.rst,  state.rst, log.rst, 
-        rdb.rst, setup.rst, kss.rst, python.rst, others.rst]
+order: [odb.rst, 
+        file.rst, 
+        form.rst, 
+        metadata.rst, 
+        relation.rst, 
+        state.rst, 
+        permission.rst, 
+        search.rst, 
+        comment.rst, 
+        social.rst, 
+        notification.rst, 
+        log.rst, 
+        orginfo.rst, 
+        scripting.rst, 
+        package.rst,
+        rdb.rst, 
+        kss.rst, 
+        others.rst]

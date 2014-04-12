@@ -31,16 +31,6 @@ File对象
 
 TODO
 
-“IRevisionManager”: 版本管理
-=====================================
-
-- save(comment='', metadata={}): 存为一个新版本
-- retrieve(selector=None, preserve=()): 获得某一个版本
-- getHistory(preserve=()): 得到版本历史清单信息
-- remove(selector, comment="", metadata={}, countPurged=True): 删除某个版本 
-- getWorkingVersionData(): 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
-
-
 IFolderManager
 =====================================
 addFile(name, title=u'', description=u'', content_type='text/plain', data='')

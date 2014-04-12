@@ -1,15 +1,16 @@
 ---
-title: 数据访问
-description: 系统的所有对象，都父子树状组织存放，有唯一的ID标识，可相互建立关系，并能够管理一组属性。
+title: 数据存储基础
+description: 系统的所有对象，都父子树状组织存放，有唯一的ID标识，支持版本，支持回收站
 ---
 
 ==================
-数据访问
+数据存储基础
 ==================
 
 .. Contents::
 .. sectnum::
 
+系统主要管理各种文件、表单，通过各种文件夹、容器来组织管理。
 
 树状对象关系
 =====================
@@ -106,7 +107,7 @@ description: 系统的所有对象，都父子树状组织存放，有唯一的I
 对象的永久标识，以及快捷地址
 ======================================
 
-ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
+数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
 
 事实上，系统的所有对象，创建后，均会在一个全局的对象注册器intids中注册。一旦注册，系统会用一个长整数来永久标识这个对象。无论以后对象是否移动或者改名，都可以通过这个长整数快速找到对象自身::
 
@@ -139,145 +140,44 @@ ZODB数据库里面的对象，一旦发生移动或者改名，对象的路径�
 
   IFile.providedBy(context)
 
-对象属性/元数据
-==============================================
+版本管理
+==================
 
-IMetadata用来得到对象的各种属性，如基础标题、描述、分类，表单字段，以及扩展属性集等。
+版本管理是系统的一个基础功能，不仅文档可以保存多个版本，表单也支持多版本。
 
-IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISettings接口，使用更加简单.
+“IRevisionManager”: 版本管理
 
-基础属性
---------------------------------------
-
-系统的所有对象，都包括一组标准的元数据，也就是所谓的都柏林核心元数据（这是一个图书馆元数据国际标准）::
-
-  IMetadata(obj)['title'] 对象的标题
-  IMetadata(obj)['description'] 对象的描述信息
-  IMetadata(obj)['subjects'] 关键字，分类
-  IMetadata(obj)['identifier'] 这个也就是文件的编号
-  IMetadata(obj)['creators'] 对象的创建人 注意，这是个list类型的对象
-  IMetadata(obj)['contributors'] 参与人，贡献人
-  IMetadata(obj)['created'] 对象的创建时间
-  IMetadata(obj)['modified'] 对象的修改时间
-  IMetadata(obj)['expires'] 对象的失效时间
-  IMetadata(obj)['effective'] 对象的生效时间
-
-表单定义属性
-------------------
-基础元数据无需定义表单，系统自动维护。也可用通过表单定义，来增加对象属性.
-
-对于需要在日历上显示的对象，有如下表单字段::
-
-  IMetadata(obj)['responsibles'] 负责人
-  IMetadata(obj)['start'] 开始时间 
-  IMetadata(obj)['end'] 结束时间
-
-对于联系人类型的对象，通常可以有如下表单字段::
-
-  IMetadata(obj)['email'] 邮件
-  IMetadata(obj)['mobile'] 手机
-
-经费相关的字段::
-
-  IMetadata(obj)['amount'] 
-
-数量相关的字段::
-
-  IMetadata(obj)['quantity']
-
-对于地理位置对象，通常有如下字段::
-
-  IMetadata(obj)['longitude'] #经度
-  IMetadata(obj)['latitude'] # 纬度
+- save(comment='', metadata={}): 存为一个新版本
+- retrieve(selector=None, preserve=()): 获得某一个版本
+- getHistory(preserve=()): 得到版本历史清单信息
+- remove(selector, comment="", metadata={}, countPurged=True): 删除某个版本 
+- getWorkingVersionData(): 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
 
 
-属性集
----------------
+回收站
+============
 
-为了避免命名冲突，可以定义属性集，来扩展一组属性。
+回收站是系统的一个基础功能，以下对象删除，都将进入回收站：
 
-使用星号，可以直接读取一组属性集，下面返回用户自定义的档案管理archive属性集的所有内容（一个字典）::
+- 文件
+- 文件夹
+- 流程单
+- 流程
+- 容器
 
-  IMetadata(obj).new_collection('archive')
-  IMetadata(obj).get_collection('archive')
-  IMetadata(obj).remove_collection('archive')
-  IMetadata(obj).list_collections()  # 返回： [archive, ]
+一旦进入回收站，系统会定期对回收站的内容进行清理。删除历史已久的回收站内容。
 
-得到其中的一个字段值::
+查看回收站的内容
+--------------------
 
-  IMetadata(obj).get_collection('archive')['archive_number']
+TODO
 
-属性的快捷访问
----------------------------
-如果obj表单，那更简单的写法是::
 
-    obj['title']
+从回收站收回一个对象
+-----------------------------
+TODO
 
-关系
-=================
-
-每一个对象都可以和其他的对象建立各种关系。
-
-系统内置关系类型
+从回收站里面永久删除
 -----------------------
-
-- children:比如任务的分解，计划的分解
-- attachment：这个主要用于文件的附件
-- related :一般关联，比如工作日志和任务之间的关联，文件关联等
-- comment_attachment：评注中的附件，和被评注对象之间的关联
-- favorit:内容与收藏之间的关联
-- "shortcut" 快捷方式
-
-接口API：IRelations
------------------------------------
-
-- add(type, obj， metadata={})
-
-  添加对obj的type类型关系 
-
-  -   type:关系类型 
-  -   obj：被关联对象
-  -   metadata：这条关系的元数据
- 
-- remove(type, obj):删除对obj的type类型关系
-
-  -   type:关系类型 
-  -   obj：被关联对象
-
-- set_target_metadata(type, obj, metadata):设置某条关系的元数据
-
-- get_target_metadata(type, obj, metadata):得到某条关系的元数据
- 
-- list_sources(type):列出所有该类型的被关联对象
-     type:关系类型 
-
-- has_target(type):是否有该类型的关联对象
-
-- has_source(type): 是否有该类型的被关联对象
-
-- list_targets(type):列出所有该类型的关联对象
-     type:关系类型 
- 
-- set_targets(type, target_list):
-
-- clean():清除该对象的所有关系
-
-
-使用示例
-----------------------
-将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
-  
-  IRelation(doc1).add('attachment', doc2) 
-
-删除上面设置的那条关系::
-
-  IRelation(doc1).remove('attachment', doc2) 
-
-设置关系的元数据（关系不存在不会建立该关系）::
-
-  IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) 
-
-得到关系的元数据（关系不存在返回None）::
-
-  IRelations(doc1).get_target_metadata('attachment', doc2) 
+TODO
 

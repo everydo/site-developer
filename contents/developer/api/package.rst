@@ -1,10 +1,10 @@
 ---
-title: 软件包格式
-description: 使用python语言来打包一个应用
+title: 软件包
+description: 通过软件包来打包一个应用，方便发布
 ---
 
 ======================
-软件包格式
+软件包
 ======================
 
 每个应用使用软件包来发布和交换。软件包就是一个tgz的压缩包。
@@ -25,9 +25,7 @@ description: 使用python语言来打包一个应用
   i18n/
     aaa.po
     bbb.po 
-  scripts/ # 代码
-    setup.py   # 安装程序
-    get_abc.py   # 安装程序
+  scripts.py # 代码
   templates/ # 动态模板
     main.pt
   screenshots/ # 产品截图
@@ -454,4 +452,27 @@ description: 使用python语言来打包一个应用
 
           客户已接受方案，进入合同谈判阶段"""
 
+脚本
+==============
 
+脚本采用python语言书写，存放在scripts.py中. 其中:
+
+- setup: 用于部署
+- upgrade(last_version='') : 用于升级
+
+对于需要通过浏览器发起的请求，如下书写::
+
+    @view_config(permission='zopen.Access', use_template='standard', icon=u'')
+    def setup(redirect = True):
+        """安装脚本
+
+        初始化规则"""
+
+        app = deployApplet('zopen.remind.workflows.remind', context, 'remind', '提醒')
+        IObjectIndexer(app).index()
+        #创建规则
+
+如果仅仅是内部调用，则如下处理::
+
+    def list_users():
+        pass
