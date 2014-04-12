@@ -241,11 +241,11 @@ description: 使用python语言来打包一个应用
 
   # 第一个步骤
   class Start:
-        title='新的销售机会',
-        fields=['title', 'client', u'responsibles', u'case_info', 'subjects'],
-        invisible_fields=['plan_info', 'files', u'folder', 'lastlog', 'log', 'start'],
-        condition='',
-        responsibles='[request.principal.id]',
+        title='新的销售机会'
+        fields=['title', 'client', u'responsibles', u'case_info', 'subjects']
+        invisible_fields=['plan_info', 'files', u'folder', 'lastlog', 'log', 'start']
+        condition=''
+        responsibles='[request.principal.id]'
 
         # 进入这个步骤触发
         def __init__(): 
@@ -282,33 +282,33 @@ description: 使用python语言来打包一个应用
 
   # 第二个步骤
   class Communicate:
-        title='了解需求背景',
-        fields=['title', 'case_info', u'files', u'log', u'start', 'subjects'],
-        invisible_fields=['plan_info', 'lastlog'],
-        condition='',
-        responsibles='context["responsibles"]',
+        title='了解需求背景'
+        fields=['title', 'case_info', u'files', u'log', u'start', 'subjects']
+        invisible_fields=['plan_info', 'lastlog']
+        condition=''
+        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
             pass
 
-        # 第一个步骤 
+        # 这是一个流程操作
         @action('重复或无效, 不再跟进', [], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'no_valid')
         def duplicated(context, container, task, step):
             pass
 
-        # 第二个步骤
+        # 这是一个流程操作
         @action('需求了解完毕', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', stage=u'planing')
         def AA8372( context, container, task, step):
             pass
 
   # 第三个步骤
   class SubmitPlan:
-        title='方案确认',
-        fields=['title', 'case_info', 'plan_info', 'files', 'log', 'start', 'subjects'],
-        invisible_fields=[],
-        condition='',
-        responsibles='context["responsibles"]',
+        title='方案确认'
+        fields=['title', 'case_info', 'plan_info', 'files', 'log', 'start', 'subjects']
+        invisible_fields=[]
+        condition=''
+        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
@@ -335,11 +335,11 @@ description: 使用python语言来打包一个应用
 
   # 最后一个步骤
   class SubmitFile:
-        title='签订合同',
-        fields=['files', 'log', 'start'],
-        invisible_fields=[],
-        condition='',
-        responsibles='context["responsibles"]',
+        title='签订合同'
+        fields=['files', 'log', 'start']
+        invisible_fields=[]
+        condition=''
+        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
@@ -358,11 +358,11 @@ description: 使用python语言来打包一个应用
             pass
 
   class Lost:
-        title='丢单确认',
-        fields=[],
-        invisible_fields=[],
-        condition='',
-        responsibles='ISettings(container)["manager"]',
+        title='丢单确认'
+        fields=[]
+        invisible_fields=[]
+        condition=''
+        responsibles='ISettings(container)["manager"]'
 
         # 进入这个步骤触发
         def __init__(): 
