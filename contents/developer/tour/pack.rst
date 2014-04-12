@@ -207,7 +207,7 @@ description: 使用python语言来打包一个应用
             name='start'
     ),)
 
-    def update_trigger(context, old_context):
+    def on_update(context, container, old_context):
         # 如果有根据记录，做记录循环，并保存为评论
         log = (context['log'] or '').strip()
         if log:
@@ -235,6 +235,12 @@ description: 使用python语言来打包一个应用
 3. 类的方法名: 步骤的操作name
 4. 类方法的函数体：步骤的触发脚本
 
+和之前版本的改进：
+
+1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
+2. 如果步骤没有操作，表示这个步骤无需人员干预
+3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
+
 ::
 
   #-*-encoding=utf-8-*-
@@ -242,17 +248,19 @@ description: 使用python语言来打包一个应用
   # 第一个步骤
   class Start:
         title='新的销售机会'
+        condition=''
+        stage = "requirement"
+
+        responsibles='[request.principal.id]'
         fields=['title', 'client', u'responsibles', u'case_info', 'subjects']
         invisible_fields=['plan_info', 'files', u'folder', 'lastlog', 'log', 'start']
-        condition=''
-        responsibles='[request.principal.id]'
 
         # 进入这个步骤触发
         def __init__(): 
             pass
 
         # 这是一个流程操作
-        @action('提交', ['Communicate'], finish_condition='', nextsteps_conditions='', stage=u'valid')
+        @action('提交', ['Communicate'], condition="", finish_condition='', )
         def submit(step, context):
             #建立项目文件夹
             case_obj = container
@@ -283,32 +291,36 @@ description: 使用python语言来打包一个应用
   # 第二个步骤
   class Communicate:
         title='了解需求背景'
+        condition=''
+        stage = "requirement"
+
+        responsibles='context["responsibles"]'
         fields=['title', 'case_info', u'files', u'log', u'start', 'subjects']
         invisible_fields=['plan_info', 'lastlog']
-        condition=''
-        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
             pass
 
         # 这是一个流程操作
-        @action('重复或无效, 不再跟进', [], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'no_valid')
+        @action('重复或无效, 不再跟进', [], finish_condition='', condition=u'', )
         def duplicated(context, container, task, step):
             pass
 
         # 这是一个流程操作
-        @action('需求了解完毕', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', stage=u'planing')
+        @action('需求了解完毕', ['SubmitPlan'], finish_condition='', )
         def AA8372( context, container, task, step):
             pass
 
   # 第三个步骤
   class SubmitPlan:
         title='方案确认'
+        condition=''
+        stage = "solution"
+
+        responsibles='context["responsibles"]'
         fields=['title', 'case_info', 'plan_info', 'files', 'log', 'start', 'subjects']
         invisible_fields=[]
-        condition=''
-        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
@@ -316,64 +328,102 @@ description: 使用python语言来打包一个应用
                 IStateMachine(context).setState('flowsheet.pending', do_check=False)
 
         # 操作一
-        @action('暂停，以后再联系', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'delayed')
+        @action('暂停，以后再联系', ['SubmitPlan'], finish_condition='', condition=u'' )
         def pause(context, container, step, task):
             pass
 
-        @action('接受方案，准备合同', ['SubmitFile'], finish_condition='', nextsteps_conditions='', stage=u'plan_accept')
+        @action('接受方案，准备合同', ['SubmitFile'], finish_condition='', )
         def accept( context, container, step, task):
             pass
 
-        @action('无法满足需求', ['Lost'], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'lost')
+        @action('无法满足需求', ['Lost'], finish_condition='', condition=u'' )
         def cannotdo( context, container, step, task):
             pass
 
-        @action('已选用其它产品', ['Lost'], finish_condition='', nextsteps_conditions='',
-            condition="'stage.lost' != IStateMachine(context).getState('stage').name", stage='lost')
+        @action('已选用其它产品', ['Lost'], finish_condition='', 
+                condition="'stage.lost' not in context.stati", )
         def other( context, container, step, task):
             pass
 
   # 最后一个步骤
   class SubmitFile:
         title='签订合同'
+        condition=''
+        stage = "contract"
+
+        responsibles='context["responsibles"]'
         fields=['files', 'log', 'start']
         invisible_fields=[]
-        condition=''
-        responsibles='context["responsibles"]'
 
         # 进入这个步骤触发
         def __init__(): 
             pass
 
-        @action('合同签订', [], finish_condition='', nextsteps_conditions='', stage=u'turnover')
+        @action('合同签订', [], finish_condition='')
         def sign(context, container, step, task):
             pass
 
-        @action('变故，以后再联系', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', condition='', stage='delayed')
+        @action('变故，以后再联系', ['SubmitPlan'], finish_condition='', condition='' )
         def contact_later(context, container, step, task):
             pass
 
-        @action('失败', ['Lost'], finish_condition='', nextsteps_conditions='', stage='lost')
+        @action('失败', ['Lost'], finish_condition='', )
         def fail( context, container, step ,task):
             pass
 
-  class Lost:
-        title='丢单确认'
-        fields=[]
-        invisible_fields=[]
+  # 这是一个自动步骤：1）没有负责人 2）没有后续操作 3）有自动步骤
+  class AfterContract:
+        title="合同准备完成"
         condition=''
-        responsibles='ISettings(container)["manager"]'
+        stage='turnover'
+
+        auto_steps=['ConfirmLost']
 
         # 进入这个步骤触发
         def __init__(): 
             pass
 
-        @action( '确认丢单', nextsteps=[], finish_condition='', nextsteps_conditions='', stage=u'lost')
+  class ConfirmLost:
+        title='丢单确认'
+        condition=''
+        stage='losting'
+
+        responsibles='ISettings(container)["manager"]'
+        fields=[]
+        invisible_fields=[]
+
+        # 进入这个步骤触发
+        def __init__(): 
+            pass
+
+        @action( '确认丢单', ['Lost'], condition="", finish_condition='')
         def confire_fail( context, container, step, task):
             pass
 
-        @action( '继续跟单', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', stage=u'planing')
+        @action( '继续跟单', ['SubmitPlan'], condition="",finish_condition='')
         def continue( context, container, step, task):
+            pass
+
+  class Lost:
+        title='签订合同'
+        condition=''
+        stage='lost'
+
+        next_steps=[]
+
+        # 进入这个步骤触发
+        def __init__(): 
+            pass
+
+  class End:
+        title='签订合同'
+        condition=''
+        stage='turnover'
+
+        next_steps=[]
+
+        # 进入这个步骤触发
+        def __init__(): 
             pass
 
 阶段
@@ -403,4 +453,5 @@ description: 使用python语言来打包一个应用
           """准备合同
 
           客户已接受方案，进入合同谈判阶段"""
+
 
