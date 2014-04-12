@@ -1,184 +1,208 @@
 ---
-title: 流程定义语言
+title: 应用打包格式
 description: 总体借用python语言来定义
 ---
 
 ======================
-流程定义语言
+应用打包格式
 ======================
 
-表单的定义
+总体借用Python语言来定义表单和流程. 每个流程采用一个文件夹来描述::
+
+  __init__.py #  软件包基本信息
+  workflows/
+    sales_chance/
+      form.py # 表单
+      steps.py # 流程步骤
+      stages.py # 阶段定义
+      config.py # 流程设置属性
+    invoice/
+  metadata/ # 属性定义
+    settings.py # 应用设置信息
+    archive.py # 档案管理属性集
+  i18n/
+    aaa.po
+    bbb.po 
+  scripts/ # 代码
+    setup.py   # 安装程序
+    get_abc.py   # 安装程序
+  templates/ # 动态模板
+    main.pt
+  screenshots/ # 产品截图
+  resources/ #  资源文件
+
+表单 form.py
 ================
 示例如下::
 
     #-*-encoding=utf-8-*-
-    title=u"""销售机会"""
-    description=u"""这是销售机会的解释"""
+    title="销售机会"
+    description="""这是销售机会的解释"""
     displayed_columns=['responsibles', '_stage', 'client', 'start', 'lastlog']
-    form_layout = u"""table"""
-    custom_template = u""""""
-    facetag = u""""""
+    form_layout = "table"
+    custom_template = ""
+    facetag = ""
 
     fields=(
         TextLineField(
-            description=u'一句话说明销售的内容',
-            title=u'机会简述',
+            description='一句话说明销售的内容',
+            title='机会简述',
             required=False,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
             size=30,
-            default_value_exp=u'""',
-            name=u'title'
+            default_value_exp='""',
+            name='title'
     ),
         DataItemSelectField(
-            container_exp=u'getParent(container)["orgs"]',
+            container_exp='getParent(container)["orgs"]',
             multiple=True,
-            description=u'',
-            edoclass=u'zopen.contacts.org',
-            title=u'客户',
+            description='',
+            edoclass='zopen.contacts.org',
+            title='客户',
             required=True,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            show_info=u'title',
-            default_value_exp=u'PersistentList([])',
-            name=u'client'
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            show_info='title',
+            default_value_exp='PersistentList([])',
+            name='client'
     ),
         ComputedField(
-            description=u'',
-            title=u'客户信息',
+            description='',
+            title='客户信息',
             required=False,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u"callScript(context,request, 'zopen.sales.client_info')",
-            name=u'client_info'
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp="callScript(context,request, 'zopen.sales.client_info')",
+            name='client_info'
     ),
         PersonSelectField(
-            description=u'该销售机会的销售员',
-            title=u'销售员',
+            description='该销售机会的销售员',
+            title='销售员',
             required=True,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            selectable_object=u'persononly',
-            read_condition=u'',
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            selectable_object='persononly',
+            read_condition='',
             multiple_selection=False,
-            default_value_exp=u'PersistentList([])',
-            name=u'responsibles'
+            default_value_exp='PersistentList([])',
+            name='responsibles'
     ),
         TagSelectField(
-            container_exp=u'container',
-            description=u'',
-            title=u'分类信息',
+            container_exp='container',
+            description='',
+            title='分类信息',
             required=False,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'PersistentList([])',
-            name=u'subjects'
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='PersistentList([])',
+            name='subjects'
     ),
         TextField(
             rows=5,
-            description=u'',
-            title=u'销售机会详情',
+            description='',
+            title='销售机会详情',
             required=False,
-            storage=u'field',
+            storage='field',
             cols=10,
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u"ISettings(container)['template']",
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp="ISettings(container)['template']",
             rich_text=False,
-            name=u'case_info'
+            name='case_info'
     ),
         TextField(
             rows=5,
-            description=u'',
-            title=u'报价方案',
+            description='',
+            title='报价方案',
             required=False,
-            storage=u'field',
+            storage='field',
             cols=10,
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
             rich_text=False,
-            name=u'plan_info'
+            name='plan_info'
     ),
         ReferenceField(
-            container_exp=u"context['folder'] is not None and intids.getObject(context['folder'])",
+            container_exp="context['folder'] is not None and intids.getObject(context['folder'])",
             is_global=False,
             multiple=True,
-            description=u'',
-            title=u'相关文档',
+            description='',
+            title='相关文档',
             required=False,
-            storage=u'field',
+            storage='field',
             upload=True,
-            validation_exp=u'',
-            write_condition=u'',
+            validation_exp='',
+            write_condition='',
             search_subtree=True,
-            read_condition=u'',
-            default_value_exp=u'PersistentList([])',
-            name=u'files'
+            read_condition='',
+            default_value_exp='PersistentList([])',
+            name='files'
     ),
         FolderSelectField(
             is_global=True,
-            description=u'',
-            title=u'文件存放区',
+            description='',
+            title='文件存放区',
             required=False,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'ISettings(container).get("folder","")',
-            name=u'folder'
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='ISettings(container).get("folder","")',
+            name='folder'
     ),
         TextField(
             rows=5,
-            description=u'',
-            title=u'上次跟进',
+            description='',
+            title='上次跟进',
             required=False,
-            storage=u'field',
+            storage='field',
             cols=10,
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
             rich_text=False,
-            name=u'lastlog'
+            name='lastlog'
     ),
         TextField(
             rows=5,
-            description=u'',
-            title=u'跟进记录',
+            description='',
+            title='跟进记录',
             required=False,
-            storage=u'field',
+            storage='field',
             cols=10,
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
             rich_text=False,
-            name=u'log'
+            name='log'
     ),
         DateField(
             minutestep=60,
-            description=u'',
-            title=u'下次跟进时间',
+            description='',
+            title='下次跟进时间',
             showtime=True,
             required=True,
-            storage=u'field',
-            validation_exp=u'',
-            write_condition=u'',
-            read_condition=u'',
-            default_value_exp=u'datetime.datetime(*(datetime.datetime.now() + datetime.timedelta(1)).timetuple()[:4])',
-            name=u'start'
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='datetime.datetime(*(datetime.datetime.now() + datetime.timedelta(1)).timetuple()[:4])',
+            name='start'
     ),)
 
     def update_trigger(context, old_context):
@@ -207,7 +231,7 @@ description: 总体借用python语言来定义
 1. 类名: 步骤名
 2. 类的成员变量: 步骤的属性
 3. 类的方法名: 步骤的操作name
-3. 类方法的函数体：步骤的触发脚本
+4. 类方法的函数体：步骤的触发脚本
 
 ::
 
@@ -215,20 +239,19 @@ description: 总体借用python语言来定义
 
   # 第一个步骤
   class Start:
-        graph_width=80,
-        title=u'新的销售机会',
-        fields=[u'title', u'client', u'responsibles', u'case_info', 'subjects'],
-        invisible_fields=[u'plan_info', u'files', u'folder', 'lastlog', 'log', 'start'],
-        graph_x=364,
-        graph_y=385,
-        trigger=ur"""""",
-        graph_height=30,
-        condition=u'',
-        responsibles=u'[request.principal.id]',
+        title='新的销售机会',
+        fields=['title', 'client', u'responsibles', u'case_info', 'subjects'],
+        invisible_fields=['plan_info', 'files', u'folder', 'lastlog', 'log', 'start'],
+        condition='',
+        responsibles='[request.principal.id]',
+
+        # 进入这个步骤触发
+        def __init__(): 
+            pass
 
         # 这是一个流程操作
-        def submit(title=u'提交', graph_x=0, graph_y=0, nextsteps=['Communicate'],
-                  finish_condition=u'', nextsteps_conditions=u'', stage=u'valid'):
+        @action('提交', ['Communicate'], finish_condition='', nextsteps_conditions='', stage=u'valid')
+        def submit(step, context):
             #建立项目文件夹
             case_obj = container
             if ISettings(case_obj)['folder']:
@@ -257,99 +280,97 @@ description: 总体借用python语言来定义
 
   # 第二个步骤
   class Communicate:
-        graph_width=80,
-        title=u'了解需求背景',
-        fields=[u'title', u'case_info', u'files', u'log', u'start', 'subjects'],
-        invisible_fields=[u'plan_info', u'lastlog'],
-        graph_x=364,
-        graph_y=385,
-        trigger=ur"""""",
-        graph_height=30,
-        condition=u'',
-        responsibles=u'context["responsibles"]',
+        title='了解需求背景',
+        fields=['title', 'case_info', u'files', u'log', u'start', 'subjects'],
+        invisible_fields=['plan_info', 'lastlog'],
+        condition='',
+        responsibles='context["responsibles"]',
+
+        # 进入这个步骤触发
+        def __init__(): 
+            pass
 
         # 第一个步骤 
-        def duplicated( title=u'重复或无效, 不再跟进', graph_x=0, graph_y=0, nextsteps=[],
-            finish_condition=u'', nextsteps_conditions=u'', condition=u'', stage=u'no_valid'),
+        @action('重复或无效, 不再跟进', [], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'no_valid')
+        def duplicated(context, container, task, step):
             pass
 
         # 第二个步骤
-        def AA8372( title=u'需求了解完毕', graph_x=0, graph_y=0, nextsteps=['SubmitPlan'],
-            finish_condition=u'', nextsteps_conditions=u'', stage=u'planing'):
+        @action('需求了解完毕', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', stage=u'planing')
+        def AA8372( context, container, task, step):
             pass
 
   # 第三个步骤
   class SubmitPlan:
-        graph_width=80,
-        title=u'方案确认',
-        fields=[u'title', u'case_info', 'plan_info', u'files', u'log', 'start', 'subjects'],
+        title='方案确认',
+        fields=['title', 'case_info', 'plan_info', 'files', 'log', 'start', 'subjects'],
         invisible_fields=[],
-        graph_x=364,
-        graph_y=385,
-        trigger=ur"""if 'stage.delayed' in context.stati:IStateMachine(context).setState('flowsheet.pending', do_check=False)""",
-        graph_height=30,
-        condition=u'',
-        responsibles=u'context["responsibles"]',
+        condition='',
+        responsibles='context["responsibles"]',
+
+        # 进入这个步骤触发
+        def __init__(): 
+            if 'stage.delayed' in context.stati:
+                IStateMachine(context).setState('flowsheet.pending', do_check=False)
 
         # 操作一
-        def pause( title=u'暂停，以后再联系', graph_x=0, graph_y=0, nextsteps=['SubmitPlan'],
-               finish_condition=u'', nextsteps_conditions=u'', condition=u'', stage=u'delayed'):
+        @action('暂停，以后再联系', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'delayed')
+        def pause(context, container, step, task):
             pass
 
-        def accept( title=u'接受方案，准备合同', graph_x=0, graph_y=0, nextsteps=['SubmitFile'],
-            finish_condition=u'', nextsteps_conditions=u'', stage=u'plan_accept'):
+        @action('接受方案，准备合同', ['SubmitFile'], finish_condition='', nextsteps_conditions='', stage=u'plan_accept')
+        def accept( context, container, step, task):
             pass
 
-        def cannotdo( title=u'无法满足需求', graph_x=0, graph_y=0, nextsteps=['Lost'],
-            finish_condition=u'', nextsteps_conditions=u'', condition=u'', stage=u'lost'):
+        @action('无法满足需求', ['Lost'], finish_condition='', nextsteps_conditions='', condition=u'', stage=u'lost')
+        def cannotdo( context, container, step, task):
             pass
 
-        def other( title=u'已选用其它产品', graph_x=0, graph_y=0, nextsteps=['Lost'],
-            finish_condition=u'', nextsteps_conditions=u'',
-            condition=u"'stage.lost' != IStateMachine(context).getState('stage').name",
-            stage=u'lost'):
+        @action('已选用其它产品', ['Lost'], finish_condition='', nextsteps_conditions='',
+            condition="'stage.lost' != IStateMachine(context).getState('stage').name", stage='lost')
+        def other( context, container, step, task):
             pass
 
   # 最后一个步骤
   class SubmitFile:
-        title=u'签订合同',
-        fields=[u'files', 'log', 'start'],
+        title='签订合同',
+        fields=['files', 'log', 'start'],
         invisible_fields=[],
-        graph_x=364,
-        graph_y=385,
-        trigger=ur"""""",
-        graph_height=30,
-        condition=u'',
-        responsibles=u'context["responsibles"]',
+        condition='',
+        responsibles='context["responsibles"]',
 
-        def sign( title=u'合同签订', graph_x=0, graph_y=0, nextsteps=[],
-            finish_condition=u'', nextsteps_conditions=u'', stage=u'turnover'):
+        # 进入这个步骤触发
+        def __init__(): 
             pass
 
-        def contact_later( title=u'变故，以后再联系', graph_x=0, graph_y=0,
-            nextsteps=['SubmitPlan'], finish_condition=u'', nextsteps_conditions=u'',
-            condition=u'', stage=u'delayed'):
+        @action('合同签订', [], finish_condition='', nextsteps_conditions='', stage=u'turnover')
+        def sign(context, container, step, task):
             pass
 
-        def fail( title=u'失败', graph_x=0, graph_y=0, nextsteps=['Lost'], finish_condition=u'',
-            nextsteps_conditions=u'', stage=u'lost'):
+        @action('变故，以后再联系', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', condition='', stage='delayed')
+        def contact_later(context, container, step, task):
+            pass
+
+        @action('失败', ['Lost'], finish_condition='', nextsteps_conditions='', stage='lost')
+        def fail( context, container, step ,task):
             pass
 
   class Lost:
-        title=u'丢单确认',
+        title='丢单确认',
         fields=[],
         invisible_fields=[],
-        graph_x=364,
-        graph_y=385,
-        trigger=ur"""""",
-        graph_height=30,
-        condition=u'',
-        responsibles=u'ISettings(container)["manager"]',
+        condition='',
+        responsibles='ISettings(container)["manager"]',
 
-        def confire_fail( title=u'确认丢单', graph_x=0, graph_y=0, nextsteps=[],
-            finish_condition=u'', nextsteps_conditions=u'', stage=u'lost'):
+        # 进入这个步骤触发
+        def __init__(): 
             pass
 
-        def continue( title=u'继续跟单', graph_x=0, graph_y=0, nextsteps=[u'SubmitPlan'],
-            finish_condition=u'', nextsteps_conditions=u'', stage=u'planing'):
+        @action( '确认丢单', nextsteps=[], finish_condition='', nextsteps_conditions='', stage=u'lost')
+        def confire_fail( context, container, step, task):
             pass
+
+        @action( '继续跟单', ['SubmitPlan'], finish_condition='', nextsteps_conditions='', stage=u'planing')
+        def continue( context, container, step, task):
+            pass
+
