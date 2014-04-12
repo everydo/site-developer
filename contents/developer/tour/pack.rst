@@ -1,23 +1,25 @@
 ---
-title: 应用打包格式
-description: 总体借用python语言来定义
+title: 软件包格式
+description: 使用python语言来打包一个应用
 ---
 
 ======================
-应用打包格式
+软件包格式
 ======================
 
-总体借用Python语言来定义表单和流程. 每个流程采用一个文件夹来描述::
+每个应用使用软件包来发布和交换。软件包就是一个tgz的压缩包。
+
+总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
   __init__.py #  软件包基本信息
   workflows/
-    sales_chance/
+    sales_chance/  # 第一个流程
       form.py # 表单
       steps.py # 流程步骤
       stages.py # 阶段定义
       config.py # 流程设置属性
-    invoice/
-  metadata/ # 属性定义
+    invoice/  # 第二个流程
+  metadata/ # 整个应用的属性定义
     settings.py # 应用设置信息
     archive.py # 档案管理属性集
   i18n/
