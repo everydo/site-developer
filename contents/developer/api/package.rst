@@ -18,6 +18,7 @@ description: 通过软件包来打包一个应用，方便发布
       steps.py # 流程步骤
       stages.py # 阶段定义
       config.py # 流程设置属性
+      layout.html # 表单的定制布局
     invoice/  # 第二个表单流程
   metadata/ # 整个应用的属性定义
     settings.py # 应用设置信息
@@ -40,9 +41,9 @@ description: 通过软件包来打包一个应用，方便发布
     #-*-encoding=utf-8-*-
     title="销售机会"
     description="""这是销售机会的解释"""
+    extend = 'zopen.sales.chance'  # 继承的表单定义
     displayed_columns=['responsibles', '_stage', 'client', 'start', 'lastlog']
     form_layout = "table"
-    custom_template = ""
     facetag = ""
 
     fields=(
@@ -235,6 +236,14 @@ description: 通过软件包来打包一个应用，方便发布
 
 on_update 表单保存触发
 --------------------------------
+参数
+............
+
+脚本中，可使用2个重要的内置变量：
+
+- context: 是当前操作的对象
+- container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
+
 返回值
 .............
 如果表单提交数据校验正常，不返回任何值

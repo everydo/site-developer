@@ -1,8 +1,6 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
-        file.rst, 
-        form.rst, 
         metadata.rst, 
         relation.rst, 
         state.rst, 
@@ -15,6 +13,7 @@ order: [repository.rst,
         orginfo.rst, 
         scripting.rst, 
         package.rst,
+        workflow.rst
         anyflow.rst,
         rdb.rst, 
         kss.rst, 

@@ -112,6 +112,7 @@ render_tags(context, request)     # 标签(参数parent默认False)
 
 易度工具函数
 ---------------
+- “renderFilePreview”: 文件预览组件
 - “osf_crypt”:防泄密外发打包函数
 - "document_convert": 文档转换 ::
 

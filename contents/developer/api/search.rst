@@ -29,14 +29,19 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - references:   关联的文件
 - allowed_principals:     授权的人
 - disallowed_principals:  禁止的人
-- object_provides: 对象提供的接口
+- object_provides: 内容提供的接口
 
-  - 文档：zopen.content.interfaces.IFile / zopen.content.interfaces.IImage / zopen.content.interfaces.IDocument
-  - 快捷方式：zopen.shortcut.interfaces.IShortCut
-  - 文件夹：zopen.content.interfaces.IFolder
-  - 表单：zopen.model.interfaces.IDataItem, 每个具体类系的表单 dataitem.xxx.xxx.xxx （如：dataitem.zopen.archive.borrow）
-  - 表单容器：zopen.model.interfaces.IDataManager, 具体的类型 datamanager.xxx.xxx.xxx
-  - 容器: zopen.apps.interfaces.ISupperApplet, 具体的类型 package.xxx.xxx
+  不同类型的内容，提供不同的接口：
+
+  - 文件： File 
+  - 快捷方式：ShortCut 
+  - 文件夹：Folder
+  - 表单：Item
+  - 表单容器：Collection
+  - 容器: Container
+
+  文件的小写后缀(如：doc, docx, txt, json, png)
+
 
 对象的基础属性
 -------------------------------
@@ -49,8 +54,8 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - subjects
 - creators
 - contributors
-- "expires"
-- "effective"
+- expires
+- effective
 
 表单中的属性
 -------------------------------
@@ -136,11 +141,11 @@ QuerySet常用操作：
 搜索属性集中的属性
 -------------------------
 调用filter或parse方法时，上面的field试用于 内置属性、基础属性和表单属性。
-对于属性集中的字段，则需要增加一个 ``collection`` 参数来指明属性集的名称。
+对于属性集中的字段，则需要增加一个 ``mdset`` 参数来指明属性集的名称。
 
 下面的例子表示依据档案扩展属性中的档案编号进行检索::
 
-           .anyof(number=['A101', 'C103'], collection="archive")
+           .anyof(number=['A101', 'C103'], mdset="archive")
 
 嵌套字段
 --------------------------------
@@ -152,23 +157,23 @@ QuerySet常用操作：
 
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
-           anyof(dept=['A101', 'C103'], parent="review_table", collection="archive")
+           anyof(dept=['A101', 'C103'], parent="review_table", mdset="archive")
 
 分用户存储的字段
 ------------------------------
 有些数据，是分用户存储的，比如投票字段、评审意见字段等。
 
-这种字段的数据搜索，也是采用类似表格字段, 内置 ``__user`` 和 ``__value`` 这2个子字段.
+这种字段的数据搜索，也是采用类似表格字段, 内置 ``_user`` 和 ``_value`` 这2个子字段.
 
-搜索表单中的reviewer_table字段::
+搜索表单中的reviewer_reviewcomment字段::
 
-           anyof(__user=['users.pan', 'users.zhang'], parent="review_comment")
-           parse(__value='同意', parent="review_comment")
+           anyof(_user=['users.pan', 'users.zhang'], parent="review_comment")
+           parse(_value='同意', parent="review_comment")
 
-搜索属性集archive中的reviewer_table字段::
+搜索属性集archive中的reviewer_comment字段::
 
-           anyof(__user=['A101', 'C103'], parent="review_comment", parent="review_comment", collection="archive")
-           parse(__value='同意', parent="review_comment", collection="archive")
+           anyof(_user=['A101', 'C103'], parent="review_comment", mdset="archive")
+           parse(_value='同意', parent="review_comment", collection="archive")
 
 跨字段全文搜索
 -----------------------

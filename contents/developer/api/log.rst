@@ -133,7 +133,7 @@ sendout -> sendoutreverted
 
 看个例子，搜索24小时内，admin用户下载操作记录, 按时间递减排序:::
 
- site_name = getSite().__name__
+ site_name = get_root().name
  now = time.time()
  before_one_days = now - 24 * 3600
  results = LogQuery(site_name=site_name).\
