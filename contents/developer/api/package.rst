@@ -31,8 +31,10 @@ description: 通过软件包来打包一个应用，方便发布
   screenshots/ # 产品截图
   resources/ #  资源文件
 
-表单 form.py
-================
+表单定义form.py
+=====================
+文件示例
+---------------
 示例如下::
 
     #-*-encoding=utf-8-*-
@@ -223,6 +225,47 @@ description: 通过软件包来打包一个应用，方便发布
         # 如果下次跟进时间，小于当前时间，则将下次跟进时间改为当前时间+2天
         if context['start'] <= datetime.datetime.now():
             context['start']=datetime.datetime(*(datetime.datetime.now() + datetime.timedelta(2)).timetuple()[:4])
+
+
+关联表单
+----------------------
+如果发起关联流程，request里面会传入参数'__reference'，使用下面的api可以得到关联的一组对象::
+
+  get_references()
+
+on_update 表单保存触发
+--------------------------------
+返回值
+.............
+如果表单提交数据校验正常，不返回任何值
+
+如果表单字段校验有问题，可返回错误字段的错误信息，比如::
+
+  {'title':'can not be empty',
+   'age':'must greater than '
+  }
+
+注意，仅仅这些表单是可输入项的时候，这些错误信息才能显示。如果错误信息和输入项无关，可这样返回::
+
+  {'':'something wrong！'}
+
+上述错误信息会在表单头部显示
+
+old_storage
+.................
+这保存了表单提交直接存储的数据, 用途：
+
+- 比较数据变化差异，可以记录到日志里面去::
+
+   if old_storage['description'] != context['description']:
+      log('description changed')
+
+- 可以判断是否是初始提交，这时候old_storage里面应该是空的::
+
+   if not old_strage: 
+      xxx
+
+- 比如可以判断，任务负责人有没有更改，如果更改，需要发送通知邮件
 
 流程步骤定义
 ====================

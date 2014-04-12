@@ -1,6 +1,6 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
-order: [odb.rst, 
+order: [repository.rst, 
         file.rst, 
         form.rst, 
         metadata.rst, 
@@ -15,6 +15,7 @@ order: [odb.rst,
         orginfo.rst, 
         scripting.rst, 
         package.rst,
+        anyflow.rst,
         rdb.rst, 
         kss.rst, 
         others.rst]
