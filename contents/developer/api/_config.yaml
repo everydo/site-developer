@@ -9,6 +9,7 @@ order: [repository.rst,
         workflow.rst,
         package.rst,
 
+        tags.rst,
         social.rst, 
         notification.rst, 
         log.rst, 
