@@ -98,20 +98,31 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
 定义表单
 ---------------
-可以通过代码来定义一个表单::
+可以通过json来定义一个表单::
 
   # 定义字段
-  form_def = FormDefinition(
-    TextLineField(name='title', title=u'任务标题',),
-    TextField(name='description', title=u'任务说明', rows=3),
-    DateField(name="start", title=u'开始时间',),
-    DateField(name="end", title=u'结束时间',),
-    IntegerField(name="level", title=u'任务等级', size=18),
-    PersonSelectField(name="responsible", title=u'负责人人', 
-                validation_exp=u"not value and '需要一名检查人'",),
-    PersonSelectField(name="reviewer", title=u'检查人', 
-                validation_exp=u"not value and '需要一名检查人'",),
-  )
+  form_def = [ {"name":"title"
+                "type":"TextLineField", 
+                "title":'任务标题', },
+            { "name":'description': 
+               "type": "TextField",       
+               "title":'任务说明',      
+               "rows":3, },
+            {"name": "start": 
+              "type": "DateField",
+              "title": '开始时间',},
+            { "name":"end",
+              "type": "DateField",
+              "title": '结束时间',},
+           { "name":"level",
+              "type": "IntegerField",
+              "title": '任务等级',
+              "size":18,},
+           {"name":"responsibles",
+             "type":"PersonSelectField",
+             "title":'负责人人', 
+             "validation_expi":"not value and '需要一名检查人'",
+           } ]
 
 表单由各种字段组成:
 
@@ -142,7 +153,6 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - ListComputedField : 公式字段(多值)
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
-
 
 可以将表单定义，注册保存到系统::
 

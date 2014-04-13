@@ -34,17 +34,7 @@ description: 登录、授权、角色、
 - 'zopen.AddContainer': 添加容器(子栏目)
 - 'zopen.Logined': 是否登录
 
-'zopen.Access'和'zope.View'的区别，存在这个情况，需要进入文件夹，但是不希望查看文件夹包含的文档。
-
-通常文件夹或容器，都是要'zopen.Access'控制，对容器包含的内容，都采用'zopen.View'权限控制。 
-原因是：zope.View的授权会继承下去，导致子文件夹的内容都是可以查看的了。
-特别是项目、部门、工作组、客户，这些需要多层分区控制权限的，在根容器里面一定不能用zope.View的权限来控制，而是应该是zopen.Access。
-
-(由于系统搜索会只搜索到有权限查看的内容，因此zopen.Access通常是安全的)。典型的情况：
-
-- 希望使用项目，但不希望看到所有项目的数据
-- 希望试用流程，但不希望看到别人提及的流程数据
-- 因为权限会继承，如果使用'zope.View'权限，会导致过渡授权的情况。
+'zopen.Access'和'zope.View'的区别，需要进入文件夹(zopen.Access)，但是不希望查看文件夹包含的文档(zope.View)。
 
 检查权限
 -------------
@@ -123,22 +113,11 @@ TODO 应对角色定义做更详细的说明
 权限与角色的转换
 ------------------------------
 
-得到拥有某权限的所有角色
+得到拥有某权限的所有角色::
 
-IGrantManager(obj).getRolesForPermission(permission_id)
+  IGrantManager(obj).getRolesForPermission(permission_id)
 
-得到上层以及全局的授权信息
+得到上层以及全局的授权信息::
 
-IGrantManager(obj).getInheritedRolesForPermission(permission_id)
-
- 
-“ISessionAuthorizer”: 临时授权
-------------------------------------------------
-接口API：ISessionAuthorizer
-
-主要用于文件下载的临时授权
-
-- set_permissions(permissions)：设置权限
-- check_permission(permission): 检查是否有某个权限
-- list_permissions()：列出全部的权限
+  IGrantManager(obj).getInheritedRolesForPermission(permission_id)
 
