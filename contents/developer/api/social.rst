@@ -1,16 +1,16 @@
 ---
-title: 关注、收藏
+title: 关注、收藏、评论
 description: 关注、收藏属于知识管理的范畴，将内容和人建立联系
 ---
 
 ======================
-关注、收藏
+关注、收藏、评论
 ======================
 
 .. Contents::
 .. sectnum::
 
-关注、收藏属于知识管理的范畴，将内容和人建立联系.
+关注、收藏、评论属于知识管理的范畴，将内容和人建立联系.
 
 关注ISubscriptionManager
 ============================
@@ -49,4 +49,30 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 - 查看文档的收藏数量
 - 查看哪些人收藏
 - 统计最热收藏
+
+
+评注
+==========
+几乎任何对象都可被评注，评注可以补充附件。一般对象的关注人员会收到评注通知。
+
+添加评注的方法为：::
+
+    ICommentManager(context).addComment(body, author, email)
+
+列表显示评注的方法为：::
+
+    for comment in ICommentManager(context):
+        print comment.body
+        print IDublinCore(comment).creators
+        print IDublinCore(comment).modified
+
+
+最后的评论::
+
+   print len(ICommentManager(context))
+
+   last_comment = ICommentManager(context)[-1]
+   print last_comment.body
+   print IDublinCore(last_comment).creators
+   print IDublinCore(last_comment).modified
 

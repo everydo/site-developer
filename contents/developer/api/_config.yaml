@@ -2,16 +2,15 @@ title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
         permission.rst, 
-        rules.rst,
         search.rst, 
-        comment.rst, 
+        rules.rst,
         social.rst, 
         notification.rst, 
         log.rst, 
         team.rst,
         orginfo.rst, 
         form.rst, 
-        state.rst, 
+        stage.rst, 
         workflow.rst,
         package.rst,
         workflow.rst
