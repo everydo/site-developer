@@ -15,7 +15,7 @@ description: 表单和流程操作接口，包括表单自动生成
 定义工作流步骤
 ====================
 
-工作流由步骤Step和操作Action组成，可以用2中方式定义。
+工作流由步骤Step和操作Action组成，可以用2种方式定义。
 
 json格式
 ---------------
@@ -74,7 +74,7 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
 
    IWorkflowDef(root).get('query', package='zopen.sales')
    IWorkflowDef(root).get_step('query', step, package='zopen.sales')
-   IWorkflowDef(root).get_action('query', step, action, package='zopen.sales')['start']
+   IWorkflowDef(root).get_action('query', step, action, package='zopen.sales')
 
 python格式
 ------------------
