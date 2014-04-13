@@ -98,13 +98,13 @@ nextStates(self, prefix)
 
 将表单和阶段关联
 ------------------------
-将一个表单和阶段定义关联::
+在容器里面设置阶段定义::
 
-   IStageEngine(item).set_stage('query', package="zopen.sales")
+   IMetadata(collection).set_etc('childern_stage', ('zopen.sales:query',))
 
 调整阶段
 -------------------
 设置某个阶段::
 
-   IStageEngine(item).set_state('stage', 'valid', do_check=False)
+   IStageMachine(item).set_state('stage', 'valid', do_check=False)
 
