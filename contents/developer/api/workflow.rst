@@ -25,7 +25,7 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
        "start": {"title" : '新的销售机会',
                  "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
                  "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
-                 "trigger": "",
+                 "on_enter": "",
                  "condition": '',
                  "stage": 'valid',
                  "responsibles": '[request.principal.id]',
@@ -33,21 +33,21 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
                                 "title":'提交',
                                 "finish_condition":'',
                                 "nextsteps":['communicate'],
-                                "trigger"="",
+                                "on_submit":"",
                               }
                             ]
                },
 
       "auto_step": { "title": '这是一个自动步骤，无人参与',
                   "condition":'',
-                  "trigger": "",
+                  "on_enter": "",
                   "stage":'planing',
                       },
 
       "communicate": { "title": '了解需求背景',
                   "fields": ['title', 'case_info', 'files', 'log', 'start', 'subjects'],
                   "invisible_fields":['plan_info', 'lastlog'],
-                  "trigger": "",
+                  "on_enter": "",
                   "condition":'',
                   "stage":'planing',
                   "responsibles":'context["responsibles"]',
