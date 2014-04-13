@@ -1,6 +1,6 @@
 ---
-title: 属性/元数据
-description: 对象可以自定义一组属性
+title: 属性/表单
+description: 对象可以自定义一组属性，通过表单来更新属性
 ---
 
 ==================
@@ -134,17 +134,26 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
-也可以引用在系统界面中定义的表单::
+可以将表单定义，注册保存到系统::
+
+  # 注册为一个表单
+  IFormDefinition(root).register_form(name, package, form_def, title, layout, table_columns, on_update)
+  # 注册为表单设置项
+  IFormDefinition(root).register_setting(name, package, form_def, title, layout, on_update)
+  # 注册为软件包的一个属性集
+  IFormDefinition(root).register_mdset(name, package, form_def, title, layout, on_update)
+
+也可以获取表单信息::
 
   # 软件包中的表单定义
-  form_def = root.get_form_definition('inquery')
-  form_def = root.get_form_definition('zopen.sales:inquery')
+  form_def = IFormDefinition(root).get_form('inquery')
+  form_def = IFormDefinition(root).get_form('inquery', package="zopen.sales")
   # 软件包中的表单定义设置
-  form_def = root.get_setting_definition('inquery')
-  form_def = root.get_setting_definition('zopen.sales:inquery')
+  form_def = IFormDefinition(root).get_setting_definition('inquery')
+  form_def = IFormDefinitionroot).get_setting('inquery', package='zopen.sales')
   # 软件包中的属性定义
-  form_def = root.get_metadata_definition('default')
-  form_def = root.get_metadata_definition('zopen.sales:default')
+  form_def = IFormDefinition(root).get_mdset('default')
+  form_def = IFormDefinition(root).get_mdset('default', package='zopen.sales')
 
 生成表单html
 ------------------------
