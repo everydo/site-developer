@@ -121,6 +121,8 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - FixedPointField : 小数
 - PasswordField : 密码
 - ReferenceField : 文件选择
+
+  如果初始值设置为 ``get_references()`` 就可以正确关联
 - FileField  : 文件上传
 - SingleSelectField : 单选
 - MultipleSelectField : 多选
@@ -140,6 +142,7 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - ListComputedField : 公式字段(多值)
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
+
 
 可以将表单定义，注册保存到系统::
 
@@ -161,6 +164,31 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
   # 软件包中的属性定义
   form_def = IFormDefinition(root).get_mdset('default')
   form_def = IFormDefinition(root).get_mdset('default', package='zopen.sales')
+
+on_update 表单保存触发
+--------------------------------
+用于输入合法性校验，和更改时候的触发逻辑
+
+参数:
+
+- context: 是当前操作的对象
+- container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
+- old_storage: 这保存了表单提交直接存储的数据
+
+返回值:
+
+如果表单提交数据校验正常，不返回任何值; 
+如果表单字段校验有问题，可返回错误字段的错误信息，比如::
+
+  {'title':'can not be empty',
+   'age':'must greater than '
+  }
+
+注意，仅仅这些表单是可输入项的时候，这些错误信息才能显示。如果错误信息和输入项无关，可这样返回::
+
+  {'':'something wrong！'}
+
+上述错误信息会在表单头部显示
 
 生成表单html
 ------------------------
