@@ -2,8 +2,9 @@ title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
         metadata.rst, 
-        relation.rst, 
         state.rst, 
+        workflow.rst,
+        relation.rst, 
         permission.rst, 
         search.rst, 
         comment.rst, 

@@ -134,7 +134,7 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
-也可以在如下途径来定义表单::
+也可以引用在系统界面中定义的表单::
 
   # 软件包中的表单定义
   form_def = root.get_form_definition('inquery')
@@ -156,7 +156,6 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
   # 渲染表单
   html_form = form_def.html(template, {'description':'请说清楚'}, fields.keys(), errors)
 
-
 其中::
 
   html(form_template, storage, edit_fields, errors, **options)
@@ -174,6 +173,12 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
   html_form = form_def.html(template, {}, fields.keys(), errors,
                             request, context=context, container = container)
+
+在浏览器上渲染表单
+--------------------------
+现在时兴web app，可以分别传回表单的模板和数据，供渲染.
+
+gen_template生成的模板为handlerbar格式的模板。
 
 提交表单
 -------------------
@@ -214,7 +219,6 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 - container_mdsets: 容器的扩展属性(list)
 
 我们先看看一个个性化定制表单的使用示例。对于易度外网中的一个客户调查信息表，在完成表单和流程定制部署后，可创建如下的Python脚本，部署到外网用于收集客户资料::
-
 
   form_name = IMetadata(container).get_mdset('_settings')['form']
   form_def = root.get_form_definition(form_name)

@@ -129,3 +129,18 @@ render_tags(context, request)     # 标签(参数parent默认False)
          >> {'main':{'content': '<html>\n<head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head>\n<body>\n<h3>\xe6\xa0\x87\xe9\xa2\x981</h3><br> \xe4\xbb\x8a\xe5\xa4\xa9\xe6\x98\xaf\xe4\xb8\xaa\xe5\xa5\xbd\xe6\x97\xa5\xe5\xad\x90\xef\xbc\x81\xef\xbc\x81\xef\xbc\x81</body>\n</html>', 'title': 'index'}, 'attachments': [] }
           
   
+流程多查看方式
+-----------------------
+只需使用特殊的python脚本命名前缀，就可实现流程单的多种查看方式。
+
+对于表单的名字 foobar，命名方式为::
+
+ view_foobar_xxx
+
+其中xxx为真正的脚本名称。
+
+如果需要改变默认的视图，只需要::
+
+ IAppletData(flow_container).default_view = 'xxx_account.xxx_package.view_foobar_xxx'
+
+
