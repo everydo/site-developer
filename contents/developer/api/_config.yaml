@@ -1,11 +1,9 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
-        metadata.rst, 
         state.rst, 
-        workflow.rst,
-        relation.rst, 
         permission.rst, 
+        rules.rst,
         search.rst, 
         comment.rst, 
         social.rst, 
@@ -13,11 +11,12 @@ order: [repository.rst,
         log.rst, 
         team.rst,
         orginfo.rst, 
-        rules.rst,
-        scripting.rst, 
+        form.rst, 
+        workflow.rst,
         package.rst,
         workflow.rst
         anyflow.rst,
         rdb.rst, 
+        scripting.rst, 
         kss.rst, 
         others.rst]
