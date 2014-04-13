@@ -156,6 +156,56 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
    # 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
    rev_man.getWorkingVersionData() 
 
+对象的状态
+===========================
+每一个对象存在一组状态，存放在对象的context.stati属性中
+
+modify: 发布
+
+- modify.default	草稿
+- modify.pending	待审
+- modify.archived	发布/存档 (只读)
+- modify.history_default 普通历史版本
+- modify.history_archived 发布的历史版本
+
+visible: 保密
+
+- visible.default	普通
+- visible.private	保密
+
+folder:受控
+
+- folder.default	普通文件夹
+- folder.control	受控文件夹
+
+flowsheet：流程单
+
+- flowsheet.active,	'活动', '流程单正在处理中'
+- flowsheet.pending	暂停
+- flowsheet.abandoned	废弃
+- flowsheet.finished	完成
+
+flowtask: 流程任务
+
+- flowtask.active	活动
+- flowtask.pending	暂停
+- flowtask.abandoned	废弃
+- flowtask.finished	完成
+
+使用状态机IStateMachine，来控制对象状态的变化::
+
+    # 不进行权限检查，直接发布某个文档
+    IStateMachine(context).set_state('modify.archived', do_check=False)
+    # 设置文件夹为受控
+    IStateMachine(context).set_state('folder.control', do_check=False)
+
+其包括的接口有：
+
+- getAllStates()	得到对象的所有状态	
+- getState(prefix) 得到某个的状态	
+- setState(new_state, do_check=True) 设置状态	
+- nextStates(self, prefix) 得到后续状态	
+
 回收站
 ============
 
