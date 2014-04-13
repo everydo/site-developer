@@ -81,6 +81,30 @@ nextStates(self, prefix)
 =========================
 流程里面可以设置阶段，这个阶段也可以使用状态引擎来操作。
 
-每个阶段所对应的状态名为 `stage.stage_name`
+定义阶段
+----------------
+采用json格式来描述阶段::
 
-可以使用IStateMachine接口来调整流程单所处的阶段
+  stages = {"valid": {"title":"需求确认",
+                      "description": "分配的新单",
+                      "on_enter": "" # 进入阶段的触发脚本
+                     }
+            "initial": {"title":"初始"}
+           }
+
+注册一个阶段定义::
+
+   IStageDefinition(root).register('query', package="zopen.sales")
+
+将表单和阶段关联
+------------------------
+将一个表单和阶段定义关联::
+
+   IStageEngine(item).set_stage('query', package="zopen.sales")
+
+调整阶段
+-------------------
+设置某个阶段::
+
+   IStageEngine(item).set_state('stage', 'valid', do_check=False)
+
