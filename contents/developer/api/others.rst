@@ -199,6 +199,8 @@ node_template的例子如下::
 ----------
 renderFilePreview
 
+renderBatch(context, request, batch)
+
 render_sendout_macro
 
 render_sendout_login

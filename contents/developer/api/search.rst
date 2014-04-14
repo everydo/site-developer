@@ -94,7 +94,6 @@ QuerySet常用操作：
 - sum(field) #统计某一个字段的和
 - limit(x) #限制返回结果数 
 - sort(Field) #按字段排序， 可已"+" 或"-"开头 , 以"-"开头时倒序排列
-
 - ``exclude(**expression)`` #排除条件符合条件的结果
 
 合并搜索
@@ -108,42 +107,57 @@ QuerySet常用操作：
 搜索属性集中的属性
 -------------------------
 调用filter或parse方法时，上面的field试用于 内置属性、基础属性和表单属性。
-对于属性集中的字段，则需要增加一个 ``mdset`` 参数来指明属性集的名称。
+对于属性集中的字段，则需要增加一个 ``namespace`` 参数来指明属性集的名称。
 
 下面的例子表示依据档案扩展属性中的档案编号进行检索::
 
-           .anyof(number=['A101', 'C103'], mdset="archive")
+   .anyof(number=['A101', 'C103'], mdset="archive")
+   .anyof(number=['A101', 'C103'], mdset="archive")
 
-嵌套字段
+多行表格字段
 --------------------------------
-表单和属性中，存在一种动态表格字段, 可以嵌套一个子表格, 系统也能够搜索子表格中的字段.
+多行表格值 ``review_table`` 类似如下::
+
+    [{'title':'aa', 'dept':['groups.121', 'groups.32']}, 
+     {'title':'bb', 'dept':['groups.3212', 'groups.3212']}]
 
 搜索表单中的动态表格reviewer_table中的dept字段::
 
-           anyof(dept=['A101', 'C103'], parent="review_table", )
+   anyof(dept=['groups.1213', ], parent="review_table", )
 
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
-           anyof(dept=['A101', 'C103'], parent="review_table", mdset="archive")
+   anyof(dept=['groups.1213', ], parent="review_table", mdset="archive")
 
-分用户存储的字段
+dict字段
 ------------------------------
-有些数据，是分用户存储的，比如投票字段、评审意见字段等。
+存储(dict)示例如下::
 
-这种字段的数据搜索，也是采用类似表格字段, 内置 ``_user`` 和 ``_value`` 这2个子字段.
+    {'panjy':'good', 'li':'well', 'dd':'asdfa'}
+
+这种字段的数据搜索，也是采用类似表格字段, 内置 ``key`` 和 ``value`` 这2个子字段::
+
+   [{'key':'panjy', 'value':'good'},
+    {'key':'li', 'value':'well'},
+    {'key':'dd', 'value':'asdfa'}]
 
 搜索表单中的reviewer_reviewcomment字段::
 
-           anyof(_user=['users.pan', 'users.zhang'], parent="review_comment")
-           parse(_value='同意', parent="review_comment")
+   anyof(key=['users.pan', 'users.zhang'], parent="review_comment")
+   parse(key='同意', parent="review_comment")
 
 搜索属性集archive中的reviewer_comment字段::
 
-           anyof(_user=['A101', 'C103'], parent="review_comment", mdset="archive")
-           parse(_value='同意', parent="review_comment", collection="archive")
+   anyof(key=['A101', 'C103'], parent="review_comment", mdset="archive")
+   parse(value='同意', parent="review_comment", mdset="archive")
 
-跨字段全文搜索
------------------------
+全文搜索parse
+------------------
+默认所有字符串类型的字段，都支持全文搜索。
+
+但是多值类型(list/tuple)中的字符串，不支持全文搜索，只能完全匹配:: 
+
+   ('asd asd', 'fas', 'ssas')
 
 如果搜索所有字段，可简单搜索::
 
@@ -184,14 +198,3 @@ TODO
 
   batch_html = renderBatch(context, request, batch)
 
-搜索结果集的slice操作注意
------------------------------------
-搜索结果results，如果直接使用slice操作，比如::
-
- results[:5]
- results[0]
-
-需要判断每个对象是否为空, 因为有可能索引存在，但是对象不存在.
-
-但是for 循环则不会有问题，因为内部已经过滤掉了
- 
