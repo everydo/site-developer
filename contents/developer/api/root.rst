@@ -52,6 +52,7 @@ decription:
               mdsets/
               stages/
         skins/
+           bootstrap
 
 
 站点设置信息
