@@ -3,6 +3,7 @@ description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
         permission.rst, 
         search.rst, 
+        skin.rst,
         rules.rst,
         form.rst, 
         stage.rst, 
