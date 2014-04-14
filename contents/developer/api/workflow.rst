@@ -275,7 +275,7 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 
 在表单所在容器中和流程绑定::
 
-   IMetadata(collection).set_etc('children_workflow', ('zopen.sales:query', ))
+   IMetadata(collection).set_setting('children_workflow', ('zopen.sales:query', ))
 
 然后启动一个流程::
 

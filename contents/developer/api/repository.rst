@@ -214,10 +214,10 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 
 设置属性集
 -----------------
-设置信息是一个名字叫 ``_etc`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
+设置信息是一个名字叫 ``_setting`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
-   IMetadata(collection).etc_get('children_workflow')
-   IMetadata(collection).etc_set('children_workflow', ('zopen.sales:query', ))
+   IMetadata(collection).get_setting('children_workflow')
+   IMetadata(collection).set_setting('children_workflow', ('zopen.sales:query', ))
 
 属性的快捷访问
 ---------------------------

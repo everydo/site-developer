@@ -30,7 +30,7 @@ description: 用户自定义的状态
 =========================
 在容器里面设置阶段定义::
 
-   IMetadata(collection).set_etc('childern_stage', ('zopen.sales:query',))
+   IMetadata(collection).set_setting('childern_stage', ('zopen.sales:query',))
 
 调整阶段
 =========================
