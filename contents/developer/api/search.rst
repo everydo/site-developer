@@ -13,13 +13,8 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 对象的索引
 ============================================
 
-有多少种索引，就能从多少角度搜索：
-
-对象内置属性的索引
--------------------------------
-系统自动维护的索引
-
-可直接按照下列字段进行搜索
+有多少种索引，就能从多少角度搜索。
+对象的所有属性和属性集都进入索引，另外还包括一组内置的、自动维护的属性:
 
 - stati: 状态
 - path, 路径，值是父对象intid的集合
@@ -31,49 +26,21 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - disallowed_principals:  禁止的人
 - object_provides: 内容提供的接口
 
-  不同类型的内容，提供不同的接口：
+其中object_provides表示对象是什么，取值为:
 
-  - 文件： File 
-  - 快捷方式：ShortCut 
-  - 文件夹：Folder
-  - 表单：Item
-  - 表单容器：Collection
-  - 容器: Container
+- 文件： File 
 
-  文件的小写后缀(如：doc, docx, txt, json, png)
+  如果是文件，文件的小写后缀也会进入这个索引，如：doc, docx, txt, json, png
+
+- 快捷方式：ShortCut 
+- 文件夹：Folder
+- 表单：Item
+- 表单容器：Collection
+- 容器: Container
+- 流程任务: Task
 
 
-对象的基础属性
--------------------------------
-
-- title
-- description
-- created
-- modified
-- identifire
-- subjects
-- creators
-- contributors
-- expires
-- effective
-
-表单中的属性
--------------------------------
-这个根据表单定义而定，所有字段都将进入索引，常见的有：
-
-- 'responsibles':SetIndex,#负责人
-- 'start':ValueIndex,# 开始时间
-- 'end':ValueIndex, # 结束时间
-- 'amount':ValueIndex, #总量
-- 'reviewer':SetIndex, #检查人
-
-属性集中的元数据
--------------------------------
-所有属性集里面的字段都将进入索引，比如：
-
-- archive.title
-
-建立索引
+索引维护
 ===============
 
 系统不会自动建立和更新索引。IObjectIndexer：对象索引接口，用于修改后重建索引
@@ -153,7 +120,7 @@ QuerySet常用操作：
 
 搜索表单中的动态表格reviewer_table中的dept字段::
 
-           anyof(dept=['A101', 'C103'], parent="review_table")
+           anyof(dept=['A101', 'C103'], parent="review_table", )
 
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 

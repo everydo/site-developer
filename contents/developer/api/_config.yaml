@@ -1,12 +1,12 @@
 title: 开发接口
 description: 系统的介绍平台提供的开发接口
 order: [repository.rst, 
+        stage.rst, 
         permission.rst, 
         search.rst, 
         skin.rst,
         rules.rst,
         form.rst, 
-        stage.rst, 
         workflow.rst,
         package.rst,
 

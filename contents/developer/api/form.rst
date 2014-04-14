@@ -75,23 +75,22 @@ description: 对象可以自定义一组属性，通过表单来更新属性
 可以将表单定义，注册保存到系统::
 
   # 注册为一个表单
-  IFormDefinition(root).register_form(name, package, form_def, title, layout, table_columns, on_update)
+  form_reg = root.get_form_registry()
+  form_reg.register(name, package, form_def, title, layout, table_columns, on_update)
+  form_def = form_reg.get('inquery')
+  form_def = form_reg.get('inquery', package="zopen.sales")
+
   # 注册为表单设置项
-  IFormDefinition(root).register_setting(name, package, form_def, title, layout, on_update)
+  settings_reg = root.get_settings_registry()
+  settings_reg.register(name, package, form_def, title, layout, on_update)
+  form_def = settings_reg.get('inquery')
+  form_def = settings_reg.get('inquery', package='zopen.sales')
+
   # 注册为软件包的一个属性集
-  IFormDefinition(root).register_mdset(name, package, form_def, title, layout, on_update)
-
-也可以获取表单信息::
-
-  # 软件包中的表单定义
-  form_def = IFormDefinition(root).get_form('inquery')
-  form_def = IFormDefinition(root).get_form('inquery', package="zopen.sales")
-  # 软件包中的表单定义设置
-  form_def = IFormDefinition(root).get_setting('inquery')
-  form_def = IFormDefinitionroot).get_setting('inquery', package='zopen.sales')
-  # 软件包中的属性定义
-  form_def = IFormDefinition(root).get_mdset('default')
-  form_def = IFormDefinition(root).get_mdset('default', package='zopen.sales')
+  mdset_reg = root.get_mdset_registry()
+  mdset_reg.register_mdset(name, package, form_def, title, layout, on_update)
+  form_def = mdset_reg.get_mdset('default')
+  form_def = mdset_reg.get_mdset('default', package='zopen.sales')
 
 on_update 表单保存触发
 --------------------------------

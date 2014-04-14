@@ -132,7 +132,7 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 可叠加内容的名字、以及包含该内容的所有容器的名字，形成对象路径，用于定位一个内容::
 
    root.object_path(file_c) # 返回: '/files/folder_a/folder_b/file_c'
-   root.locate_by_path('/files/folder_a/folder_b/file_c')
+   root.object_by_path('/files/folder_a/folder_b/file_c')
 
 数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
 
@@ -140,82 +140,9 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 ----------------
 系统的所有对象，创建后均会注册一个永久的整数，无论以后对象是否移动或者改名，都不会改变::
 
-  int_id = root.object_uid(obj)
-  root.locate_by_uid(int_id)  # 通过uid找到对象
-
-版本管理
-==================
-
-文件File、数据项Item支持版本管理，可以保存多个版本::
-
-   rev_man = IRevisionManager(obj)
-   rev_man.save(comment='', metadata={}) #存为一个新版本
-   rev_man.retrieve(selector=None, preserve=()): 获得某一个版本
-   rev_man.get_history(preserve=()): 得到版本历史清单信息
-   rev_man.remove(selector, comment="", metadata={}, countPurged=True) #删除某个版本 
-   # 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
-   rev_man.getWorkingVersionData() 
-
-对象的状态
-===========================
-每一个对象存在一组状态，存放在对象的context.stati属性中
-
-modify: 发布
-
-- modify.default	草稿
-- modify.pending	待审
-- modify.archived	发布/存档 (只读)
-- modify.history_default 普通历史版本
-- modify.history_archived 发布的历史版本
-
-visible: 保密
-
-- visible.default	普通
-- visible.private	保密
-
-folder:受控
-
-- folder.default	普通文件夹
-- folder.control	受控文件夹
-
-flowsheet：流程单
-
-- flowsheet.active,	'活动', '流程单正在处理中'
-- flowsheet.pending	暂停
-- flowsheet.abandoned	废弃
-- flowsheet.finished	完成
-
-flowtask: 流程任务
-
-- flowtask.active	活动
-- flowtask.pending	暂停
-- flowtask.abandoned	废弃
-- flowtask.finished	完成
-
-使用状态机IStateMachine，来控制对象状态的变化::
-
-    # 不进行权限检查，直接发布某个文档
-    IStateMachine(context).set_state('modify.archived', do_check=False)
-    # 设置文件夹为受控
-    IStateMachine(context).set_state('folder.control', do_check=False)
-
-其包括的接口有：
-
-- getAllStates()	得到对象的所有状态	
-- getState(prefix) 得到某个的状态	
-- setState(new_state, do_check=True) 设置状态	
-- nextStates(self, prefix) 得到后续状态	
-
-回收站
-============
-
-系统所有内容，删除之后，都将进入回收站。
-
-一旦进入回收站，系统会定期对回收站的内容进行清理。删除历史已久的回收站内容::
-
- # 查看回收站的内容
- # 从回收站收回一个对象
- # 从回收站里面永久删除
+  intids = root.get_intid_register() # 唯一标示注册表
+  int_id = intids.get_id(obj)
+  obj = intids.get_object(int_id)  # 通过int_id找到对象
 
 对象属性
 ==============================================
@@ -289,14 +216,33 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 -----------------
 设置信息是一个名字叫 ``_etc`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
-   IMetadata(collection).get_etc('children_workflow')
-   IMetadata(collection).set_etc('children_workflow', ('zopen.sales:query', ))
+   IMetadata(collection).etc_get('children_workflow')
+   IMetadata(collection).etc_set('children_workflow', ('zopen.sales:query', ))
 
 属性的快捷访问
 ---------------------------
 如果obj表单，那更简单的写法是::
 
     obj['title']
+
+属性值
+------------------
+基础的属性值类型包括:
+
+- 字符串: 全文索引
+- 整数: 数值索引
+- 浮点数: 数值索引
+- 日期：日期索引
+
+系统自动根据属性值的类型，来做索引.
+
+- 多值类型(list/tuple/set): 
+
+  根据包含值的类型做索引。如果是字符串，则做全匹配索引, 非全文索引
+
+- 分用户存储(dict)
+
+- 嵌套表( [{'':, '':}] )
 
 关系
 ================
@@ -369,23 +315,74 @@ IMetadata统一和取代了已经过时的IExtendedMetatada, IFieldStorage和ISe
 站点设置信息
 =============
 
-使用 `ISiteInfo` 来读取和设置::
+得到某个运营选项参数::
 
-    get_operation(option_name=None, default=None)
+    root.get_operation_option(option_name=None, default=None)
 
-得到某个运营选项参数, 比如::
+option_name可以是如下参数：
 
-    ('sms', '短信数量', '条','item-count','buyamount'),
-    ('apps_packages', '软件包数量', '','int','resource'),
-    ('flow_records', '数据库记录', '条','int','resource'),
-    ('docsdue', '文档使用期限', '月','permonth-time','buyamount'),
-    ('docs_quota', '文件存储限额(M)', '','str','resource'),
-    ('docs_users', '文档许可用户数', '','int','resource'),
+- sms: 短信数量
+- apps_packages: 软件包数量
+- flow_records: 数据库记录
+- docsdue: 文档使用期限
+- docs_quota: 文件存储限额(M)
+- docs_users: 文档许可用户数
+- docs_publish: 文档发布
+- flow_customize: 流程定制
+- apps_scripting: 允许开发软件包
 
-    # 是否企业版判断，必须为True
-    ('docs_publish', "文档发布", '', 'bool', 'function'),
-    # 是否高级企业版判断
-    ('flow_customize', '流程定制', '','bool','function'),
-    # 是否开发版
-    ('apps_scripting', '允许开发软件包', '','bool','function'),
+版本管理
+==================
+
+文件File、数据项Item支持版本管理，可以保存多个版本::
+
+   rev_man = IRevisionManager(obj)
+   rev_man.save(comment='', metadata={}) #存为一个新版本
+   rev_man.retrieve(selector=None, preserve=()): 获得某一个版本
+   rev_man.get_history(preserve=()): 得到版本历史清单信息
+   rev_man.remove(selector, comment="", metadata={}, countPurged=True) #删除某个版本 
+   # 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
+   rev_man.getWorkingVersionData() 
+
+对象的状态
+===========================
+每一个对象存在一组状态，存放在对象的context.stati属性中
+
+modify: 发布
+
+- modify.default	草稿
+- modify.pending	待审
+- modify.archived	发布/存档 (只读)
+- modify.history_default 普通历史版本
+- modify.history_archived 发布的历史版本
+
+visible: 保密
+
+- visible.default	普通
+- visible.private	保密
+
+使用状态机IStateMachine，来控制对象状态的变化::
+
+    # 不进行权限检查，直接发布某个文档
+    IStateMachine(context).set_state('modify.archived', do_check=False)
+    # 设置文件夹为受控
+    IStateMachine(context).set_state('folder.control', do_check=False)
+
+其包括的接口有：
+
+- getAllStates()	得到对象的所有状态	
+- getState(prefix) 得到某个的状态	
+- setState(new_state, do_check=True) 设置状态	
+- nextStates(self, prefix) 得到后续状态	
+
+回收站
+============
+
+系统所有内容，删除之后，都将进入回收站。
+
+一旦进入回收站，系统会定期对回收站的内容进行清理。删除历史已久的回收站内容::
+
+ # 查看回收站的内容
+ # 从回收站收回一个对象
+ # 从回收站里面永久删除
 
