@@ -1,20 +1,24 @@
-title: 开发接口
+title: 应用开发
 description: 系统的介绍平台提供的开发接口
-order: [repository.rst, 
-        stage.rst, 
+order: [overview.rst,
         permission.rst, 
+        repository.rst, 
+        tags.rst,
         search.rst, 
+
+        social.rst, 
+        notification.rst, 
+        log.rst, 
+        team.rst,
+
+        root.rst,
+        stage.rst, 
         skin.rst,
         rules.rst,
         form.rst, 
         workflow.rst,
         package.rst,
 
-        tags.rst,
-        social.rst, 
-        notification.rst, 
-        log.rst, 
-        team.rst,
         orginfo.rst, 
         anyflow.rst,
         rdb.rst, 

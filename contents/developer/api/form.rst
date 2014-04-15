@@ -183,8 +183,6 @@ gen_template生成的模板为handlerbar格式的模板。
    IMetadata(collection).get_setting('children_mdsets') : 表单属性集(list)
    IMetadata(collection).get_setting('children_stage'): 容器的阶段定义(list)
    IMetadata(collection).get_setting('children_workflow'): 容器的工作流定义(list)
-   IMetadata(collection).get_setting('container_setting'): 容器的设置项(list)
-   IMetadata(collection).get_setting('container_mdsets'): 容器的扩展属性(list)
    IMetadata(collection).get_setting('table_columns') : 显示哪些列(list)
 
 我们先看看一个个性化定制表单的使用示例。对于易度外网中的一个客户调查信息表，在完成表单和流程定制部署后，可创建如下的Python脚本，部署到外网用于收集客户资料::

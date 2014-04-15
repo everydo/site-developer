@@ -1,5 +1,5 @@
 ---
-title: 根站点
+title: 站点
 decription:
 ---
 
@@ -8,6 +8,57 @@ decription:
 =============
 
 根站点下包括一组系统的自定义信息，比如表单、流程、规则等.
+
+容器 Container
+--------------------
+只有在容器里面，才能部署其他的应用。网站根就是一个容器，下面的方法得到网站根::
+
+  root = get_root()
+
+容器里可以存放 表单容器、文件夹和子容器::
+
+  folder = container.deploy_folder(name, metadata={'title':'a folder',}, **mdsets)
+  collection = container.deploy_collection(name, metadata={'title':'a collcetion'}, **mdsets)
+  sub_container = container.deploy_container(name, metadata={'title':'a sub container'}, **mdsets)
+
+其中:
+
+- metadata: 新部署应用的元数据
+- mdsets: 新部署应用的一组属性集
+
+文件夹 Folder
+----------------
+文件夹用来存放文件和文件的快捷方式，文件夹还能存放子文件夹::
+
+  sub_folder = folder.add_folder(name, metadata={}, **mdsets)
+  shortcut = folder.add_shortcut(obj, version_id='', metadata={}, **mdsets)
+  new_file = folder.add_file(name, data='', content_type='', metadata={}, **mdsets)
+
+文件 File
+-------------
+文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
+
+  my_file.get_data()
+  my_file.set_data(data)
+  my_file.get_content_type()
+
+快捷方式 ShortCut
+---------------------
+快捷方式可以指向其他的文件或者文件夹，不能包含其他内容::
+
+  shortcut.get_orign()
+  shortcut.reset_version(version_id)
+
+数据集 Collection
+-------------------------
+用于存放表单数据项::
+
+  item = collection.add_item(metadata, **mdsets)
+
+数据项 Item
+--------------
+数据项用来存放结构化的表单数据，是系统的基础内容，不能包含其他内容.
+
 
 功能入口
 ==================

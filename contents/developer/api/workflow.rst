@@ -299,4 +299,3 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 - step_name: 步骤
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
-
