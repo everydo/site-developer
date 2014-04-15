@@ -1,8 +1,8 @@
 title: 应用开发
 description: 系统的介绍平台提供的开发接口
 order: [overview.rst,
-        permission.rst, 
         repository.rst, 
+        permission.rst, 
         tags.rst,
         search.rst, 
 
