@@ -1,5 +1,5 @@
 title: 易度开发者中心
-order: [index.rst, tour, open, app, blog]
+order: [index.rst, tour, api, app, blog]
 exclude: [img, cert]
 theme_base: /themes/developer-bootstrap
 theme: default.html
