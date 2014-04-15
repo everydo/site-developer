@@ -3,9 +3,9 @@ description: 系统的介绍平台提供的开发接口
 order: [overview.rst,
         repository.rst, 
         permission.rst, 
-        tags.rst,
         search.rst, 
 
+        tags.rst,
         social.rst, 
         notification.rst, 
         log.rst, 

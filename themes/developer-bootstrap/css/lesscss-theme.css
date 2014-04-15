@@ -6938,12 +6938,6 @@ h3 {
     line-height: 1;
   }
 }
-@media (min-width: 992px) {
-  .docs-header h1,
-  .docs-header p {
-    margin-right: 380px;
-  }
-}
 
 /**
  * Scrollspy and affixed enhanced navigation to highlight sections and secondary
