@@ -14,40 +14,54 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 --------------------------------------
 当前登录用户的基本信息
 
-返回：
-
+返回::
+   
+   {'app_id' : 'workonline',
+    'account' : 'zopen',
+    'vendor'  : 'standalone',
+    'pid'    : 'users.test'
+    }
+   
 
 /api_check_password
 --------------------------------
 检查密码
 
 参数：
-
+- pid
 - password
 
-返回：
+返回::
+  
+  {'pid':'users.test',
+    'status':True}
 
 /api_reset_password
 -----------------------------
 重置密码
 
 参数：
-
 - password
 - new_password
 
-返回：
+返回::
+
+  {'pid':'users.test',
+   'status': True}
 
 /api_enable_dynamic_auth
 ---------------------------
 开启动态认证
 
 参数：
-
-- key
+- secret_key
 - code
 
-返回：
+返回::
+
+   {'pid':'users.test', 
+     'status':True}
+
 
 /api_disable_dynamic_auth
 ------------------------------
@@ -57,14 +71,19 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 
 - code
 
-返回：
+返回::
+
+   {'pid':'users.test', 
+     'status':True}
 
 /api_is_dynamic_auth_enabled
 ----------------------------------
 检查是否开启动态认证
 
-返回：
+返回::
 
+   {'pid':'users.test', 
+     'status':True}
 
 用户管理
 =======================
@@ -75,12 +94,26 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 - pid
 - account
 
+返回::
+
+   {'pid':'users.test', 
+     'status':True}
+  
+
 /api_get_principal_info
 -------------------------------
 得到某个用户的信息
 
 - pid
 - acount
+
+返回::
+
+    #得到实体的基本信息。实体：用户、组(部门、群组、角色)等。
+    if member:
+        return {'id':id, 'title': titlei, 'mobile': mobile, 'email': email, 'parent':parent_id}
+    if ou or group or role:
+        return {'id':id, 'title': title, 'parent':''}
 
 /api_has_user
 ---------------------------
@@ -89,12 +122,26 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 - pid
 - account
 
+返回::
+
+  {'pid':'users.test',
+    'status':True}
+
 /api_list_user_groups
 -----------------------------
 得到用户所属的组
 
 - pid
 - account
+
+返回::
+
+   {'ous':[ou_id, ...],
+            'groups':[group_id, ...],
+            'jobs':[job_id, ...],
+            'roles':[role_id, ...],
+            'licenses':[service_name, ...]
+            }
 
 /api_list_principals_info
 -----------------------------
@@ -123,11 +170,16 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 - send_mail：是否发送通知邮件
 - account
 
+返回::
+
+   {'status':True}
+
 /list_org_structure
 ---------------------------
 得到整个组织结构
 
 - account
+
 
 /list_companies
 -----------------------
@@ -224,3 +276,4 @@ LDAP认证
 - username
 - app_name
 - instance_name
+
