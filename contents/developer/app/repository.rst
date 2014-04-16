@@ -12,305 +12,149 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 
 系统可以存储各种文件、表单等内容，通过各种文件夹、栏目、表单管理器来组织管理。从根本上系统是存放各种内容的仓库。
 
-内容仓库结构
-==================
-所有内容在系统中按照树状的层次结构存储，典型的站点结构如下::
+根站点
+=============
 
-    +- 站点根/
-    |
-    |----+- 栏目/
-    |    |---+- 文件夹1/
-    |    |   |- 文件1
-    |    |   |- 快捷方式
-    |    |   |- 子文件2/
-    |    |
-    |    |---+- 文件夹2/
-    | 	 |   |- ….
-    |
-    |----+- 表单容器/
-    |    |- 表单1
-    |    |- 表单2
+根站点下包括一组系统的自定义信息，比如表单、流程、规则等.
 
-系统中的对象，可简单的抽象为2种对象：
+应用容器 AppContainer
+-----------------------
+只有在应用容器里面，才能部署其他的应用。网站根就是一个应用容器，下面的方法得到网站根::
 
-- 容器类对象Container：如网站根、栏目、文件夹、表单容器
-- 条目类对象Item：如文件、快捷方式、表单
+  app_container = root = get_root()
 
-容器关系
-===============
-网站的根是root，他自身是一个容器，在其下面可以创建容器::
+应用容器里可以存放 表单容器、文件夹和子栏目::
 
-   root['conainer1'] = new Contianer()
-   root['conainer2'] = new Contianer()
+  folder = app_container.deploy_folder(name, metadata={'title':'a folder',}, **mdsets)
+  collection = app_container.deploy_data_container(name, metadata={'title':'a collcetion'}, **mdsets)
+  sub_container = app_container.deploy_section(name, metadata={'title':'a sub container'}, **mdsets)
 
-容器提供类似dict的访问方法::
+其中:
 
-   container1 = root['container1']
-   container2 = root['container2']
-   root.keys()   # ['container1', 'container2']
-   root.values(), root.items()
-   
-站点根下面，一般不直接创建条目，在容器里面可增加条目::
+- metadata: 新部署应用的元数据
+- mdsets: 新部署应用的一组属性集
 
-   container1['item1'] = new Item()
-
-也可再创建子容器::
-
-   container1['sub_container1'] = new Container()
-
-任何对象在容器中有唯一的名字 ``name`` ::
-
-  container1.name   # 'container1'
-  container2.name   # 'container2'
-  container1['item1'].name        # 'item1'
-
-任何对象可得到其所在的容器 ``parent`` ::
-
-  container1.parent  # root
-  item1.parent       # container1
-  sub_container1.parent # container1
-
-删除某个包含的内容::
-
-  del root['container2']  # 整个容器删除
-  del container1['item1']
-
-容器类对象都支持对包含内容进行排序(注意：如果容器包含的内容数量大，为提高性能，可对部分内容进行排序)::
-
-  root.set_order(('container2', 'container1'))
-  container.ordered_keys()  # ('container2', 'container1')
-
-可以使用"IObjectMover"接口，对内容进行移动、改名或者复制::
-
-    IObjectMover(item1).move_to(cotainer1, 'item_1')  # 改名
-    IObjectMover(item1).move_to(cotainer2)   # 移动
-    IObjectMover(sub_container).copy_to(container2, 'new_container') # 复制
-
-标识和定位对象
-======================================
-路径定位
------------------
-可叠加内容的名字、以及包含该内容的所有容器的名字，形成对象路径，用于定位一个内容::
-
-   root.get_object_path(item1) # 返回: '/container2/item_1'
-   root.get_object_by_path('/container2/item_1')  # 返回item1
-
-数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
-
-唯一标识定位
+文件夹 Folder
 ----------------
-系统的所有对象，创建后均会注册一个永久的整数，无论以后对象是否移动或者改名，都不会改变::
+文件夹用来存放文件和文件的快捷方式，文件夹还能存放子文件夹::
 
-  intids = root.get_intid_register() # 唯一标示注册表
-  int_id = intids.get_id(obj)
-  obj = intids.get_object(int_id)  # 通过int_id找到对象
+  sub_folder = folder.add_folder(name, metadata={}, **mdsets)
+  shortcut = folder.add_shortcut(obj, version_id='', metadata={}, **mdsets)
+  new_file = folder.add_file(name, data='', content_type='', metadata={}, **mdsets)
 
-对象属性
-==============================================
-基础属性
---------------------------------------
-系统的所有对象，都包括一组标准的属性，有系统自动维护，或者有特殊的含义。
+文件 File
+-------------
+文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容
 
-对象一旦加入到仓库，通过IMetadata，可以查看其创建人、修改人，创建时间、修改时间::
+快捷方式 ShortCut
+---------------------
+快捷方式可以指向其他的文件或者文件夹，不能包含其他内容::
 
-   IMetadata(item)['creators']
-   IMetadata(item)['contributors']
-   IMetadata(item)['created']
-   IMetadata(item)['modified']
+  shortcut.get_orign()
+  shortcut.reset_version(version_id)
 
-可以存取对象的各种属性，如基础标题、描述、分类，表单字段，以及扩展属性集等::
+数据集 DataContainer
+-------------------------
+用于存放表单数据项::
 
-   IMetadata(item1)['title'] = 'Item 1'
-   IMetadata(item1)['description'] = 'this is a sample item'
-   IMetadata(item1)['subjects'] = ('tag1', 'tag2')
+  item = collection.add_item(metadata, **mdsets)
 
-也可以在创建对象的时候，来初始化这些属性::
+数据项 DataItem
+-------------------
+数据项用来存放结构化的表单数据，是系统的基础内容，不能包含其他内容.
 
-   root['conainer1'] = new Contianer(title='Container 1', 
-                                     description='some desc',
-                                     subjects=('tag1', 'tag2')})
 
-其他的基础属性，还包括::
-
-  IMetadata(obj)['identifier'] 这个也就是文件的编号
-  IMetadata(obj)['expires'] 对象的失效时间
-  IMetadata(obj)['effective'] 对象的生效时间
-
-自定义属性
----------------
-可自由设置属性，对于需要在日历上显示的对象，通常有如下属性::
-
-  IMetadata(obj)['responsibles'] = ('users.panjy', 'users.lei') # 负责人
-  IMetadata(obj)['start'] = datetime.now() # 开始时间 
-  IMetadata(obj)['end'] 结束时间
-
-对于联系人类型的对象，通常可以有如下表单属性::
-
-  IMetadata(obj)['email'] = 'panjy@foobar.com' #邮件
-  IMetadata(obj)['mobile'] = '232121' 手机
-
-经费相关的属性::
-
-  IMetadata(obj)['amount'] = 211
-
-地理相关的属性::
-
-  IMetadata(obj)['longitude'] = 123123.12312 #经度
-  IMetadata(obj)['latitude'] = 12312.12312 # 纬度
-
-属性集
----------------
-为了避免命名冲突，更好的分类组织属性，系统使用属性集(mdset: metadata set)，来扩展一组属性.
-
-创建一个属性集::
-
-  IMetadata(obj).new_mdset('archive')
-
-设置一个新的属性集内容::
-
-  IMetadata(obj).set_mdset('archive', {'number':'DE33212', 'copy':33})
-  
-活动属性集的内的属性值的存取::
-
-  IMetadata(obj).get_mdset('archive')['number']
-  IMetadata(obj).get_mdset('archive')['number'] = 'DD222'
-
-也可以批量更改属性值::
-
-  IMetadata(obj).update_mdset('archive', {'copy':34, 'number':'ES33'})
-
-删除属性集::
-
-  IMetadata(obj).remove_mdset('archive')
-
-查看对象所有属性集::
-
-  IMetadata(obj).list_mdsets()  # 返回： [archive, ]
-
-得到其中的一个字段值::
-
-  IMetadata(obj).get_mdset('archive')['archive_number']
-
-设置信息
------------
-设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
-
-   IMetadata(collection).get_setting('children_workflow')
-   IMetadata(collection).set_setting('children_workflow', ('zopen.sales:query', ))
-
-数据内容
-===================
-对于条目类型，可以存放非结构化的数据，也就是文件::
-
-  my_file.set_data('this is long long text')
-  my_file.content_type = 'text/plain'
-
-当然可以得到这些信息:
-
-  my_file.get_data()
-  my_file.get_size()
-
-对象类型
-=================
-可以查看对象的类型::
-
-  item.object_type  
-
-在系统中，目前 ``object_type`` 可以是：
-
-- 文件： File 
-- 快捷方式：ShortCut 
-- 文件夹：Folder
-- 表单项：Item
-- 表单容器：Collection
-- 容器: Container
-- 流程任务: Task
-
-对于表单和表单容器，系统可以自定义表单，这些信息存放在设置属性集中::
-
-    item.schema_name      # 表单字段的定义(list)
-    container.schema_name # 容器设置的定义(list)
-
-关系
+权限控制
 ================
 
-每一个对象都可以和其他的对象建立各种关系。
+系统中可以直接修改权限来进行权限管理，也可以通过修改角色来进行权限管理。
 
-系统内置关系类型
------------------------
+权限和角色的操作都通过IGrantManager接口进行。
 
-- children:比如任务的分解，计划的分解
-- attachment：这个主要用于文件的附件
-- related :一般关联，比如工作日志和任务之间的关联，文件关联等
-- comment_attachment：评注中的附件，和被评注对象之间的关联
-- favorit:内容与收藏之间的关联
-- "shortcut" 快捷方式
+授权
+--------------
+通过IGrantManager来管理角色
 
-接口API：IRelations
------------------------------------
+在obj对象上，授予用户某个角色::
 
-- add(type, obj， metadata={})
+  IGrantManager(obj).grantRole(role_id,user_id)
 
-  添加对obj的type类型关系 
+同上，禁止角色::
 
-  -   type:关系类型 
-  -   obj：被关联对象
-  -   metadata：这条关系的元数据
- 
-- remove(type, obj):删除对obj的type类型关系
+  IGrantManager(obj).denyRole(role_id,user_id)
 
-  -   type:关系类型 
-  -   obj：被关联对象
+同上，取消角色::
 
-- set_target_metadata(type, obj, metadata):设置某条关系的元数据
+  IGrantManager(obj).unsetRole(role_id,user_id)
 
-- get_target_metadata(type, obj, metadata):得到某条关系的元数据
- 
-- list_sources(type):列出所有该类型的被关联对象
-     type:关系类型 
+系统支持如下角色，角色ID为字符串类型，下文中角色ID将用role_id来代替。
 
-- has_target(type):是否有该类型的关联对象
+- 'zopen.PrivateReader' 保密查看人
+- 'zopen.Manager' 管理员
+- 'zopen.Editor' 编辑人
+- 'zopen.Owner' 拥有者
+- 'zopen.Collaborator' 添加人
+- 'zopen.Creator': 文件夹创建人
+- 'zopen.ContainerCreator': 子栏目/容器创建人
+- 'zopen.Responsible' 负责人
+- 'zopen.Subscriber' 订阅人
+- 'zopen.PrivateReader' 超级查看人
+- 'zopen.PrivateReader4' 仅仅文件授权的时候用，不随保密变化
+- 'zopen.PrivateReader3' 仅仅文件授权的时候用，不随保密变化
+- 'zopen.PrivateReader2' 仅仅文件授权的时候用，不随保密变化
+- 'zopen.PrivateReader1' 仅仅文件授权的时候用，不随保密变化
+- 'zopen.Reader5'
+- 'zopen.Reader4'
+- 'zopen.Reader3'
+- 'zopen.Reader2'
+- 'zopen.Reader1'
+- 'zopen.Accessor' 访问者
 
-- has_source(type): 是否有该类型的被关联对象
+检查权限
+-------------
+检查当前用户对某对象是否有某种权限，可使用checkPermission方法::
 
-- list_targets(type):列出所有该类型的关联对象
-     type:关系类型 
- 
-- set_targets(type, target_list):
+  checkPermission(permission_id, obj)
 
-- clean():清除该对象的所有关系
+如果有该权限即返回True，反之返回False
+
+系统中常用权限，权限ID为字符串类型，下文中权限ID将用permisson_id来代替。
+
+- 'zope.Public'：公开，任何人都可以访问
+- 'zope.ManageContent'：管理
+- 'zope.View'：查看的权限
+- 'zopen.Access'：容器/栏目访问的权限
+- 'zopen.Edit'：编辑的权限
+- 'zopen.Add'：添加文件、流程单
+- 'zopen.AddFolder': 添加文件夹
+- 'zopen.AddContainer': 添加容器(子栏目)
+- 'zopen.Logined': 是否登录
+
+'zopen.Access'和'zope.View'的区别，需要进入文件夹(zopen.Access)，但是不希望查看文件夹包含的文档(zope.View)。
+
+读取权限
+------------
+根据角色来获取obj对象上拥有该角色的用户ID::
+
+  IGrantManager(obj).getContextPrincipalsForRole(role_id)
+
+得到上层以及全局的授权信息::
+
+  IGrantManager(obj).getInheritedPrincipalsForRole(role_id)
+
+得到最近一组拥有角色的用户ID::
+
+  IGrantManager(obj).getNearestPrincipalsForRole(role_id)
+
+得到某个用户在obj上的所有角色::
+
+  IGrantManager(obj).getContextRolesForPrincipal(user_id)
+
+得到某个用户在上层继承的角色::
+
+  IGrantManager(obj).getInheritedRolesForPrincipal(user_id)
 
 
-使用示例
-----------------------
-将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
-  
-  IRelation(doc1).add('attachment', doc2) 
-
-删除上面设置的那条关系::
-
-  IRelation(doc1).remove('attachment', doc2) 
-
-设置关系的元数据（关系不存在不会建立该关系）::
-
-  IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) 
-
-得到关系的元数据（关系不存在返回None）::
-
-  IRelations(doc1).get_target_metadata('attachment', doc2) 
-
-版本管理
-==================
-
-文件File、数据项Item支持版本管理，可以保存多个版本::
-
-   rev_man = IRevisionManager(obj)
-   rev_man.save(comment='', metadata={}) #存为一个新版本
-   rev_man.retrieve(selector=None, preserve=()): 获得某一个版本
-   rev_man.get_history(preserve=()): 得到版本历史清单信息
-   rev_man.remove(selector, comment="", metadata={}, countPurged=True) #删除某个版本 
-   # 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
-   rev_man.getWorkingVersionData() 
 
 对象的状态
 ===========================
@@ -343,14 +187,118 @@ visible: 保密
 - setState(new_state, do_check=True) 设置状态	
 - nextStates(self, prefix) 得到后续状态	
 
-回收站
+标签组
 ============
 
-系统所有内容，删除之后，都将进入回收站。
+标签组实现了多维度、多层次、可管理的分类管理。
 
-一旦进入回收站，系统会定期对回收站的内容进行清理。删除历史已久的回收站内容::
+标签设置
+---------------
+另外，使用IFaceTagSetting可进行标签设置的管理：
 
- # 查看回收站的内容
- # 从回收站收回一个对象
- # 从回收站里面永久删除
+- getFaceTagText(): 得到face tag 文字
+- setFaceTagText(text): 
+  设置face tag文字，会自动转换的, 典型如下::
 
+   按产品
+   -wps
+   -游戏
+   -天下
+   -传奇
+   -毒霸
+   按部门
+   -研发
+   -市场
+
+- getFaceTagSetting(): 得到全部的face tag setting::
+
+   [(按产品, (wps, (游戏, (天下, 传奇)), 毒霸)),
+    (按部门, (研发, 市场))]
+
+- check_required(tags): 返回遗漏的标签分组list
+
+标签维护
+-------------
+如果要添加一个标签:
+
+ITagsManager(sheet).addTag('完成')
+
+希望同时去除这个标签组中的所在维度其他的标签， 比如"处理中"这样的状态，因为二者不能同存:
+
+ITagsanager(sheet).addTag('完成', exclude=True)
+
+这里使用ITagManager进行标签管理。完整接口为
+
+- listTags(): 得到全部Tags
+- setTags(tags): 更新Tags
+- addTag(tag, exclude=False):
+  添加一个Tag, 如果exclude，则添加的时候， 把FaceTag的同一类的其他标签删除
+- delTag(tag): 删除指定Tag
+- canEdit(): 是否可以编辑
+
+站点对象
+==================
+
+存放数据
+--------------
+::
+
+ /  根站点
+    _etc/
+        rules/
+        packages/
+           zopen.default/
+           zopen.sales/
+              forms/
+              mdsets/
+              stages/
+        skins/
+           bootstrap
+
+服务入口
+---------
+全部兑现唯一标示::
+
+  root.get_intid_register() # 唯一标示注册表
+
+表单定义::
+
+  root.get_form_registry()
+  root.get_settings_registry()
+  root.get_mdset_registry()
+
+规则定义::
+
+  root.get_rule_registry()
+
+皮肤定义::
+
+  root.get_skin_registry()
+
+流程定义::
+
+  root.get_workflow_registry()
+
+软件包管理::
+
+  root.get_package_registry()
+
+
+站点设置信息
+----------------
+
+得到某个运营选项参数::
+
+    root.get_operation_option(option_name=None, default=None)
+
+option_name可以是如下参数：
+
+- sms: 短信数量
+- apps_packages: 软件包数量
+- flow_records: 数据库记录
+- docsdue: 文档使用期限
+- docs_quota: 文件存储限额(M)
+- docs_users: 文档许可用户数
+- docs_publish: 文档发布
+- flow_customize: 流程定制
+- apps_scripting: 允许开发软件包

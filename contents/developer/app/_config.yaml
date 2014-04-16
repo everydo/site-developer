@@ -1,17 +1,15 @@
 title: 应用开发
 description: 系统的介绍平台提供的开发接口
 order: [overview.rst,
-        repository.rst, 
-        permission.rst, 
+        storage.rst, 
         search.rst, 
+        repository.rst, 
 
-        tags.rst,
         social.rst, 
         notification.rst, 
         log.rst, 
         team.rst,
 
-        root.rst,
         stage.rst, 
         skin.rst,
         rules.rst,
@@ -19,9 +17,9 @@ order: [overview.rst,
         workflow.rst,
         package.rst,
 
+        rdb.rst, 
         orginfo.rst, 
         anyflow.rst,
-        rdb.rst, 
         scripting.rst, 
         kss.rst, 
         others.rst]
