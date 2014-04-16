@@ -214,9 +214,9 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 =================
 可以查看对象的类型::
 
-  item.meta_type  
+  item.object_type  
 
-在系统中，目前meta_type可以是：
+在系统中，目前 ``object_type`` 可以是：
 
 - 文件： File 
 - 快捷方式：ShortCut 

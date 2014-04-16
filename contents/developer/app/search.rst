@@ -22,7 +22,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - content_type:   全文的内容类型，对于无法知道的内容类型，以 ``application/x-ext-{ext}`` 来替代
 - form_name : 自定义表单的定义名
 - mdsets: 全部属性集名
-- meta_type: 是什么类型的对象
+- object_type: 是什么类型的对象
 
   - 文件： File 
   - 快捷方式：ShortCut 
