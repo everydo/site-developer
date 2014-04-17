@@ -92,11 +92,11 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 移动复制
 ----------
-可以使用"IObjectMover"接口，对内容进行移动、改名或者复制::
+可以对内容进行移动、改名或者复制::
 
-    IObjectMover(item1).move_to(cotainer1, 'item_1')  # 改名
-    IObjectMover(item1).move_to(cotainer2)   # 移动
-    IObjectMover(sub_container).copy_to(container2, 'new_container') # 复制
+    item1.move_to(cotainer1, 'item_1')  # 改名
+    item1.move_to(cotainer2)   # 移动
+    sub_container.copy_to(container2, 'new_container') # 复制
 
 标识和定位对象
 ======================================

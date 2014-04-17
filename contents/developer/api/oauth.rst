@@ -193,3 +193,14 @@ access_token: 获取授权过的Access Token
 
 
 
+/api_get_token_info
+--------------------------------------
+当前登录用户的基本信息
+
+返回::
+   
+   {'app_id' : 'workonline',
+    'account' : 'zopen',
+    'pid'    : 'users.test'
+    }
+
