@@ -7,32 +7,49 @@ description: 管理用户的许可
 许可管理
 ============
 
-/list_instances
------------------------
-得到全部的站点
-
-- account
+许可策略
+===================
 
 /set_license_policy
 ----------------------------
+
+- instance
+- policy
+
 设置某个实例的许可策略：
 
 - 手工控制: 没有分配许可的人，不得加入
 - 自由加入: 初次访问可以自由加入，直至许可满员。这个策略可以减少许可管理的复杂度
 
-/set_allowed_services
------------------------------
-- pid
-- app_name
-- instance_name
-- services
-- account
+/get_instance_policy
+-------------------------------
+得到示例的许可策略
 
-/get_allowed_services
+
+分配许可
+==============
+
+/list_allowed_instances
 -----------------------------
+得到分配的许可站点(oc的管理员可以查看所有的，每个人只能查看自己的)：
+
 - account
 - username
+
+返回::
+
+   [
+     {  account:,
+        application:,
+        instance:
+        role: []
+   ]
+
+/set_allowed_instances
+-----------------------------
+- account
 - app_name
 - instance_name
-- 'roles':[role_id, ...],
+- pids
+- roles:   [role_id, ...],
 
