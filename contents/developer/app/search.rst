@@ -32,26 +32,27 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 - object_type: 是什么类型的对象
 
-  - 文件： File 
-  - 快捷方式：ShortCut 
-  - 文件夹：Folder
-  - 表单：Item
-  - 表单容器：Collection
-  - 容器: Container
-  - 流程任务: Task
+  - 文件： file
+  - 快捷方式：shortcut, fileshortcut, foldershortcut
+  - 文件夹：folder
+  - 表单：dataitem, item
+  - 表单容器：datacontainer, container
+  - 应用容器: appcontainer, container
+  - 流程任务: task
 
-- relation:
+- relations, 存放一个 name, ids 的嵌套表格::
 
-   {'group':['a', '']}
-   {'children':[]}
-   {'parent':[]}
-   {'relate':[]}
+      [{'group': [, ]}
+       {'children': []}
+       {'parent': []}
+       {'relate': []}
+       {'reference':[]}  :   关联的文件，表单里面字段引用出来的
+      ]
 
 下面的几个索引，是计算出来，方便快速搜索：
 
 - path: 路径，值是所有父对象intid的集合
 - file_content:     文件内包含的文本文件，用于全文搜索 
-- references:   关联的文件
 - allowed_principals:     授权的人
 - disallowed_principals:  禁止的人
 
