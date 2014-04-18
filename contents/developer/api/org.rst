@@ -153,9 +153,7 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 
 返回::
 
-  [{'id':id, 'title': titlei, 'mobile': mobile, 'email': email, 'parent':parent_id},
-  {'id':id, 'title': titlei, 'mobile': mobile, 'email': email, 'parent':parent_id},
-   {'id':id, 'title': titlei, 'mobile': mobile, 'email': email, 'parent':parent_id}]
+  [['users.admin', 'groups.jobs.29328', 'users.tests']]
    
 
 
