@@ -34,5 +34,5 @@ description: 管理用户的许可
 - username
 - app_name
 - instance_name
+- services:['docs', 'project']
 - 'roles':[role_id, ...],
-
