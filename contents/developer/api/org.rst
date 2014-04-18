@@ -82,8 +82,8 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 参照标准内容搜索接口
 
 - parent: 
-- scope: this / onelevel / sub
-- object_type:  company/ou/group/person
+- scope: base/onelevel/subtree
+- object_type:  ou/group/person
 
 返回::
 
