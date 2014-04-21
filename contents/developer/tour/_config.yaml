@@ -1,4 +1,4 @@
-title: 开发教程
-description: 一组快速入门的开发教程
+title: 平台介绍 
+description: 总体介绍平台，了解功能、开发方式
 order: [custom.rst, pkg.rst, hello.rst, lightweight.rst, dingcan, faq.rst, python.rst, zpt.rst]
 exclude: [img, pic]

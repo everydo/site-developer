@@ -45,8 +45,20 @@ description: 管理用户的许可
         role: []
    ]
 
+如果是自由许可，而且购买无限制版本，则所有用户拥有该实例的许可
+
 /set_allowed_instances
 -----------------------------
+- account
+- app_name
+- instance_name
+- pids
+- roles:   [role_id, ...],
+
+/request_instance_licence
+-----------------------------
+如果站点设置自由加入，而且许可未满，则可以获得许可
+
 - account
 - app_name
 - instance_name

@@ -1,5 +1,5 @@
 title: Easydo - 企业应用快速开发平台
-order: [index.rst, tour, api, app, blog]
+order: [index.rst, frontend, api, backend, blog]
 exclude: [img, cert]
 theme_base: /themes/developer-bootstrap
 theme: default.html
