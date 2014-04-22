@@ -33,12 +33,15 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - object_type: 是什么类型的对象
 
   - 文件： file
-  - 快捷方式：shortcut, fileshortcut, foldershortcut
+  - 快捷方式：fileshortcut, foldershortcut
   - 文件夹：folder
-  - 表单：dataitem, item
-  - 表单容器：datacontainer, container
-  - 应用容器: appcontainer, container
+  - 表单：dataitem 
+  - 表单容器：datacontainer
+  - 应用容器: appcontainer
   - 流程任务: task
+
+  - 容器：container
+  - 条目：item
 
 - relations, 存放一个 name, ids 的嵌套表格::
 
