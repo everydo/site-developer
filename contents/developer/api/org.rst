@@ -58,7 +58,8 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 得到一组对象的详细信息
 
 参数 ::
-{'account': 'zopen', 'pid': ['person:admin', 'ou:default']}
+
+  {'account': 'zopen', 'pid': ['person:admin', 'ou:default']}
 
 
 返回::
@@ -96,29 +97,52 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 搜索某个部门之下的某种对象
 
 - account:
-- ou: 
-- scope: base/onelevel/subtree
+- parent: 
+- scope: onelevel/subtree
 - object_type:  ou/group/person
-- term: 搜索词
+- keywork: 搜索词
 
-返回结果::
+参数 ::
 
-  {count: 60,
-   results: [{'id':,'title':, 'object_type':},...],
-  },
+   {'account': 'zopen', 'parent':'default', 'keywork':'', 'object_type':[], 'scope':'subtree'}
+   
+返回::
+   
+   {u'count': 10,
+    u'result': [{u'disable': False,
+              u'email': u'test@zopen.cn',
+              u'id': u'admin',
+              u'mobile': None,
+              u'number': 9223372036854775807,
+              u'object_type': u'person',
+              u'parent': u'default',
+              u'phone': u'123445566',
+              u'title': u'admin',
+              u'xmpp_username': u'admin#zopen@127.0.0.1'}
+              ]
+              }
+
 
 /api/list_user_groups
 --------------------------------
 得到用户所属的组，包括所有的上级部门
 
-- pid
-- account
+参数 ::
+
+   {'account': 'zopen', 'user_id': 'tests'}
 
 返回::
 
-  {'ous':[ou_id, ...],  # 部门
-   'groups':[group_id, ...],  # 组
-  }
+  {u'groups': [u'524263',
+             u'580381',
+             u'952627',
+             u'343263'],
+ u'ous': [u'458996',
+          u'789189',
+          u'593469',
+          ]
+          }
+
 
 用户和组织结构维护
 ==============================
