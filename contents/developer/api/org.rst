@@ -63,20 +63,20 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 
 返回::
 
-[{u'disable': False,^M
-  u'email': u'test@zopen.cn',^M
-  u'id': u'admin',^M
-  u'mobile': None,^M
-  u'number': 9223372036854775807,^M
-  u'object_type': u'person',^M
-  u'parent': u'default',^M
-  u'phone': u'123445566',^M
-  u'title': u'admin',^M
-  u'xmpp_username': u'admin#zopen@127.0.0.1'},^M
- {u'id': u'default',^M
-  u'object_type': u'ou',^M
-  u'parent': u'',^M
-  u'title': u'\u6613\u5ea6\u516c\u53f8'}]^M
+  [{u'disable': False,
+  u'email': u'test@zopen.cn',
+  u'id': u'admin',
+  u'mobile': None,
+  u'number': 9223372036854775807,
+  u'object_type': u'person',
+  u'parent': u'default',
+  u'phone': u'123445566',
+  u'title': u'admin',
+  u'xmpp_username': u'admin#zopen@127.0.0.1'},
+ {u'id': u'default',
+  u'object_type': u'ou',
+  u'parent': u'',
+  u'title': u'\u6613\u5ea6\u516c\u53f8'}]
 
 
 
