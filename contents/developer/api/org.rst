@@ -129,7 +129,7 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 参数 :
 
 - account: 如 ``zopen``
-- parent: 如 ``default``
+- ou: 搜索的部门ID，如 ``default``
 - scope: 可以取值 单层 ``onelevel`` ，或者整个子树 ``subtree``
 - object_type: 一个或者多个对象类型，比如： ``ou,group,person``
 - include_diabled: 是否包含禁用的对象，默认 ``false``
@@ -172,7 +172,7 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 
 /api/v1/org/sync
 ------------------------
-同步组织结构信息，支持新增和修改，不支持删除
+同步组织结构信息，支持新增和修改，不支持删除, 这个全球必须采用 POST 方式发送
 
 - account
 - send_mail：新增的用户是否发送通知邮件
