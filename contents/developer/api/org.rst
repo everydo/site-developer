@@ -37,169 +37,176 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 
    xxx/ : 某外部公司
 
-说明：
+所有节点，有唯一不重复的id. 节点包括三种：
 
-- 节点包括:
+组织单元: ou
+-----------------------------------------
+组织单元的对象类型(object_type)是 ``ou`` : Organization Unit.
+如果公司、部门、科室、分公司等；可包含子组织单元、组、人员
 
-  - 组织单元(ou, Organization Unit): 如果公司、部门、科室、分公司等；可包含子组织单元、组、人员
-  - 组(Group): 组不直接包含其他内容，但是可以组可以和人员建立关联关系
-  - 人员(User): 不可包含其他内容
+- 'id': 组织的唯一ID，内部公司的根节点必须是 ``default``
+- 'object_type': 对象类型必须是 'ou',
+- 'parent': 所在上级ou的ID，根节点的parent为空
+- 'title': ou的名字，如: '易度公司'
 
-- 所有节点，有唯一不重复的id
+组: group
+----------------
+组的对象类型(object_type)是 ``group`` .
+组不直接包含其他内容，但是可以组可以和人员建立关联关系
 
+- 'id': 唯一的ID，如：'admin'
+- 'object_type': 对象类型必须是'person'
+- 'parent': 所在ou的ID：'default'
+- 'title': 姓名，如 '张三'
+
+人员: person
+----------------
+人员的对象类型(object_type)是 ``person`` .
+如果人员信息，包括：
+
+- 'id': 唯一的ID，如：'admin'
+- 'object_type': 对象类型必须是'person'
+- 'parent': 所在ou的ID：'default'
+- 'title': 姓名，如 '张三'
+- 'disable': 是否被禁用，比如:false
+- 'email': 'test@zopen.cn'
+- 'mobile': None
+- 'number': 9223372036854775807
+- 'phone': '123445566'
+- 'xmpp_username': 'admin#zopen@127.0.0.1'
 
 用户和组织结构读取
 =======================
 
 如果其他用户和组织结构读取接口，系统可以显示人员和组织结构。
 
-/api/get_principals_info
+/api/v1/org/get_objects_info
 ----------------------------------
 得到一组对象的详细信息
 
-参数 ::
+参数 :
 
-  {'account': 'zopen', 'pid': ['person:admin', 'ou:default']}
-
-
-返回::
-
-  [{u'disable': False,
-  u'email': u'test@zopen.cn',
-  u'id': u'admin',
-  u'mobile': None,
-  u'number': 9223372036854775807,
-  u'object_type': u'person',
-  u'parent': u'default',
-  u'phone': u'123445566',
-  u'title': u'admin',
-  u'xmpp_username': u'admin#zopen@127.0.0.1'},
- {u'id': u'default',
-  u'object_type': u'ou',
-  u'parent': u'',
-  u'title': u'\u6613\u5ea6\u516c\u53f8'}]
+- ``account`` : 账户名，如： ``zopen``
+- ``objects`` : 带类型的对象id清单，用逗号分隔，如： ``person:admin,ou:default``
 
 
+返回对象信息列表::
 
-/api/list_group_users
+  [{'id': 'admin',
+    'object_type': 'person',
+    'disable': False,
+    'email': 'test@zopen.cn',
+    'mobile': None,
+    'number': 9223372036854775807,
+    'parent': 'default',
+    'phone': '123445566',
+    'title': 'admin',
+    'xmpp_username': 'admin#zopen@127.0.0.1'},
+
+   {'id': 'default',
+    'object_type': 'ou',
+    'parent': '',
+    'title': '易度公司'}]
+
+/api/v1/org/list_groups_members
 ----------------------------------
-得到组的用户，可以传入一组组，得到全部用户
+得到组的成员，可以传入一组组，得到各组的成员信息
 
-- groups
-- account
+- ``account`` : 账户名，如： ``zopen``
+- groups: 需要查询的组清单，使用逗号分隔多个，如：13123,123123,123
 
-返回去重之后的用户ID清单 ::
+返回各组组成员ID清单 ::
 
-  ['admin', 'tests', 'cha']
+  {'13123':['panjy','zhangsan'], 
+   '123123':['lisi', 'wangwu'], 
+   '123':['lisi']
+  }
 
-/api/search
+/api/v1/org/search
 ------------------------
 搜索某个部门之下的某种对象
 
-- account:
-- parent: 
-- scope: onelevel/subtree
-- object_type:  ou/group/person
-- keywork: 搜索词
+参数 :
 
-参数 ::
+- account: 如 ``zopen``
+- parent: 如 ``default``
+- scope: 可以取值 单层 ``onelevel`` ，或者整个子树 ``subtree``
+- object_type: 一个或者多个对象类型，比如： ``ou,group,person``
+- include_diabled: 是否包含禁用的对象，默认 ``false``
+- q: 搜索词，采用类似全文搜索的方式
 
-   {'account': 'zopen', 'parent':'default', 'keywork':'', 'object_type':[], 'scope':'subtree'}
-   
 返回::
    
-   {u'count': 10,
-    u'result': [{u'disable': False,
-              u'email': u'test@zopen.cn',
-              u'id': u'admin',
-              u'mobile': None,
-              u'number': 9223372036854775807,
-              u'object_type': u'person',
-              u'parent': u'default',
-              u'phone': u'123445566',
-              u'title': u'admin',
-              u'xmpp_username': u'admin#zopen@127.0.0.1'}
+   {'count': 10,
+    'result': [{'id': 'admin',
+                'object_type': 'person',
+                'parent': 'default',
+                'title': 'admin',
+                'disable': false,
+                'email': 'test@zopen.cn',
+                'mobile': None,
+                'number': 9223372036854775807,
+                'phone': '123445566',
+                'xmpp_username': 'admin#zopen@127.0.0.1'}
               ]
-              }
+   }
 
 
-/api/list_user_groups
+/api/v1/org/list_person_ougroups
 --------------------------------
-得到用户所属的组，包括所有的上级部门
+得到人员所属的全部部门和组，包括所有的上级部门
 
-参数 ::
+参数 :
 
-   {'account': 'zopen', 'user_id': 'tests'}
+- account: 如 ``zopen``
+- person: 人员的ID，如 ``zhangsan``
 
 返回::
 
-  {u'groups': [u'524263',
-             u'580381',
-             u'952627',
-             u'343263'],
- u'ous': [u'458996',
-          u'789189',
-          u'593469',
-          ]
-          }
-
+  { 'ous': ['458996', '789189', '593469', ], 
+    'groups': ['524263', '580381', '952627', '343263'], }
 
 用户和组织结构维护
 ==============================
 如果使用系统自带的人员组织结构模块，也提供了用户和组织结构管理接口，可以实现增删改。
 
-/api/remove_user
---------------------------
+/api/v1/org/sync
+------------------------
+同步组织结构信息，支持新增和修改，不支持删除
 
-删除一个用户
-
-- pid
 - account
+- send_mail：新增的用户是否发送通知邮件
+- objects_detail: 新增对象的详细信息列表
 
 返回::
 
-   {'pid':'users.test', 
-     'status':True}
+   {'status':true}
 
-/api_sync[分拆]
-------------------------
+/api/v1/org/remove_objects
+--------------------------
+删除一个对象，可以是ou/person/group
 
-同步用户信息
-
-- ous: 部门信息
-- groups：组
-- users：人员
-- send_mail：是否发送通知邮件
 - account
+- objects: 带对象类型的对象id清单，比如： ``person:zhangsan,ou:1212,group:32112``
 
 返回::
 
-   {'status':True}
+   { status:true }
 
-/api_remove_ous
---------------------
-删除一组部门
+/api/v1/org/remove_group_members
+---------------------------------------
+删除组的成员：
 
-- pids
 - account
-    
-/remove_groups
-------------------------
-删除一组组
+- group: 组ID
+- persons: 组成员的ID清单
 
-- pids
+
+/api/v1/org/add_group_members
+--------------------------------------
+组添加成员：
+
 - account
-
-/remove_group_users
---------------------------
-- pid
-- pids
-- account
-
-
-/add_group_users
-------------------------
-- pid : 组
-- pids : 组成员
-- account
+- group : 组ID
+- persons: 组成员的ID清单
 
