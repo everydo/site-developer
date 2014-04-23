@@ -57,11 +57,28 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 ----------------------------------
 得到一组对象的详细信息
 
-- pids：对象的id,例如：ou:2938923, group:239839283, users:admin
-- object_type: ou/group/person  对象的类型
+参数 ::
+{'account': 'zopen', 'pid': ['person:admin', 'ou:default']}
+
 
 返回::
-  [{'id':, 'title':, 'object_type':'ou'}, ....]
+
+[{u'disable': False,^M
+  u'email': u'test@zopen.cn',^M
+  u'id': u'admin',^M
+  u'mobile': None,^M
+  u'number': 9223372036854775807,^M
+  u'object_type': u'person',^M
+  u'parent': u'default',^M
+  u'phone': u'123445566',^M
+  u'title': u'admin',^M
+  u'xmpp_username': u'admin#zopen@127.0.0.1'},^M
+ {u'id': u'default',^M
+  u'object_type': u'ou',^M
+  u'parent': u'',^M
+  u'title': u'\u6613\u5ea6\u516c\u53f8'}]^M
+
+
 
 /api/list_group_users
 ----------------------------------
