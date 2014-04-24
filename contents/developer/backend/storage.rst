@@ -137,15 +137,15 @@ object_type
 
 通常容器类型的对象可以是::
 
-  container.object_type = ('appcontainer', 'container') # 应用容器
-  container.object_type = ('folder', 'container')  # 文件夹
-  container.object_type = ('datacontainer', 'container') # 数据容器
+  container.object_type = ('AppContainer', 'Container') # 应用容器
+  container.object_type = ('Folder', 'Container')  # 文件夹
+  container.object_type = ('DataContainer', 'Container') # 数据容器
 
 条目类型的对象可以是::
 
-  item.object_type = ('file', 'item')  # 文件
-  item.object_type = ('dataitem', 'item')  # 数据项
-  item.object_type = ('fileshortcut', 'item')  # 文件快捷方式
+  item.object_type = ('File', 'Item')  # 文件
+  item.object_type = ('DataItem', 'Item')  # 数据项
+  item.object_type = ('FileShortCut', 'Item')  # 文件快捷方式
 
 自定义语义
 --------------
