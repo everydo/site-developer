@@ -375,25 +375,15 @@ object_type
 
 系统中可以直接修改权限来进行权限管理，也可以通过修改角色来进行权限管理。
 
-权限和角色的操作都通过IGrantManager接口进行。
+权限和角色的操作都通过 ``IAcl`` 接口进行。
 
-授权
---------------
-通过 ``IAcl`` 来管理角色
+角色
+--------
+系统支持如下角色，角色ID为字符串类型, 可以枚举系统对象所有的角色::
 
-在obj对象上，授予用户某个角色::
+  obj.allowed_roles
 
-  IAcl(obj).grant_role(role_id, pid)
-
-同上，禁止角色::
-
-  IAcl(obj).deny_role(role_id, pid)
-
-同上，取消角色::
-
-  IAcl(obj).unset_role(role_id, pid)
-
-系统支持如下角色，角色ID为字符串类型，下文中角色ID将用role_id来代替。
+不同对象使用的角色不同，系统全部角色包括：
 
 - 'PrivateReader' 保密查看人
 - 'Manager' 管理员
@@ -415,6 +405,21 @@ object_type
 - 'Reader2'
 - 'Reader1'
 - 'Accessor' 访问者
+
+授权
+--------------
+
+在obj对象上，授予用户某个角色::
+
+  IAcl(obj).grant_role(role_id, pid)
+
+同上，禁止角色::
+
+  IAcl(obj).deny_role(role_id, pid)
+
+同上，取消角色::
+
+  IAcl(obj).unset_role(role_id, pid)
 
 检查权限
 -------------
