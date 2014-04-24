@@ -30,7 +30,9 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 - acl_deny::
 
-     role: pids
+     {'Reader1': ['users.aa', 'groups.bb'],
+      'Owner':['users.cc'],
+     }
 
 - object_type: 是什么类型的对象
 
