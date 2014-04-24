@@ -373,19 +373,19 @@ object_type
 
 授权
 --------------
-通过IGrantManager来管理角色
+通过 ``IAclManager`` 来管理角色
 
 在obj对象上，授予用户某个角色::
 
-  IGrantManager(obj).grantRole(role_id,user_id)
+  IAclManager(obj).grant_role(role_id, pid)
 
 同上，禁止角色::
 
-  IGrantManager(obj).denyRole(role_id,user_id)
+  IAclManager(obj).deny_role(role_id, pid)
 
 同上，取消角色::
 
-  IGrantManager(obj).unsetRole(role_id,user_id)
+  IAclManager(obj).unset_role(role_id, pid)
 
 系统支持如下角色，角色ID为字符串类型，下文中角色ID将用role_id来代替。
 
@@ -412,9 +412,9 @@ object_type
 
 检查权限
 -------------
-检查当前用户对某对象是否有某种权限，可使用checkPermission方法::
+检查当前用户对某对象是否有某种权限，可使用 ``check_permission`` 方法::
 
-  checkPermission(permission_id, obj)
+  IAclManager(obj).check_permission(permission_id)
 
 如果有该权限即返回True，反之返回False
 
@@ -430,30 +430,25 @@ object_type
 - 'AddContainer': 添加容器(子栏目)
 - 'Logined': 是否登录
 
-'zopen.Access'和'zope.View'的区别，需要进入文件夹(zopen.Access)，但是不希望查看文件夹包含的文档(zope.View)。
+'Access'和'View'的区别，需要进入文件夹(Access)，但是不希望查看文件夹包含的文档(View)。
 
 读取权限
 ------------
 根据角色来获取obj对象上拥有该角色的用户ID::
 
-  IGrantManager(obj).getContextPrincipalsForRole(role_id)
+  IAclManager(obj).get_context_principals(role_id)
 
 得到上层以及全局的授权信息::
 
-  IGrantManager(obj).getInheritedPrincipalsForRole(role_id)
-
-得到最近一组拥有角色的用户ID::
-
-  IGrantManager(obj).getNearestPrincipalsForRole(role_id)
+  IAclManager(obj).get_inherited_principals(role_id)
 
 得到某个用户在obj上的所有角色::
 
-  IGrantManager(obj).getContextRolesForPrincipal(user_id)
+  IAclManager(obj).get_context_roles(user_id)
 
 得到某个用户在上层继承的角色::
 
-  IGrantManager(obj).getInheritedRolesForPrincipal(user_id)
-
+  IAclManager(obj).get_inherited_roles(user_id)
 
 对象的状态
 ===========================
