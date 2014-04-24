@@ -45,9 +45,10 @@ description: 通过软件包来打包一个应用，方便发布
     archive.html # 定制布局
   stages/  
     sales_chance.py 
-  workflows/
+  form/
     sales_chance.py  # 流程定义，包括了关联的表单、阶段、流程设置定义
     invoice.py    # 第二个表单流程
+  mdset/
   i18n/
     aaa.po
     bbb.po 
@@ -270,6 +271,8 @@ description: 通过软件包来打包一个应用，方便发布
 ::
 
   #-*-encoding=utf-8-*-
+  form_schema = 'zopen.sales.chance'
+  stage = ''
 
   # 第一个步骤
   class Start:

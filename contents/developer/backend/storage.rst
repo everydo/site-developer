@@ -153,15 +153,15 @@ object_type
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
-  appcontainer.schemas = ('zopen.weather.container', )
+  appcontainer.schemas = ('zopen.weather.appcontainer.default', )
 
 数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
 
-  datacontainer.schemas = ('zopen.issutracker.issue_container', )
+  datacontainer.schemas = ('zopen.issutracker.datacontainer.issue_container', )
 
 具体的一个故障单数据项，则可能是::
 
-  dataitemitem.schemas = ('zopen.issutracker.issue', )
+  dataitemitem.schemas = ('zopen.issutracker.dataitem.issue', )
 
 如果这里有多个，表示继承。
 
