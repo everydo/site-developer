@@ -24,7 +24,9 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - mdsets: 属性集
 - acl_grant::
 
-     role: pids
+     {'Reader1': ['users.aa', 'groups.bb'],
+      'Owner':['users.cc'],
+     }
 
 - acl_deny::
 

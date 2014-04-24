@@ -389,26 +389,26 @@ object_type
 
 系统支持如下角色，角色ID为字符串类型，下文中角色ID将用role_id来代替。
 
-- 'zopen.PrivateReader' 保密查看人
-- 'zopen.Manager' 管理员
-- 'zopen.Editor' 编辑人
-- 'zopen.Owner' 拥有者
-- 'zopen.Collaborator' 添加人
-- 'zopen.Creator': 文件夹创建人
-- 'zopen.ContainerCreator': 子栏目/容器创建人
-- 'zopen.Responsible' 负责人
-- 'zopen.Subscriber' 订阅人
-- 'zopen.PrivateReader' 超级查看人
-- 'zopen.PrivateReader4' 仅仅文件授权的时候用，不随保密变化
-- 'zopen.PrivateReader3' 仅仅文件授权的时候用，不随保密变化
-- 'zopen.PrivateReader2' 仅仅文件授权的时候用，不随保密变化
-- 'zopen.PrivateReader1' 仅仅文件授权的时候用，不随保密变化
-- 'zopen.Reader5'
-- 'zopen.Reader4'
-- 'zopen.Reader3'
-- 'zopen.Reader2'
-- 'zopen.Reader1'
-- 'zopen.Accessor' 访问者
+- 'PrivateReader' 保密查看人
+- 'Manager' 管理员
+- 'Editor' 编辑人
+- 'Owner' 拥有者
+- 'Collaborator' 添加人
+- 'Creator': 文件夹创建人
+- 'ContainerCreator': 子栏目/容器创建人
+- 'Responsible' 负责人
+- 'Subscriber' 订阅人
+- 'PrivateReader' 超级查看人
+- 'PrivateReader4' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader3' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader2' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader1' 仅仅文件授权的时候用，不随保密变化
+- 'Reader5'
+- 'Reader4'
+- 'Reader3'
+- 'Reader2'
+- 'Reader1'
+- 'Accessor' 访问者
 
 检查权限
 -------------
@@ -420,15 +420,15 @@ object_type
 
 系统中常用权限，权限ID为字符串类型，下文中权限ID将用permisson_id来代替。
 
-- 'zope.Public'：公开，任何人都可以访问
-- 'zope.ManageContent'：管理
-- 'zope.View'：查看的权限
-- 'zopen.Access'：容器/栏目访问的权限
-- 'zopen.Edit'：编辑的权限
-- 'zopen.Add'：添加文件、流程单
-- 'zopen.AddFolder': 添加文件夹
-- 'zopen.AddContainer': 添加容器(子栏目)
-- 'zopen.Logined': 是否登录
+- 'Public'：公开，任何人都可以访问
+- 'ManageContent'：管理
+- 'View'：查看的权限
+- 'Access'：容器/栏目访问的权限
+- 'Edit'：编辑的权限
+- 'Add'：添加文件、流程单
+- 'AddFolder': 添加文件夹
+- 'AddContainer': 添加容器(子栏目)
+- 'Logined': 是否登录
 
 'zopen.Access'和'zope.View'的区别，需要进入文件夹(zopen.Access)，但是不希望查看文件夹包含的文档(zope.View)。
 
