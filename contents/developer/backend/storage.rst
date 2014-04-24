@@ -286,10 +286,12 @@ object_type
 关系
 ================
 
-每一个对象都可以和其他的对象建立各种关系。
+每一个对象都可以和其他的对象建立各种关系，使用IRelations进行关系操作.
 
 系统内置关系类型
 -----------------------
+
+常用关系类型包括：
 
 - children:比如任务的分解，计划的分解
 - attachment：这个主要用于文件的附件
@@ -297,6 +299,10 @@ object_type
 - comment_attachment：评注中的附件，和被评注对象之间的关联
 - favorit:内容与收藏之间的关联
 - "shortcut" 快捷方式
+
+可以查出所有的关系类型::
+
+  IRelations(obj).list_relation_types()
 
 接口API：IRelations
 -----------------------------------
@@ -373,19 +379,19 @@ object_type
 
 授权
 --------------
-通过 ``IAclManager`` 来管理角色
+通过 ``IAcl`` 来管理角色
 
 在obj对象上，授予用户某个角色::
 
-  IAclManager(obj).grant_role(role_id, pid)
+  IAcl(obj).grant_role(role_id, pid)
 
 同上，禁止角色::
 
-  IAclManager(obj).deny_role(role_id, pid)
+  IAcl(obj).deny_role(role_id, pid)
 
 同上，取消角色::
 
-  IAclManager(obj).unset_role(role_id, pid)
+  IAcl(obj).unset_role(role_id, pid)
 
 系统支持如下角色，角色ID为字符串类型，下文中角色ID将用role_id来代替。
 
@@ -414,7 +420,7 @@ object_type
 -------------
 检查当前用户对某对象是否有某种权限，可使用 ``check_permission`` 方法::
 
-  IAclManager(obj).check_permission(permission_id)
+  IAcl(obj).check_permission(permission_id)
 
 如果有该权限即返回True，反之返回False
 
@@ -436,19 +442,19 @@ object_type
 ------------
 根据角色来获取obj对象上拥有该角色的用户ID::
 
-  IAclManager(obj).get_context_principals(role_id)
+  IAcl(obj).get_context_principals(role_id)
 
 得到上层以及全局的授权信息::
 
-  IAclManager(obj).get_inherited_principals(role_id)
+  IAcl(obj).get_inherited_principals(role_id)
 
 得到某个用户在obj上的所有角色::
 
-  IAclManager(obj).get_context_roles(user_id)
+  IAcl(obj).get_context_roles(user_id)
 
 得到某个用户在上层继承的角色::
 
-  IAclManager(obj).get_inherited_roles(user_id)
+  IAcl(obj).get_inherited_roles(user_id)
 
 对象的状态
 ===========================
