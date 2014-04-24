@@ -179,13 +179,13 @@ gen_template生成的模板为handlerbar格式的模板。
 =========================
 易度的表单管理器，是一个定制的容器对象，可以做到完全傻瓜化的表单数据管理，有如下设置信息::
 
-   datacontainer.schemas = ('zopen.query.settings',)  # 容器自身的设置信息
+   datacontainer.schemas = ('zopen.sales.query_container',)  # 容器自身的设置信息
    IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales.query',))   # 包含条目的表单定义
-   IMetadata(datacontainer).get_setting('table_columns') : 显示哪些列(list)
+   IMetadata(datacontainer).set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
 
-   IMetadata(datacontainer).get_setting('item_mdsets') : 表单属性集(list)
-   IMetadata(datacontainer).get_setting('item_stages'): 容器的阶段定义(list)
-   IMetadata(datacontainer).get_setting('item_workflow'): 容器的工作流定义(list)
+   IMetadata(datacontainer).set_setting('item_mdsets', ('archive_archive', 'zopen.contract.contract')) : 表单属性集(list)
+   IMetadata(datacontainer).set_setting('item_stages', ('zopen.sales.query',)): 容器的阶段定义(list)
+   IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales.query',)): 容器的工作流定义(list)
 
 我们先看看一个个性化定制表单的使用示例。对于易度外网中的一个客户调查信息表，在完成表单和流程定制部署后，可创建如下的Python脚本，部署到外网用于收集客户资料::
 

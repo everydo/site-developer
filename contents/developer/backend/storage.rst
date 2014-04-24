@@ -137,23 +137,27 @@ object_type
 
 通常容器类型的对象可以是::
 
-  container.object_type = 'AppContainer' # 应用容器
-  container.object_type = 'Folder'  # 文件夹
-  container.object_type = 'DataContainer' # 数据容器
+  container.object_type = ('appcontainer', 'container') # 应用容器
+  container.object_type = ('folder', 'container')  # 文件夹
+  container.object_type = ('datacontainer', 'container') # 数据容器
 
 条目类型的对象可以是::
 
-  item.object_type = 'File'  # 文件
-  item.object_type = 'DataItem'  # 数据项
-  item.object_type = 'ShortCut'  # 快捷方式
+  item.object_type = ('file', 'item')  # 文件
+  item.object_type = ('dataitem', 'item')  # 数据项
+  item.object_type = ('fileshortcut', 'item')  # 文件快捷方式
 
 自定义语义
 --------------
 系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的类型。
 
-比如数据容器可能是故障跟踪::
+应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
-  datacontainer.schemas = ('zopen.issutracker.tracker', )
+  appcontainer.schemas = ('zopen.weather.container', )
+
+数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
+
+  datacontainer.schemas = ('zopen.issutracker.issue_container', )
 
 具体的一个故障单数据项，则可能是::
 
@@ -249,10 +253,35 @@ object_type
 
 设置信息
 -----------
+通常对于容器会有一系列的设置信息，如显示方式、添加子项的设置、关联流程等等.
+
 设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
-   IMetadata(collection).get_setting('children_workflow')
-   IMetadata(collection).set_setting('children_workflow', ('zopen.sales:query', ))
+   IMetadata(container).set_setting(field_name, value)
+   IMetadata(container).get_setting(field_name)
+
+具体包括：
+
+1) 和表单相关的设置::
+
+    IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales.query',))   # 包含条目的表单定义
+
+2) 流程相关的::
+
+    IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales.query',)): 容器的工作流定义(list)
+
+3) 和显示相关的设置::
+
+    IMetadata(container).set_setting('default_view', ('@@table_list')) : 显示哪些列
+    IMetadata(container).set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
+
+4) 和属性集相关的设置::
+
+    IMetadata(container).set_setting('item_mdsets', ('archive_archive', 'zopen.contract.contract')) : 表单属性集(list)
+
+5) 和阶段相关的设置::
+
+    IMetadata(container).set_setting('item_stages', ('zopen.sales.query',)): 容器的阶段定义(list)
 
 关系
 ================

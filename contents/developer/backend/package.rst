@@ -14,15 +14,40 @@ description: 通过软件包来打包一个应用，方便发布
   __init__.py #  软件包基本信息
   forms/       # 全部表单流程
     sales_chance/  # 第一个表单流程
-      form.py # 表单
+      item.py # 流程表单: zopen.sales.sales_chance
+      container.py # 流程容器的属性: zopen.sales.sales_chance_container
+      layout.html # 表单的定制布局
       steps.py # 流程步骤
       stages.py # 阶段定义
-      config.py # 流程设置属性
-      layout.html # 表单的定制布局
     invoice/  # 第二个表单流程
   metadata/ # 整个应用的属性定义
-    settings.py # 应用设置信息
-    archive.py # 档案管理属性集
+    container.py # 应用容器的属性: zopen.sales.container
+    archive.py # 档案管理属性集: zopen.sales.archive
+  i18n/
+    aaa.po
+    bbb.po 
+  scripts.py # 代码
+  templates/ # 动态模板
+    main.pt
+  screenshots/ # 产品截图
+  resources/ #  资源文件
+
+或者::
+
+  __init__.py #  软件包基本信息
+  schemas/       # 全部表单语义
+    container.py # 应用容器的属性: zopen.sales.container
+    archive.py     # 档案管理属性集: zopen.sales.archive
+    sales_chance.py  # 表单     zopoen.sales.saes_chance
+    sales_chance_container.py  # 表单容器设置 zopoen.sales.saes_chance_container
+  layout/
+    sales_chance.html # 定制布局
+    archive.html # 定制布局
+  stages/  
+    sales_chance.py 
+  workflows/
+    sales_chance.py  # 流程定义，包括了关联的表单、阶段、流程设置定义
+    invoice.py    # 第二个表单流程
   i18n/
     aaa.po
     bbb.po 
