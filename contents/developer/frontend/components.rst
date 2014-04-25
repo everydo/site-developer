@@ -16,7 +16,7 @@ description: 一组可重用的前端界面组件
 
 初始化组件::
 
-   tree = new TreeView('#tree', {checkable: true})
+   tree = new TreeComponent('#tree', {checkable: true})
 
 直接加载数据::
   
@@ -31,7 +31,7 @@ description: 一组可重用的前端界面组件
 
 可以设置加载子树事件，动态加载::
 
-   tree.on('loadchildren', function(model, collection, view){})
+   tree.on('load', function(model, collection, view){})
 
 也可以相应选中事件::
 
