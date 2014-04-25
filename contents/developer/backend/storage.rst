@@ -375,7 +375,7 @@ object_type
 
 系统中可以直接修改权限来进行权限管理，也可以通过修改角色来进行权限管理。
 
-权限和角色的操作都通过 ``IAcl`` 接口进行。
+权限和角色的操作都通过 ``IAuthorization`` 接口进行。
 
 角色
 --------
@@ -411,21 +411,21 @@ object_type
 
 在obj对象上，授予用户某个角色::
 
-  IAcl(obj).grant_role(role_id, pid)
+  IAuthorization(obj).grant_role(role_id, pid)
 
 同上，禁止角色::
 
-  IAcl(obj).deny_role(role_id, pid)
+  IAuthorization(obj).deny_role(role_id, pid)
 
 同上，取消角色::
 
-  IAcl(obj).unset_role(role_id, pid)
+  IAuthorization(obj).unset_role(role_id, pid)
 
 检查权限
 -------------
-检查当前用户对某对象是否有某种权限，可使用 ``check_permission`` 方法::
+检查某用户对某对象是否有某种权限，可使用 ``permit`` 方法::
 
-  IAcl(obj).check_permission(permission_id)
+  IAuthorization(obj).permit(permission_id, principals=None)
 
 如果有该权限即返回True，反之返回False
 
@@ -447,19 +447,19 @@ object_type
 ------------
 根据角色来获取obj对象上拥有该角色的用户ID::
 
-  IAcl(obj).get_context_principals(role_id)
+  IAuthorization(obj).get_context_principals(role_id)
 
 得到上层以及全局的授权信息::
 
-  IAcl(obj).get_inherited_principals(role_id)
+  IAuthorization(obj).get_inherited_principals(role_id)
 
 得到某个用户在obj上的所有角色::
 
-  IAcl(obj).get_context_roles(user_id)
+  IAuthorization(obj).get_context_roles(user_id)
 
 得到某个用户在上层继承的角色::
 
-  IAcl(obj).get_inherited_roles(user_id)
+  IAuthorization(obj).get_inherited_roles(user_id)
 
 对象的状态
 ===========================
