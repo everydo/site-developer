@@ -17,9 +17,9 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 只有在应用容器里面，才能部署其他的应用，网站根就是一个应用容器。
 应用容器里可以存放 表单容器、文件夹和子栏目::
 
-  folder = app_container.deploy_folder(name, metadata={'title':'a folder',}, **mdsets)
-  collection = app_container.deploy_data_container(name, metadata={'title':'a collcetion'}, **mdsets)
-  sub_container = app_container.deploy_section(name, metadata={'title':'a sub container'}, **mdsets)
+  folder = app_container.add_folder(name)
+  collection = app_container.add_datacontainer(name)
+  sub_container = app_container.add_appcontainer(name)
 
 其中:
 
@@ -34,13 +34,15 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 ----------------
 文件夹用来存放文件和文件的快捷方式，文件夹还能存放子文件夹::
 
-  sub_folder = folder.add_folder(name, metadata={}, **mdsets)
-  shortcut = folder.add_shortcut(obj, version_id='', metadata={}, **mdsets)
-  new_file = folder.add_file(name, data='', content_type='', metadata={}, **mdsets)
+  sub_folder = folder.add_folder(name)
+  new_file = folder.add_file(name, data='', content_type='')
+  shortcut = folder.add_shortcut(obj, version_id='')
 
 文件 File
 -------------
-文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容
+文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
+
+  new_file.set_data('这是文件内容')
 
 快捷方式 ShortCut
 ---------------------
@@ -52,7 +54,7 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
 数据管理
 ==================
 
-数据集 DataContainer
+数据容器 DataContainer
 -------------------------
 用于存放表单数据项::
 
