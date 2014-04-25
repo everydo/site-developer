@@ -36,16 +36,15 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 - object_type: 是什么类型的对象
 
-  - 文件： file
-  - 快捷方式：fileshortcut, foldershortcut
-  - 文件夹：folder
-  - 表单：dataitem 
-  - 表单容器：datacontainer
-  - 应用容器: appcontainer
-  - 流程任务: task
+  - 文件： File
+  - 快捷方式：FileShortCut, FolderShortCut
+  - 文件夹：Folder
+  - 表单：DataItem 
+  - 表单容器：DataContainer
+  - 应用容器: AppContainer
 
-  - 容器：container
-  - 条目：item
+  - 容器：Container
+  - 条目：Item
 
 - reference: 引用关系，表单里面字段引用出来的
 - relations, 存放一个 name, ids 的嵌套表格::
@@ -198,6 +197,16 @@ dict字段
 
    .parse('我北京', fields=['.table.title', '.table.description'])
    .parse('我北京', fields=['archive.table.title', 'archive.table.description'])
+
+如果需要搜索文件内容，需要使用 ``full`` 的全文索引::
+
+   QuerySet('full').parse('北京', fields=['file_content'])
+
+搜索流程工作项
+-------------------------
+流程的工作项，是一个独立的索引，搜索方法为::
+
+   QuerySet('workitem').anyof(path=[project])
 
 无权限和历史版本文档
 -----------------------
