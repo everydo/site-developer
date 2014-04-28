@@ -75,12 +75,23 @@ refresh_token: 刷新
        "refresh_token": "REFRESH_TOKEN",
        "expires_in": 1234,
        "remind_in":"798114",
-       "uid":"user.admin"
+       "uid":"admin"
   }
 
 使用access_token
 ===========================================
-有2种方法
+有2种方法:
+
+- 在请求的参数加上直接加上access_token参数 ::
+    
+    http://oc.easydo.cn/api/v1/org/get_objects_info?account=zopen&objects=ou:default,person:admin&access_token=access_token字符串 
+
+- 一是在请求headers中添加Authorization: ::
+
+    GET /api/v1/org/get_objects_info?account=zopen&objects=ou:default,person:admin HTTP/1.1
+    Host: oc.easydo.cn
+    Authorization: Bearer access_token字符串
+    Cache-Control: no-cache
 
 
 接口文档

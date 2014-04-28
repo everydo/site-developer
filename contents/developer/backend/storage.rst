@@ -361,15 +361,57 @@ object_type
 版本管理
 ==================
 
-文件File、数据项Item支持版本管理，可以保存多个版本::
+文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识，使用 ``IRevisions`` 管理内容的版本::
 
-   rev_man = IRevisionManager(obj)
-   rev_man.save(comment='', metadata={}) #存为一个新版本
-   rev_man.retrieve(selector=None, preserve=()): 获得某一个版本
-   rev_man.get_history(preserve=()): 得到版本历史清单信息
-   rev_man.remove(selector, comment="", metadata={}, countPurged=True) #删除某个版本 
-   # 得到当前工作版本的版本信息，取出来后，在外部维护数据内容
-   rev_man.getWorkingVersionData() 
+   revisions = IRevisions(obj)
+
+定版
+-----------
+定版就是设置版本、版次信息::
+
+  revisions.fix(revision_id=None, version_number=None, revision_number=None)
+
+- 如果不传revision_id，表示对当前的工作版本进行定版
+- 如果不传version_number，继续沿用上一个version_number
+- 如果不传revision_number，自动增长上一个revision_number
+
+查看工作版本信息
+--------------------------
+对象都有一个工作版本，工作版本是可以进行修改的，可查询工作版本的信息::
+
+   revisions.get_revision_info(revision_id=None)
+
+如果revision_id为None，表示工作版本。返回::
+
+   {'revision_id' : 12, # 版本ID
+    'version_number' : 1,   # 版本号
+    'revision_number' : 0,  # 版次号
+    'user' : 'users.panjy',  # 版本修改人
+    'timestamp' : 12312312.123,  # 版本修改时间
+    'comment' : 'some comments',   # 版本说明
+   }
+
+其中如果version_number为空，表示没有定版。
+
+保存为历史版本
+---------------------------------
+用这个方法来保存历史版本::
+
+   revisions.save()
+
+查看所有历史版本信息::
+
+   revisions.list_revisions(include_temp=True)
+
+返回revision_info的清单
+
+得到一个历史版本::
+
+   revisions.get(revision_id)
+
+删除一个版本::
+
+   revisions.remove(revision_id)
 
 权限控制
 ================
