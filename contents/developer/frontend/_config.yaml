@@ -1,5 +1,5 @@
-title: Web应用
-description: 如何利用后端接口，开发一个web应用
+title: 应用开发
+description: 如何利用后端接口，开发一个应用
 order: [overview.rst,
         components.rst,
         helpers.rst
