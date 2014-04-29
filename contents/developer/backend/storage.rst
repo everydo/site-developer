@@ -118,17 +118,6 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
   int_id = intids.get_id(obj)
   obj = intids.get_object(int_id)  # 通过int_id找到对象
 
-文件型条目
-===================
-对于条目类型，可以存放非结构化的数据，也就是文件::
-
-  my_file.set_data('this is long long text')
-  my_file.content_type = 'text/plain'
-  my_file.size = 1023
-
-可以得到文件::
-
-  my_file.get_data()
 
 对象类型: object_type
 =============================
@@ -160,11 +149,17 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 文件 File
 -------------
+文件的object_type为 ``('File', 'Item')``
+
 文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
 
-  new_file.set_data('这是文件内容')
+  my_file.set_data('this is long long text')
+  my_file.content_type = 'text/plain'
+  my_file.size = 1023
 
-文件的object_type为 ``('File', 'Item')``
+可以得到文件::
+
+  my_file.get_data()
 
 快捷方式 ShortCut
 ---------------------
@@ -208,7 +203,7 @@ option_name可以是如下参数：
 
 Schema自定义语义
 =======================
-系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的类型。
+系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
@@ -222,7 +217,7 @@ Schema自定义语义
 
   dataitemitem.schemas = ('zopen.issutracker:issue', )
 
-如果这里有多个，表示继承。
+如果这里有多个，表示继承。schema的具体定义和使用，参照 《表单处理》 一节
 
 对象属性
 ==============================================
