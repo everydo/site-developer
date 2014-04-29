@@ -32,7 +32,43 @@ description: 用户自定义的状态
 
 注册一个阶段定义::
 
-   IStages(root).register('query', package="zopen.sales", stages)
+   IStages(root).register('zopen.sales:query', stages)
+
+导入导出
+============
+可以导出一个阶段定义到python文件中::
+
+   IStages(root).export('zopen.sales:query')
+
+导出结果::
+
+    class valid:
+          """需求确认
+
+          分配的新单"""
+
+          # 进入阶段的触发脚本
+          def __init__(context):
+              pass
+
+    class initial:
+          """初始
+
+          确认客户信息有效"""
+
+    class planing:
+          """准备方案
+
+          确认客户信息有效"""
+          
+    class plan_accept:
+          """准备合同
+
+          客户已接受方案，进入合同谈判阶段"""
+
+也可以导入::
+
+   IStages(root).import('zopen.sales:query', body)
 
 调整阶段
 =========================

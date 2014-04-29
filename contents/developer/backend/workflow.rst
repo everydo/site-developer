@@ -30,14 +30,9 @@ description: 表单和流程操作接口，包括表单自动生成
 3. 步骤4/5结束，流程完结。也需要增加一个结束节点，结束节点也不需要人工参与
 4. 所有步骤，都需要设置参与条件，都可能引起流程进行阶段的变化。
 
-定义工作流步骤
-====================
-
-工作流由步骤Step和操作Action组成，可以用2种方式定义。
-
-json格式
----------------
-json格式适合软件自动生成，适合在浏览器上解析读取::
+流程步骤定义
+=================
+工作流由步骤Step和操作Action组成::
 
     workflow_json = {
        "start": {"title" : '新的销售机会',
@@ -92,9 +87,19 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
 
    salse_query_wfl = IWorkflows(root).get('zopen.sales:sales_query')
 
-python格式
-------------------
-json格式的问题是，流程如果存在大量脚本，不方便书写和阅读，也不方便检查错误。因此，系统提供一种借用python的书写格式::
+导出为python格式
+===================
+为方便书写和阅读，系统可将流程导出为一种借用python的书写格式::
+
+   IWorkflows(root).export('zopen.sales:sales_query')
+   IWorkflows(root).export(workflow_def)
+
+1. 类名: 步骤名
+2. 类的成员变量: 步骤的属性
+3. 类的方法名: 步骤的操作name
+4. 类方法的函数体：步骤的触发脚本
+
+::
 
    # 第一个步骤
    class Start:
@@ -277,13 +282,15 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
         def __init__(): 
             pass
 
-将这个工作流注册到系统，需要转换为json格式在导入::
+将这个工作流转换成真正的工作流定义::
 
-   IWorkflows(root).python2json(workflow_py)
+   IWorkflows(root).compile(workflow_py)
 
-也可以把json转为python方便书写::
+和之前版本的改进：
 
-   IWorkflows(root).json2python(workflow_json)
+1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
+2. 如果步骤没有操作，表示这个步骤无需人员干预
+3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
 
 执行工作流
 ====================

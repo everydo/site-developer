@@ -1,25 +1,37 @@
 ---
-title: 表单
-description: 对象可以自定义一组属性，通过表单来更新属性
+title: 表单处理
+description: 自动生成表单、合法性校验，数据存储等
 ---
 
 ==================
-表单
+表单处理
 ==================
 
 .. Contents::
 .. sectnum::
 
-生成表单
-=========================
-为了方便用户录入数据，通过定义表单来录入数据。
+表单如下信息构成::
 
-定义表单
+  form = new Form(fields:fields, # 字段
+                layout:layout, # 字段的布局模板
+                table_columns:table_columns, # 表格显示列
+                on_update:'', # 更新触发脚本
+                )
+
+注册语义
+-------------------------
+可以将表单定义，注册保存到系统::
+
+  # 注册为一个语义
+  ISchemas(root).register('zopen.sales:inquery', form)
+  form = ISchemas(root).get('zopen.sales:inquery')
+
+表单字段
 ---------------
-可以通过json来定义一个表单::
+可以通过json来定义表单字段::
 
   # 定义字段
-  schema = [ {"name":"title"
+  fields = [ {"name":"title"
                 "type":"TextLineField", 
                 "title":'任务标题', },
             { "name":'description': 
@@ -52,6 +64,7 @@ description: 对象可以自定义一组属性，通过表单来更新属性
 - ReferenceField : 文件选择
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
+
 - FileField  : 文件上传
 - SingleSelectField : 单选
 - MultipleSelectField : 多选
@@ -72,13 +85,7 @@ description: 对象可以自定义一组属性，通过表单来更新属性
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
-可以将表单定义，注册保存到系统::
-
-  # 注册为一个语义
-  ISchemas(root).register('zopen.sales:inquery', schema, title, layout, table_columns, on_update)
-  ISchemas(root).get('zopen.salesinquery')
-
-on_update 表单保存触发
+on_update脚本: 表单保存触发
 --------------------------------
 用于输入合法性校验，和更改时候的触发逻辑
 
@@ -107,19 +114,19 @@ on_update 表单保存触发
 ------------------------
 ::
 
-  # 生成默认模板, 可传入表单布局 div/table
-  template = schema.gen_template('table')
+  # 生成默认layout, 可传入表单布局 div/table
+  layout = form.gen_layout('table')
 
   # 渲染表单
-  html_form = schema.render_html(template, {'description':'请说清楚'}, fields.keys(), errors)
+  html_form = form.render_html(layout, {'description':'请说清楚'}, fields.keys(), errors)
 
 其中::
 
-  render_html(form_template, storage, edit_fields, errors, **options)
+  render_html(form_layout, storage, edit_fields, errors, **options)
 
 生成表单函数
 
-- form_template 生成表单的模板
+- form_layout 生成表单的模板
 - storage 生成表单时需要运行某些表达式，而storage则是表达式运行的上下文, 这里可以存放初始值
 - request HTTP请求对象，同样作为表达式执行时的对象
 - edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
@@ -128,7 +135,7 @@ on_update 表单保存触发
 
 为了计算初始值，需要传入更多变量::
 
-  html_form = schema.render_html(template, {}, fields.keys(), errors,
+  html_form = form.render_html(template, {}, fields.keys(), errors,
                             request, context=context, container = container)
 
 在浏览器上渲染表单
@@ -160,4 +167,207 @@ gen_template生成的模板为handlerbar格式的模板。
 或者保存到mdset中::
 
   IMedata(obj).set_mdset('lala', results)
+
+
+文件格式
+---------------
+可以导出导入为一个python文件::
+
+  ISchemas(root).export('zopen.sales:inquery')
+
+
+示例如下::
+
+    #-*-encoding=utf-8-*-
+    title="销售机会"
+    description="""这是销售机会的解释"""
+    extend = 'zopen.sales:chance'  # 继承的表单定义
+    displayed_columns=['responsibles', '_stage', 'client', 'start', 'lastlog']
+    form_layout = "table"
+    facetag = ""
+
+    fields=(
+        TextLineField(
+            description='一句话说明销售的内容',
+            title='机会简述',
+            required=False,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            size=30,
+            default_value_exp='""',
+            name='title'
+    ),
+        DataItemSelectField(
+            container_exp='getParent(container)["orgs"]',
+            multiple=True,
+            description='',
+            edoclass='zopen.contacts.org',
+            title='客户',
+            required=True,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            show_info='title',
+            default_value_exp='PersistentList([])',
+            name='client'
+    ),
+        ComputedField(
+            description='',
+            title='客户信息',
+            required=False,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp="callScript(context,request, 'zopen.sales.client_info')",
+            name='client_info'
+    ),
+        PersonSelectField(
+            description='该销售机会的销售员',
+            title='销售员',
+            required=True,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            selectable_object='persononly',
+            read_condition='',
+            multiple_selection=False,
+            default_value_exp='PersistentList([])',
+            name='responsibles'
+    ),
+        TagSelectField(
+            container_exp='container',
+            description='',
+            title='分类信息',
+            required=False,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='PersistentList([])',
+            name='subjects'
+    ),
+        TextField(
+            rows=5,
+            description='',
+            title='销售机会详情',
+            required=False,
+            storage='field',
+            cols=10,
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp="ISettings(container)['template']",
+            rich_text=False,
+            name='case_info'
+    ),
+        TextField(
+            rows=5,
+            description='',
+            title='报价方案',
+            required=False,
+            storage='field',
+            cols=10,
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
+            rich_text=False,
+            name='plan_info'
+    ),
+        ReferenceField(
+            container_exp="context['folder'] is not None and intids.getObject(context['folder'])",
+            is_global=False,
+            multiple=True,
+            description='',
+            title='相关文档',
+            required=False,
+            storage='field',
+            upload=True,
+            validation_exp='',
+            write_condition='',
+            search_subtree=True,
+            read_condition='',
+            default_value_exp='PersistentList([])',
+            name='files'
+    ),
+        FolderSelectField(
+            is_global=True,
+            description='',
+            title='文件存放区',
+            required=False,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='ISettings(container).get("folder","")',
+            name='folder'
+    ),
+        TextField(
+            rows=5,
+            description='',
+            title='上次跟进',
+            required=False,
+            storage='field',
+            cols=10,
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
+            rich_text=False,
+            name='lastlog'
+    ),
+        TextField(
+            rows=5,
+            description='',
+            title='跟进记录',
+            required=False,
+            storage='field',
+            cols=10,
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='',
+            rich_text=False,
+            name='log'
+    ),
+        DateField(
+            minutestep=60,
+            description='',
+            title='下次跟进时间',
+            showtime=True,
+            required=True,
+            storage='field',
+            validation_exp='',
+            write_condition='',
+            read_condition='',
+            default_value_exp='datetime.datetime(*(datetime.datetime.now() + datetime.timedelta(1)).timetuple()[:4])',
+            name='start'
+    ),)
+
+    def on_update(context, container, old_context):
+        # 如果有根据记录，做记录循环，并保存为评论
+        log = (context['log'] or '').strip()
+        if log:
+            context['lastlog'] = log
+            context['log'] = ''
+            ICommentManager(context).addComment(log)
+
+        if old_storage:
+            for user_id in old_storage['responsibles']:
+                IGrantManager(context).unsetRole('zopen.Editor',user_id)
+
+        for user_id in context['responsibles']:
+            IGrantManager(context).grantRole(r'zopen.Editor', user_id)
+
+        # 如果下次跟进时间，小于当前时间，则将下次跟进时间改为当前时间+2天
+        if context['start'] <= datetime.datetime.now():
+            context['start']=datetime.datetime(*(datetime.datetime.now() + datetime.timedelta(2)).timetuple()[:4])
+
+同样可以导入这样一个文件::
+
+  ISchemas(root).import('zopen.sales:inquery', schema_file_conent)
 

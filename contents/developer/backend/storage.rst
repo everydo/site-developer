@@ -205,21 +205,22 @@ option_name可以是如下参数：
 - docs_publish: 文档发布
 - flow_customize: 流程定制
 - apps_scripting: 允许开发软件包
+
 Schema自定义语义
 =======================
 系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的类型。
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
-  appcontainer.schemas = ('zopen.weather.properties.default', )
+  appcontainer.schemas = ('zopen.weather:app_container', )
 
 数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
 
-  datacontainer.schemas = ('zopen.issutracker.datacontainer.issue_container', )
+  datacontainer.schemas = ('zopen.issutracker:issue_settings', )
 
 具体的一个故障单数据项，则可能是::
 
-  dataitemitem.schemas = ('zopen.issutracker.dataitem.issue', )
+  dataitemitem.schemas = ('zopen.issutracker:issue', )
 
 如果这里有多个，表示继承。
 
@@ -652,4 +653,48 @@ visible: 保密
  # 查看回收站的内容
  # 从回收站收回一个对象
  # 从回收站里面永久删除
+
+软件包
+=============
+软件包是应用的代码载体，来组织自定义内容、代码逻辑和外部资源。软件包可以以独立文件的形式发布和交换。软
+
+总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
+
+  schemas/
+    sales_chance.py
+    sales_chance.html
+    sales_chance_settings.py
+    app_container.py
+  workflows/
+    sales_chance.py
+  stages/
+    sales_chance.py
+  templates/
+    sales_chance.py
+  scripts/
+    __init__.py
+    aaa.py
+  static/
+
+通过IPackages管理软件包。
+查看已经安装的所有软件包::
+
+  IPackages(root).keys()
+
+创建一个软件包::
+
+  package = IPacakges(root).new_packge('zopen.test', title, description, version, platform, tags)
+
+得到一个软件包信息::
+
+  packge = IPackages(root).get('zopen.test')
+
+导入一个软件包::
+
+  packge = IPackages(root).import('zopen.test', package_body)
+
+导出一个软件包::
+
+  packge = IPackages(root).export('zopen.test')
+
 

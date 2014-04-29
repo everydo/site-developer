@@ -4,17 +4,17 @@ order: [overview.rst,
         storage.rst, 
         search.rst, 
 
-        social.rst, 
-        notification.rst, 
-        log.rst, 
         team.rst,
-
         stage.rst, 
         skin.rst,
         rules.rst,
         form.rst, 
         workflow.rst,
-        package.rst,
+        py.rst,
+
+        social.rst, 
+        notification.rst, 
+        log.rst, 
 
         rdb.rst, 
         orginfo.rst, 

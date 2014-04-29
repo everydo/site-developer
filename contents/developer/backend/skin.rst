@@ -42,5 +42,5 @@ description: 自定义皮肤，更换皮肤
 ==================
 设置某个容器，采用新的皮肤::
 
-   ISkinManager(container).set_skin('bootstrap')
+    IMetadata(container).set_setting('skin', 'bootstrap')
 
