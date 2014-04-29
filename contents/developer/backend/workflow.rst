@@ -333,4 +333,9 @@ description: 表单和流程操作接口，包括表单自动生成
         print '完成时间', workitem_md['end']
         print '期限', workitem_md['deadline']
 
+数据容器中的表单流程
+=====================================
+使用数据容器可以简便的支持表单流程::
+
+  IMetadata(app_container).set_setting('item_workflows', ('zopen.sales:query',))
 

@@ -19,7 +19,7 @@ description: 自动生成表单、合法性校验，数据存储等
                 )
 
 注册语义
--------------------------
+====================
 可以将表单定义，注册保存到系统::
 
   # 注册为一个语义
@@ -110,6 +110,16 @@ on_update脚本: 表单保存触发
 
 上述错误信息会在表单头部显示
 
+数据容器 DataContainer
+===========================
+数据容器是最简单的表单使用方法，只需要设置好数据容器对应的表单语义即可::
+
+  IMetadata(data_container).set_setting('item_schemas', ('zopen.sales:query',))
+
+这样就可以在系统后台进行任意的表单增删改操作。
+
+表单使用
+==================
 生成表单html
 ------------------------
 ::
@@ -167,7 +177,6 @@ gen_template生成的模板为handlerbar格式的模板。
 或者保存到mdset中::
 
   IMedata(obj).set_mdset('lala', results)
-
 
 文件格式
 ---------------
@@ -370,4 +379,5 @@ gen_template生成的模板为handlerbar格式的模板。
 同样可以导入这样一个文件::
 
   ISchemas(root).import('zopen.sales:inquery', schema_file_conent)
+
 

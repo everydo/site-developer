@@ -318,11 +318,11 @@ Schema自定义语义
 
 1) 和表单相关的设置::
 
-    IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales.query',))   # 包含条目的表单定义
+    IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales:query',))   # 包含条目的表单定义
 
 2) 流程相关的::
 
-    IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales.query',)): 容器的工作流定义(list)
+    IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales:query',)): 容器的工作流定义(list)
 
 3) 和显示相关的设置::
 
@@ -331,11 +331,11 @@ Schema自定义语义
 
 4) 和属性集相关的设置::
 
-    IMetadata(container).set_setting('item_mdsets', ('archive_archive', 'zopen.contract.contract')) : 表单属性集(list)
+    IMetadata(container).set_setting('item_mdsets', ('archive_archive', 'zopen.contract:contract')) : 表单属性集(list)
 
 5) 和阶段相关的设置::
 
-    IMetadata(container).set_setting('item_stages', ('zopen.sales.query',)): 容器的阶段定义(list)
+    IMetadata(container).set_setting('item_stages', ('zopen.sales:query',)): 容器的阶段定义(list)
 
 关系
 ================
