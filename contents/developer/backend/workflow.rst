@@ -38,7 +38,7 @@ description: 表单和流程操作接口，包括表单自动生成
 json格式
 ---------------
 json格式适合软件自动生成，适合在浏览器上解析读取::
-    
+
     workflow_json = {
        "start": {"title" : '新的销售机会',
                  "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
@@ -86,21 +86,18 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
 
 将这个工作流注册到系统::
 
-   IWorkflowDef(root).register('query', workflow_json, package='zopen.sales')
+   IWorkflows(root).register('sales_query', workflow_json, package='zopen.sales')
 
 也可以得到工作流定义信息::
 
-   IWorkflowDef(root).get('query', package='zopen.sales')
-   IWorkflowDef(root).get_step('query', step, package='zopen.sales')
-   IWorkflowDef(root).get_action('query', step, action, package='zopen.sales')
+   salse_query_wfl = IWorkflows(root).get('sales_query', package='zopen.sales')
 
 python格式
 ------------------
 json格式的问题是，流程如果存在大量脚本，不方便书写和阅读，也不方便检查错误。因此，系统提供一种借用python的书写格式::
 
-
-  # 第一个步骤
-  class Start:
+   # 第一个步骤
+   class Start:
         title='新的销售机会'
         condition=''
         stage = "requirement"
@@ -158,12 +155,12 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 
         # 这是一个流程操作
         @action('重复或无效, 不再跟进', [], finish_condition='', condition=u'', )
-        def duplicated(context, container, task, step):
+        def duplicated(context, container, workitem, step):
             pass
 
         # 这是一个流程操作
         @action('需求了解完毕', ['SubmitPlan'], finish_condition='', )
-        def AA8372( context, container, task, step):
+        def AA8372( context, container, workitem, step):
             pass
 
   # 第三个步骤
@@ -183,20 +180,20 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 
         # 操作一
         @action('暂停，以后再联系', ['SubmitPlan'], finish_condition='', condition=u'' )
-        def pause(context, container, step, task):
+        def pause(context, container, step, workitem):
             pass
 
         @action('接受方案，准备合同', ['SubmitFile'], finish_condition='', )
-        def accept( context, container, step, task):
+        def accept( context, container, step, workitem):
             pass
 
         @action('无法满足需求', ['Lost'], finish_condition='', condition=u'' )
-        def cannotdo( context, container, step, task):
+        def cannotdo( context, container, step, workitem):
             pass
 
         @action('已选用其它产品', ['Lost'], finish_condition='', 
                 condition="'stage.lost' not in context.stati", )
-        def other( context, container, step, task):
+        def other( context, container, step, workitem):
             pass
 
   # 最后一个步骤
@@ -214,15 +211,15 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
             pass
 
         @action('合同签订', [], finish_condition='')
-        def sign(context, container, step, task):
+        def sign(context, container, step, workitem):
             pass
 
         @action('变故，以后再联系', ['SubmitPlan'], finish_condition='', condition='' )
-        def contact_later(context, container, step, task):
+        def contact_later(context, container, step, workitem):
             pass
 
         @action('失败', ['Lost'], finish_condition='', )
-        def fail( context, container, step ,task):
+        def fail( context, container, step, workitem):
             pass
 
   # 这是一个自动步骤：1）没有负责人 2）没有后续操作 3）有自动步骤
@@ -251,11 +248,11 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
             pass
 
         @action( '确认丢单', ['Lost'], condition="", finish_condition='')
-        def confire_fail( context, container, step, task):
+        def confire_fail( context, container, step, workitem):
             pass
 
         @action( '继续跟单', ['SubmitPlan'], condition="",finish_condition='')
-        def continue( context, container, step, task):
+        def continue( context, container, step, workitem):
             pass
 
   class Lost:
@@ -282,38 +279,44 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 
 将这个工作流注册到系统，需要转换为json格式在导入::
 
-   IWorkflowDef(root).python2json(workflow_py)
+   IWorkflows(root).python2json(workflow_py)
 
 也可以把json转为python方便书写::
 
-   IWorkflowDef(root).json2python(workflow_json)
+   IWorkflows(root).json2python(workflow_json)
 
 执行工作流
 ====================
-
-在表单所在容器中和流程绑定::
-
-   IMetadata(collection).set_setting('item_workflows', ('zopen.sales:query', ))
-
 然后启动一个流程::
 
-   IWorkflowEngine(item).start()
-
-如果希望得到某个流程单的当前任务::
-
-   IWorkflowEngine(item).list_tasks(pid, state)
-
-可以查看可以编辑、已经不让查看的表单项::
-
-   IWorkflowEngine(item).allowed_fields(pid)
-   IWorkflowEngine(item).disabled_fields(pid)
+   IWorkitems(item).start(('zopen.sales:query', ))
 
 通过程序触发某个操作::
 
-   IWorkflowEngine(item).excute_action(step_name, action_name, as_principal=None, comment="")
+   IWorkitems(item).excute_action(step_name, action_name, as_principal=None, comment="")
 
 其中：
 
 - step_name: 步骤
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
+
+可以查看可以编辑、已经不让查看的表单项::
+
+   IWorkitems(item).allowed_fields(pid)
+   IWorkitems(item).disabled_fields(pid)
+
+如果希望得到某个流程单的当前任务::
+
+   IWorkitems(item).list_workitems(pid, state)
+
+可以设置某个具体的workitem的信息::
+
+    for workitem in IWorkitems(item).list_workitems():
+        workitem_md = IMetadata(workitem)
+        print '创建时间', workitem_md['created']
+        print '工作项名', workitem_md['title']
+        print '负责人', workitem_md['responsibles']
+        print '完成时间', workitem_md['end']
+        print '期限', workitem_md['deadline']
+

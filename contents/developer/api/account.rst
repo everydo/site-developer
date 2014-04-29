@@ -1,40 +1,52 @@
 ---
-title: 用户许可管理
-description: 管理用户的许可
+title: 账户管理
+description: 应用的创建、服务级别切换、缴费、管理员设置等
 ---
 
 ============
 账户管理
 ============
 
-账户管理包括：
+账户管理包括应用的创建、服务级别切换、缴费、管理员设置等。
 
-/api/v1/account
-==========================
+/api/v1/account/get_token_info
+=========================================
+当前登录用户的基本信息:
 
-  http://app.easydo.cn/api/v1/account/get_api_address?account=zopen&app=workonline&instance=default
+返回::
+   
+   {'app_id'  : 'workonline',
+    'account' : 'zopen',
+    'user_id': 'test'
+    }
 
 实例管理
 ===================
 
-/api/v1/instance/create_instance
+/api/v1/account/create_instance
 -------------------------------------
-创建站点
+创建应用实例
 
-/api/v1/instance/list_instances
+/api/v1/account/list_instances
 -------------------------------------
-得到分配的许可站点(oc的管理员可以查看所有的，每个人只能查看自己的)：
+得到账户所有的应用实例:
+
+输入：
 
 - account
-- username
 
-返回::
+返回各个应用的实例信息::
 
    [
-     {  account:,
-        application:,
-        instance:
-        role: []
+     { application:,[{ id:, 
+                       title
+                       app_url:, 
+                       api_url,},  ]}
    ]
 
+/api/v1/account/get_api_address
+--------------------------------------
+得到某个应用实例的api访问入口::
+
+  http://app.easydo.cn/api/v1/account/get_api_address?account=zopen&app=workonline&instance=default
 

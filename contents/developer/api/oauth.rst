@@ -159,14 +159,3 @@ refresh_token: 刷新
 
 
 
-/api/v1/oauth2/get_token_info
---------------------------------------
-当前登录用户的基本信息，这个是我们对oauth2的一个扩展接口
-
-返回::
-   
-   {'app_id' : 'workonline',
-    'account' : 'zopen',
-    'pid'    : 'users.test'
-    }
-
