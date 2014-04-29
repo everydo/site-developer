@@ -130,26 +130,83 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
   my_file.get_data()
 
-对象类型
-=================
-object_type
-------------------
+对象类型: object_type
+=============================
 约定属性 ``object_type`` 表示对象类型，让不同类型的对象有不同的行为。
 
-通常容器类型的对象可以是::
+容器和条目的object_type分别是 ``(Container, )`` 和 ``(Item, )`` , 系统还可以是如下对象：
 
-  container.object_type = ('AppContainer', 'Container') # 应用容器
-  container.object_type = ('Folder', 'Container')  # 文件夹
-  container.object_type = ('DataContainer', 'Container') # 数据容器
+应用容器 AppContainer
+------------------------------
+只有在应用容器里面，才能部署其他的应用，网站根就是一个应用容器。
+应用容器里可以存放 表单容器、文件夹和子栏目::
 
-条目类型的对象可以是::
+  folder = app_container.add_folder(name)
+  collection = app_container.add_datacontainer(name)
+  sub_container = app_container.add_appcontainer(name)
 
-  item.object_type = ('File', 'Item')  # 文件
-  item.object_type = ('DataItem', 'Item')  # 数据项
-  item.object_type = ('FileShortCut', 'Item')  # 文件快捷方式
+应用容器的object_type是 ``('AppContainer', 'Container')``
 
-自定义语义
---------------
+文件夹 Folder
+-----------------------
+文件夹用来存放文件和文件的快捷方式，文件夹还能存放子文件夹::
+
+  sub_folder = folder.add_folder(name)
+  new_file = folder.add_file(name, data='', content_type='')
+  shortcut = folder.add_shortcut(obj, version_id='')
+
+文件夹的object_type是： ``('Folder', 'Container')``
+
+
+文件 File
+-------------
+文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
+
+  new_file.set_data('这是文件内容')
+
+文件的object_type为 ``('File', 'Item')``
+
+快捷方式 ShortCut
+---------------------
+快捷方式可以指向其他的文件或者文件夹，不能包含其他内容::
+
+  shortcut.get_orign()
+  shortcut.reset_version(version_id)
+
+其object_type为: ``('FileShortCut', 'Item')`` 或: ``('FolderShortCut', 'Item')``
+
+数据容器 DataContainer
+-------------------------
+数据容器的object_type为： ``('DataContainer', 'Container')`` , 用于存放表单数据项::
+
+  item = collection.add_item(metadata, **mdsets)
+
+数据项 DataItem
+-------------------
+数据项用来存放结构化的表单数据，是系统的基础内容，不能包含其他内容.
+
+其object_type为： ``('DataItem', 'Item')``
+
+
+站点对象
+------------------
+根站点是一个特殊AppContainer， 得到站点的运营选项参数::
+
+    root.get_operation_option(option_name, default=None)
+
+option_name可以是如下参数：
+
+- sms: 短信数量
+- apps_packages: 软件包数量
+- flow_records: 数据库记录
+- docsdue: 文档使用期限
+- docs_quota: 文件存储限额(M)
+- docs_users: 文档许可用户数
+- docs_publish: 文档发布
+- flow_customize: 流程定制
+- apps_scripting: 允许开发软件包
+Schema自定义语义
+=======================
 系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的类型。
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
