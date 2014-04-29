@@ -32,13 +32,7 @@ description: 用户自定义的状态
 
 注册一个阶段定义::
 
-   IStageDefinition(root).register('query', package="zopen.sales")
-
-将表单和阶段关联
-=========================
-在容器里面设置阶段定义::
-
-   IMetadata(collection).set_setting('item_stages', ('zopen.sales:query',))
+   IStages(root).register('query', package="zopen.sales", stages)
 
 调整阶段
 =========================

@@ -78,40 +78,21 @@ description: 系统首先是一个各种内容的存储仓库，都父子树状�
         packages/
            zopen.default/
            zopen.sales/
-              forms/
-              mdsets/
+              schemas/
+              workflows/
               stages/
+              templates/
+              scripts/
+              static/
         skins/
            bootstrap
 
 服务入口
 ---------
-全部兑现唯一标示::
-
-  root.get_intid_register() # 唯一标示注册表
-
-表单定义::
-
-  root.get_form_registry()
-  root.get_settings_registry()
-  root.get_mdset_registry()
 
 规则定义::
 
   root.get_rule_registry()
-
-皮肤定义::
-
-  root.get_skin_registry()
-
-流程定义::
-
-  root.get_workflow_registry()
-
-软件包管理::
-
-  root.get_package_registry()
-
 
 站点设置信息
 ----------------

@@ -86,11 +86,11 @@ json格式适合软件自动生成，适合在浏览器上解析读取::
 
 将这个工作流注册到系统::
 
-   IWorkflows(root).register('sales_query', workflow_json, package='zopen.sales')
+   IWorkflows(root).register('zopen.sales:sales_query', workflow_json)
 
 也可以得到工作流定义信息::
 
-   salse_query_wfl = IWorkflows(root).get('sales_query', package='zopen.sales')
+   salse_query_wfl = IWorkflows(root).get('zopen.sales:sales_query')
 
 python格式
 ------------------
@@ -287,11 +287,21 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 
 执行工作流
 ====================
-然后启动一个流程::
+可以为任何一个item，启动一个流程::
 
    IWorkitems(item).start(('zopen.sales:query', ))
 
-通过程序触发某个操作::
+一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
+
+也可以再次查看绑定的工作流::
+
+   IWorkitems(item).get_workflow()
+
+查看工作项::
+
+   IWorkitems(item).list_workitems(pid, state)
+
+通过程序触发某个操作，推动流程前进::
 
    IWorkitems(item).excute_action(step_name, action_name, as_principal=None, comment="")
 
@@ -301,14 +311,10 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
 
-可以查看可以编辑、已经不让查看的表单项::
+可以查看某个用户可以编辑、已经不让查看的表单项::
 
    IWorkitems(item).allowed_fields(pid)
    IWorkitems(item).disabled_fields(pid)
-
-如果希望得到某个流程单的当前任务::
-
-   IWorkitems(item).list_workitems(pid, state)
 
 可以设置某个具体的workitem的信息::
 
@@ -319,4 +325,5 @@ json格式的问题是，流程如果存在大量脚本，不方便书写和阅�
         print '负责人', workitem_md['responsibles']
         print '完成时间', workitem_md['end']
         print '期限', workitem_md['deadline']
+
 

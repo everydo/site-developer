@@ -19,7 +19,7 @@ description: 对象可以自定义一组属性，通过表单来更新属性
 可以通过json来定义一个表单::
 
   # 定义字段
-  form_def = [ {"name":"title"
+  schema = [ {"name":"title"
                 "type":"TextLineField", 
                 "title":'任务标题', },
             { "name":'description': 
@@ -74,23 +74,9 @@ description: 对象可以自定义一组属性，通过表单来更新属性
 
 可以将表单定义，注册保存到系统::
 
-  # 注册为一个表单
-  form_reg = root.get_form_registry()
-  form_reg.register(name, package, form_def, title, layout, table_columns, on_update)
-  form_def = form_reg.get('inquery')
-  form_def = form_reg.get('inquery', package="zopen.sales")
-
-  # 注册为表单设置项
-  settings_reg = root.get_settings_registry()
-  settings_reg.register(name, package, form_def, title, layout, on_update)
-  form_def = settings_reg.get('inquery')
-  form_def = settings_reg.get('inquery', package='zopen.sales')
-
-  # 注册为软件包的一个属性集
-  mdset_reg = root.get_mdset_registry()
-  mdset_reg.register_mdset(name, package, form_def, title, layout, on_update)
-  form_def = mdset_reg.get_mdset('default')
-  form_def = mdset_reg.get_mdset('default', package='zopen.sales')
+  # 注册为一个语义
+  ISchemas(root).register('zopen.sales:inquery', schema, title, layout, table_columns, on_update)
+  ISchemas(root).get('zopen.salesinquery')
 
 on_update 表单保存触发
 --------------------------------
@@ -122,14 +108,14 @@ on_update 表单保存触发
 ::
 
   # 生成默认模板, 可传入表单布局 div/table
-  template = form_def.gen_template('table')
+  template = schema.gen_template('table')
 
   # 渲染表单
-  html_form = form_def.html(template, {'description':'请说清楚'}, fields.keys(), errors)
+  html_form = schema.render_html(template, {'description':'请说清楚'}, fields.keys(), errors)
 
 其中::
 
-  html(form_template, storage, edit_fields, errors, **options)
+  render_html(form_template, storage, edit_fields, errors, **options)
 
 生成表单函数
 
@@ -142,7 +128,7 @@ on_update 表单保存触发
 
 为了计算初始值，需要传入更多变量::
 
-  html_form = form_def.html(template, {}, fields.keys(), errors,
+  html_form = schema.render_html(template, {}, fields.keys(), errors,
                             request, context=context, container = container)
 
 在浏览器上渲染表单
@@ -174,41 +160,4 @@ gen_template生成的模板为handlerbar格式的模板。
 或者保存到mdset中::
 
   IMedata(obj).set_mdset('lala', results)
-
-表单管理器 datacontainer
-=========================
-易度的表单管理器，是一个定制的容器对象，可以做到完全傻瓜化的表单数据管理，有如下设置信息::
-
-   datacontainer.schemas = ('zopen.sales.query_container',)  # 容器自身的设置信息
-   IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales.query',))   # 包含条目的表单定义
-   IMetadata(datacontainer).set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
-
-   IMetadata(datacontainer).set_setting('item_mdsets', ('archive_archive', 'zopen.contract.contract')) : 表单属性集(list)
-   IMetadata(datacontainer).set_setting('item_stages', ('zopen.sales.query',)): 容器的阶段定义(list)
-   IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales.query',)): 容器的工作流定义(list)
-
-我们先看看一个个性化定制表单的使用示例。对于易度外网中的一个客户调查信息表，在完成表单和流程定制部署后，可创建如下的Python脚本，部署到外网用于收集客户资料::
-
-  form_names = IMetadata(container).get_setting('item_schemas')
-  form_def = root.get_form_definition(form_names)
-
-  template = form_def.gen_template('div')
-
-  form_html = """
-      <h1>易度客户调查表</h1>
-      <p>您好！感谢您填写此调查表，请务必真实的告知贵公司的需求，以便我们为您提供一个适合您的方案。</p>
-      <form method="post">
-      %s
-      <input type="hidden" name="form.submitted" value="1" />
-      """ 
-
-  if not request.has_key('form.submitted'):
-      return form_html % form_def.html(template, context=context, container=container)
-  else:
-      result, errors = form_def.submit(request, context=context, container=container)
-      if errors:
-          return form_html % form_def.html(template, request, result, errors, context=context, container=container)
-      else:
-          IMetadata(context).update(result)
-          return "谢谢！"
 

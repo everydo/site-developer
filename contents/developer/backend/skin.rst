@@ -36,8 +36,7 @@ description: 自定义皮肤，更换皮肤
 =============
 把这个皮肤注册到站点的皮肤注册表::
 
-   skin_reg = root.get_skin_registry()
-   skin_reg.register('bootstrap', 'Twitter的Bootstrap风格皮肤', template, description='')
+   ISkins(root).register('bootstrap', 'Twitter的Bootstrap风格皮肤', template, description='')
 
 更换皮肤
 ==================

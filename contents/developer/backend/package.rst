@@ -11,18 +11,33 @@ description: 通过软件包来打包一个应用，方便发布
 
 总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
+  schemas/
+    sales_chance.py
+    sales_chance.html
+    sales_chance_settings.py
+    app_container.py
+  workflows/
+    sales_chance.py
+  stages/
+    sales_chance.py
+  templates/
+    sales_chance.py
+  scripts/
+    __init__.py
+    aaa.py
+  static/
+
+对应旧版本的软件包格式::
+
   __init__.py #  软件包基本信息
-  forms/       # 全部表单流程
+  model/       # 全部表单流程
+    sales_chance.py  # 流程表单: zopen.sales.sales_chance
+  workflows/       # 全部表单流程
     sales_chance/  # 第一个表单流程
-      item.py # 流程表单: zopen.sales.dataitem.sales_chance
-      container.py # 流程容器的属性: zopen.sales.datacontainer.sales_chance
-      layout.html # 表单的定制布局
+      config.py # 流程容器的属性: zopen.sales.sales_chance_settings
       steps.py # 流程步骤
       stages.py # 阶段定义
-    invoice/  # 第二个表单流程
-  properties/ # 整个应用的属性, 以及元数据
-    default.py # 应用容器的属性: zopen.sales.properties.default
-    archive.py # 档案管理属性集: zopen.sales.properties.archive
+  config.py # 应用容器的属性: zopen.sales.app_container
   i18n/
     aaa.po
     bbb.po 
@@ -31,6 +46,7 @@ description: 通过软件包来打包一个应用，方便发布
     main.pt
   screenshots/ # 产品截图
   resources/ #  资源文件
+
 
 表单定义form.py
 =====================
