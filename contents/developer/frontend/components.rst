@@ -20,7 +20,7 @@ description: 一组可重用的前端界面组件
 
 直接加载数据::
   
-   tree.load_data({id:'1', name:'node 1', icon:'folder', data:{'type':'folder',}, 
+   tree.load_nodes({id:'1', name:'node 1', icon:'folder', data:{'type':'folder',}, 
                    nodes: {'id':'1.1', 'name':'node1.1', 'icon':'file',
                           data:{'type':'file'}} },
                   {id:'2', name:'node 2', icon:'folder', data:{type:'shorcut'}})
@@ -47,7 +47,7 @@ description: 一组可重用的前端界面组件
 
 node_view是具体的某个节点对象，有如下功能::
 
-  node_view.load_data({})   # 继续加载子节点
+  node_view.load_nodes({})   # 继续加载子节点
   node_view.model           # node_view绑定的model信息
   node_view.expand()        # 站点
   node_view.collapse()       # 折叠
