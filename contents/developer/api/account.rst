@@ -42,9 +42,10 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
    [
      { application:,[{ id:, 
-                       title
+                       title:,
                        app_url:, 
-                       api_url,},  ]}
+                       api_url:,},  
+                    ]},
    ]
 
 /api/v1/account/get_api_address
