@@ -25,12 +25,9 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
      'roles'   : ['AccountAdmin'], }
 
 这里的roles，是用户在账户管理中的全局组, 比如 ``AccountAdmin`` 就是账户管理员.
+
 实例管理
 ===================
-
-/api/v1/account/create_instance
--------------------------------------
-创建应用实例
 
 /api/v1/account/list_instances
 -------------------------------------
@@ -50,9 +47,17 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
                     ]},
    ]
 
-/api/v1/account/get_api_address
+/api/v1/account/get_instance_url
 --------------------------------------
-得到某个应用实例的api访问入口::
+得到某个应用实例的api访问入口
 
-  http://app.easydo.cn/api/v1/account/get_api_address?account=zopen&app=workonline&instance=default
+输入::
 
+- account
+- app
+- instance
+
+输出::
+
+   {'app_url':,
+    'api_url':
