@@ -140,11 +140,9 @@ refresh_token: 刷新
     =============  ===== ===============   =====================================================================
     client_id      true   string           申请应用时分配的ID
     client_secret  true   string	         申请应用时分配的AppKey
-    grant_type     true   string           请求的类型，可选（authorization_code、password、refresh_token)
+    grant_type     true   string           请求的类型，可选（authorization_code、refresh_token)
     code           false  string           调用authorize获得的code值（grant_type为authorization_code时需要填写）
     refresh_token  false  string           刷新授权码（grant_type为refresh_token是需要填写）
-    username       false  string           用户名（grant_type为password是需要填写）
-    password       false  string           密码（grant_type为password是需要填写）
     =============  ===== ===============   =====================================================================
 
 
@@ -158,4 +156,14 @@ refresh_token: 刷新
     =============== =========== ========================================================
 
 
+/api/v1/oauth2/get_token_info
+-----------------------------------------
+当前登录用户的基本信息:
+
+返回::
+
+   {'app_id'  : 'workonline',
+    'account' : 'zopen',
+    'user_id' : 'test',
+    }
 

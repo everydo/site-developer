@@ -9,20 +9,22 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 账户管理包括应用的创建、服务级别切换、缴费、管理员设置等。
 
-/api/v1/account/get_token_info
+/api/v1/account/get_user_roles
 =========================================
-当前登录用户的基本信息:
+得到用户在账户管理中的角色:
+
+输入：
+
+- account
+- user_id
 
 返回::
    
-   {'app_id'  : 'workonline',
-    'account' : 'zopen',
-    'user_id' : 'test',
-    'roles'   : ['AccountAdmin'],
-    }
+    {'account' :
+     'user_id' :
+     'roles'   : ['AccountAdmin'], }
 
 这里的roles，是用户在账户管理中的全局组, 比如 ``AccountAdmin`` 就是账户管理员.
-
 实例管理
 ===================
 
