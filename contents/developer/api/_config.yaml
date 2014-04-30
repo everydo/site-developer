@@ -3,6 +3,7 @@ exclude: [img, java]
 order: [overview.rst, 
         oauth.rst, 
         auth.rst, 
+        account.rst,
         instance.rst,
         viewer.rst,
         webdav.rst]
