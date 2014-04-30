@@ -17,8 +17,11 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
    
    {'app_id'  : 'workonline',
     'account' : 'zopen',
-    'user_id': 'test'
+    'user_id' : 'test',
+    'roles'   : ['AccountAdmin'],
     }
+
+这里的roles，是用户在账户管理中的全局组, 比如 ``AccountAdmin`` 就是账户管理员.
 
 实例管理
 ===================
