@@ -50,6 +50,6 @@ node_view是具体的某个节点对象，有如下功能::
   node_view.load_data({})   # 继续加载子节点
   node_view.model           # node_view绑定的model信息
   node_view.expand()        # 站点
-  node_view.collaps()       # 折叠
+  node_view.collapse()       # 折叠
   node_view.activate()      # 高亮激活
 
