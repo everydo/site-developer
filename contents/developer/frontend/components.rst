@@ -16,7 +16,7 @@ description: 一组可重用的前端界面组件
 
 初始化组件::
 
-   tree = new TreeComponent('#tree', {checkable: true})
+   tree = new TreeComponent({checkable: true})
 
 直接加载数据::
   
@@ -25,31 +25,31 @@ description: 一组可重用的前端界面组件
                           data:{'type':'file'}} },
                   {id:'2', name:'node 2', icon:'folder', data:{type:'shorcut'}})
 
-也可以从服务器上加载数据::
-
-   tree.load(url)
-
 可以设置加载子树事件，动态加载::
 
-   tree.on('load', function(model, collection, view){})
-
-也可以相应选中事件::
-
-   tree.on('checked', function(model, collection, view){})
+   tree.on('load', function(node_view){})
 
 如果点击一个节点::
 
-   tree.on('clicknode', function(model, collection, view){ })
+   tree.on('clicknode', function(node_view){ })
 
 显示树::
 
-   tree.render()
+   tree.render('#tree-container')
 
-得到选中项::
+得到选中项, 得到node_view的集合::
 
    tree.get_checked()
 
-得到当前激活项::
+得到当前激活项, 得到一个node_view::
 
    tree.get_activated()
+
+node_view是具体的某个节点对象，有如下功能::
+
+  node_view.load_data({})   # 继续加载子节点
+  node_view.model           # node_view绑定的model信息
+  node_view.expand()        # 站点
+  node_view.collaps()       # 折叠
+  node_view.activate()      # 高亮激活
 
