@@ -70,7 +70,50 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 -----------------------------------------------
 调整运营参数
 
-输入::
+输入:
 
-- product_name: 产品名，如docsdue
-- options: {docs_level, project_level, users, records, }
+- account
+- instance : 实例名
+- product : docsdue / sms
+- options :
+
+  - docs_level
+  - projects_level
+  - quota
+  - docs_users
+  - records
+
+/api/v1/account/buy
+-----------------------------------------------
+购买支付
+
+输入：
+
+- account
+- instance : 
+- product : ducsdue / sms
+- amount
+
+/api/v1/account/get_ticket
+--------------------------------
+
+输入：
+
+- account
+- instance : 
+- product : ducsdue / sms
+
+输出：
+
+- options
+- unit_price
+- amount
+
+/api/v1/account/get_remaining
+--------------------------------
+查询账户余额
+
+输入：
+
+- account
+
