@@ -61,3 +61,16 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
    {'app_url':,
     'api_url':
+   }
+
+切换运营参数
+====================
+
+/api/v1/account/switch_operation_options
+-----------------------------------------------
+调整运营参数
+
+输入::
+
+- product_name: 产品名，如docsdue
+- options: {docs_level, project_level, users, records, }
