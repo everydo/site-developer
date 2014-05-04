@@ -66,54 +66,67 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 切换运营参数
 ====================
 
-/api/v1/account/switch_operation_options
+1. 注册系统，默认会启动一套初始的服务，并赠送试用票，以便试用
+2. 之后可以调整服务的参数。不同参数，功能不同，单价也不同。
+3. 一旦调整参数，会将单价、数量、功能参数记录到票上，并通知具体服务
+4. 一旦缴费，账户余额增加；一旦购买，余额减少，购买服务数量参数增加。
+
+/api/v1/account/get_remaining
+--------------------------------
+查询账户余额，通过系统在线支付渠道，可以充值
+
+输入：
+
+- account
+
+/api/v1/account/get_ticket
+--------------------------------------
+得到服务凭证信息
+
+输入：
+
+- account
+- instance : 
+- ticket: 服务凭证名, 如：
+
+  - due : 租用服务的服务期限
+  - sms : 短信服务的服务量
+
+输出：
+
+- levels : 文档、项目等的服务级别
+- quotas: 配额参数，如用户数、容量等
+- price ：单价
+- amount ：数量
+
+/api/v1/account/update_ticket
 -----------------------------------------------
-调整运营参数
+调整凭证的服务级别和配额
 
 输入:
 
 - account
 - instance : 实例名
-- product : docsdue / sms
-- options :
+- ticket: due / sms
+- levels : 服务级别, 一个dict，比如 {'docs':'standard', 'team':'free'}
 
-  - docs_level
-  - projects_level
-  - quota
-  - docs_users
-  - records
+  - docs : 文档管理级别
+  - team: 团队协作级别
 
-/api/v1/account/buy
+- quotas:
+
+  - storage_size : 文档存储容量
+  - item_count : 每月新增条目数，包括文档/表单
+  - user_count : 使用用户数量
+
+/api/v1/account/pay_ticket
 -----------------------------------------------
-购买支付
+凭证支付
 
 输入：
 
 - account
 - instance : 
-- product : ducsdue / sms
-- amount
-
-/api/v1/account/get_ticket
---------------------------------
-
-输入：
-
-- account
-- instance : 
-- product : ducsdue / sms
-
-输出：
-
-- options
-- unit_price
-- amount
-
-/api/v1/account/get_remaining
---------------------------------
-查询账户余额
-
-输入：
-
-- account
+- ticket: due / sms
+- amount : 支付的余额
 
