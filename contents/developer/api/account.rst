@@ -153,9 +153,9 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输出::
 
   [{'sms': {'title':'短信数量', 'type':'number'), 
-   {'ads': {'title':'是否显示广告', 'type':'bool'),
    {'rules': {'title':'是否支持规则引擎', 'type':'bool'),
    {'metadata': {'title':'是否支持元数据', 'type':'bool'),
+   ...
   ]
 
 其中type可以是：
@@ -176,11 +176,30 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 输出::
 
- [ {'name':,  # 级别名
-    'title':,  # 级别标题
-    'description':, # 备注
-    'options':{}  # 参数
-   }
+ [ {'name': 'free',  # 级别名
+    'title': '免费版',  # 级别标题
+    'description': '5人以下免费使用', # 备注
+    'options':{
+       'docs_peruser_fee':8, 'pergiga_fee':10, 'perkrecords_fee':10,
+       'docs_ctrfolder':False, 'docs_extedit':True, 'docs_facetag':True,
+       'docs_repository':True, 'docs_finepermissions':True, 'docs_templates':True,
+       'docs_personal':True, 'docs_publish':False,
+       'rules':False, 'metadata':False,
+       'apps_packages':0, 'apps_scripting':False,
+       'flow_customize':False,
+      }},
+    {'name':'standard', 
+     'title':'企业版',  
+     'comment':'每月: 10元/人,10元/G,10元/千记录',
+     'options':{
+       'docs_peruser_fee':10, 'pergiga_fee':10, 'perkrecords_fee':10,
+       'docs_ctrfolder':True, 'docs_extedit':True, 'docs_facetag':True,
+       'docs_repository':True, 'docs_finepermissions':True, 'docs_templates':True,
+       'docs_personal':True, 'docs_publish':True,
+       'rules':False, 'metadata':False,
+       'apps_packages':20, 'apps_scripting':False,
+       'flow_customize':False,
+       }},
  ]
 
 
