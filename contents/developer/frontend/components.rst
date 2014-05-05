@@ -58,17 +58,15 @@ description: 一组可重用的前端界面组件
 在当前已经加载的所有节点中，找到指定ID的节点::
 
    tree.get_node(node_id)
-
-根据路径，逐层展开，会按需进行加载::
-
-   tree.expand(path=[node_id_1, node_id_2, node_3])
+   tree.get_node([node_id_1, node_id_2, node_3], function (node) {
+                        node.expand()
+                  })
 
 node是具体的某个节点对象，有如下功能::
 
-  node.load_nodes({})   # 继续加载子节点
+  node.load_nodes({})  # 继续加载子节点
   node.model           # node_view绑定的model信息
-  node.expand()        # 展开，如果没有加载过，会自动触发加载
-  node.collapse()       # 折叠
+  node.expand(function (node) {} ) # 展开，如果没有加载过，会自动触发加载
+  node.collapse()      # 折叠
   node.activate()      # 高亮激活
-  node.get_child(node_id)  # 得到自己的
 
