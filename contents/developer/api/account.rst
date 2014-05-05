@@ -54,7 +54,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入::
 
 - account
-- app
+- application
 - instance
 
 输出::
@@ -86,6 +86,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入：
 
 - account
+- application
 - instance : 
 - ticket: 服务凭证名, 如：
 
@@ -107,6 +108,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入：
 
 - account
+- application
 - instance : 
 
 输出： get_ticket的列表
@@ -118,6 +120,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入:
 
 - account
+- application
 - instance : 实例名
 - ticket: due / sms
 - levels : 服务级别, 一个dict，比如 {'docs':'standard', 'team':'free'}
@@ -138,6 +141,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入：
 
 - account
+- application
 - instance : 
 - ticket: due / sms
 - amount : 支付的余额
