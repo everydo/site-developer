@@ -95,6 +95,8 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 输出：
 
+- name : ticket的id, 目前是due/sms
+- title: ticket的名字
 - levels : 文档、项目等的服务级别
 - quotas: 配额参数，如用户数、容量等
 - price ：单价
