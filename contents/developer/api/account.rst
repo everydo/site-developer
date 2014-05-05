@@ -97,7 +97,19 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 - levels : 文档、项目等的服务级别
 - quotas: 配额参数，如用户数、容量等
 - price ：单价
-- amount ：数量
+- options : 详细的功能参数
+- quantity：数量
+
+/api/v1/account/list_tickets
+--------------------------------------
+得到实例的全部的ticket
+
+输入：
+
+- account
+- instance : 
+
+输出： get_ticket的列表
 
 /api/v1/account/update_ticket
 -----------------------------------------------
@@ -129,4 +141,46 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 - instance : 
 - ticket: due / sms
 - amount : 支付的余额
+
+/api/v1/account/list_application_options
+-------------------------------------------
+应用的全套运营参数信息。
+
+输入:
+
+- application: 应用的id
+
+输出::
+
+  [{'sms': {'title':'短信数量', 'type':'number'), 
+   {'ads': {'title':'是否显示广告', 'type':'bool'),
+   {'rules': {'title':'是否支持规则引擎', 'type':'bool'),
+   {'metadata': {'title':'是否支持元数据', 'type':'bool'),
+  ]
+
+其中type可以是：
+
+- time: 时间、期限
+- count：数量
+- size: 存储容量
+- amount: 金额
+- bool: 逻辑
+
+/api/v1/account/list_service_levels
+-----------------------------------------
+查询账户余额，通过系统在线支付渠道，可以充值
+
+输入：
+
+- service
+
+输出::
+
+ [ {'name':,  # 级别名
+    'title':,  # 级别标题
+    'description':, # 备注
+    'options':{}  # 参数
+   }
+ ]
+
 
