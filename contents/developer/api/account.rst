@@ -41,19 +41,19 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 返回各个应用的实例信息::
 
-   [
-     { application:,[{ id:, 
+     { application:,[{ application:, 
+                       instance:
+                       operator:
                        title:,
                        app_url:, 
                        api_url:,},  
                     ]},
-   ]
 
 /api/v1/account/get_instance
 --------------------------------------
 得到某个应用实例的api访问入口
 
-输入::
+输入:
 
 - account
 - application
@@ -61,7 +61,13 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 输出::
 
-   {'id':, 'title', 'app_url':, 'api_url': }
+   {'application':, 
+    'instance': 
+    'operator':
+    'title':, 
+    'app_url':, 
+    'api_url': 
+   }
 
 切换运营参数
 ====================
