@@ -1,4 +1,4 @@
-title: Easydo - 企业应用快速开发平台
+title: Easydo - 企业办公平台
 order: [index.rst, tour, sdk, api, package, blog]
 exclude: [img, cert]
 theme_base: /themes/developer-bootstrap
