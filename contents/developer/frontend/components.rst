@@ -16,22 +16,27 @@ description: 一组可重用的前端界面组件
 
 初始化组件::
 
-   tree = new TreeComponent({checkable: true})
+   tree = new TreeComponent({checkable: true, is_static: false})
+
+如同 ``is_static`` 是true，表示静态树，不会动态加载触发 ``load`` 事件。
 
 直接加载数据::
   
    tree.load_nodes({id:'1', 
                     name:'node 1', 
                     icon:'folder', 
-                    data:{'type':'folder',}, 
+                    is_folder:true,
+                    data:{'type':'folder',},
                     nodes: {id:'1.1', 
                             name:'node1.1', 
+                            is_folder:false,
                             icon:'file',
-                            data:{'type':'file'}} 
+                            data:{'type':'file'}}
                   },
-                  {id:'2', 
+                  {id:'2',
                    name:'node 2', 
                    icon:'folder', 
+                   is_folder:true,
                    data:{type:'shorcut'}
                   })
 
