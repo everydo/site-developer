@@ -40,16 +40,16 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 -------------
 网站的根是root，他自身是一个容器，在其下面可以创建容器::
 
-   root['conainer1'] = new Contianer()
-   root['conainer2'] = new Contianer()
+   root['conainer1'] = Contianer()
+   root['conainer2'] = Contianer()
 
 站点根下面，一般不直接创建条目，在容器里面可增加条目::
 
-   container1['item1'] = new Item()
+   container1['item1'] = Item()
 
 也可再创建子容器::
 
-   container1['sub_container1'] = new Container()
+   container1['sub_container1'] = Container()
 
 访问对象
 -----------
@@ -240,7 +240,7 @@ Schema自定义语义
 
 也可以在创建对象的时候，来初始化这些属性::
 
-   root['conainer1'] = new Contianer(title='Container 1', 
+   root['conainer1'] = Contianer(title='Container 1', 
                                      description='some desc',
                                      subjects=('tag1', 'tag2')})
 

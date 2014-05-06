@@ -12,7 +12,7 @@ description: 自动生成表单、合法性校验，数据存储等
 
 表单如下信息构成::
 
-  form = new Form(fields:fields, # 字段
+  form = Form(fields:fields, # 字段
                 layout:layout, # 字段的布局模板
                 table_columns:table_columns, # 表格显示列
                 on_update:'', # 更新触发脚本
