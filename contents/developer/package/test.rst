@@ -53,4 +53,3 @@ site_structure是一个yaml格式的站点结构描述文件
 
   return testcase.output()
 
-

@@ -185,7 +185,23 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 站点对象
 ------------------
-根站点是一个特殊AppContainer， 得到站点的运营选项参数::
+根站点是一个特殊AppContainer
+
+可以查看自身的运行信息::
+
+  root.get_sys_info()
+
+返回如下信息:
+
+- version: 当前运行版本
+- application: 应用名
+- account: 比如zopen
+- instance: 实例名
+- operator: 本站点operator名字
+- api_url: 本站点的api访问地址
+- oc_api_url: oc的api地址
+
+查看站点的运营选项参数::
 
     root.get_operation_option(option_name, default=None)
 
@@ -200,6 +216,7 @@ option_name可以是如下参数：
 - docs_publish: 文档发布
 - flow_customize: 流程定制
 - apps_scripting: 允许开发软件包
+
 
 Schema自定义语义
 =======================
@@ -651,27 +668,8 @@ visible: 保密
 
 软件包
 =============
-软件包是应用的代码载体，来组织自定义内容、代码逻辑和外部资源。软件包可以以独立文件的形式发布和交换。软
-
-总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
-
-  schemas/
-    sales_chance.py
-    sales_chance.html
-    sales_chance_settings.py
-    app_container.py
-  workflows/
-    sales_chance.py
-  stages/
-    sales_chance.py
-  templates/
-    sales_chance.py
-  scripts/
-    __init__.py
-    aaa.py
-  static/
-
 通过IPackages管理软件包。
+
 查看已经安装的所有软件包::
 
   IPackages(root).keys()

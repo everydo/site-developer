@@ -1,4 +1,4 @@
-title: 开放接口
+title: REST API
 exclude: [img, java]
 order: [overview.rst, 
         oauth.rst, 

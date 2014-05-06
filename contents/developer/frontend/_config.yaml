@@ -1,6 +1,0 @@
-title: 应用开发
-description: 如何利用后端接口，开发一个应用
-order: [overview.rst,
-        components.rst,
-        helpers.rst
-        ]
