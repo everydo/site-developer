@@ -21,6 +21,7 @@ description: 总体说明系统的开放API架构
 - 组织架构: org
 - 云查看: viewer
 - 工作平台: workonline
+- 文档存储：content
 
 其中账户管理account是有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的接口来查询::
 

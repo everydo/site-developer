@@ -112,11 +112,11 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 唯一标识定位
 ----------------
-系统的所有对象，创建后均会注册一个永久的整数，无论以后对象是否移动或者改名，都不会改变::
+系统的所有对象，创建后均会注册一个永久的ID，无论以后对象是否移动或者改名，都不会改变::
 
-  intids = IIntids(root)  # 唯一标示注册表
-  int_id = intids.get_id(obj)
-  obj = intids.get_object(int_id)  # 通过int_id找到对象
+  uids = IUIDs(root)  # 唯一标示注册表
+  uid = uids.get_uid(obj)
+  obj = uids.get_object(uid)  # 通过uid找到对象
 
 
 对象类型: object_type
@@ -440,11 +440,11 @@ Schema自定义语义
 -----------
 定版就是设置版本、版次信息::
 
-  revisions.fix(revision_id=None, version_number=None, revision_number=None)
+  revisions.fix(revision_id=None, major_version=None, minor_version=None)
 
 - 如果不传revision_id，表示对当前的工作版本进行定版
-- 如果不传version_number，继续沿用上一个version_number
-- 如果不传revision_number，自动增长上一个revision_number
+- 如果不传 major_version，继续沿用上一个version_number
+- 如果不传 minor_version，自动增长上一个revision_number
 
 查看工作版本信息
 --------------------------
@@ -455,14 +455,14 @@ Schema自定义语义
 如果revision_id为None，表示工作版本。返回::
 
    {'revision_id' : 12, # 版本ID
-    'version_number' : 1,   # 版本号
-    'revision_number' : 0,  # 版次号
+    'major_version' : 1,   # 版本号
+    'minor_version' : 0,  # 版次号
     'user' : 'users.panjy',  # 版本修改人
     'timestamp' : 12312312.123,  # 版本修改时间
     'comment' : 'some comments',   # 版本说明
    }
 
-其中如果version_number为空，表示没有定版。
+其中如果 major_version 为空，表示没有定版。
 
 保存为历史版本
 ---------------------------------
