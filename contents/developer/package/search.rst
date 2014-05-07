@@ -18,7 +18,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 
 - stati: 状态
 - parent: 上一级对象的intid
-- size: 大小
+- bytes: 大小
 - content_type:   全文的内容类型，对于无法知道的内容类型，以 ``application/x-ext-{ext}`` 来替代
 - schemas : 基础属性的语义定义
 - mdsets: 属性集

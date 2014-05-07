@@ -155,7 +155,6 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
   my_file.set_data('this is long long text')
   my_file.content_type = 'text/plain'
-  my_file.size = 1023
 
 可以得到文件::
 

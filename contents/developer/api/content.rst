@@ -51,9 +51,41 @@ API结构
 内容content
 ====================
 
-/api/v1/content/get
+/api/v1/content/metadata
 -------------------------
-得到扩展属性
+得到对象(文件夹、文件、快捷方式、容器、表单)的元数据
+
+url参数：
+
+- account: zopen, 账户名
+- instance: default, 站点名
+- uid: 12312312, 文件唯一ID，和path任选一个
+- path: /files/abc.doc, 文件路径，和uid任选一个
+
+返回：
+
+会返回基础的对象信息以及按需返回的mdset. 其中基础信息包括：
+
+- uid
+- path
+- bytes
+- content_type
+- revision
+- created
+- modified
+- title
+- description
+- subjects
+- schemas: 对象schema定义的字段
+
+  - ...
+
+- mdset:
+
+  - zopen.archive:archive
+
+    - number
+    - dept
 
 /api/v1/content/list
 -------------------------
@@ -66,25 +98,30 @@ url参数：
 - uid: 12312312, 文件唯一ID，和path任选一个
 - path: /files/abc.doc, 文件路径，和uid任选一个
 
-- file_limit: 10000(最大25000)，返回内容的限额
+- limit: 10000(最大25000)，返回内容的限额
 
 返回：
 
-文件夹自身信息，以及内容的清单:
+文件夹自身信息，以及内容的清单, 参照 metadata的返回
 
-- uid
-- path
-- revision: 12121, 具体的版本号(如果是文件)
-- bytes: 230783, 文件的大小 (如果是文件)
-- content_type": "application/pdf", (如果是文件)
-- contents
+/api/v1/content/search
+-------------------------
+搜索.  只能搜索到有权限查看的内容，在body中填写查询条件, 具体参照软件包中搜索一节::
 
-  - uid: 121212 , 文件的唯一ID
-  - path: "/Getting_Started.pdf", 所在路径
-  - modified: 121231231.12, 修改时间戳
-  - revision: 12121, 具体的版本号(如果是文件)
-  - bytes: 230783, 文件的大小 (如果是文件)
-  - content_type": "application/pdf", (如果是文件)
+  'query':[ # 类似ES
+               ],
+  'sort':{},
+  'aggs':{},
+      'limit':1
+  'size':20
+  'from':1
+
+搜索结果::
+
+  {count:10,
+   results: [ { ''  },
+            ]
+  }
 
 api/v1/content/delta 
 ----------------------------------
@@ -94,18 +131,17 @@ api/v1/content/delta
 
 - account
 - instance
-- uid
-- path
-- cursor: modified: 从什么时候开始
+- uid : 123123,所在文件夹，和path二选一
+- path: /files/folder_a/ 文件夹路径， 和uid二选一
+- modified: 从什么时候开始
 
 返回：
 
-- cursor: 其实也是一个时间戳，用于下次继续请求
 - has_more: 是否还有？
 - entries: 可能发生增删改移动
 
-  - path
-  - uid
+  - uid: 发生变化的文件id
+  - path: 所在路径
   - action: movein/moveout/rename/remove/new/update
 
 https://www.dropbox.com/developers/core/docs#delta
@@ -144,16 +180,16 @@ https://www.dropbox.com/developers/core/docs#files-GET
 
 api/v1/file/put
 ---------------------------------
-使用PUT方法，上传一个文件，消息头必须包括 Content-Length 以便检查完整性
+使用PUT方法，上传一个文件，消息头必须包括 Content-Length 以便检查完整性, 最多支持150M文件
 
 url参数：
 
 - account: zopen, 账户名
 - instance: default, 站点名
-- uid: 12312312, 文件唯一ID，和path任选一个
+- uid: 12312312, 文件所在文件夹的uid，和path任选一个
 - path: /files/abc.doc, 文件路径，和uid任选一个
 - overwrite: true/false, 如果文件存在，是否保存为新版本，或者自动改名
-- parent_revision: 12, 上一版本的版本号，用于检查冲突, 如果冲突，则拷贝一个分支版本
+- parent_revision: 12, 上一版本的版本号，用于检查冲突, 如果冲突，则合并失败，必须在下载最新版本解决冲突之后上传。
 
 请求正文：文件内容
 
@@ -165,7 +201,20 @@ https://www.dropbox.com/developers/core/docs#files_put
 
 api/v1/file/chunked_upload 
 ------------------------------------------
-断点续传
+使用PUT方法，超过150M的大文件分片逐个上传，支持断点续传，每个分片不超过150M，典型是4M. 每个分片临时保留24小时，/commit_chunked_upload后提交完成。
+
+参数：
+
+- upload_id: 上传的session id, 如果为空，表示新建一个上传
+- offset: 0 上传数据的起始偏移
+
+请求正文：文件内容
+
+返回：
+
+- upload_id: "23234we"
+- offset: 3337
+- expires: session失效时间
 
 参照：
 
@@ -173,7 +222,19 @@ https://www.dropbox.com/developers/core/docs#chunked-upload
 
 api/v1/file/commit_chunked_upload
 --------------------------------------------------
-提交断点续传
+提交断点续传，类似/put, 但是是POST方式提交，无内容。
+
+url参数：
+
+- account: zopen, 账户名
+- instance: default, 站点名
+- uid: 12312312, 文件所在文件夹的uid，和path任选一个
+- path: /files/abc.doc, 文件路径，和uid任选一个
+- overwrite: true/false, 如果文件存在，是否保存为新版本，或者自动改名
+- parent_revision: 12, 上一版本的版本号，用于检查冲突, 如果冲突，则合并失败，必须在下载最新版本解决冲突之后上传。
+- upload_id: 上传会话的id
+
+返回: 文件元数据, 同上
 
 参照：
 
