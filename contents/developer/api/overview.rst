@@ -19,11 +19,11 @@ description: 总体说明系统的开放API架构
 
 - 账户管理: account
 - 组织架构: org
-- 云查看: viewer
 - 工作平台: workonline
-- 文档存储：content
+- 文件存储：file
+- 文档查看: viewer
 
-其中账户管理account是有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的接口来查询::
+其中账户管理、组织架构有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的接口来查询::
 
   http://app.easydo.cn/api/v1/account/get_api_address?account=zopen&app=workonline&instance=default
 
