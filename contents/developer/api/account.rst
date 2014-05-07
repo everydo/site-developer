@@ -58,8 +58,8 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 - account
 - application
-- instance_name
-- instance_title
+- instance 
+- title
 - operator
 
 
@@ -82,7 +82,7 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 - account
 - application
-- instance_name
+- instance
 
 
 返回是否删除成功::
@@ -97,8 +97,8 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 - account
 - application
-- instance_name
-- instance_title
+- instance
+- title
 
 
 返回实例的信息::
