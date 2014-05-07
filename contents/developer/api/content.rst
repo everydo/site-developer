@@ -104,7 +104,9 @@ url参数：
 
 - account
 - instance
-- path
+- uid : 所在父文件夹的id
+- path : 所在父文件夹的路径 ，和uid二选一
+- name : 文件夹名
 
 返回：创建的文件夹的元数据
 
@@ -131,7 +133,9 @@ url参数：
 - instance
 - uid
 - path
-- to_path: 包含对象自身名字的新路径
+- to_uid: 目标文件夹的uid
+- to_path: 目标文件夹的path，和上面二选一
+- name: 新的文件名(可选）
 
 返回：对象的元数据
 
@@ -145,13 +149,15 @@ url参数：
 - instance
 - uid
 - path
-- to_path: 包含对象自身名字的新路径
+- to_uid: 目标文件夹的uid
+- to_path: 目标文件夹的path，和上面二选一
+- name: 新的文件名(可选）
 
 返回：新对象的元数据
 
-api/v1/content/delta 
+api/v1/content/delta
 ----------------------------------
-查找文件更新
+查找更新日志，用于文件同步
 
 参数：
 
@@ -159,6 +165,7 @@ api/v1/content/delta
 - instance
 - uid : 123123,所在文件夹，和path二选一
 - path: /files/folder_a/ 文件夹路径， 和uid二选一
+- actions: 日志操作内容，默认是[movein, moveout, rename, remove, new, update]
 - modified: 从什么时候开始
 
 返回：
@@ -168,6 +175,7 @@ api/v1/content/delta
 
   - uid: 发生变化的文件id
   - path: 所在路径
+  - revision: 当时的版本号
   - timestamp: 发生时间
   - action: movein/moveout/rename/remove/new/update
 
@@ -184,10 +192,8 @@ url参数：
 
 - account: zopen, 账户名
 - instance: default, 站点名
-- uid: 12312312, 文件唯一ID，和path任选一个
-- path: /files/abc.doc, 文件路径，和uid任选一个
-
-- rev: 1212, 版本ID，可以查找历史版本
+- uid: 12312312, 文件唯一ID
+- revision: 12, 版本ID，可以查找历史版本
 
 返回：
 
@@ -195,8 +201,8 @@ url参数：
 - http消息头包含文件的元数据，位于 ``x-edo-metadata`` 中，包括基础的元数据：
 
   - uid: 121212 , 文件的唯一ID
-  - path: "/Getting_Started.pdf", 所在路径
   - revision: 12121, 具体的版本号
+  - filename: "Getting_Started.pdf"
   - bytes: 230783, 文件的大小
   - modified: 121231231.12, 修改时间戳
   - content_type": "application/pdf",
@@ -232,6 +238,8 @@ api/v1/file/chunked_upload
 
 参数：
 
+- account: zopen, 账户名
+- instance: default, 站点名
 - upload_id: 上传的session id, 如果为空，表示新建一个上传
 - offset: 0 上传数据的起始偏移
 

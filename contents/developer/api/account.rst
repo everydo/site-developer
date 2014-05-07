@@ -32,6 +32,26 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 实例管理
 ===================
 
+/api/v1/account/get_instance
+--------------------------------------
+得到某个应用实例的api访问入口
+
+输入:
+
+- account
+- application
+- instance
+
+输出::
+
+   {'application':, 
+    'instance': 
+    'operator':
+    'title':, 
+    'app_url':, 
+    'api_url': 
+   }
+
 /api/v1/account/list_instances
 -------------------------------------
 得到账户所有的应用实例:
@@ -103,26 +123,6 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 返回实例的信息::
 
-
-   {'application':, 
-    'instance': 
-    'operator':
-    'title':, 
-    'app_url':, 
-    'api_url': 
-   }
-
-/api/v1/account/get_instance
---------------------------------------
-得到某个应用实例的api访问入口
-
-输入:
-
-- account
-- application
-- instance
-
-输出::
 
    {'application':, 
     'instance': 

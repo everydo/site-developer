@@ -23,17 +23,23 @@ description: 如何开发一个桌面助手
 
 文件下载同步::
 
-   edo-windows://download/http://192.168.1.88:8089/files/?token=12312312
+   edo-windows://download/http://192.168.1.88:8089/?token=12312312&account=zopen&instance=default&uid=12312312
 
 文件上传同步::
 
-   edo-windows://upload/http://192.168.1.88:8089/files/?token=12312312
+   edo-windows://upload/http://192.168.1.88:8089/?token=12312312&account=zopen&instance=default&uid=12312312
 
 点击后直接调用::
 
-   c:\edo\edowindows.exe -u "edit/http://192.168.1.88:8089/files/abc.doc?token=12312312"
+   c:\edo\edowindows.exe -u "download/http://192.168.1.88:8089/?token=12312312&account=zopen&instance=default&uid=12312312"
 
-桌面助手启动之后，读取token信息，利用系统的开放api来完成后续功能。
+桌面助手启动之后，解读参数：
+
+- download: 表示同步下载，也可能是upload、edit
+- http://192.168.1.88:8089 : 系统账户中心api地址
+- token: 读取token信息，利用系统的开放api来完成后续功能
+- account
+- instance
 
 文件下载同步
 ======================
