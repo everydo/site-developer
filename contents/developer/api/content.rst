@@ -173,3 +173,45 @@ api/v1/content/delta
 
 https://www.dropbox.com/developers/core/docs#delta
 
+api/v1/content/download_url
+----------------------------------
+获取带签名信息的下载的临时url
+
+参数：
+
+- account
+- instance
+- uid : 123123,所在文件夹，和path二选一
+- path: /files/folder_a/ 文件夹路径， 和uid二选一
+- mime：下载的mime类型，如果下载原始文件，不传递此参数
+
+返回：
+
+- 302直接跳转到具体的文件服务地址
+- 返回结果
+
+  - account
+  - instance
+  - signcode
+  - username
+  - app_id
+
+api/v1/file/commit_chunked_upload
+--------------------------------------------------
+提交断点续传，类似/put, 但是是POST方式提交，无内容。
+
+url参数：
+
+- account: zopen, 账户名
+- instance: default, 站点名
+- uid: 12312312, 文件所在文件夹的uid，和path任选一个
+- path: /files/abc.doc, 文件路径，和uid任选一个
+- overwrite: true/false, 如果文件存在，是否保存为新版本，或者自动改名
+- parent_revision: 12, 上一版本的版本号，用于检查冲突, 如果冲突，则合并失败，必须在下载最新版本解决冲突之后上传。
+- upload_id: 上传会话的id
+
+返回: 文件元数据, 同上
+
+参照：
+
+https://www.dropbox.com/developers/core/docs#commit-chunked-upload
