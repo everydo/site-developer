@@ -96,6 +96,60 @@ url参数：
             ]
   }
 
+api/v1/content/create_folder
+----------------------------------
+创建文件夹
+
+url参数：
+
+- account
+- instance
+- path
+
+返回：创建的文件夹的元数据
+
+api/v1/content/delete
+----------------------------------
+删除对象
+
+url参数：
+
+- account
+- instance
+- uid
+- path
+
+返回：被删除对象的元数据
+
+api/v1/content/move
+----------------------------------
+将对象从一个地方，转移到另外的地方
+
+url参数：
+
+- account
+- instance
+- uid
+- path
+- to_path: 包含对象自身名字的新路径
+
+返回：对象的元数据
+
+api/v1/content/copy
+----------------------------------
+复制对象
+
+url参数：
+
+- account
+- instance
+- uid
+- path
+- to_path: 包含对象自身名字的新路径
+
+返回：新对象的元数据
+
+查找文件更新
 api/v1/content/delta 
 ----------------------------------
 查找文件更新
