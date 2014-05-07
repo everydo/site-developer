@@ -47,11 +47,13 @@ url参数：
 - title
 - description
 - subjects
-- schemas: 对象schema定义的字段
+- schemas:
+- mdsets:
+- fields: 对象schema定义的字段
 
   - ...
 
-- mdset:
+- properties: mdset的实际值
 
   - zopen.archive:archive
 
