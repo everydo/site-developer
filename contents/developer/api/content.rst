@@ -115,6 +115,7 @@ api/v1/content/delta
 
   - uid: 发生变化的文件id
   - path: 所在路径
+  - timestamp: 发生时间
   - action: movein/moveout/rename/remove/new/update
 
 https://www.dropbox.com/developers/core/docs#delta
