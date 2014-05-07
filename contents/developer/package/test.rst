@@ -21,9 +21,21 @@ description: 如何对后端开发进行测试
 --------------------
 主要是初始化站点内容、授权等操作::
 
-  testcase.setup(site_structure)
+  testcase.setup(context, objects)
 
-site_structure是一个yaml格式的站点结构描述文件
+objects是一个yaml格式的站点结构描述文件::
+
+  [ {object_type:
+     title:
+     description:
+     schema:(,),
+     mdset:(,),
+     fields: {''},
+     acl_allow:
+     acl_deny:
+     properties: {'zopen.archive:archev':{'number':}, },
+     children: [ {}, {} ] }
+  ]
 
 模拟登陆
 --------------
@@ -35,7 +47,7 @@ site_structure是一个yaml格式的站点结构描述文件
 -------------------
 主要是需要验证结果::
 
-  testcase.assert(expression, '说明：测试某某') 
+  testcase.test(expression, title='说明：测试某某') 
 
 其中expression就是一个测试表达式，如果成功返回 ``True`` ，否则 ``False`` ::
 
@@ -49,7 +61,11 @@ site_structure是一个yaml格式的站点结构描述文件
 
 返回测试报告
 ----------------------
-返回测试报告(json格式)::
+返回测试结果::
 
-  return testcase.output()
+  return testcase.get_result()
+
+返回测试结果的列表::
+
+ [ {title:"某某测试", result:true/false} ] 
 
