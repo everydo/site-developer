@@ -1,4 +1,4 @@
 .. raw:: html
 
-    <h1>SDK</h1>
-    <p>使用Python/Javascript封装的系统REST API接口</p>
+    <h1>语言开发SDK</h1>
+    <p>使用Python/Javascript快速开发 移动、web应用</p>

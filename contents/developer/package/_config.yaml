@@ -1,16 +1,16 @@
-title: 易度软件包
+title: 软件包
 description: 系统的介绍平台后端开发接口
 order: [overview.rst,
         storage.rst, 
         search.rst, 
 
+        pt.rst,
         form.rst, 
         workflow.rst,
         team.rst,
         stage.rst, 
         skin.rst,
         rules.rst,
-        py.rst,
 
         social.rst, 
         notification.rst, 
@@ -19,6 +19,5 @@ order: [overview.rst,
         rdb.rst, 
         orginfo.rst, 
         anyflow.rst,
-        scripting.rst, 
         kss.rst, 
         others.rst]
