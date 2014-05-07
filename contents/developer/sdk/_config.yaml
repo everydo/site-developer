@@ -1,6 +1,7 @@
 title: SDK
 description: 为各种语言提供的，易度服务开发工具包
 order: [overview.rst,
+        viewer.rst,
         components.rst,
         helpers.rst
         ]
