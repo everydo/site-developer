@@ -55,9 +55,9 @@ objects是一个yaml格式的站点结构描述文件::
 
 销毁测试环境
 ------------------
-销毁用于销毁setup里面创建的对象, 销毁整个site_structure::
+销毁用于销毁setup里面创建的对象, 销毁整个setup建立起来的对象::
 
-  testcase.tearDown()
+  testcase.tear_down()
 
 返回测试报告
 ----------------------
