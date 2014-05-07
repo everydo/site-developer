@@ -3,6 +3,7 @@ title: 账户管理
 description: 应用的创建、服务级别切换、缴费、管理员设置等
 ---
 
+
 ============
 账户管理
 ============
@@ -48,6 +49,68 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
                        app_url:, 
                        api_url:,},  
                     ]},
+
+/api/v1/account/create_instance
+-------------------------------------
+创建一个应用实例:
+
+输入：
+
+- account
+- application
+- instance_name
+- instance_title
+- operator
+
+
+返回创建的实例的信息::
+
+
+   {'application':, 
+    'instance': 
+    'operator':
+    'title':, 
+    'app_url':, 
+    'api_url': 
+   }
+   
+/api/v1/account/destory_instance
+-------------------------------------
+删除一个应用实例:
+
+输入：
+
+- account
+- application
+- instance_name
+
+
+返回是否删除成功::
+
+   {'status':True}
+
+/api/v1/account/update_instance
+-------------------------------------
+更新应用实例的名称:
+
+输入：
+
+- account
+- application
+- instance_name
+- instance_title
+
+
+返回实例的信息::
+
+
+   {'application':, 
+    'instance': 
+    'operator':
+    'title':, 
+    'app_url':, 
+    'api_url': 
+   }
 
 /api/v1/account/get_instance
 --------------------------------------
