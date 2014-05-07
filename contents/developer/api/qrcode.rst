@@ -6,7 +6,9 @@ description: 生成二维码
 ===============
 生成二维码
 ===============
-这个很简单，直接::
 
-   @@qrcode?data=dsdksjdkjdsdsdjkjsd
+/api/v1/qr_code
+-------------------
+参数：
 
+- data
