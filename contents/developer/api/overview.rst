@@ -22,6 +22,7 @@ description: 总体说明系统的开放API架构
 - 工作平台: workonline
 - 文件存储：file
 - 文档查看: viewer
+- 短信发送：sms
 
 其中账户管理、组织架构有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的接口来查询::
 
