@@ -13,6 +13,8 @@ description: 文件上传、下载、转换
 
 文件服务file: 负责文件的上传、下载和转换相关的内容.
 
+文档查看
+=================
 /api/v1/file/get_viewer_secret
 -------------------------------
 获取查看密匙, 得到一个转换密匙。注意：这个密匙普通用户无法得到，只有账户管理员才能得到。
@@ -110,7 +112,8 @@ HTTP错误返回值:
   - modified: 121231231.12, 修改时间戳
   - content_type": "application/pdf",
 
-
+文档上传
+================
 api/v1/file/chunked_upload 
 ------------------------------------------
 使用PUT方法，超过150M的大文件分片逐个上传，支持断点续传，每个分片不超过150M，典型是4M. 每个分片临时保留24小时，/content/commit_chunked_upload后提交完成。
@@ -134,6 +137,8 @@ api/v1/file/chunked_upload
 
 https://www.dropbox.com/developers/core/docs#chunked-upload
 
+文档转换
+================
 /api/v1/file/transform
 ---------------------------------------
 转换和回调接口. 可主动发起转换，转换完成，进行回调。
@@ -146,3 +151,35 @@ https://www.dropbox.com/developers/core/docs#chunked-upload
 - targets: 需要专门的目标Mime类型
 - callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
 
+主动发起转换: /do_transform
+------------------------------
+可直接在浏览器上发起转换请求。
+
+如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
+
+- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
+- instance: 具体的站点好
+- location：具体的文件存放位置
+- source_url: 如果文件不存在，在哪里下载
+- targets: 目标文件的mime类型
+- ip: 浏览器的ip地址，如不填写则不做IP检查
+- timestamp：失效时间
+- app_id: 应用id，默认为空
+- username: 用户名
+- signcode: 签名, 具体算法见后
+
+返回值见错误码
+
+文档比较: /diff
+---------------------
+直接比较2个文档的差异，可传递的参数包括：
+
+- location1: 第一个比较对象的站点路径
+- location2: 第二个比较对象的站点路径
+- ip: 浏览器的ip地址，如不填写则不做IP检查
+- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
+- app_id: 第三方应用的ID，默认为空即可
+- account: 所属账户
+- instance: 所属实例，默认default
+- username: 用户名
+- signcode: 签名信息, 签名算法见后，其中location使用location1 + location2计算
