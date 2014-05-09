@@ -86,22 +86,6 @@ HTTP错误返回值:
 
    {"msg": "文件加密" }
 
-PDF等下载链接 /download
---------------------------------------------
-对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求，附加参数包括:
-
-- server_url: 云查看服务器的地址
-- location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
-- source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
-
-- ip: 浏览器的ip地址，如不填写则不做IP检查
-- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
-- app_id: 第三方应用的ID，默认为空即可
-- account: 服务器密匙对应的账户(比如:zopen)
-- instance: account下具体的一个站点名，如果不设置，就是default
-- username: 访问用户的名字，仅作记录用
-- signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
-
 api/v1/file/upload
 ------------------------------------------
 表单上传，编码采用“multipart/form-data”。
@@ -125,6 +109,7 @@ api/v1/file/upload
   - returnBody: 需要返回json文本格式
   - callbackUrl：回调的URL，必须返回application/json格式结果
   - callbackBody：回调传递的url query字符串
+  - saveKey: key的生成规则
   - fsizeLimit：限制文件上传大小
   - mimeLimit：允许上传的类型
 
@@ -206,53 +191,6 @@ url参数：
 
 - key
 - hash
-
-文档转换
-================
-/api/v1/file/transform
----------------------------------------
-转换和回调接口. 可主动发起转换，转换完成，进行回调。
-
-传入参数：
-
-- account: 需要转换的账号
-- instance: 需要转换的站点
-- location: 需要转换的文件相对于站点的路径
-- targets: 需要专门的目标Mime类型
-- callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
-
-主动发起转换: /do_transform
-------------------------------
-可直接在浏览器上发起转换请求。
-
-如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
-
-- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
-- instance: 具体的站点好
-- location：具体的文件存放位置
-- source_url: 如果文件不存在，在哪里下载
-- targets: 目标文件的mime类型
-- ip: 浏览器的ip地址，如不填写则不做IP检查
-- timestamp：失效时间
-- app_id: 应用id，默认为空
-- username: 用户名
-- signcode: 签名, 具体算法见后
-
-返回值见错误码
-
-文档比较: /diff
----------------------
-直接比较2个文档的差异，可传递的参数包括：
-
-- location1: 第一个比较对象的站点路径
-- location2: 第二个比较对象的站点路径
-- ip: 浏览器的ip地址，如不填写则不做IP检查
-- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
-- app_id: 第三方应用的ID，默认为空即可
-- account: 所属账户
-- instance: 所属实例，默认default
-- username: 用户名
-- signcode: 签名信息, 签名算法见后，其中location使用location1 + location2计算
 
 管理接口
 =================
