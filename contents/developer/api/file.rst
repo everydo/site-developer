@@ -60,11 +60,12 @@ description: 文件上传、下载、转换
 
 下面是扩展url参数：
 
-- permission: 签名授予的查看权限 download/preview/print, 默认是下载download
 - mime(可选): 转换的mime类型
 - subfile(可选): 主要压缩包中包含的的文件路径
+- permission: 签名授予的压缩包里面文件的权限 download/pdf/preview, 默认是下载download
 - app_id: 第三方应用的ID，默认为空即可
 - username: 访问用户的名字，仅作记录用
+- filename: 下载的时候显示的文件名
 
 HTTP错误返回值:
 
@@ -85,6 +86,22 @@ HTTP错误返回值:
 
    {"msg": "文件加密" }
 
+PDF等下载链接 /download
+--------------------------------------------
+对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求，附加参数包括:
+
+- server_url: 云查看服务器的地址
+- location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
+- source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
+
+- ip: 浏览器的ip地址，如不填写则不做IP检查
+- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
+- app_id: 第三方应用的ID，默认为空即可
+- account: 服务器密匙对应的账户(比如:zopen)
+- instance: account下具体的一个站点名，如果不设置，就是default
+- username: 访问用户的名字，仅作记录用
+- signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
+
 api/v1/file/upload
 ------------------------------------------
 表单上传，编码采用“multipart/form-data”。
@@ -98,9 +115,9 @@ api/v1/file/upload
 - token：上传凭证，由如下信息组成::
 
      <ACCESS_KEY>:<encoded_sign>:<encoded_put_policy>
-     
+
   其中encoded_put_policy包括：
-  
+
   - scope： 上传到哪里，格式：'<instance_name>:sunflower.jpg'
   - deadline：上传请求授权的截止时间
   - insertOnly：能否修改已经存在的
@@ -110,6 +127,10 @@ api/v1/file/upload
   - callbackBody：回调传递的url query字符串
   - fsizeLimit：限制文件上传大小
   - mimeLimit：允许上传的类型
+
+  以及我们扩展的：
+ 
+  - ip: 限定ip地址，如不填写则不做IP检查
   
 - file：文件
 - key: 文件的存放路径，包括文件名
