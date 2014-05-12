@@ -248,31 +248,26 @@ Schema自定义语义
    IMetadata(item)['created']
    IMetadata(item)['modified']
 
-可以存取对象的各种属性，如基础标题、描述、分类，表单字段，以及扩展属性集等::
-
-   IMetadata(item1)['title'] = 'Item 1'
-   IMetadata(item1)['description'] = 'this is a sample item'
-   IMetadata(item1)['subjects'] = ('tag1', 'tag2')
-
-也可以在创建对象的时候，来初始化这些属性::
-
-   root['conainer1'] = Contianer(title='Container 1', 
-                                     description='some desc',
-                                     subjects=('tag1', 'tag2')})
-
 其他的基础属性，还包括::
 
   IMetadata(obj)['identifier'] 这个也就是文件的编号
   IMetadata(obj)['expires'] 对象的失效时间
   IMetadata(obj)['effective'] 对象的生效时间
 
+可以更改对象的各种属性，如基础标题、描述、分类，表单字段::
+
+   errors = IMetadata(item1)['title'] = 'Item 1',
+   errors = IMetadata(item1).update(title = 'Item 1',
+                                    description = 'this is a sample item',
+                                    subjects = ('tag1', 'tag2'))
+
 自定义属性
 ---------------
 可自由设置属性，对于需要在日历上显示的对象，通常有如下属性::
 
-  IMetadata(obj)['responsibles'] = ('users.panjy', 'users.lei') # 负责人
-  IMetadata(obj)['start'] = datetime.now() # 开始时间 
-  IMetadata(obj)['end'] 结束时间
+  IMetadata(obj).update(responsibles = ('users.panjy', 'users.lei'), # 负责人
+                        start = datetime.now(), # 开始时间 
+                        end = datetime.now(), 结束时间
 
 对于联系人类型的对象，通常可以有如下表单属性::
 

@@ -87,13 +87,22 @@ description: 自动生成表单、合法性校验，数据存储等
 
 on_update脚本: 表单保存触发
 --------------------------------
-用于输入合法性校验，和更改时候的触发逻辑
+用于输入合法性校验，和更改时候的触发逻辑::
 
-参数:
+  form = ISchemas(root).get('zopen.sales:inquery')
+  erros = form.save(IMedata(context), values={})
+  erros = form.save(IMedata(context).get_mdset('archive'), values={})
 
-- context: 是当前操作的对象
-- container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
-- old_storage: 这保存了表单提交直接存储的数据
+调用save的时候，会自动调用on_update::
+
+    def on_update(storage, values, **options)
+
+- storage: 存储对象，可查看之前的旧的数据
+- values: 新的数据
+- options: 其他的参数，包括
+
+  - context: 是当前操作的对象
+  - container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
 
 返回值:
 
@@ -107,8 +116,6 @@ on_update脚本: 表单保存触发
 注意，仅仅这些表单是可输入项的时候，这些错误信息才能显示。如果错误信息和输入项无关，可这样返回::
 
   {'':'something wrong！'}
-
-上述错误信息会在表单头部显示
 
 数据容器 DataContainer
 ===========================
@@ -159,24 +166,15 @@ gen_template生成的模板为handlerbar格式的模板。
 提交表单还需要对表单值进行校验::
 
   # 保存表单
-  results, errors = form.submit(request)
+  errors = form.save(IMedata(context), values=requrest.form)
 
 返回表单数据，和errors信息. 完整定义::
 
-  submit(request, fields=None, init=False, check_required=True, **options):``
+  form.save(storage, values, fields=None, init=False, check_required=True, **options):``
 
 - storage 数据会保存在这个dict接口对象中
-- request 执行统一校验的request变量
 - fileds 需要保存的字段，一个List
 - init: 是否把各个字段初始化
-
-可以将results直接保存到主属性中::
-
-  IMedata(obj).update(result)
-
-或者保存到mdset中::
-
-  IMedata(obj).set_mdset('lala', results)
 
 文件格式
 ---------------
