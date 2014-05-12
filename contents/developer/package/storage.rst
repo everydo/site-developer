@@ -662,28 +662,3 @@ visible: 保密
  # 从回收站收回一个对象
  # 从回收站里面永久删除
 
-软件包
-=============
-通过IPackages管理软件包。
-
-查看已经安装的所有软件包::
-
-  IPackages(root).keys()
-
-创建一个软件包::
-
-  package = IPacakges(root).new_packge('zopen.test', title, description, version, platform, tags)
-
-得到一个软件包信息::
-
-  packge = IPackages(root).get('zopen.test')
-
-导入一个软件包::
-
-  packge = IPackages(root).import('zopen.test', package_body)
-
-导出一个软件包::
-
-  packge = IPackages(root).export('zopen.test')
-
-

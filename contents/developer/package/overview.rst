@@ -93,3 +93,29 @@ python脚本可以直接通过浏览器调用
 模板
 ==============
 采用Page Template格式，具体参照 “页面模板” 一章
+
+管理软件包
+=============
+通过IPackages管理软件包。
+
+查看已经安装的所有软件包::
+
+  IPackages(root).keys()
+
+创建一个软件包::
+
+  package = IPacakges(root).new_packge('zopen.test', title, description, version, platform, tags)
+
+得到一个软件包信息::
+
+  packge = IPackages(root).get('zopen.test')
+
+导入一个软件包::
+
+  packge = IPackages(root).import('zopen.test', package_body)
+
+导出一个软件包::
+
+  packge = IPackages(root).export('zopen.test')
+
+
