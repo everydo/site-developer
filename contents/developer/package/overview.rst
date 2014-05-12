@@ -48,20 +48,24 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
 
 总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
-  scripts/
+  scripts/  # 脚本
     __init__.py
     aaa.py
-  templates/
+  templates/ # 模板
+    sales_chance.pt
+  static/   # 静态文件
+  stages/   # 阶段定义
     sales_chance.py
-  static/
-  schemas/
+  dataitems/ # 表单数据
     sales_chance.py
     sales_chance.html
-    sales_chance_settings.py
-    app_container.py
-  workflows/
+  datacontainers/  # 数据容器
     sales_chance.py
-  stages/
+  appcontainers/  # 应用容器
+    default.py
+  mdsets/  # 属性集
+    archive.py
+  workflows/  # 工作流
     sales_chance.py
 
 python脚本

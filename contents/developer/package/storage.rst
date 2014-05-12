@@ -223,11 +223,11 @@ Schema自定义语义
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
-  appcontainer.schemas = ('zopen.weather:app_container', )
+  appcontainer.schemas = ('zopen.weather:default', )
 
 数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
 
-  datacontainer.schemas = ('zopen.issutracker:issue_settings', )
+  datacontainer.schemas = ('zopen.issutracker:issue', )
 
 具体的一个故障单数据项，则可能是::
 

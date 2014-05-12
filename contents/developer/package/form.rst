@@ -10,12 +10,20 @@ description: 自动生成表单、合法性校验，数据存储等
 .. Contents::
 .. sectnum::
 
+表单也用在如下地方：
+
+- 流程设置
+- 流程表单
+- 应用容器的设置
+- 属性集
+
 表单如下信息构成::
 
-  form = Form(fields:fields, # 字段
-                layout:layout, # 字段的布局模板
-                table_columns:table_columns, # 表格显示列
+  form = Form(fields=, # 字段
                 on_update:'', # 更新触发脚本
+                template =, # 字段的布局模板
+                grid_columns, # 表格显示列
+                factags # 标签组设置
                 )
 
 注册语义
@@ -51,7 +59,7 @@ description: 自动生成表单、合法性校验，数据存储等
            {"name":"responsibles",
              "type":"PersonSelectField",
              "title":'负责人人', 
-             "validation_expi":"not value and '需要一名检查人'",
+             "validation_expr":"not value and '需要一名检查人'",
            } ]
 
 表单由各种字段组成:
@@ -90,8 +98,8 @@ on_update脚本: 表单保存触发
 用于输入合法性校验，和更改时候的触发逻辑::
 
   form = ISchemas(root).get('zopen.sales:inquery')
-  erros = form.save(IMedata(context), values={})
-  erros = form.save(IMedata(context).get_mdset('archive'), values={})
+  errors = form.save(IMedata(context), values={})
+  errors = form.save(IMedata(context).get_mdset('archive'), values={})
 
 调用save的时候，会自动调用on_update::
 
@@ -131,19 +139,16 @@ on_update脚本: 表单保存触发
 ------------------------
 ::
 
-  # 生成默认layout, 可传入表单布局 div/table
-  layout = form.gen_layout('table')
-
   # 渲染表单
-  html_form = form.render_html(layout, {'description':'请说清楚'}, fields.keys(), errors)
+  html_form = form.render_html(template='', {'description':'请说清楚'}, fields.keys(), errors)
 
 其中::
 
-  render_html(form_layout, storage, edit_fields, errors, **options)
+  render_html(template, storage, edit_fields, errors, **options)
 
 生成表单函数
 
-- form_layout 生成表单的模板
+- template: 生成表单的模板
 - storage 生成表单时需要运行某些表达式，而storage则是表达式运行的上下文, 这里可以存放初始值
 - request HTTP请求对象，同样作为表达式执行时的对象
 - edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
@@ -190,7 +195,6 @@ gen_template生成的模板为handlerbar格式的模板。
     description="""这是销售机会的解释"""
     extend = 'zopen.sales:chance'  # 继承的表单定义
     displayed_columns=['responsibles', '_stage', 'client', 'start', 'lastlog']
-    form_layout = "table"
     facetag = ""
 
     fields=(

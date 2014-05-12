@@ -296,7 +296,7 @@ description: 表单和流程操作接口，包括表单自动生成
 ====================
 可以为任何一个item，启动一个流程::
 
-   IWorkitems(item).start(('zopen.sales:query', ))
+   IWorkitems(item).start('zopen.sales:query')
 
 一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
 
