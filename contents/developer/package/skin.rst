@@ -44,3 +44,6 @@ description: 自定义皮肤，更换皮肤
 
     IMetadata(container).set_setting('skin', 'bootstrap')
 
+实际查找皮肤可以::
+
+    IMetadata(container).get_setting('skin', default='bootstrap', inherit=True)

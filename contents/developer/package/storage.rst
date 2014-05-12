@@ -328,7 +328,9 @@ Schema自定义语义
 设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
    IMetadata(container).set_setting(field_name, value)
-   IMetadata(container).get_setting(field_name)
+   IMetadata(container).get_setting(field_name, default='blabla', inherit=True)
+
+如果inherit为True，会自动往上找值，直到站点根。
 
 具体包括：
 
