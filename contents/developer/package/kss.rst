@@ -20,7 +20,7 @@ kss的view一般命名为 XXXKssView，需要继承zopen.kssaddons.KSSView
 
 表单内容的展现
 -------------------
-对于展现表单的kss，名字为 addAppForm (url: add_app_form):
+对于展现表单的kss，名字为 addAppForm (url: add_app_form)::
 
     render_add_app =  ViewPageTemplateFile('add_app.pt')
 
