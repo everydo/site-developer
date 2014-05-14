@@ -133,6 +133,7 @@ Namespace为：DAV: 包括：
 - attachments：附件的intids 
 - related：关联的 
 - subjects：标签 
+- stati: 状态，比如发布：modify.archived
 
 例子：设置附件/关联文件
 
