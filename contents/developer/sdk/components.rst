@@ -14,11 +14,11 @@ description: 一组可重用的前端界面组件
 
 首先需要引用这个组件::
 
-   TreeComponent = require('components/tree')
+   TreeView = require('backbone_treeview')
 
 初始化组件::
 
-   tree = new TreeComponent({checkable: true, is_static: false})
+   tree = new TreeView({checkable: true, is_static: false})
 
 如同 ``is_static`` 是true，表示静态树，不会动态加载触发 ``load`` 事件。
 

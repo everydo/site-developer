@@ -67,6 +67,8 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
     archive.py
   workflows/  # 工作流
     sales_chance.py
+  rules/ # 规则
+    set_security_level.py
 
 python脚本
 ======================
@@ -108,7 +110,11 @@ python脚本可以直接通过浏览器调用
 
 创建一个软件包::
 
-  package = IPacakges(root).new_packge('zopen.test', title, description, version, platform, tags)
+  package = IPacakges(root).new('zopen.test', title, description, version, platform, tags)
+
+设置软件包信息::
+
+  IPacakges(root).update('zopen.test', **kw)
 
 得到一个软件包信息::
 

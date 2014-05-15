@@ -47,7 +47,7 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 ==============
 添加规则::
 
-   IRules(root).add_rule(title, event, description=u'', enabled=True, stop=False, name=False, aoth=True, features=[])
+   IPackages(root).add_rule(title, event, description=u'', enabled=True, stop=False, name=False, aoth=True, features=[])
 
 
 用于分配规则::

@@ -172,7 +172,7 @@ on_update脚本: 表单保存触发
 
 对于数据条目::
 
-  IDataItems(root).register('zopen.sales:inquery', 
+  IPackages(root).register_dataitem('zopen.sales:inquery', 
         {title:, 
          description:, 
          fields:,
@@ -182,7 +182,7 @@ on_update脚本: 表单保存触发
 
 属性集::
 
-  IDatasets(root).register('zopen.sales:inquery', 
+  IPackages(root).register_dataset('zopen.sales:inquery', 
         {title:, 
          description:, 
          fields:,
@@ -192,7 +192,7 @@ on_update脚本: 表单保存触发
 
 应用容器::
 
-  IAppContainers(root).register('zopen.sales:inquery', 
+  IPackages(root).register_appcontainer('zopen.sales:inquery', 
         {title:, 
          description:, 
          fields:,
@@ -202,7 +202,7 @@ on_update脚本: 表单保存触发
 
 数据容器::
 
-  IDataContainers(root).register('zopen.sales:inquery', 
+  IPackages(root).register_datacontainer('zopen.sales:inquery', 
         {title:, 
          description:, 
          fields:,
@@ -219,7 +219,7 @@ on_update脚本: 表单保存触发
 
 根据取出表单::
 
-  form = IDataItems(root).get( schemas[0] )
+  form = IPackages(root).get_dateitem( schemas[0] )
 
 这样就可以在系统后台进行任意的表单增删改操作。
 
@@ -227,7 +227,7 @@ on_update脚本: 表单保存触发
 ====================
 可以导出导入为一个python文件::
 
-  IDataItems(root).export('zopen.sales:inquery')
+  IPackages(root).export_datatitem('zopen.sales:inquery')
 
 示例如下::
 
@@ -293,4 +293,4 @@ on_update脚本: 表单保存触发
 
 同样可以导入这样一个文件::
 
-  IDataItems(root).import('zopen.sales:inquery', schema_file_conent)
+  IPackages(root).import_dataitem('zopen.sales:inquery', schema_file_conent)
