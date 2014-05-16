@@ -40,16 +40,13 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
 已经有的功能：
 
-- 收藏一个对象
-- 设置收藏的标签
-- 删除一个收藏
+- 收藏一个对象::
 
-之后会补充的功能包括：
+    IFavorites(obj).set_favorite(tags, title=None, description=None)
 
-- 查看文档的收藏数量
-- 查看哪些人收藏
-- 统计最热收藏
+- 删除一个收藏::
 
+    IFavorites(obj).unset_favorite()
 
 评注
 ==========

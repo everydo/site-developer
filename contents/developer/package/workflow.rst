@@ -81,18 +81,18 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流注册到系统::
 
-   IWorkflows(root).register('zopen.sales:sales_query', workflow_json)
+   IPackages(root).register_workflow('zopen.sales:sales_query', workflow_json)
 
 也可以得到工作流定义信息::
 
-   salse_query_wfl = IWorkflows(root).get('zopen.sales:sales_query')
+   salse_query_wfl = IPackages(root).get_workflow('zopen.sales:sales_query')
 
 导出为python格式
 ===================
 为方便书写和阅读，系统可将流程导出为一种借用python的书写格式::
 
-   IWorkflows(root).export('zopen.sales:sales_query')
-   IWorkflows(root).export(workflow_def)
+   IPackages(root).export_workflow('zopen.sales:sales_query')
+   IPackages(root).export_workflow(workflow_def)
 
 1. 类名: 步骤名
 2. 类的成员变量: 步骤的属性
@@ -284,7 +284,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流转换成真正的工作流定义::
 
-   IWorkflows(root).compile(workflow_py)
+   IPackages(root).compile(workflow_py)
 
 和之前版本的改进：
 
