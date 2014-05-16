@@ -32,7 +32,7 @@ description: 用户自定义的状态
 
 注册一个阶段定义::
 
-   IStages(root).register('zopen.sales:query', stages)
+   IPackages(root).register_stage('zopen.sales:query', stages)
 
 导入导出
 ============
@@ -68,7 +68,7 @@ description: 用户自定义的状态
 
 也可以导入::
 
-   IStages(root).import('zopen.sales:query', body)
+   IPackages(root).import_stage('zopen.sales:query', body)
 
 调整阶段
 =========================

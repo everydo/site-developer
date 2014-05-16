@@ -14,6 +14,10 @@ description: 易度在用这个页面模板开发网页
 .. Contents::
 .. sectnum::
 
+::
+
+  IPackages(root).register_template(name, template)
+
 理解页面模版
 ===============
 页面模版，一般用来生成html页面，供python脚本使用。

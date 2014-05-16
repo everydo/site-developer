@@ -36,13 +36,18 @@ description: 自定义皮肤，更换皮肤
 =============
 把这个皮肤注册到站点的皮肤注册表::
 
-   ISkins(root).register('bootstrap', 'Twitter的Bootstrap风格皮肤', template, description='')
+   IPackages(root).register_skin('bootstrap', 'Twitter的Bootstrap风格皮肤', template, description='')
+
+也可以注册到某个软件包中::
+
+   IPackages(root).register_skin('zopen.cool_skin:bootstrap', 'Twitter的Bootstrap风格皮肤', template, description='')
 
 更换皮肤
 ==================
 设置某个容器，采用新的皮肤::
 
     IMetadata(container).set_setting('skin', 'bootstrap')
+    IMetadata(container).set_setting('skin', 'zopen.cool_skin:bootstrap')
 
 实际查找皮肤可以::
 

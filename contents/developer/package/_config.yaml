@@ -4,6 +4,7 @@ order: [overview.rst,
         storage.rst, 
         search.rst, 
 
+        code.rst,
         pt.rst,
         form.rst, 
         workflow.rst,

@@ -46,6 +46,18 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
 ===========
 软件包是扩展应用的代码载体，来组织自定义内容、代码逻辑和外部资源。软件包可以以独立文件的形式发布和交换。
 
+一个软件包包括如下定制内容:
+
+- 数据表单定义
+- 数据容器定义：数据容器用于存放表单，自身包含设置信息
+- 阶段定义：
+- 流程步骤定义
+- 规则定义
+- 皮肤定义
+- 属性集定义
+- 皮肤定义
+- 脚本定义
+
 总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
   scripts/  # 脚本
@@ -69,36 +81,7 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
     sales_chance.py
   rules/ # 规则
     set_security_level.py
-
-python脚本
-======================
-python脚本可以直接通过浏览器调用
-
-脚本采用python语言书写，存放在scripts中. 其中:
-
-- setup: 用于部署
-- upgrade(last_version='') : 用于升级
-
-对于需要通过浏览器发起的请求，如下书写::
-
-    @view_config(permission='zopen.Access', use_template='standard', icon=u'')
-    def setup(redirect = True):
-        """安装脚本
-
-        初始化规则"""
-
-        app = deployApplet('zopen.remind.workflows.remind', context, 'remind', '提醒')
-        IObjectIndexer(app).index()
-        #创建规则
-
-如果仅仅是内部调用，则如下处理::
-
-    def list_users():
-        pass
-
-模板
-==============
-采用Page Template格式，具体参照 “页面模板” 一章
+  skins/  # 皮肤
 
 管理软件包
 =============
