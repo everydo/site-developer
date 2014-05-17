@@ -34,8 +34,9 @@ description: 表单和流程操作接口，包括表单自动生成
 =================
 工作流由步骤Step和操作Action组成::
 
-    workflow_json = {
-       "start": {"title" : '新的销售机会',
+    workflow_json = [
+                {"name":"start",
+                 "title" : '新的销售机会',
                  "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
                  "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
                  "on_enter": "",
@@ -51,13 +52,15 @@ description: 表单和流程操作接口，包括表单自动生成
                             ]
                },
 
-      "auto_step": { "title": '这是一个自动步骤，无人参与',
+                { "name":"auto_step"
+                  "title": '这是一个自动步骤，无人参与',
                   "condition":'',
                   "on_enter": "",
                   "stage":'planing',
                       },
 
-      "communicate": { "title": '了解需求背景',
+                {"name": "communicate",
+                 "title": '了解需求背景',
                   "fields": ['title', 'case_info', 'files', 'log', 'start', 'subjects'],
                   "invisible_fields":['plan_info', 'lastlog'],
                   "on_enter": "",
