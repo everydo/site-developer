@@ -101,7 +101,7 @@ team组管理
 
   如果人员满或者没有匹配的组，则抛出异常. 
 
-- join_all(name): 对某个组，根据白名单、黑名单，自动加入所有人员, 直至许可用尽
+- join_all(group_name): 对某个组，根据白名单、黑名单，自动加入所有人员, 直至许可用尽
 - list_member_groups(member): 到人员所在的组pid
 - list_group_members(name): 得到组包括的人员pid
 - add_team_members(name, members): 添加多个组员

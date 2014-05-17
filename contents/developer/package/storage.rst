@@ -495,7 +495,6 @@ Schema自定义语义
 
 不同对象使用的角色不同，系统全部角色包括：
 
-- 'PrivateReader' 保密查看人
 - 'Manager' 管理员
 - 'Editor' 编辑人
 - 'Owner' 拥有者
@@ -504,17 +503,17 @@ Schema自定义语义
 - 'ContainerCreator': 子栏目/容器创建人
 - 'Responsible' 负责人
 - 'Subscriber' 订阅人
-- 'PrivateReader' 超级查看人
-- 'PrivateReader4' 仅仅文件授权的时候用，不随保密变化
-- 'PrivateReader3' 仅仅文件授权的时候用，不随保密变化
-- 'PrivateReader2' 仅仅文件授权的时候用，不随保密变化
-- 'PrivateReader1' 仅仅文件授权的时候用，不随保密变化
+- 'Accessor' 访问者
 - 'Reader5'
 - 'Reader4'
 - 'Reader3'
 - 'Reader2'
 - 'Reader1'
-- 'Accessor' 访问者
+- 'PrivateReader5' 超级查看人
+- 'PrivateReader4' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader3' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader2' 仅仅文件授权的时候用，不随保密变化
+- 'PrivateReader1' 仅仅文件授权的时候用，不随保密变化
 
 授权
 --------------
@@ -533,9 +532,9 @@ Schema自定义语义
 
 检查权限
 -------------
-检查某用户对某对象是否有某种权限，可使用 ``permit`` 方法::
+检查当前用户对某对象是否有某种权限，可使用 ``permit`` 方法::
 
-  IAuthorization(obj).permit(permission_id, principals=None)
+  IAuthorization(obj).permit(permission_id)
 
 如果有该权限即返回True，反之返回False
 

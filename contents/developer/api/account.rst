@@ -12,8 +12,11 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 
 .. contents::
 
+账户角色管理
+================
+
 /api/v1/account/get_user_roles
-=========================================
+--------------------------------------
 得到用户在账户管理中的角色:
 
 输入：
@@ -28,6 +31,21 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
      'roles'   : ['AccountAdmin'], }
 
 这里的roles，是用户在账户管理中的全局组, 比如 ``AccountAdmin`` 就是账户管理员.
+
+/api/v1/account/get_role_users
+--------------------------------------
+得到拥有某个角色的用户:
+
+输入：
+
+- account
+- role_id
+
+返回::
+   
+    {'account' : 'zopen',
+     'role' : 'AccountAdmin',
+     'user_ids'   : ['zhangsan', 'lisi'], }
 
 实例管理
 ===================
