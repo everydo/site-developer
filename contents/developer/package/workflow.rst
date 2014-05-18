@@ -34,53 +34,57 @@ description: 表单和流程操作接口，包括表单自动生成
 =================
 工作流由步骤Step和操作Action组成::
 
-    workflow_json = [
-                {"name":"start",
-                 "title" : '新的销售机会',
-                 "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
-                 "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
-                 "on_enter": "",
-                 "condition": '',
-                 "stage": 'valid',
-                 "responsibles": '[request.principal.id]',
-                 "actions": [ { "name":'submit',
-                                "title":'提交',
-                                "finish_condition":'',
-                                "nextsteps":['communicate'],
-                                "on_submit":"",
+    workflow_json = {'name':'sales',
+                     'title':'销售流程',
+                     'description':'销售',
+                     'related_dataitem':'zopen.sales:sales',
+                     'related_datacontainer':'zopen.sales:sales',
+                     'related_stage':'zopen.sales:sales',
+                    'steps':[ {"name":"start",
+                         "title" : '新的销售机会',
+                         "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
+                         "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
+                         "on_enter": "",
+                         "condition": '',
+                         "stage": 'valid',
+                         "responsibles": '[request.principal.id]',
+                         "actions": [ { "name":'submit',
+                                        "title":'提交',
+                                        "finish_condition":'',
+                                        "nextsteps":['communicate'],
+                                        "on_submit":"",
+                                      }
+                                    ]
+                       },
+
+                        { "name":"auto_step"
+                          "title": '这是一个自动步骤，无人参与',
+                          "condition":'',
+                          "on_enter": "",
+                          "stage":'planing', },
+
+                        {"name": "communicate",
+                         "title": '了解需求背景',
+                          "fields": ['title', 'case_info', 'files', 'log', 'start', 'subjects'],
+                          "invisible_fields":['plan_info', 'lastlog'],
+                          "on_enter": "",
+                          "condition":'',
+                          "stage":'planing',
+                          "responsibles":'context["responsibles"]',
+                          "actions": [ {"name":'duplicated',
+                                        "title":'重复或无效, 不再跟进',
+                                        "nextsteps":[],
+                                        "finish_condition":'',
+                                        "condition":'',
+                                       },
+                                       {"name": '8372',
+                                        "title": '需求了解完毕',
+                                        "nextsteps": ['submit_plan'],
+                                        "finish_condition":'',
+                                       }
+                                      ]
                               }
-                            ]
-               },
-
-                { "name":"auto_step"
-                  "title": '这是一个自动步骤，无人参与',
-                  "condition":'',
-                  "on_enter": "",
-                  "stage":'planing',
-                      },
-
-                {"name": "communicate",
-                 "title": '了解需求背景',
-                  "fields": ['title', 'case_info', 'files', 'log', 'start', 'subjects'],
-                  "invisible_fields":['plan_info', 'lastlog'],
-                  "on_enter": "",
-                  "condition":'',
-                  "stage":'planing',
-                  "responsibles":'context["responsibles"]',
-                  "actions": [ {"name":'duplicated',
-                                "title":'重复或无效, 不再跟进',
-                                "nextsteps":[],
-                                "finish_condition":'',
-                                "condition":'',
-                               },
-                               {"name": '8372',
-                                "title": '需求了解完毕',
-                                "nextsteps": ['submit_plan'],
-                                "finish_condition":'',
-                               }
-                              ]
-                      }
-                 }
+                         }]}
 
 将这个工作流注册到系统::
 
@@ -102,7 +106,13 @@ description: 表单和流程操作接口，包括表单自动生成
 3. 类的方法名: 步骤的操作name
 4. 类方法的函数体：步骤的触发脚本
 
-::
+文件名为sales.py::
+
+   title = '销售流程'
+   description = '销售'
+   related_dataitem = 'zopen.sales:sales'
+   related_datacontainer = 'zopen.sales:sales'
+   related_stage = 'zopen.sales:sales'
 
    # 第一个步骤
    class Start:

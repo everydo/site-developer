@@ -21,8 +21,10 @@ description: 自动生成表单、合法性校验，数据存储等
 =================
 可以通过json来定义表单::
 
-  form = Form({
-  # 定义字段
+  form_def = {
+    "name":'sales',
+    "title":'',
+    "description":'',
    "fields" : [ {"name":"title"
               "type":"TextLineField", 
               "title":'任务标题', },
@@ -47,7 +49,9 @@ description: 自动生成表单、合法性校验，数据存储等
            } ],
     "on_update": "",
     "template": "",
-    })
+    }
+
+  form = Form(form_def)
 
 其中：
 
@@ -173,17 +177,20 @@ on_update脚本: 表单保存触发
 对于数据条目::
 
   IPackages(root).register_dataitem('zopen.sales:inquery', 
-        {title:, 
+        {name:
+         title:, 
          description:, 
-         fields:,
          on_update:,
          template:,
+         facetag:
+         fields:,
         })
 
 属性集::
 
   IPackages(root).register_dataset('zopen.sales:inquery', 
-        {title:, 
+        {name:
+         title:, 
          description:, 
          fields:,
          on_update:,
@@ -193,7 +200,8 @@ on_update脚本: 表单保存触发
 应用容器::
 
   IPackages(root).register_appcontainer('zopen.sales:inquery', 
-        {title:, 
+        {name:
+         title:, 
          description:, 
          fields:,
          on_update:,
@@ -203,7 +211,8 @@ on_update脚本: 表单保存触发
 数据容器::
 
   IPackages(root).register_datacontainer('zopen.sales:inquery', 
-        {title:, 
+        {name,
+         title:, 
          description:, 
          fields:,
          on_update:,

@@ -21,24 +21,30 @@ description: 用户自定义的状态
 ============
 采用json格式来描述阶段::
 
-  stages = {"valid": {"title":"需求确认",
-                      "description": "分配的新单",
-                      "color":"1221", # 文字颜色
-                      "bgcolor":"2222", # 背景的颜色
-                      "on_enter": "" # 进入阶段的触发脚本
-                     }
-            "initial": {"title":"初始"}
+  stages = {'name':'sales',
+            'title':'Sales',
+            'description':'Description',
+            'stages': [{"name":"valid",
+                        "title":"需求确认",
+                        "description": "分配的新单",
+                        "color":"1221", # 文字颜色
+                        "bgcolor":"2222", # 背景的颜色
+                        "on_enter": "" # 进入阶段的触发脚本
+                       },
+                       { "name":"initial",
+                        "title":"初始"}
+                      ]
            }
 
 注册一个阶段定义::
 
-   IPackages(root).register_stage('zopen.sales:query', stages)
+   IPackages(root).register_stage('zopen.sales', stages)
 
 导入导出
 ============
 可以导出一个阶段定义到python文件中::
 
-   IStages(root).export('zopen.sales:query')
+   IPackages(root).export('zopen.sales:query')
 
 导出结果::
 
