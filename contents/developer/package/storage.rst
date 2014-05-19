@@ -131,8 +131,8 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 应用容器里可以存放 表单容器、文件夹和子栏目::
 
   folder = app_container.add_folder(name)
-  collection = app_container.add_datacontainer(name)
-  sub_container = app_container.add_appcontainer(name)
+  collection = app_container.add_datacontainer(name, item_schema, schema, item_stage, item_workflow)
+  sub_container = app_container.add_appcontainer(name, schema)
 
 应用容器的object_type是 ``('AppContainer', 'Container')``
 

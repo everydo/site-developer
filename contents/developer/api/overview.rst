@@ -13,30 +13,181 @@ description: 总体说明系统的开放API架构
 
   http://service-domain-name/api/v1/module_name/api_name?arg1=value1&arg2=value2
 
-服务地址
+服务组成
 ====================
-系统服务组成包括:
+::
 
-- 账户管理: account
-- 组织架构: org
-- 工作平台: 应用名字为 workonline
-- 文件存储服务: 应用名字为 file, 包括上传、下载等
-- 文件转换服务: 应用名字为 viewer, 主要对各种格式进行转换和处理
-- 短信发送：应用名字为 sms
+      +-------------------+      +---------------+
+      | 账户管理: account |------| 组织架构: org |
+      +-------------------+\  /  +---------------+
+               |            \/
+  .............|............/\..................
+               |           /  \
+  +----------------------+/    +----------------+
+  | 工作平台: workonline |-----| 文件存储: file |
+  +----------------------+     +----------------+
+                    |
+               +------------------+
+               | 文件转换: viewer |
+               +------------------+
 
-其中账户管理、组织架构有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的接口来查询::
-
-  http://app.easydo.cn/api/v1/account/get_api_address?account=zopen&app=workonline&instance=default
-
-返回值和错误信息
-=========================
-
-模块清单
-=====================
-账户管理：
-
-- account：实例管理、续费、服务地址查询、认证配置
+其中账户管理、组织架构有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的 ``get_instance`` 接口来查询.
 
 
+Oauth2简介
+=============
+易度开放平台（Everydo Open Platform）是基于易度办公平台，为第三方应用提供授权访问控制，
+使第三方应用可以访问易度办公平台提供的各种服务。
 
+易度开放平台使用 `OAuth2.0协议  <http://oauth.net/2/>`_  来管理第三方应用的授权和访问。
+
+开发应用申请
+===============
+应用的开发者，首先向易度（developer@everydo.com）申请注册一个应用，易度会提供如下2个信息用于开发：
+
+- client_id: 应用的ID
+- client_secret: 应用的密钥，这个需要妥善保存
+
+access_token的获取
+==============================================
+每一次访问系统API的时候，需要附带access_token信息才可以。
+
+易度开放平台提供了2种不同的access_token获取方式:
+
+首次获取access_token
+--------------------------
+基于用户信息安全理由，用户在很多时候并不愿意轻易透露用户名、密码给第三方的应用，所以我们也支持了一个比较安全的第三方应用授权方式，这种方式需要用户在网页上进行授权。具体流程：
+
+1. 应用向文档系统请求授权
+2. 文档系统为用户显示一个授权页面，用户在此页面确认是否同意应用的请求
+3. 如果用户同意授权，应用会获取到一个验证授权码(code)
+4. 应用再次先系统发起请求，验证应用自身的安全性，文档系统返回一个授权令牌(access_token)。
+
+请求::
+
+  https://example.oc.everydo.com/authorize?client_id=123050457758183&redirect_uri=http://www.example.com/response
+
+同意授权后会重定向::
+
+  http://www.example.com/response&code=343434
+
+应用得到code之后继续向OC发送请求::
+
+  https://example.oc.everydo.com/api/v1/oauth2/access_token?client_id=12305045775&client_secret=dsdkjk******dsdd&grant_type=code&code=343434
+
+返回数据::
+
+  {
+       "access_token": "ACCESS_TOKEN",
+       "refresh_token": "REFRESH_TOKEN",
+       "expires_in": 1234,
+       "remind_in":"798114",
+       "uid":"user.admin"
+  }
+
+refresh_token: 刷新
+----------------------------------
+
+应用在已经拥有了用户授权的情况下，可能由于access_token已经过期了，或者旧的access_token存在泄密的风险的时候，应用可以通过这种方式去交换获得一个新的access_token。
+
+使用示范::
+
+  https://example.oc.everydo.com/api/v1/oauth2/access_token?client_id=12305045775&client_secret=dsdkjk******dsdd&grant_type=refresh_token&refresh_token=434fhjfhs******dsdkj
+
+返回数据::
+
+  {
+       "access_token": "ACCESS_TOKEN",
+       "refresh_token": "REFRESH_TOKEN",
+       "expires_in": 1234,
+       "remind_in":"798114",
+       "uid":"admin"
+  }
+
+使用access_token访问系统接口
+===========================================
+可以在请求headers中添加Authorization: ::
+
+    GET /api/v1/org/get_objects_info?account=zopen&objects=ou:default,person:admin HTTP/1.1
+    Host: oc.easydo.cn
+    Authorization: Bearer access_token字符串
+    Cache-Control: no-cache
+
+也可以在请求的参数加上直接加上access_token参数 ::
+    
+    http://oc.easydo.cn/api/v1/org/get_objects_info?account=zopen&objects=ou:default,person:admin&access_token=access_token字符串 
+
+
+
+接口文档
+===================
+
+
+/api/v1/oauth2/authorize: 请求用户授权Token
+--------------------------------------------------
+基于OAuth2的authorize接口，用了得到用户的验证授权码(code)
+
+1. HTTP请求方式
+
+    GET/POST
+
+2. 请求参数
+
+    =============  ======== ===============   =========================================================
+    参数名            必填   类型及范围            说明
+    =============  ======== ===============   =========================================================
+    client_id       true     string	            申请应用时分配的AppId
+    redirect_uri    true     string	            授权回调地址
+    =============  ======== ===============   =========================================================
+
+3. 返回数据
+
+    =========== =========== ==========================================================
+    返回值字段  字段类型    字段说明
+    =========== =========== ==========================================================
+    code        string      验证授权码，用作access_token接口的请求参数换取access_token
+    =========== =========== ==========================================================
+
+
+/api/v1/oauth2/access_token: 获取授权过的Access Token
+-----------------------------------------------------------
+基于OAuth2的access_token接口。
+
+1. HTTP请求方式
+
+    GET/POST
+
+2. 请求参数
+
+    =============  ===== ===============   =====================================================================
+    参数名          必填      类型及范围            说明
+    =============  ===== ===============   =====================================================================
+    client_id      true   string           申请应用时分配的ID
+    client_secret  true   string	         申请应用时分配的AppKey
+    grant_type     true   string           请求的类型，可选（authorization_code、refresh_token)
+    code           false  string           调用authorize获得的code值（grant_type为authorization_code时需要填写）
+    refresh_token  false  string           刷新授权码（grant_type为refresh_token是需要填写）
+    =============  ===== ===============   =====================================================================
+
+
+3. 返回数据
+
+    =============== =========== ========================================================
+    返回值字段      字段类型    字段说明
+    =============== =========== ========================================================
+    access_token    string      作为API调用时带的令牌
+    refresh_token   string      用于更新用户的access_token， 只能使用一次
+    =============== =========== ========================================================
+
+
+/api/v1/oauth2/get_token_info
+-----------------------------------------
+当前登录用户的基本信息:
+
+返回::
+
+   {'app_id'  : 'workonline',
+    'account' : 'zopen',
+    'user_id' : 'test',
+    }
 
