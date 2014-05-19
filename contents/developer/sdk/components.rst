@@ -14,7 +14,9 @@ description: 一组可重用的前端界面组件
 
 首先需要引用这个组件::
 
-   TreeView = require('backbone_treeview')
+   TreeView = require('treeview')
+
+另外在需要加载treeview.css，才能正确显示。
 
 初始化组件::
 
@@ -76,4 +78,32 @@ node是具体的某个节点对象，有如下功能::
   node.expand(function (node) {} ) # 展开，如果没有加载过，会自动触发加载
   node.collapse()      # 折叠
   node.activate()      # 高亮激活
+
+人员选择组件
+=====================
+用来选择某个公司账户的人员和部门、和组::
+
+   OrgView = require('orgview')
+
+初始化组件::
+
+   orgview = new OrgView('members', {multiple: true, selectable:[ou, group, person], })
+
+整个人员选择组件是一个表单输入项，其中members是输入项的名字，显示::
+
+  orgview.render('#left')
+
+选择人员后，人员和组的id存放在members的hidden变量中，也可以通过js获得::
+
+   orgview.get_selected() 
+
+返回选择信息::
+
+  [{'type':'ou', name:'dev', title:'开发部'},  ] 
+
+也可以设置事件响应方法, 选择和去除选择::
+
+  orgview.on('select', func (node) {})
+
+  orgview.on('deselect', func (node) {})
 
