@@ -176,7 +176,7 @@ on_update脚本: 表单保存触发
 
 对于数据条目::
 
-  IPackages(root).register_dataitem('zopen.sales:inquery', 
+  IPackages(root).register_dataitem('zopen.sales', 
         {name:
          title:, 
          description:, 
@@ -188,7 +188,7 @@ on_update脚本: 表单保存触发
 
 属性集::
 
-  IPackages(root).register_dataset('zopen.sales:inquery', 
+  IPackages(root).register_dataset('zopen.sales', 
         {name:
          title:, 
          description:, 
@@ -199,7 +199,7 @@ on_update脚本: 表单保存触发
 
 应用容器::
 
-  IPackages(root).register_appcontainer('zopen.sales:inquery', 
+  IPackages(root).register_appcontainer('zopen.sales', 
         {name:
          title:, 
          description:, 
@@ -210,7 +210,7 @@ on_update脚本: 表单保存触发
 
 数据容器::
 
-  IPackages(root).register_datacontainer('zopen.sales:inquery', 
+  IPackages(root).register_datacontainer('zopen.sales', 
         {name,
          title:, 
          description:, 

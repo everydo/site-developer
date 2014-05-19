@@ -88,7 +88,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流注册到系统::
 
-   IPackages(root).register_workflow('zopen.sales:sales_query', workflow_json)
+   IPackages(root).register_workflow('zopen.sales', workflow_json)
 
 也可以得到工作流定义信息::
 
@@ -297,7 +297,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流转换成真正的工作流定义::
 
-   IPackages(root).compile(workflow_py)
+   IPackages(root).import(workflow_py)
 
 和之前版本的改进：
 
