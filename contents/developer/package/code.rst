@@ -9,12 +9,6 @@ description: 编写脚本代码
 
 目前支持python，之后会支持javascript
 
-::
-
-  IPackages(root).register_code(name, code)
-  IPackages(root).get_code(name, code)
-  IPackages(root).list_codes(package_name)
-
 python脚本
 ======================
 python脚本可以直接通过浏览器调用
@@ -24,7 +18,30 @@ python脚本可以直接通过浏览器调用
 - setup: 用于部署
 - upgrade(last_version='') : 用于升级
 
-对于需要通过浏览器发起的请求，如下书写::
+在软件包里面注册一个代码::
+
+  IPackages(root).register_code('zopen.sales', 
+        {'name':'setup',
+         'permission':'Access',
+         'template':'standard',
+         'args':'',
+        })
+
+也可以得到一个代码::
+
+  IPackages(root).get_code(name)
+
+查看软件包的所有代码::
+
+  IPackages(root).list_codes(package_name)
+
+导入导出
+===============
+为了方便书写，可导出一个标准的python函数::
+
+  IPackages(root).export_code('zopen.sales:setup')
+
+导出结果如下::
 
     @view_config(permission='zopen.Access', use_template='standard', icon=u'')
     def setup(redirect = True):
@@ -35,9 +52,4 @@ python脚本可以直接通过浏览器调用
         app = deployApplet('zopen.remind.workflows.remind', context, 'remind', '提醒')
         IObjectIndexer(app).index()
         #创建规则
-
-如果仅仅是内部调用，则如下处理::
-
-    def list_users():
-        pass
 

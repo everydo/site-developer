@@ -14,9 +14,15 @@ description: 易度在用这个页面模板开发网页
 .. Contents::
 .. sectnum::
 
+注册
+==========
 ::
 
-  IPackages(root).register_template(name, template)
+  IPackages(root).register_template('zopen.sales', 
+        {'name':'lal',
+         'code':'',
+        }
+        )
 
 理解页面模版
 ===============

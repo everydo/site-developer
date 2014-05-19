@@ -21,8 +21,36 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 
    将预先定义的规则，绑定到文件夹或者流程。
 
-在规则中编写脚本
-===========================
+创建规则
+==================
+创建一个规则::
+
+   IPackages(root).add_rule('',
+       {name:
+        title:, 
+        event:, 
+        description:'', 
+        script:'',
+        })
+
+event
+---------
+其中事件event包括:
+
+- created: 容器中添加新对象，包括移入和创建
+- removed：容器中去除对象，包括删除和移出
+- modified
+- status-added
+- status-removed
+- movein: 这个是移入的事件
+- moveout: 这个是移出的事件
+- clock
+- login
+- workflow-executed: 工作流执行某步骤
+
+script
+----------------
+运行的脚本，这个脚本可以使用的参数包括:
 
 规则执行的操作，可以是脚本的形式，这里的脚本，可以使用的全局参数包括：
 
@@ -31,25 +59,14 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 - event: 具体事件定义
 - request：请求
 
-其中事件event包括:
-
-- modified
-- created: 容器中添加新对象，包括移入和创建
-- removed：容器中去除对象，包括删除和移出
-- status-added
-- status-removed
-- moved
-- clock
-- login
-- workflow-executed: 工作流执行某步骤
-
-相关接口
+规则的分配
 ==============
-添加规则::
 
-   IPackages(root).add_rule(title, event, description=u'', enabled=True, stop=False, name=False, aoth=True, features=[])
+查看已经分配的规则::
 
+   IRuleAssignments(context).list_rules(event=None, bubbled=False)
 
-用于分配规则::
+分配规则::
 
-   IRuleAssignments(context)
+   IRuleAssignments(context).assign_rule(rule_ids, enabled=True, bubbles=False)
+
