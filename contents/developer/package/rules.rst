@@ -30,7 +30,8 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
         title:, 
         event:, 
         description:'', 
-        script:'',
+        object_types:['File']
+        script:'call_script(...)',
         })
 
 event
