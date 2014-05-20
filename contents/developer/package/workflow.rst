@@ -99,7 +99,6 @@ description: 表单和流程操作接口，包括表单自动生成
 为方便书写和阅读，系统可将流程导出为一种借用python的书写格式::
 
    IPackages(root).export_workflow('zopen.sales:sales_query')
-   IPackages(root).export_workflow(workflow_def)
 
 1. 类名: 步骤名
 2. 类的成员变量: 步骤的属性
@@ -297,7 +296,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流转换成真正的工作流定义::
 
-   IPackages(root).import(workflow_py)
+   IPackages(root).import('zopen.sales:query', workflow_py)
 
 和之前版本的改进：
 

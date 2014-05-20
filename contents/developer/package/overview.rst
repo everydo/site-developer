@@ -65,7 +65,6 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
     aaa.py
   templates/ # 模板
     sales_chance.pt
-  static/   # 静态文件
   stages/   # 阶段定义
     sales_chance.py
   dataitems/ # 表单数据
@@ -83,6 +82,7 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
     set_security_level.py
   skins/  # 皮肤
     template_a.py
+  resources/   # 静态资源文件 css/js/img
 
 管理软件包
 =============
