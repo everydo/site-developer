@@ -128,10 +128,22 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 应用容器 AppContainer
 ------------------------------
 只有在应用容器里面，才能部署其他的应用，网站根就是一个应用容器。
-应用容器里可以存放 表单容器、文件夹和子栏目::
+应用容器里可以存放 表单容器、文件夹和子栏目. 
+
+添加一个子文件夹::
 
   folder = app_container.add_folder(name)
-  collection = app_container.add_datacontainer(name, item_schema, schema, item_stage, item_workflow)
+
+添加一个流程容器::
+
+  collection = app_container.add_datacontainer(name='plan', 
+                item_schema="zopen.plan:plan",  # 表单的定义
+                schema="zopen.plan:plan",   # 数据容器的设置定义
+                item_stage="zopen.plan:plan", # 表单的阶段定义 
+                item_workflow="zopen.plan:plan") # 流程步骤定义
+
+添加一个子应用容器::
+
   sub_container = app_container.add_appcontainer(name, schema)
 
 应用容器的object_type是 ``('AppContainer', 'Container')``
