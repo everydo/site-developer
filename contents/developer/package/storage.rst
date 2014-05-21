@@ -105,8 +105,8 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 -----------------
 可叠加内容的名字、以及包含该内容的所有容器的名字，形成对象路径，用于定位一个内容::
 
-   root.get_object_path(item1) # 返回: '/container2/item_1'
-   root.get_object_by_path('/container2/item_1')  # 返回item1
+   root.object_path(item1) # 返回: '/container2/item_1'
+   root.object_by_path('/container2/item_1')  # 返回item1
 
 数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
 
@@ -114,10 +114,8 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 ----------------
 系统的所有对象，创建后均会注册一个永久的ID，无论以后对象是否移动或者改名，都不会改变::
 
-  uids = IUIDs(root)  # 唯一标示注册表
-  uid = uids.get_uid(obj)
-  obj = uids.get_object(uid)  # 通过uid找到对象
-
+  uid = root.obejct_uid(obj)
+  obj = root.object_by_uid(uid)  # 通过uid找到对象
 
 对象类型: object_type
 =============================
@@ -181,7 +179,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
 
   my_file.set_data('this is long long text')
-  my_file.content_type = 'text/plain'
+  my_file.content_type = 'text/plain'  
 
 可以得到文件::
 
@@ -191,8 +189,8 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 ---------------------
 快捷方式可以指向其他的文件或者文件夹，不能包含其他内容::
 
-  shortcut.get_orign()
-  shortcut.reset_version(version_id)
+  shortcut.get_orign()  # TODO
+  shortcut.reset_version(version_id) # TODO
 
 其object_type为: ``('FileShortCut', 'Item')`` 或: ``('FolderShortCut', 'Item')``
 
@@ -200,7 +198,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 -------------------------
 数据容器的object_type为： ``('DataContainer', 'Container')`` , 用于存放表单数据项::
 
-  item = collection.add_item(metadata, **mdsets)
+  item = collection.add_item(metadata)
 
 数据项 DataItem
 -------------------
@@ -215,7 +213,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 可以查看自身的运行信息::
 
-  root.get_sys_info()
+  root.sys_info()
 
 返回如下信息:
 
@@ -229,9 +227,9 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 查看站点的运营选项参数::
 
-    root.get_operation_option(option_name, default=None)
+    root.operation_options()
 
-option_name可以是如下参数：
+可以是如下参数：
 
 - sms: 短信数量
 - apps_packages: 软件包数量
