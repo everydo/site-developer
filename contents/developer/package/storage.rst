@@ -144,7 +144,12 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 添加一个子应用容器::
 
-  sub_container = app_container.add_appcontainer(name, schema)
+  sub_container = app_container.add_appcontainer(name='plans', 
+                                                schema="zopen.plan:default")
+
+注意部署的子应用名字不能重复，可以通过下面的方法选择一个名字(自带加上)::
+
+  app_contaner.choose_name('plans') # 如果重复，则返回 plans-1 / plans-2
 
 应用容器的object_type是 ``('AppContainer', 'Container')``
 
