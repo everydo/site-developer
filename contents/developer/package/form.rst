@@ -17,14 +17,20 @@ description: 自动生成表单、合法性校验，数据存储等
 - 应用容器的设置
 - 属性集
 
-表单定义
-=================
-可以通过json来定义表单::
+注册表单定义
+================
+
+可以将表单定义，注册保存到系统.
+
+json定义表单
+----------------
+表单可以通过json来定义表单::
 
   form_def = {
     "name":'sales',
     "title":'',
     "description":'',
+    "facetag":"",
    "fields" : [ {"name":"title"
               "type":"TextLineField", 
               "title":'任务标题', },
@@ -38,25 +44,24 @@ description: 自动生成表单、合法性校验，数据存储等
             { "name":"end",
               "type": "DateField",
               "title": '结束时间',},
-           { "name":"level",
+            { "name":"level",
               "type": "IntegerField",
               "title": '任务等级',
               "size":18,},
-           {"name":"responsibles",
+            {"name":"responsibles",
              "type":"PersonSelectField",
              "title":'负责人人', 
              "validation_expr":"not value and '需要一名检查人'",
-           } ],
+            } ],
     "on_update": "",
     "template": "",
     }
-
-  form = Form(form_def)
 
 其中：
 
 - fields： 字段
 - on_update: 保存的时候调用，用于校验等
+- facetag: 标签组设置
 - template: 生成表单的模板
 
 表单由各种字段组成:
@@ -90,61 +95,8 @@ description: 自动生成表单、合法性校验，数据存储等
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
-
-生成表单html
-=================
-::
-
-  # 渲染表单
-  html_form = form.render_html({'description':'请说清楚'}, fields.keys(), errors)
-
-其中::
-
-  render_html(storage, edit_fields, errors, **options)
-
-生成表单函数
-
-- storage 生成表单时需要运行某些表达式，而storage则是表达式运行的上下文, 这里可以存放初始值
-- edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
-- errors 表单提交错误
-
-为了计算初始值，需要传入更多变量::
-
-  html_form = form.render_html(template, {}, fields.keys(), errors,
-                            request, context=context, container = container)
-
-- request HTTP请求对象，同样作为表达式执行时的对象
-- context
-- container
-
-保存结果
-=============
-用于输入合法性校验，和更改时候的触发逻辑::
-
-  results = {}
-  errors = form.save(results, values=requrest.form)
-
-如果保存到对象的属性中::
-
-  results = IMedata(context)
-  errors = form.save(results, values=requrest.form)
-
-或者扩展属性::
-
-  results = IMedata(context).get_mdset('archive')
-  errors = form.save(results, values=requrest.form)
-
-完整定义::
-
-  form.save(storage, values, fields=None, init=False, check_required=True, **options):``
-
-- storage 数据会保存在这个dict接口对象中
-- fileds 需要保存的字段，一个List
-- init: 是否把各个字段初始化
-
 on_update脚本: 表单保存触发
-================================
-
+-----------------------------------
 调用save的时候，会自动调用on_update::
 
   def on_update(storage, values, **options)
@@ -170,21 +122,10 @@ on_update脚本: 表单保存触发
   {'':'something wrong！'}
 
 注册
-==========
-
-可以将表单定义，注册保存到系统.
-
+-----
 对于数据条目::
 
-  IPackages(root).register_dataitem('zopen.sales', 
-        {name:
-         title:, 
-         description:, 
-         on_update:,
-         template:,
-         facetag:
-         fields:,
-        })
+  IPackages(root).register_dataitem('zopen.sales', form_def)
 
 属性集::
 
@@ -219,18 +160,72 @@ on_update脚本: 表单保存触发
          template:,
          facetags})
 
+使用表单
+==================
+
+数据容器
+----------------
 数据容器的设置信息中，保存了使用的表单信息::
 
-  data_container = container.add_datacontainer('new')
-  IMetadata(data_container).set_setting('item_schemas', ('zopen.sales:query',))
+  data_container = container.add_datacontainer('new', item_schema='zopen.sales:query', )
 
-  schemas = IMetadata(data_container).get_setting('item_schemas')
+根据取出表单定义::
 
-根据取出表单::
-
-  form = IPackages(root).get_dateitem( schemas[0] )
+  schemas = IMedatadata_container.
+  form_json = IPackages(root).get_dateitem( schemas[0] )
 
 这样就可以在系统后台进行任意的表单增删改操作。
+
+生成表单html
+------------------
+::
+
+  # 渲染表单
+  html_form = form.render_html({'description':'请说清楚'}, fields.keys(), errors)
+
+其中::
+
+  render_html(storage, edit_fields, errors, **options)
+
+生成表单函数
+
+- storage 生成表单时需要运行某些表达式，而storage则是表达式运行的上下文, 这里可以存放初始值
+- edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
+- errors 表单提交错误
+
+为了计算初始值，需要传入更多变量::
+
+  html_form = form.render_html(template, {}, fields.keys(), errors,
+                            request, context=context, container = container)
+
+- request HTTP请求对象，同样作为表达式执行时的对象
+- context
+- container
+
+保存结果
+--------------
+用于输入合法性校验，和更改时候的触发逻辑::
+
+  results = {}
+  errors = form.save(results, values=requrest.form)
+
+如果保存到对象的属性中::
+
+  results = IMedata(context)
+  errors = form.save(results, values=requrest.form)
+
+或者扩展属性::
+
+  results = IMedata(context).get_mdset('archive')
+  errors = form.save(results, values=requrest.form)
+
+完整定义::
+
+  form.save(storage, values, fields=None, init=False, check_required=True, **options):``
+
+- storage 数据会保存在这个dict接口对象中
+- fileds 需要保存的字段，一个List
+- init: 是否把各个字段初始化
 
 软件包文件
 ====================
@@ -303,3 +298,4 @@ on_update脚本: 表单保存触发
 同样可以导入这样一个文件::
 
   IPackages(root).import_dataitem('zopen.sales:inquery', schema_file_conent)
+

@@ -136,6 +136,14 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 应用容器的object_type是 ``('AppContainer', 'Container')``
 
+应用容器可以管理子栏目，子栏目可以是一个子应用或者一个软件包里面的脚本::
+
+  app_container.append_tab(sub_container)  # 添加一个应用
+  app_container.append_tab('zopen.sales:overview') # 添加一个脚本
+  app_container.insert_tab(0, sub_container) # 插入到最前面
+  app_container.list_tabs()  # 返回 应用或者脚本名的列表
+  app_container.remove_tab(sub_container) # 去除一个列表
+
 文件夹 Folder
 -----------------------
 文件夹用来存放文件和文件的快捷方式，文件夹还能存放子文件夹::
