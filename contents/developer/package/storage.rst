@@ -132,7 +132,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 添加一个子文件夹::
 
-  folder = app_container.add_folder(name)
+  folder = app_container.add_folder(name, title="计划中心")
 
 添加一个流程容器::
 
@@ -140,12 +140,14 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
                 item_schema="zopen.plan:plan",  # 表单的定义
                 schema="zopen.plan:plan",   # 数据容器的设置定义
                 item_stage="zopen.plan:plan", # 表单的阶段定义 
-                item_workflow="zopen.plan:plan") # 流程步骤定义
+                item_workflow="zopen.plan:plan", # 流程步骤定义
+                title="项目计划")  # 这个参数可选
 
 添加一个子应用容器::
 
   sub_container = app_container.add_appcontainer(name='plans', 
-                                                schema="zopen.plan:default")
+                                                schema="zopen.plan:default",
+                                                title="计划")
 
 注意部署的子应用名字不能重复，可以通过下面的方法选择一个名字(自带加上)::
 
