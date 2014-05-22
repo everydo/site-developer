@@ -338,16 +338,15 @@ description: 表单和流程操作接口，包括表单自动生成
 可以设置某个具体的workitem的信息::
 
     for workitem in IWorkitems(item).list_workitems():
-        workitem_md = IMetadata(workitem)
-        print '创建时间', workitem_md['created']
-        print '工作项名', workitem_md['title']
-        print '负责人', workitem_md['responsibles']
-        print '完成时间', workitem_md['end']
-        print '期限', workitem_md['deadline']
+        print '创建时间', workitem['created']
+        print '工作项名', workitem['title']
+        print '负责人', workitem['responsibles']
+        print '完成时间', workitem['end']
+        print '期限', workitem['deadline']
 
 数据容器中的表单流程
 =====================================
 使用数据容器可以简便的支持表单流程::
 
-  IMetadata(app_container).set_setting('item_workflows', ('zopen.sales:query',))
+  app_container.set_setting('item_workflows', ('zopen.sales:query',))
 

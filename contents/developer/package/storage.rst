@@ -156,7 +156,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 应用容器可以管理子栏目，子栏目可以是一个子应用或者一个软件包里面的脚本::
 
   app_container.append_tab(sub_container)  # 添加一个应用
-  app_container.append_tab('zopen.sales:overview') # 添加一个脚本
+  app_container.append_tab('zopen.sales:overview') # 添加一个软件包脚本, 作为视图
   app_container.insert_tab(0, sub_container) # 插入到最前面
   app_container.list_tabs()  # 返回 应用或者脚本名的列表
   app_container.remove_tab(sub_container) # 去除一个列表
@@ -187,12 +187,14 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 快捷方式 ShortCut
 ---------------------
-快捷方式可以指向其他的文件或者文件夹，不能包含其他内容::
+分为：
 
-  shortcut.get_orign()  # TODO
-  shortcut.reset_version(version_id) # TODO
+- 文件快捷方式, 其object_type为: ``('FileShortCut', 'Item')`` 
+- 文件夹快捷方式，object_type: ``('FolderShortCut', 'Item')``
 
-其object_type为: ``('FileShortCut', 'Item')`` 或: ``('FolderShortCut', 'Item')``
+快捷方式可以指向其他的文件或者文件夹::
+
+  shortcut.shortcut_orign
 
 数据容器 DataContainer
 -------------------------
@@ -333,7 +335,7 @@ Schema自定义语义
 
 也可以批量更改属性值::
 
-  obj.update_mdset('archive', {'copy':34, 'number':'ES33'})
+  obj.update_mdset('archive', copy=34, number='ES33')
 
 删除属性集::
 
@@ -411,7 +413,7 @@ Schema自定义语义
 
 查看所有的附件::
 
-  doc1.list_relations('attachment')
+  doc1.relation_tagets('attachment')
 
 清除某种或所有的关系::
 
@@ -419,27 +421,29 @@ Schema自定义语义
 
 附件查看主文件::
 
-  doc2.source_relations('attachment')
+  doc2.relation_sources('attachment')
 
 版本管理
 ==================
 文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识
 
-定版
------------
-定版就是设置版本、版次信息::
+任何对象都可以保存历史版本，一旦保存当前对象的版本号发生变化::
 
-  doc.fix(revision_id=None, major_version=None, minor_version=None) # TODO
+   context.save_revision() # TODO
+
+文档每次变更，默认保存为临时版本，临时版本过期会自动清理。
+
+可以降文档定版，一旦定版，版本就是正式版本::
+
+  context.fix_revision(revision_id=None, major_version=None, minor_version=None) # TODO
 
 - 如果不传revision_id，表示对当前的工作版本进行定版
 - 如果不传 major_version，继续沿用上一个version_number
 - 如果不传 minor_version，自动增长上一个revision_number
 
-查看工作版本信息
---------------------------
-对象都有一个工作版本，工作版本是可以进行修改的，可查询工作版本的信息::
+可查询工作版本的信息::
 
-   revisions.get_revision_info(revision_id=None) # TODO
+  context.get_revision_info(revision_id=None) # TODO
 
 如果revision_id为None，表示工作版本。返回::
 
@@ -453,25 +457,19 @@ Schema自定义语义
 
 其中如果 major_version 为空，表示没有定版。
 
-保存为历史版本
----------------------------------
-用这个方法来保存历史版本，一旦保存当前对象的版本号发生变化::
-
-   revisions.save() # TODO
-
 查看所有历史版本信息::
 
-   revisions.list_revisions(include_temp=True) # TODO
+   context.list_revisions(include_temp=True) 
 
 返回revision_info的清单
 
 得到一个历史版本::
 
-   revisions.get(revision_id) # TODO
+   context.get_revision(revision_id) # TODO
 
 删除一个版本::
 
-   revisions.remove(revision_id) # TODO
+   context.remove_revision(revision_id) # TODO
 
 权限控制
 ================
@@ -599,7 +597,7 @@ visible: 保密
 -------------
 标签组在容器(文件夹、数据容器、应用容器)上设置，可得到标签组设置::
 
-  container.list_facetags()
+  container.list_facetags() # TODO
 
 输出为::
 
@@ -628,15 +626,15 @@ visible: 保密
 
 可以设置::
 
-  container.set_facetags(facetag_setting)
+  container.set_facetags(facetag_setting) # TODO
 
 也可以导出为文本形式的标签组，用于编辑::
 
-  container.export_facetags()
+  container.export_facetags() # TODO
 
 或者导入::
 
-  container.import_facetags()
+  container.import_facetags() # TODO
 
 标签组存在必选和单选控制，可以校验::
 
@@ -644,13 +642,13 @@ visible: 保密
 
 标签组设置可以继承上层设置, 可以通过这个变量来控制::
 
-  container.inherit_facetags = True
+  container.inherit_facetags = True # TODO
 
 标签维护
 -------------
 如果要添加一个标签::
 
-  context.add_tag('完成')
+  context.add_tag('完成') # TODO
 
 如果这个标签所在的标签组是单选的，会自动去除其他的标签。
 
