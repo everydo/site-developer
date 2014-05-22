@@ -171,10 +171,13 @@ on_update脚本: 表单保存触发
 
 根据取出表单定义::
 
-  schemas = IMedatadata_container.
+  schemas = container.get_setting('item_schema')
   form_json = IPackages(root).get_dateitem( schemas[0] )
+  form = Form(form_json)
 
-这样就可以在系统后台进行任意的表单增删改操作。
+也可以直接得到表单对象::
+
+  form = IPackages(root).get_dateitem_obj( schemas[0] )
 
 生成表单html
 ------------------
@@ -204,19 +207,9 @@ on_update脚本: 表单保存触发
 
 保存结果
 --------------
-用于输入合法性校验，和更改时候的触发逻辑::
+用于输入合法性校验，和更改时候的触发逻辑，数据存放到results中::
 
   results = {}
-  errors = form.save(results, values=requrest.form)
-
-如果保存到对象的属性中::
-
-  results = IMedata(context)
-  errors = form.save(results, values=requrest.form)
-
-或者扩展属性::
-
-  results = IMedata(context).get_mdset('archive')
   errors = form.save(results, values=requrest.form)
 
 完整定义::

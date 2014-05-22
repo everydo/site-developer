@@ -50,6 +50,7 @@ description: 表单和流程操作接口，包括表单自动生成
                          "responsibles": '[request.principal.id]',
                          "actions": [ { "name":'submit',
                                         "title":'提交',
+                                        "condition":'',
                                         "finish_condition":'',
                                         "nextsteps":['communicate'],
                                         "on_submit":"",
@@ -61,7 +62,9 @@ description: 表单和流程操作接口，包括表单自动生成
                           "title": '这是一个自动步骤，无人参与',
                           "condition":'',
                           "on_enter": "",
-                          "stage":'planing', },
+                          "stage":'planing', 
+                          "auto_steps":['communicate', ],
+                        },
 
                         {"name": "communicate",
                          "title": '了解需求背景',
