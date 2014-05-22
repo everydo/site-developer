@@ -244,7 +244,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 Schema自定义语义
 =======================
-系统对象都可以对字段自定义，可以通过 ``schemas`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
+所有内容对象都可以自定义字段，可以通过 ``schemas`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
@@ -262,6 +262,7 @@ Schema自定义语义
 
 对象属性
 ==============================================
+
 基础属性
 --------------------------------------
 系统的所有对象，都包括一组标准的属性，有系统自动维护，或者有特殊的含义。
@@ -378,12 +379,7 @@ Schema自定义语义
 关系
 ================
 
-每一个对象都可以和其他的对象建立各种关系，使用IRelations进行关系操作.
-
-系统内置关系类型
------------------------
-
-常用关系类型包括：
+每一个对象都可以和其他的对象建立各种关系.  常用关系类型包括：
 
 - children:比如任务的分解，计划的分解
 - attachment：这个主要用于文件的附件
@@ -394,74 +390,45 @@ Schema自定义语义
 
 可以查出所有的关系类型::
 
-  IRelations(obj).list_relation_types()
+  doc1.relation_types()  
 
-接口API：IRelations
------------------------------------
-
-- add(type, obj， metadata={})
-
-  添加对obj的type类型关系 
-
-  - type:关系类型 
-  - obj：被关联对象
-  - metadata：这条关系的元数据
- 
-- remove(type, obj):删除对obj的type类型关系
-
-  - type:关系类型 
-  - obj：被关联对象
-
-- set_target_metadata(type, obj, metadata):设置某条关系的元数据
-
-- get_target_metadata(type, obj, metadata):得到某条关系的元数据
- 
-- list_sources(type):列出所有该类型的被关联对象
-
-  type:关系类型 
-
-- has_target(type):是否有该类型的关联对象
-
-- has_source(type): 是否有该类型的被关联对象
-
-- list_targets(type):列出所有该类型的关联对象
-
-  type:关系类型 
- 
-- set_targets(type, target_list):
-
-- clean():清除该对象的所有关系
-
-使用示例
-----------------------
 将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
   
-  IRelations(doc1).add('attachment', doc2) 
+  doc1.add_relation('attachment', doc2, metadata={}) 
 
 删除上面设置的那条关系::
 
-  IRelations(doc1).remove('attachment', doc2) 
+  doc1.remove_relation('attachment', doc2) 
 
 设置关系的元数据（关系不存在不会建立该关系）::
 
-  IRelations(doc1).set_target_metadata('attachment', doc2, {'number':01, 'size':23}) 
+  doc1.set_relation_metadata('attachment', doc2, {'number':01, 'size':23}) 
 
 得到关系的元数据（关系不存在返回None）::
 
-  IRelations(doc1).get_target_metadata('attachment', doc2) 
+  doc1.relation_metadata('attachment', doc2) 
+
+查看所有的附件::
+
+  doc1.list_relations('attachment')
+
+清除某种或所有的关系::
+
+  doc1.clean_relations(type='attachment')
+
+附件查看主文件::
+
+  doc2.source_relations('attachment')
 
 版本管理
 ==================
-
-文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识，使用 ``IRevisions`` 管理内容的版本::
-
-   revisions = IRevisions(obj)
+文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识
 
 定版
 -----------
 定版就是设置版本、版次信息::
 
-  revisions.fix(revision_id=None, major_version=None, minor_version=None)
+  doc.fix(revision_id=None, major_version=None, minor_version=None) # TODO
 
 - 如果不传revision_id，表示对当前的工作版本进行定版
 - 如果不传 major_version，继续沿用上一个version_number
@@ -471,7 +438,7 @@ Schema自定义语义
 --------------------------
 对象都有一个工作版本，工作版本是可以进行修改的，可查询工作版本的信息::
 
-   revisions.get_revision_info(revision_id=None)
+   revisions.get_revision_info(revision_id=None) # TODO
 
 如果revision_id为None，表示工作版本。返回::
 
@@ -489,28 +456,26 @@ Schema自定义语义
 ---------------------------------
 用这个方法来保存历史版本，一旦保存当前对象的版本号发生变化::
 
-   revisions.save()
+   revisions.save() # TODO
 
 查看所有历史版本信息::
 
-   revisions.list_revisions(include_temp=True)
+   revisions.list_revisions(include_temp=True) # TODO
 
 返回revision_info的清单
 
 得到一个历史版本::
 
-   revisions.get(revision_id)
+   revisions.get(revision_id) # TODO
 
 删除一个版本::
 
-   revisions.remove(revision_id)
+   revisions.remove(revision_id) # TODO
 
 权限控制
 ================
 
 系统中可以直接修改权限来进行权限管理，也可以通过修改角色来进行权限管理。
-
-权限和角色的操作都通过 ``IAuthorization`` 接口进行。
 
 角色
 --------
@@ -542,24 +507,23 @@ Schema自定义语义
 
 授权
 --------------
-
 在obj对象上，授予用户某个角色::
 
-  IAuthorization(obj).grant_role(role_id, pid)
+  obj.grant_role(role_id, pid)
 
 同上，禁止角色::
 
-  IAuthorization(obj).deny_role(role_id, pid)
+  obj.deny_role(role_id, pid)
 
 同上，取消角色::
 
-  IAuthorization(obj).unset_role(role_id, pid)
+  obj.unset_role(role_id, pid)
 
 检查权限
 -------------
 检查当前用户对某对象是否有某种权限，可使用 ``permit`` 方法::
 
-  IAuthorization(obj).permit(permission_id)
+  obj.check_permission(permission_id)
 
 如果有该权限即返回True，反之返回False
 
@@ -577,27 +541,29 @@ Schema自定义语义
 
 'Access'和'View'的区别，需要进入文件夹(Access)，但是不希望查看文件夹包含的文档(View)。
 
-读取权限
-------------
+读取权限设置
+---------------
 根据角色来获取obj对象上拥有该角色的用户ID::
 
-  IAuthorization(obj).get_context_principals(role_id)
-
-得到上层以及全局的授权信息::
-
-  IAuthorization(obj).get_inherited_principals(role_id)
+  obj.role_principals(role_id)
 
 得到某个用户在obj上的所有角色::
 
-  IAuthorization(obj).get_context_roles(user_id)
+  obj.principal_roles(user_id)
+
+得到上层以及全局的授权信息::
+
+  obj.inherited_role_principals(role_id)
 
 得到某个用户在上层继承的角色::
 
-  IAuthorization(obj).get_inherited_roles(user_id)
+  obj.inherited_principal_roles(user_id)
 
 对象的状态
 ===========================
-每一个对象存在一组状态，存放在对象的context.stati属性中
+每一个对象存在一组状态，存放在对象的 ``stati`` 属性中::
+
+   'visible.default' in context.stati
 
 modify: 发布
 
@@ -615,16 +581,13 @@ visible: 保密
 使用状态机IStateMachine，来控制对象状态的变化::
 
     # 不进行权限检查，直接发布某个文档
-    IStateMachine(context).set_state('modify.archived', do_check=False)
-    # 设置文件夹为受控
-    IStateMachine(context).set_state('folder.control', do_check=False)
+    context.set_state('modify.archived', do_check=False)
+    # 设置文件夹为受控，需要检查权限
+    context.set_state('folder.control', do_check=True)
 
-其包括的接口有：
+也可以得到某个状态：
 
-- getAllStates()	得到对象的所有状态	
-- getState(prefix) 得到某个的状态	
-- setState(new_state, do_check=True) 设置状态	
-- nextStates(self, prefix) 得到后续状态	
+    context.get_state('visible') # 得到可见状态	
 
 标签组
 ============
