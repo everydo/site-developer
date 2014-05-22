@@ -48,15 +48,15 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
 
 一个软件包包括如下定制内容:
 
-- 数据表单定义
-- 数据容器定义：数据容器用于存放表单，自身包含设置信息
-- 阶段定义：
-- 流程步骤定义
-- 规则定义
-- 皮肤定义
-- 属性集定义
-- 皮肤定义
-- 脚本定义
+- 表单语义：包括数据项、数据容器、应用容器等的表单输入字段
+- 属性集：额外的属性定义
+- 阶段：
+- 流程步骤
+- 规则
+- 皮肤
+- 脚本
+- 模板
+- 资源文件
 
 总体借用Python语言来定义表单和流程. 压缩包内的文件组织::
 
@@ -67,13 +67,11 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
     sales_chance.pt
   stages/   # 阶段定义
     sales_chance.py
-  dataitems/ # 表单数据
+  schemas/ # 表单数据
     sales_chance.py
     sales_chance.html
-  datacontainers/  # 数据容器
-    sales_chance.py
-  appcontainers/  # 应用容器
-    default.py
+    sales_chance_container.py
+    appcontainers.py # 应用容器设置
   mdsets/  # 属性集
     archive.py
   workflows/  # 工作流
