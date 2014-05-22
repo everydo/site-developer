@@ -33,15 +33,14 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 系统中的对象，可简单的抽象为2种对象：
 
-- 容器类对象Container：如网站根、栏目、文件夹、表单容器
-- 条目类对象Item：如文件、快捷方式、表单
+- 容器类对象Container：如网站根、应用容器AppContainer、文件夹Folder、数据容器DataContainer
+- 条目类对象Item：如文件File、快捷方式ShortCut、数据项DataItem
 
 新增对象
 -------------
 网站的根是root，他自身是一个容器，在其下面可以创建容器::
 
-   root['conainer1'] = Contianer()
-   root['conainer2'] = Contianer()
+   root['conainer1'] = Container()
 
 站点根下面，一般不直接创建条目，在容器里面可增加条目::
 
@@ -56,7 +55,6 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 容器提供类似dict的访问方法::
 
    container1 = root['container1']
-   container2 = root['container2']
    root.keys()   # ['container1', 'container2']
    root.values(), root.items()
    
@@ -105,8 +103,8 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 -----------------
 可叠加内容的名字、以及包含该内容的所有容器的名字，形成对象路径，用于定位一个内容::
 
-   root.object_path(item1) # 返回: '/container2/item_1'
-   root.object_by_path('/container2/item_1')  # 返回item1
+   path = root.object_path(obj) # 返回: '/container2/item_1'
+   obj = root.object_by_path('/container2/item_1')  # 返回item1
 
 数据库里面的对象，一旦发生移动或者改名，对象的路径就发生变化。这样用路径就不能来永久标识对象。
 
@@ -158,7 +156,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
   app_container.append_tab(sub_container)  # 添加一个应用
   app_container.append_tab('zopen.sales:overview') # 添加一个软件包脚本, 作为视图
   app_container.insert_tab(0, sub_container) # 插入到最前面
-  app_container.list_tabs()  # 返回 应用或者脚本名的列表
+  tabs = app_container.list_tabs()  # 返回 应用或者脚本名的列表
   app_container.remove_tab(sub_container) # 去除一个列表
 
 文件夹 Folder
