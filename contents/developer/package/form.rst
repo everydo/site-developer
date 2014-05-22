@@ -31,14 +31,15 @@ json定义表单
     "title":'',
     "description":'',
     "facetag":"",
-   "fields" : [ {"name":"title"
+    "fields" : [ 
+            {"name":"title",
               "type":"TextLineField", 
               "title":'任务标题', },
             { "name":'description': 
                "type": "TextField",       
                "title":'任务说明',      
                "rows":3, },
-            {"name": "start": 
+            {"name": "start,
               "type": "DateField",
               "title": '开始时间',},
             { "name":"end",
@@ -123,13 +124,13 @@ on_update脚本: 表单保存触发
 
 注册
 -----
-对于数据条目::
+可以注册一个表单语义，用于数据项、数据容器，或者应用容器::
 
-  IPackages(root).register_dataitem('zopen.sales', form_def)
+  IPackages(root).register_schema('zopen.sales', form_def)
+  
+也可以注册成一个属性集::
 
-属性集::
-
-  IPackages(root).register_dataset('zopen.sales', 
+  IPackages(root).register_mdset('zopen.sales', 
         {name:
          title:, 
          description:, 
@@ -137,28 +138,6 @@ on_update脚本: 表单保存触发
          on_update:,
          template:,
          obejct_types})
-
-应用容器::
-
-  IPackages(root).register_appcontainer('zopen.sales', 
-        {name:
-         title:, 
-         description:, 
-         fields:,
-         on_update:,
-         template:,
-        })
-
-数据容器::
-
-  IPackages(root).register_datacontainer('zopen.sales', 
-        {name,
-         title:, 
-         description:, 
-         fields:,
-         on_update:,
-         template:,
-         facetags})
 
 使用表单
 ==================
@@ -172,7 +151,7 @@ on_update脚本: 表单保存触发
 根据取出表单定义::
 
   schemas = container.get_setting('item_schema')
-  form_json = IPackages(root).get_dateitem( schemas[0] )
+  form_json = IPackages(root).get_schema( schemas[0] )
   form = Form(form_json)
 
 也可以直接得到表单对象::
