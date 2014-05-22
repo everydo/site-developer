@@ -265,49 +265,54 @@ Schema自定义语义
 
 基础属性
 --------------------------------------
-系统的所有对象，都包括一组标准的属性，有系统自动维护，或者有特殊的含义。
+系统的所有对象，都包括一组标准的属性，有系统自动维护，或者有特殊的含义。属性也称作元数据，metadata.
 
-对象一旦加入到仓库，通过IMetadata，可以查看其创建人、修改人，创建时间、修改时间::
+对象一旦加入到仓库，可以查看其创建人、修改人，创建时间、修改时间::
 
-   IMetadata(item)['creators']
-   IMetadata(item)['contributors']
-   IMetadata(item)['created']
-   IMetadata(item)['modified']
+   item.md('creators')
+   item.md('contributors')
+   item.md('created')
+   item.md('modified')
 
 其他的基础属性，还包括::
 
-  IMetadata(obj)['identifier'] 这个也就是文件的编号
-  IMetadata(obj)['expires'] 对象的失效时间
-  IMetadata(obj)['effective'] 对象的生效时间
+  obj.md('identifier') 这个也就是文件的编号
+  obj.md('expires') 对象的失效时间
+  obj.md('effective') 对象的生效时间
 
 可以更改对象的各种属性，如基础标题、描述、分类，表单字段::
 
-   errors = IMetadata(item1)['title'] = 'Item 1',
-   errors = IMetadata(item1).update(title = 'Item 1',
-                                    description = 'this is a sample item',
-                                    subjects = ('tag1', 'tag2'))
+   item1.set_md('title', 'Item 1')
+   item1.update_md(title = 'Item 1',
+                    description = 'this is a sample item',
+                    subjects = ('tag1', 'tag2'))
+
+对于非容器类型的内容，比如文件、数据项，可以直接通过切分来访问属性::
+
+  title = item1['title']
+  item1['title'] = 'new title'
 
 自定义属性
 ---------------
 可自由设置属性，对于需要在日历上显示的对象，通常有如下属性::
 
-  IMetadata(obj).update(responsibles = ('users.panjy', 'users.lei'), # 负责人
+  obj.update_md(responsibles = ('users.panjy', 'users.lei'), # 负责人
                         start = datetime.now(), # 开始时间 
                         end = datetime.now(), 结束时间
 
 对于联系人类型的对象，通常可以有如下表单属性::
 
-  IMetadata(obj)['email'] = 'panjy@foobar.com' #邮件
-  IMetadata(obj)['mobile'] = '232121' 手机
+  obj.set_md('mail', 'panjy@foobar.com') #邮件
+  obj.set_md('mobile', '232121') # 手机
 
 经费相关的属性::
 
-  IMetadata(obj)['amount'] = 211
+  obj.set_md('amount', 211)
 
 地理相关的属性::
 
-  IMetadata(obj)['longitude'] = 123123.12312 #经度
-  IMetadata(obj)['latitude'] = 12312.12312 # 纬度
+  obj.set_md('longitude', 123123.12312) #经度
+  obj.set_md('latitude', 12312.12312) # 纬度
 
 属性集
 ---------------
@@ -315,32 +320,28 @@ Schema自定义语义
 
 创建一个属性集::
 
-  IMetadata(obj).new_mdset('archive')
+  obj.new_mdset('archive')
 
 设置一个新的属性集内容::
 
-  IMetadata(obj).set_mdset('archive', {'number':'DE33212', 'copy':33})
+  obj.set_mdset('archive', {'number':'DE33212', 'copy':33})
   
 活动属性集的内的属性值的存取::
 
-  IMetadata(obj).get_mdset('archive')['number']
-  IMetadata(obj).get_mdset('archive')['number'] = 'DD222'
+  obj.get_mdset('archive')['number']
+  obj.get_mdset('archive')['number'] = 'DD222'
 
 也可以批量更改属性值::
 
-  IMetadata(obj).update_mdset('archive', {'copy':34, 'number':'ES33'})
+  obj.update_mdset('archive', {'copy':34, 'number':'ES33'})
 
 删除属性集::
 
-  IMetadata(obj).remove_mdset('archive')
+  obj.remove_mdset('archive')
 
 查看对象所有属性集::
 
-  IMetadata(obj).list_mdsets()  # 返回： [archive, ]
-
-得到其中的一个字段值::
-
-  IMetadata(obj).get_mdset('archive')['archive_number']
+  obj.list_mdsets()  # 返回： [archive, ]
 
 设置信息
 -----------
@@ -348,8 +349,8 @@ Schema自定义语义
 
 设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
-   IMetadata(container).set_setting(field_name, value)
-   IMetadata(container).get_setting(field_name, default='blabla', inherit=True)
+   container.set_setting(field_name, value)
+   container.get_setting(field_name, default='blabla', inherit=True)
 
 如果inherit为True，会自动往上找值，直到站点根。
 
@@ -357,24 +358,24 @@ Schema自定义语义
 
 1) 和表单相关的设置::
 
-    IMetadata(datacontainer).set_setting('item_schemas', ('zopen.sales:query',))   # 包含条目的表单定义
+    datacontainer.set_setting('item_schemas', ('zopen.sales:query',))   # 包含条目的表单定义
 
 2) 流程相关的::
 
-    IMetadata(datacontainer).set_setting('item_workflows', ('zopen.sales:query',)): 容器的工作流定义(list)
+    datacontainer.set_setting('item_workflows', ('zopen.sales:query',)): 容器的工作流定义(list)
 
 3) 和显示相关的设置::
 
-    IMetadata(container).set_setting('default_view', ('@@table_list')) : 显示哪些列
-    IMetadata(container).set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
+    container.set_setting('default_view', ('@@table_list')) : 显示哪些列
+    container.set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
 
 4) 和属性集相关的设置::
 
-    IMetadata(container).set_setting('item_mdsets', ('archive_archive', 'zopen.contract:contract')) : 表单属性集(list)
+    container.set_setting('item_mdsets', ('archive_archive', 'zopen.contract:contract')) : 表单属性集(list)
 
 5) 和阶段相关的设置::
 
-    IMetadata(container).set_setting('item_stages', ('zopen.sales:query',)): 容器的阶段定义(list)
+    container.set_setting('item_stages', ('zopen.sales:query',)): 容器的阶段定义(list)
 
 关系
 ================
@@ -592,51 +593,71 @@ visible: 保密
 标签组
 ============
 
-标签组实现了多维度、多层次、可管理的分类管理。
+标签组实现了多维度、多层次、可管理的分类管理. 
 
-标签设置
----------------
-另外，使用IFaceTagSetting可进行标签设置的管理：
+设置标签组
+-------------
+标签组在容器(文件夹、数据容器、应用容器)上设置，可得到标签组设置::
 
-- getFaceTagText(): 得到face tag 文字
-- setFaceTagText(text): 
-  设置face tag文字，会自动转换的, 典型如下::
+  container.list_facetags()
 
-   按产品
-   -wps
-   -游戏
-   -天下
-   -传奇
-   -毒霸
-   按部门
-   -研发
-   -市场
+输出为::
 
-- getFaceTagSetting(): 得到全部的face tag setting::
+  [{'group': '按产品',
+    'required':true,
+    'single':true,
+    'tags': ['wps',
+           '游戏
+           '天下
+           '传奇
+           '毒霸']},
 
-   [(按产品, (wps, (游戏, (天下, 传奇)), 毒霸)),
-    (按部门, (研发, 市场))]
+   {'group': '按部门'
+    'required':true,
+    'single':true,
+    'tags': [{'name':'研发', 
+              'tags':[{'name':'产品'}, 
+                      {'name':'测试'},
+                      {'name':'软件'},
+                      {'name':'硬件'},
+                     ]
+             },
+             {'name':'市场'},
+            ]
+   }]
 
-- check_required(tags): 返回遗漏的标签分组list
+可以设置::
+
+  container.set_facetags(facetag_setting)
+
+也可以导出为文本形式的标签组，用于编辑::
+
+  container.export_facetags()
+
+或者导入::
+
+  container.import_facetags()
+
+标签组存在必选和单选控制，可以校验::
+
+  container.check_facetags(tags) # 返回: {'required':[], 'single':[]}
+
+标签组设置可以继承上层设置, 可以通过这个变量来控制::
+
+  container.inherit_facetags = True
 
 标签维护
 -------------
 如果要添加一个标签::
 
-  ITagsManager(sheet).addTag('完成')
+  context.add_tag('完成')
 
-希望同时去除这个标签组中的所在维度其他的标签， 比如"处理中"这样的状态，因为二者不能同存::
+如果这个标签所在的标签组是单选的，会自动去除其他的标签。
 
-  ITagsanager(sheet).addTag('完成', exclude=True)
+注意，标签存放在名字叫做 ``subjects`` 的属性中，可以直接维护::
 
-这里使用ITagManager进行标签管理。完整接口为
-
-- listTags(): 得到全部Tags
-- setTags(tags): 更新Tags
-- addTag(tag, exclude=False):
-  添加一个Tag, 如果exclude，则添加的时候， 把FaceTag的同一类的其他标签删除
-- delTag(tag): 删除指定Tag
-- canEdit(): 是否可以编辑
+  context.md('subjects')
+  context.set_md('subjects', ['完成', '部门'])
 
 回收站
 ============
