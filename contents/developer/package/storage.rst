@@ -586,7 +586,7 @@ visible: 保密
     # 设置文件夹为受控，需要检查权限
     context.set_state('folder.control', do_check=True)
 
-也可以得到某个状态：
+也可以得到某个状态::
 
     context.get_state('visible') # 得到可见状态	
 
