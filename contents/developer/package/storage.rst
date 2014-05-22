@@ -604,11 +604,12 @@ visible: 保密
   [{'group': '按产品',
     'required':true,
     'single':true,
-    'tags': ['wps',
-           '游戏
-           '天下
-           '传奇
-           '毒霸']},
+    'tags': [{'name':'wps'},
+             {'name':'游戏'},
+             {'name':'天下'},
+             {'name':'传奇'},
+             {'name':'毒霸'}
+   ]},
 
    {'group': '按部门'
     'required':true,
