@@ -40,6 +40,7 @@ public class demo_search {
 	     HttpClient client = new HttpClient(connectionManager);
 	     Credentials creds = new UsernamePasswordCredentials("admin", "admin");
 	     client.getState().setCredentials(AuthScope.ANY, creds);
+             client.getParams().setAuthenticationPreemptive(true);
 	     client.setHostConfiguration(hostConfig);
 	     
 	     // select, 返回的对象可以得到display(名称), subjects(标签), iscollection(是否目录)三个属性

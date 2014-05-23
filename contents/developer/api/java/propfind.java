@@ -21,6 +21,7 @@ public class demo_propfind {
 		HttpClient client = new HttpClient();
 		Credentials creds = new UsernamePasswordCredentials("admin", "admin");
 		client.getState().setCredentials(AuthScope.ANY, creds);
+                client.getParams().setAuthenticationPreemptive(true);
 		
 		//µ√µΩ Ù–‘
 		String dirUrl = "http://localhost:8089/default/files/";

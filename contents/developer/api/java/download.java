@@ -16,6 +16,7 @@ public class demo_download {
 		HttpClient client = new HttpClient();
 		Credentials creds = new UsernamePasswordCredentials("admin", "admin");
 		client.getState().setCredentials(AuthScope.ANY, creds);
+                client.getParams().setAuthenticationPreemptive(true);
 		
 		String fileName = "如何办护照.txt";
 		

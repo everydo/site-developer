@@ -15,6 +15,7 @@ public class demo_create_folder {
 		HttpClient client = new HttpClient();
 		Credentials creds = new UsernamePasswordCredentials("admin", "admin");
 		client.getState().setCredentials(AuthScope.ANY, creds);
+                client.getParams().setAuthenticationPreemptive(true);
 	
 		 // 新建文件夹
 		String dirUrl = "http://localhost:8089/default/files/" + URLEncoder.encode("新建的文件夹", "utf-8");
