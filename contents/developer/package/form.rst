@@ -30,8 +30,11 @@ json定义表单
     "name":'sales',
     "title":'',
     "description":'',
-    "facetag":"",
-    "fields" : [ 
+    "facetag":"", # 标签组设置
+     'related_workflow':'zopen.sales:sales',   # 关联的流程定义
+     'realted_datacontainer':'zopen.sales:sales_container',  # 关联的容器设置
+     'related_stage':'zopen.sales:sales', # 关联的阶段定义
+    "fields" : [     # 所有的字段
             {"name":"title",
               "type":"TextLineField", 
               "title":'任务标题', },
@@ -54,16 +57,10 @@ json定义表单
              "title":'负责人人', 
              "validation_expr":"not value and '需要一名检查人'",
             } ],
-    "on_update": "",
-    "template": "",
+    "on_update": "", # 保存的时候调用，用于校验等
+    "template": "", # 生成表单的模板
     }
 
-其中：
-
-- fields： 字段
-- on_update: 保存的时候调用，用于校验等
-- facetag: 标签组设置
-- template: 生成表单的模板
 
 表单由各种字段组成:
 
@@ -213,6 +210,9 @@ on_update脚本: 表单保存触发
     extend = 'zopen.sales:chance'  # 继承的表单定义
     displayed_columns=['responsibles', '_stage', 'client', 'start', 'lastlog']
     facetag = ""
+    related_workflow = 'zopen.sales:sales'
+    related_datacontainer = 'zopen.sales:sales'
+    related_stage = 'zopen.sales:sales'
 
     fields = [ {"name":"title"
               "type":"TextLineField", 
