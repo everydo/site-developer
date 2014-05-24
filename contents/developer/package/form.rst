@@ -148,13 +148,13 @@ on_update脚本: 表单保存触发
 
 根据取出表单定义::
 
-  schemas = container.get_setting('item_schema')
-  form_json = IPackages(root).get_schema( schemas[0] )
+  schema = container.get_setting('item_schema')
+  form_json = IPackages(root).get_schema( schema[0] )
   form = Form(form_json)
 
 也可以直接得到表单对象::
 
-  form = IPackages(root).get_dateitem_obj( schemas[0] )
+  form = IPackages(root).get_dateitem_obj( schema[0] )
 
 生成表单html
 ------------------

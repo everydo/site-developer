@@ -240,19 +240,19 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 Schema自定义语义
 =======================
-所有内容对象都可以自定义字段，可以通过 ``schemas`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
+所有内容对象都可以自定义字段，可以通过 ``schema`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
 
 应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
 
-  appcontainer.schemas = ('zopen.weather:default', )
+  appcontainer.schema = ('zopen.weather:default', )
 
 数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
 
-  datacontainer.schemas = ('zopen.issutracker:issue', )
+  datacontainer.schema = ('zopen.issutracker:issue', )
 
 具体的一个故障单数据项，则可能是::
 
-  dataitemitem.schemas = ('zopen.issutracker:issue', )
+  dataitemitem.schema = ('zopen.issutracker:issue', )
 
 如果这里有多个，表示继承。schema的具体定义和使用，参照 《表单处理》 一节
 
@@ -354,11 +354,11 @@ Schema自定义语义
 
 1) 和表单相关的设置::
 
-    datacontainer.set_setting('item_schemas', ('zopen.sales:query',))   # 包含条目的表单定义
+    datacontainer.set_setting('item_schema', ('zopen.sales:query',))   # 包含条目的表单定义
 
 2) 流程相关的::
 
-    datacontainer.set_setting('item_workflows', ('zopen.sales:query',)): 容器的工作流定义(list)
+    datacontainer.set_setting('item_workflow', ('zopen.sales:query',)): 容器的工作流定义(list)
 
 3) 和显示相关的设置::
 
@@ -371,7 +371,7 @@ Schema自定义语义
 
 5) 和阶段相关的设置::
 
-    container.set_setting('item_stages', ('zopen.sales:query',)): 容器的阶段定义(list)
+    container.set_setting('item_stage', ('zopen.sales:query',)): 容器的阶段定义(list)
 
 关系
 ================

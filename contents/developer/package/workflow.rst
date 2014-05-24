@@ -345,5 +345,5 @@ description: 表单和流程操作接口，包括表单自动生成
 =====================================
 使用数据容器可以简便的支持表单流程::
 
-  app_container.set_setting('item_workflows', ('zopen.sales:query',))
+  app_container.set_setting('item_workflow', ('zopen.sales:query',))
 
