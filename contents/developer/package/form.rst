@@ -31,6 +31,7 @@ json定义表单
     "title":'',
     "description":'',
     "facetag":"", # 标签组设置
+    'object_types':['DataItem'], # 语义定义用于的对象类型
      'related_workflow':'zopen.sales:sales',   # 关联的流程定义
      'realted_datacontainer':'zopen.sales:sales_container',  # 关联的容器设置
      'related_stage':'zopen.sales:sales', # 关联的阶段定义
