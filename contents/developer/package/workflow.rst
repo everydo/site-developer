@@ -37,7 +37,7 @@ description: 表单和流程操作接口，包括表单自动生成
     workflow_json = {'name':'sales',
                      'title':'销售流程',
                      'description':'销售',
-                    'steps':[ {"name":"start",
+                     'steps':[ {"name":"start",
                          "title" : '新的销售机会',
                          "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
                          "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
@@ -49,7 +49,7 @@ description: 表单和流程操作接口，包括表单自动生成
                                         "title":'提交',
                                         "condition":'',
                                         "finish_condition":'',
-                                        "nextsteps":['communicate'],
+                                        "next_steps":['communicate'],
                                         "on_submit":"",
                                       }
                                     ]
@@ -73,13 +73,13 @@ description: 表单和流程操作接口，包括表单自动生成
                           "responsibles":'context["responsibles"]',
                           "actions": [ {"name":'duplicated',
                                         "title":'重复或无效, 不再跟进',
-                                        "nextsteps":[],
+                                        "next_steps":[],
                                         "finish_condition":'',
                                         "condition":'',
                                        },
                                        {"name": '8372',
                                         "title": '需求了解完毕',
-                                        "nextsteps": ['submit_plan'],
+                                        "next_steps": ['submit_plan'],
                                         "finish_condition":'',
                                        }
                                       ]

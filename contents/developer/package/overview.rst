@@ -66,12 +66,11 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
   templates/ # 模板
     sales_chance.pt
   stages/   # 阶段定义
-    sales_chance.py
+    sales_chance.yaml
   schemas/ # 表单数据
-    sales_chance.py
-    sales_chance.html
-    sales_chance_container.py
-    appcontainers.py # 应用容器设置
+    sales_chance.yaml
+    sales_chance_container.yaml
+    appcontainers.yaml # 应用容器设置
   mdsets/  # 属性集
     archive.py
   workflows/  # 工作流
