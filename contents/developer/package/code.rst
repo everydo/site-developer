@@ -25,7 +25,16 @@ python脚本可以直接通过浏览器调用
          'permission':'Access',
          'template':'standard',
          'args':'',
+         'code':'print "hello, world"',
         })
+
+其中template是输出套用的模板：
+
+- standard: 系统标准模版，支持应用权限、编辑和设置
+- blank: 不使用现有模版页首和页脚，但保持现有界面风格
+- kss: KSS服务脚本
+- json: json api
+- none: 不使用任何模版
 
 也可以得到一个代码::
 
