@@ -1,10 +1,10 @@
 ---
-title: 代码
+title: 脚本代码
 description: 编写脚本代码
 ---
 
 =================
-代码
+脚本代码
 =================
 
 目前支持python，之后会支持javascript
@@ -20,12 +20,12 @@ python脚本可以直接通过浏览器调用
 
 在软件包里面注册一个代码::
 
-  root.packages.register_code('zopen.sales', 
+  root.packages.register_script('zopen.sales', 
         {'name':'setup',
          'permission':'Access',
          'template':'standard',
          'args':'',
-         'code':'print "hello, world"',
+         'script':'print "hello, world"',
         })
 
 其中template是输出套用的模板：
@@ -38,23 +38,27 @@ python脚本可以直接通过浏览器调用
 
 也可以得到一个代码::
 
-  root.packages.get_code(name)
+  root.packages.get_script(name)
 
 查看软件包的所有代码::
 
-  root.packages.list_codes(package_name)
+  root.packages.list_scripts(package_name)
 
 调用一个脚本
 ====================
 可以这样调用脚本::
 
-   root.call_code('zopen.api:calc', ztq_queue='', **kw)
+   root.call_script('zopen.api:calc', **kw)
+
+如果希望异步执行，可以::
+
+   root.call_script_async('zopen.api:calc', **kw)
 
 导入导出
 ===============
 为了方便书写，可导出一个标准的python函数::
 
-  root.packages.export_code('zopen.sales:setup')
+  root.packages.export_script('zopen.sales:setup')
 
 导出结果如下::
 
