@@ -204,7 +204,7 @@ on_update脚本: 表单保存触发
 ====================
 可以导出导入为一个python文件::
 
-  root.packages.export_datatitem('zopen.sales:inquery')
+  root.packages.export_schema('zopen.sales:inquery')
 
 示例如下::
 
@@ -273,5 +273,5 @@ on_update脚本: 表单保存触发
 
 同样可以导入这样一个文件::
 
-  root.packages.import_dataitem('zopen.sales:inquery', schema_file_conent)
+  root.packages.import_schema('zopen.sales:inquery', schema_file_conent)
 
