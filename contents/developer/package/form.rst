@@ -30,8 +30,10 @@ json定义表单
     "name":'sales',
     "title":'',
     "description":'',
-    "facetag":"", # 标签组设置
+    "tag_groups":"", # 标签组设置
     'object_types':['DataItem'], # 语义定义用于的对象类型
+    "on_update": "", # 保存的时候调用，用于校验等
+    "template": "", # 生成表单的模板
      'related_workflow':'zopen.sales:sales',   # 关联的流程定义
      'realted_datacontainer':'zopen.sales:sales_container',  # 关联的容器设置
      'related_stage':'zopen.sales:sales', # 关联的阶段定义
@@ -58,8 +60,6 @@ json定义表单
              "title":'负责人人', 
              "validation_expr":"not value and '需要一名检查人'",
             } ],
-    "on_update": "", # 保存的时候调用，用于校验等
-    "template": "", # 生成表单的模板
     }
 
 
@@ -140,21 +140,23 @@ on_update脚本: 表单保存触发
 使用表单
 ==================
 
-数据容器
+得到表单
 ----------------
 数据容器的设置信息中，保存了使用的表单信息::
 
-  data_container = container.add_datacontainer('new', item_schema='zopen.sales:query', )
+  schema = data_container.get_setting('item_schema')[0]
+
+可以得到注册的表单对象::
+
+  form = root.packages.get_schema_obj( schema[0] )
+
+也可以得到一个属性集表单对象::
+
+  form = root.packages.get_mdset_obj( mdset_name )
 
 根据取出表单定义::
 
-  schema = container.get_setting('item_schema')
-  form_json = root.packages.get_schema( schema[0] )
-  form = Form(form_json)
-
-也可以直接得到表单对象::
-
-  form = root.packages.get_dateitem_obj( schema[0] )
+  form = Form().import(form_json)
 
 生成表单html
 ------------------
@@ -196,6 +198,7 @@ on_update脚本: 表单保存触发
 - storage 数据会保存在这个dict接口对象中
 - fileds 需要保存的字段，一个List
 - init: 是否把各个字段初始化
+
 
 软件包文件
 ====================
