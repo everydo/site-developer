@@ -32,6 +32,12 @@ description: 表单和流程操作接口，包括表单自动生成
 
 流程步骤定义
 =================
+和之前版本的改进：
+
+1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
+2. 如果步骤没有操作，表示这个步骤无需人员干预
+3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
+
 工作流由步骤Step和操作Action组成::
 
     workflow_json = {'name':'sales',
@@ -93,6 +99,42 @@ description: 表单和流程操作接口，包括表单自动生成
 也可以得到工作流定义信息::
 
    salse_query_wfl = root.packages.get_workflow('zopen.sales:sales_query')
+
+执行工作流
+====================
+可以为任何一个item，启动一个流程::
+
+   item.workitems.start('zopen.sales:query')
+
+一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
+
+查看工作项::
+
+   item.workitems.list_workitems(pid, state)
+
+通过程序触发某个操作，推动流程前进::
+
+   item.workitems.excute_action(step_name, action_name, as_principal=None, comment="")
+
+其中：
+
+- step_name: 步骤
+- action_name: 操作
+- as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
+
+可以查看某个用户可以编辑、已经不让查看的表单项::
+
+   item.workitems.allowed_fields(pid)
+   item.workitems.disabled_fields(pid)
+
+可以设置某个具体的workitem的信息::
+
+    for workitem in item.workitems.list_workitems():
+        print '创建时间', workitem['created']
+        print '工作项名', workitem['title']
+        print '负责人', workitem['responsibles']
+        print '完成时间', workitem['end']
+        print '期限', workitem['deadline']
 
 导出为python格式
 ===================
@@ -294,46 +336,4 @@ description: 表单和流程操作接口，包括表单自动生成
 将这个工作流转换成真正的工作流定义::
 
    root.packages.import('zopen.sales:query', workflow_py)
-
-和之前版本的改进：
-
-1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
-2. 如果步骤没有操作，表示这个步骤无需人员干预
-3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
-
-执行工作流
-====================
-可以为任何一个item，启动一个流程::
-
-   item.workitems.start('zopen.sales:query')
-
-一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
-
-查看工作项::
-
-   item.workitems.list_workitems(pid, state)
-
-通过程序触发某个操作，推动流程前进::
-
-   item.workitems.excute_action(step_name, action_name, as_principal=None, comment="")
-
-其中：
-
-- step_name: 步骤
-- action_name: 操作
-- as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
-
-可以查看某个用户可以编辑、已经不让查看的表单项::
-
-   item.workitems.allowed_fields(pid)
-   item.workitems.disabled_fields(pid)
-
-可以设置某个具体的workitem的信息::
-
-    for workitem in item.workitems.list_workitems():
-        print '创建时间', workitem['created']
-        print '工作项名', workitem['title']
-        print '负责人', workitem['responsibles']
-        print '完成时间', workitem['end']
-        print '期限', workitem['deadline']
 
