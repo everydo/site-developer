@@ -66,13 +66,17 @@ script
 
 查看已经分配的规则::
 
-   context.rules.list_rules(event=None, bubbled=False)
+   context.rules.list_assignments()
 
-分配/变更规则::
+分配规则::
 
    context.rules.assign(rule_ids, enabled=True, bubbles=False)
 
+变更规则::
+
+   context.rules.update(rule_id, enabled=True, bubbles=False)
+
 去除一个柜子::
 
-   context.rules.remove(rule_ids)
+   context.rules.remove(rule_id)
 
