@@ -27,8 +27,6 @@ description: 用户自定义的状态
             'stages': [{"name":"valid",
                         "title":"需求确认",
                         "description": "分配的新单",
-                        "color":"1221", # 文字颜色
-                        "bgcolor":"2222", # 背景的颜色
                         "on_enter": "" # 进入阶段的触发脚本
                        },
                        { "name":"initial",
