@@ -24,6 +24,12 @@ description: 易度在用这个页面模板开发网页
         }
         )
 
+调用模板
+================
+::
+
+   root.packages.render_template('zopen.sales:lsl', **kw)
+
 理解页面模版
 ===============
 页面模版，一般用来生成html页面，供python脚本使用。
@@ -61,7 +67,7 @@ description: 易度在用这个页面模板开发网页
 将前面hello world教程中的python脚本正文改成如下::
 
   username = request.principal.id
-  return render_template('hellopage', username=username)
+  return root.packages.render_template('hellopage', username=username)
 
 这里渲染hellopage这个模板，并传入参数username
 

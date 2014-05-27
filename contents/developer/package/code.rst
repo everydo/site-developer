@@ -44,6 +44,12 @@ python脚本可以直接通过浏览器调用
 
   root.packages.list_codes(package_name)
 
+调用一个脚本
+====================
+可以这样调用脚本::
+
+   root.packages.call_script('zopen.api:calc', a, b)
+
 导入导出
 ===============
 为了方便书写，可导出一个标准的python函数::

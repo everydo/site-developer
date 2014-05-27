@@ -305,21 +305,17 @@ description: 表单和流程操作接口，包括表单自动生成
 ====================
 可以为任何一个item，启动一个流程::
 
-   IWorkitems(item).start('zopen.sales:query')
+   item.workitems.start('zopen.sales:query')
 
 一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
 
-也可以再次查看绑定的工作流::
-
-   IWorkitems(item).get_workflow()
-
 查看工作项::
 
-   IWorkitems(item).list_workitems(pid, state)
+   item.workitems.list_workitems(pid, state)
 
 通过程序触发某个操作，推动流程前进::
 
-   IWorkitems(item).excute_action(step_name, action_name, as_principal=None, comment="")
+   item.workitems.excute_action(step_name, action_name, as_principal=None, comment="")
 
 其中：
 
@@ -329,21 +325,15 @@ description: 表单和流程操作接口，包括表单自动生成
 
 可以查看某个用户可以编辑、已经不让查看的表单项::
 
-   IWorkitems(item).allowed_fields(pid)
-   IWorkitems(item).disabled_fields(pid)
+   item.workitems.allowed_fields(pid)
+   item.workitems.disabled_fields(pid)
 
 可以设置某个具体的workitem的信息::
 
-    for workitem in IWorkitems(item).list_workitems():
+    for workitem in item.workitems.list_workitems():
         print '创建时间', workitem['created']
         print '工作项名', workitem['title']
         print '负责人', workitem['responsibles']
         print '完成时间', workitem['end']
         print '期限', workitem['deadline']
-
-数据容器中的表单流程
-=====================================
-使用数据容器可以简便的支持表单流程::
-
-  app_container.set_setting('item_workflow', ('zopen.sales:query',))
 

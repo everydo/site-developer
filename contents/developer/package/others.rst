@@ -117,9 +117,6 @@ Zope组件架构接口
 - xmlObjectify, xml文件对象化
 - minidom，dom解析
 
-调用一个脚本
--------------------------
-call_script('zopen.api.calc', a, b)
 
 界面组件
 ==================

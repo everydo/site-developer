@@ -12,13 +12,13 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
 关注、收藏、评论属于知识管理的范畴，将内容和人建立联系.
 
-关注ISubscriptionManager
+关注
 ============================
 关注也就是订阅，会收到一些通知
 
 可以用如下方法得到对象的订阅人:
 
-  ``ISubscriptionManager(context).getSubscribedMembers()``
+  ``context.subscriptions.getSubscribedMembers()``
 
 可以看到使用了ISubscriptionManager接口，这个接口的详细说明如下：
 
@@ -42,11 +42,11 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
 - 收藏一个对象::
 
-    IFavorites(obj).set_favorite(tags, title=None, description=None)
+    obj.favorites.set_favorite(tags, title=None, description=None)
 
 - 删除一个收藏::
 
-    IFavorites(obj).unset_favorite()
+    obj.favorites.unset_favorite()
 
 评注
 ==========
@@ -54,22 +54,17 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
 添加评注的方法为：::
 
-    ICommentManager(context).addComment(body, author, email)
+    context.comments.add_comment(body, author, email)
 
 列表显示评注的方法为：::
 
-    for comment in ICommentManager(context):
+    for comment in context.comments:
         print comment.body
-        print IDublinCore(comment).creators
-        print IDublinCore(comment).modified
-
+        print comment.creators
+        print comment.modified
 
 最后的评论::
 
-   print len(ICommentManager(context))
-
-   last_comment = ICommentManager(context)[-1]
-   print last_comment.body
-   print IDublinCore(last_comment).creators
-   print IDublinCore(last_comment).modified
+   print len(context.comments)
+   last_comment = context.comments[-1]
 
