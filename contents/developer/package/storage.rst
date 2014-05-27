@@ -36,20 +36,6 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 - 容器类对象Container：如网站根、应用容器AppContainer、文件夹Folder、数据容器DataContainer
 - 条目类对象Item：如文件File、快捷方式ShortCut、数据项DataItem
 
-新增对象
--------------
-网站的根是root，他自身是一个容器，在其下面可以创建容器::
-
-   root['conainer1'] = Container()
-
-站点根下面，一般不直接创建条目，在容器里面可增加条目::
-
-   container1['item1'] = Item()
-
-也可再创建子容器::
-
-   container1['sub_container1'] = Container()
-
 访问对象
 -----------
 容器提供类似dict的访问方法::
@@ -237,22 +223,21 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 - flow_customize: 流程定制
 - apps_scripting: 允许开发软件包
 
-
 Schema自定义语义
 =======================
 所有内容对象都可以自定义字段，可以通过 ``schema`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
 
-应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段::
+应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段(软件包zopen.weather的appcontainer表单)::
 
-  appcontainer.schema = ('zopen.weather:default', )
+  appcontainer.schema = ('zopen.weather:appcontainer', )
 
-数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义::
+数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义(软件包zopen.issuetracker的issue_container表单)::
 
-  datacontainer.schema = ('zopen.issutracker:issue', )
+  datacontainer.schema = ('zopen.issuetracker:issue_container', )
 
-具体的一个故障单数据项，则可能是::
+具体的一个故障单数据项，则可能是(软件包zopen.isssuetracker的issue表单)::
 
-  dataitemitem.schema = ('zopen.issutracker:issue', )
+  dataitemitem.schema = ('zopen.issuetracker:issue', )
 
 如果这里有多个，表示继承。schema的具体定义和使用，参照 《表单处理》 一节
 
@@ -387,49 +372,49 @@ Schema自定义语义
 
 可以查出所有的关系类型::
 
-  doc1.relation_types()  
+  doc1.relations.keys()  
 
 将doc2设置为doc1的附件（doc1指向doc2的附件关系） ::
   
-  doc1.add_relation('attachment', doc2, metadata={}) 
+  doc1.relations.add('attachment', doc2, metadata={}) 
 
 删除上面设置的那条关系::
 
-  doc1.remove_relation('attachment', doc2) 
+  doc1.relations.remove('attachment', doc2) 
 
 设置关系的元数据（关系不存在不会建立该关系）::
 
-  doc1.set_relation_metadata('attachment', doc2, {'number':01, 'size':23}) 
+  doc1.relations.set_metadata('attachment', doc2, {'number':01, 'size':23}) 
 
 得到关系的元数据（关系不存在返回None）::
 
-  doc1.relation_metadata('attachment', doc2) 
+  doc1.relations.get_metadata('attachment', doc2) 
 
 查看所有的附件::
 
-  doc1.relation_tagets('attachment')
+  doc1.relations.get_targets('attachment')
 
 清除某种或所有的关系::
 
-  doc1.clean_relations(type='attachment')
+  doc1.relations.clean(type='attachment')
 
 附件查看主文件::
 
-  doc2.relation_sources('attachment')
+  doc2.relations.get_sources('attachment')
 
 版本管理
 ==================
-文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识
+文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识.
 
 任何对象都可以保存历史版本，一旦保存当前对象的版本号发生变化::
 
-   context.save_revision() # TODO
+   context.revisions.save() # TODO
 
 文档每次变更，默认保存为临时版本，临时版本过期会自动清理。
 
 可以降文档定版，一旦定版，版本就是正式版本::
 
-  context.fix_revision(revision_id=None, major_version=None, minor_version=None) # TODO
+  context.revisions.fix(revision_id=None, major_version=None, minor_version=None) # TODO
 
 - 如果不传revision_id，表示对当前的工作版本进行定版
 - 如果不传 major_version，继续沿用上一个version_number
@@ -437,7 +422,7 @@ Schema自定义语义
 
 可查询工作版本的信息::
 
-  context.get_revision_info(revision_id=None) # TODO
+  context.revisions.info(revision_id=None) # TODO
 
 如果revision_id为None，表示工作版本。返回::
 
@@ -453,17 +438,17 @@ Schema自定义语义
 
 查看所有历史版本信息::
 
-   context.list_revisions(include_temp=True) 
+   context.revisions.list(include_temp=True) 
 
 返回revision_info的清单
 
 得到一个历史版本::
 
-   context.get_revision(revision_id) # TODO
+   context.revisions.get(revision_id) # TODO
 
 删除一个版本::
 
-   context.remove_revision(revision_id) # TODO
+   context.revisions.remove(revision_id) # TODO
 
 权限控制
 ================
@@ -474,7 +459,7 @@ Schema自定义语义
 --------
 系统支持如下角色，角色ID为字符串类型, 可以枚举系统对象所有的角色::
 
-  obj.allowed_roles
+  obj.acl.allowed_roles
 
 不同对象使用的角色不同，系统全部角色包括：
 
@@ -502,21 +487,21 @@ Schema自定义语义
 --------------
 在obj对象上，授予用户某个角色::
 
-  obj.grant_role(role_id, pid)
+  obj.acl.grant_role(role_id, pid)
 
 同上，禁止角色::
 
-  obj.deny_role(role_id, pid)
+  obj.acl.deny_role(role_id, pid)
 
 同上，取消角色::
 
-  obj.unset_role(role_id, pid)
+  obj.acl.unset_role(role_id, pid)
 
 检查权限
 -------------
 检查当前用户对某对象是否有某种权限，可使用 ``permit`` 方法::
 
-  obj.check_permission(permission_id)
+  obj.acl.check_permission(permission_id)
 
 如果有该权限即返回True，反之返回False
 
@@ -538,19 +523,19 @@ Schema自定义语义
 ---------------
 根据角色来获取obj对象上拥有该角色的用户ID::
 
-  obj.role_principals(role_id)
+  obj.acl.role_principals(role_id)
 
 得到某个用户在obj上的所有角色::
 
-  obj.principal_roles(user_id)
+  obj.acl.principal_roles(user_id)
 
 得到上层以及全局的授权信息::
 
-  obj.inherited_role_principals(role_id)
+  obj.acl.inherited_role_principals(role_id)
 
 得到某个用户在上层继承的角色::
 
-  obj.inherited_principal_roles(user_id)
+  obj.acl.inherited_principal_roles(user_id)
 
 对象的状态
 ===========================
@@ -591,7 +576,7 @@ visible: 保密
 -------------
 标签组在容器(文件夹、数据容器、应用容器)上设置，可得到标签组设置::
 
-  container.list_facetags() # TODO
+  container.facetag.list() # TODO
 
 输出为::
 
@@ -621,23 +606,23 @@ visible: 保密
 
 可以设置::
 
-  container.set_facetags(facetag_setting) # TODO
+  container.facetag.set(facetag_setting) # TODO
 
 也可以导出为文本形式的标签组，用于编辑::
 
-  container.export_facetags() # TODO
+  container.facetag.export() # TODO
 
 或者导入::
 
-  container.import_facetags() # TODO
+  container.facetag.import() # TODO
 
 标签组存在必选和单选控制，可以校验::
 
-  container.check_facetags(tags) # 返回: {'required':[], 'single':[]}
+  container.facetag.check(tags) # 返回: {'required':[], 'single':[]}
 
 标签组设置可以继承上层设置, 可以通过这个变量来控制::
 
-  container.inherit_facetags = True # TODO
+  container.facetag.inherit = True # TODO
 
 标签维护
 -------------
