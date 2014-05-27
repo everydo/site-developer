@@ -154,9 +154,9 @@ on_update脚本: 表单保存触发
 
   form = root.packages.get_mdset_obj( mdset_name )
 
-根据取出表单定义::
+也可以无需注册到软件包，直接通过json得到表单定义::
 
-  form = Form().import(form_json)
+  form = init_form(form_json)
 
 生成表单html
 ------------------
