@@ -25,7 +25,7 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 ==================
 创建一个规则::
 
-   IPackages(root).add_rule('',
+   root.packages.add_rule('',
        {name:
         title:, 
         event:, 
