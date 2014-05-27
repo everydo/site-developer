@@ -576,7 +576,7 @@ visible: 保密
 -------------
 标签组在容器(文件夹、数据容器、应用容器)上设置，可得到标签组设置::
 
-  container.facetag.list() # TODO
+  container.tag_groups.list_items() # TODO
 
 输出为::
 
@@ -594,35 +594,34 @@ visible: 保密
     'required':true,
     'single':true,
     'tags': [{'name':'研发', 
-              'tags':[{'name':'产品'}, 
-                      {'name':'测试'},
-                      {'name':'软件'},
-                      {'name':'硬件'},
-                     ]
+              'children':[{'name':'产品'}, 
+                          {'name':'测试'},
+                          {'name':'软件'},
+                          {'name':'硬件',
+                           'children':[{'name':'电子'}, 
+                                       {'name':'机械'}]
+                          },
+                         ]
              },
              {'name':'市场'},
             ]
    }]
 
-可以设置::
-
-  container.facetag.set(facetag_setting) # TODO
-
 也可以导出为文本形式的标签组，用于编辑::
 
-  container.facetag.export() # TODO
+  container.tag_groups.export_text()
 
 或者导入::
 
-  container.facetag.import() # TODO
+  container.tag_groups.import_text()
 
 标签组存在必选和单选控制，可以校验::
 
-  container.facetag.check(tags) # 返回: {'required':[], 'single':[]}
+  container.tag_groups.check(tags) # 返回: {'required':[], 'single':[]}
 
 标签组设置可以继承上层设置, 可以通过这个变量来控制::
 
-  container.facetag.inherit = True # TODO
+  container.tag_groups.inherit = True
 
 标签维护
 -------------
