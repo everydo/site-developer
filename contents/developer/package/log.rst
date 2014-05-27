@@ -25,7 +25,8 @@ description: 系统操作日志
 
 列出日志::
 
-  obj.logs.query()
+  obj.logs.query(action=None, start=None, end=None, principal_id=None,
+            person=None, text=None, batch_start=0, size=20)
 
 返回为一个List,每个元素为一个dict，dict里面包含日志的所有信息。文件和文件夹通用。在文件夹下会返回该文件夹下的所有日志。
 日志按时间排序。
