@@ -392,7 +392,7 @@ Schema自定义语义
 
 查看所有的附件::
 
-  doc1.relations.get_targets('attachment')
+  doc1.relations.list_targets('attachment')
 
 清除某种或所有的关系::
 
@@ -400,7 +400,7 @@ Schema自定义语义
 
 附件查看主文件::
 
-  doc2.relations.get_sources('attachment')
+  doc2.relations.list_sources('attachment')
 
 版本管理
 ==================
