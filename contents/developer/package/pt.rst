@@ -28,7 +28,7 @@ description: 易度在用这个页面模板开发网页
 ================
 ::
 
-   root.packages.render_template('zopen.sales:lsl', **kw)
+   root.render_template('zopen.sales:lsl', **kw)
 
 理解页面模版
 ===============

@@ -48,7 +48,7 @@ python脚本可以直接通过浏览器调用
 ====================
 可以这样调用脚本::
 
-   root.packages.call_script('zopen.api:calc', a, b)
+   root.call_code('zopen.api:calc', ztq_queue='', **kw)
 
 导入导出
 ===============
