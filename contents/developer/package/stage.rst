@@ -78,7 +78,7 @@ description: 用户自定义的状态
 
 调整阶段
 =========================
-使用IStateMachine来设置某个阶段::
+使用状态改变函数 ``set_state`` 来设置某个阶段::
 
-   IStateMachine(item).set_state('stage.valid', do_check=False)
+   item.set_state('stage.valid', do_check=False)
 
