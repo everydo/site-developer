@@ -64,7 +64,7 @@ python脚本可以直接通过浏览器调用
 
         初始化规则"""
 
-        app = deployApplet('zopen.remind.workflows.remind', context, 'remind', '提醒')
-        IObjectIndexer(app).index()
+        app = context.add_datacontainer('zopen.remind:remind', title='提醒')
+        app.index()
         #创建规则
 

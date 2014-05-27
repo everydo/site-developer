@@ -129,25 +129,25 @@ description: 表单和流程操作接口，包括表单自动生成
         def submit(step, context):
             #建立项目文件夹
             case_obj = container
-            if ISettings(case_obj)['folder']:
+            if case_obj.md('folder'):
                 try:
-                    filerepos = intids.getObject(int(ISettings(case_obj)['folder']))
+                    filerepos = root.object_by_uid(case_obj.md('folder')
                     year = str(datetime.datetime.now().year)
                     month = str(datetime.datetime.now().month) + '月'
                     if year not in filerepos:
-                        year_folder = filerepos.addFolder(year)
-                        IObjectIndexer(year_folder).indexObject()
+                        year_folder = filerepos.add_folder(year)
+                        year_folder.index()
                     else:
                         year_folder = filerepos[year]
                     if month not in year_folder:
-                        month_folder = year_folder.addFolder(month)
-                        IObjectIndexer(month_folder).indexObject()
+                        month_folder = year_folder.add_folder(month)
+                        month_folder.index()
                     else:
                         month_folder = year_folder[month]
 
-                    project_folder = month_folder.addFolder(context['title'])
-                    IObjectIndexer(project_folder).indexObject()
-                    ISettings(context)['folder'] = intids.getId(project_folder)
+                    project_folder = month_folder.add_folder(context['title'])
+                    project_folder.index()
+                    context.set_md('folder', root.object_uid(project_folder))
                 except KeyError:
                     pass
             else:
