@@ -107,14 +107,12 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
 
 得到一个软件包信息::
 
-  packge = root.packages.get('zopen.test')
+  packge = root.packages.get('zopen.test', detail=False)
 
-导入一个软件包::
+在应用市场安装一个软件包::
 
-  packge = root.packages.import('zopen.test', package_body)
+  root.packages.install('zopen.test')
 
-导出一个软件包::
+卸载、删除一个安装的软件包::
 
-  packge = root.packages.export('zopen.test')
-
-
+  root.packages.remove('zopen.test')
