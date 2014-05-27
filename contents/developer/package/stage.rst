@@ -38,13 +38,13 @@ description: 用户自定义的状态
 
 注册一个阶段定义::
 
-   IPackages(root).register_stage('zopen.sales', stages)
+   root.packages.register_stage('zopen.sales', stages)
 
 导入导出
 ============
 可以导出一个阶段定义到python文件中::
 
-   IPackages(root).export('zopen.sales:query')
+   root.packages.export('zopen.sales:query')
 
 导出结果::
 
@@ -74,7 +74,7 @@ description: 用户自定义的状态
 
 也可以导入::
 
-   IPackages(root).import_stage('zopen.sales:query', body)
+   root.packages.import_stage('zopen.sales:query', body)
 
 调整阶段
 =========================

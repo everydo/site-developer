@@ -95,26 +95,26 @@ EasyDo提供了企业应用的快速开发平台，分如下几层::
 
 查看已经安装的所有软件包::
 
-  IPackages(root).keys()
+  root.packages.keys()
 
 创建一个软件包::
 
-  package = IPacakges(root).new('zopen.test', title, description, version, platform, tags)
+  package = root.packages.new('zopen.test', title, description, version, platform, tags)
 
 设置软件包信息::
 
-  IPacakges(root).update('zopen.test', **kw)
+  root.packages.update('zopen.test', **kw)
 
 得到一个软件包信息::
 
-  packge = IPackages(root).get('zopen.test')
+  packge = root.packages.get('zopen.test')
 
 导入一个软件包::
 
-  packge = IPackages(root).import('zopen.test', package_body)
+  packge = root.packages.import('zopen.test', package_body)
 
 导出一个软件包::
 
-  packge = IPackages(root).export('zopen.test')
+  packge = root.packages.export('zopen.test')
 
 

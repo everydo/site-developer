@@ -124,11 +124,11 @@ on_update脚本: 表单保存触发
 -----
 可以注册一个表单语义，用于数据项、数据容器，或者应用容器::
 
-  IPackages(root).register_schema('zopen.sales', form_def)
+  root.packages.register_schema('zopen.sales', form_def)
   
 也可以注册成一个属性集::
 
-  IPackages(root).register_mdset('zopen.sales', 
+  root.packages.register_mdset('zopen.sales', 
         {name:
          title:, 
          description:, 
@@ -149,12 +149,12 @@ on_update脚本: 表单保存触发
 根据取出表单定义::
 
   schema = container.get_setting('item_schema')
-  form_json = IPackages(root).get_schema( schema[0] )
+  form_json = root.packages.get_schema( schema[0] )
   form = Form(form_json)
 
 也可以直接得到表单对象::
 
-  form = IPackages(root).get_dateitem_obj( schema[0] )
+  form = root.packages.get_dateitem_obj( schema[0] )
 
 生成表单html
 ------------------
@@ -201,7 +201,7 @@ on_update脚本: 表单保存触发
 ====================
 可以导出导入为一个python文件::
 
-  IPackages(root).export_datatitem('zopen.sales:inquery')
+  root.packages.export_datatitem('zopen.sales:inquery')
 
 示例如下::
 
@@ -270,5 +270,5 @@ on_update脚本: 表单保存触发
 
 同样可以导入这样一个文件::
 
-  IPackages(root).import_dataitem('zopen.sales:inquery', schema_file_conent)
+  root.packages.import_dataitem('zopen.sales:inquery', schema_file_conent)
 

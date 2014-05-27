@@ -36,7 +36,7 @@ description: 自定义皮肤，更换皮肤
 =============
 把这个皮肤注册到站点的皮肤注册表::
 
-   IPackages(root).register_skin('',
+   root.packages.register_skin('',
               {'name':'bootstrap', 
                 'title':'Twitter的Bootstrap风格皮肤', 
                 'template':template, 
@@ -44,7 +44,7 @@ description: 自定义皮肤，更换皮肤
 
 也可以注册到某个软件包中::
 
-   IPackages(root).register_skin('zopen.cool_skin',
+   root.packages.register_skin('zopen.cool_skin',
         {'name':'bootstrap', 
                 'title':'Twitter的Bootstrap风格皮肤', 
                 'template':template, 
@@ -69,7 +69,7 @@ description: 自定义皮肤，更换皮肤
 
 因此在浏览器上引用资源文件，应该使用版本号::
 
-   IPackages(root).resource_url('zopen.sales:abc.css')
+   root.packages.resource_url('zopen.sales:abc.css')
 
 这个返回最终cdn中的地址::
 

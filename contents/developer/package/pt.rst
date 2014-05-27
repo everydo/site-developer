@@ -18,7 +18,7 @@ description: 易度在用这个页面模板开发网页
 ==========
 ::
 
-  IPackages(root).register_template('zopen.sales', 
+  root.packages.register_template('zopen.sales', 
         {'name':'lal',
          'code':'',
         }

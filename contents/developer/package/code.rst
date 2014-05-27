@@ -20,7 +20,7 @@ python脚本可以直接通过浏览器调用
 
 在软件包里面注册一个代码::
 
-  IPackages(root).register_code('zopen.sales', 
+  root.packages.register_code('zopen.sales', 
         {'name':'setup',
          'permission':'Access',
          'template':'standard',
@@ -38,17 +38,17 @@ python脚本可以直接通过浏览器调用
 
 也可以得到一个代码::
 
-  IPackages(root).get_code(name)
+  root.packages.get_code(name)
 
 查看软件包的所有代码::
 
-  IPackages(root).list_codes(package_name)
+  root.packages.list_codes(package_name)
 
 导入导出
 ===============
 为了方便书写，可导出一个标准的python函数::
 
-  IPackages(root).export_code('zopen.sales:setup')
+  root.packages.export_code('zopen.sales:setup')
 
 导出结果如下::
 
