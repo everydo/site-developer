@@ -9,6 +9,7 @@ order: [overview.rst,
 
         form.rst, 
         workflow.rst,
+        mdsets.rst, 
         stage.rst, 
         skin.rst,
         rules.rst,

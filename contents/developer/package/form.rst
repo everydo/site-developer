@@ -1,5 +1,5 @@
 ---
-title: 表单和属性集
+title: 表单
 description: 自动生成表单、合法性校验，数据存储等
 ---
 
@@ -15,7 +15,6 @@ description: 自动生成表单、合法性校验，数据存储等
 - 流程容器设置 
 - 流程表单
 - 应用容器的设置
-- 属性集
 
 注册表单定义
 ================
@@ -126,16 +125,6 @@ on_update脚本: 表单保存触发
 
   root.packages.register_schema('zopen.sales', form_def)
   
-也可以注册成一个属性集::
-
-  root.packages.register_mdset('zopen.sales', 
-        {name:
-         title:, 
-         description:, 
-         fields:,
-         on_update:,
-         template:,
-         obejct_types})
 
 使用表单
 ==================
@@ -149,10 +138,6 @@ on_update脚本: 表单保存触发
 可以得到注册的表单对象::
 
   form = root.packages.get_schema_obj( schema[0] )
-
-也可以得到一个属性集表单对象::
-
-  form = root.packages.get_mdset_obj( mdset_name )
 
 也可以无需注册到软件包，直接通过json得到表单定义::
 

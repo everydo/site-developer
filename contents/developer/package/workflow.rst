@@ -43,6 +43,7 @@ description: 表单和流程操作接口，包括表单自动生成
     workflow_json = {'name':'sales',
                      'title':'销售流程',
                      'description':'销售',
+                     'object_types':['File', 'ShorCut'], # 关联对象类型
                      'steps':[ {"name":"start",
                          "title" : '新的销售机会',
                          "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
@@ -100,6 +101,18 @@ description: 表单和流程操作接口，包括表单自动生成
 
    salse_query_wfl = root.packages.get_workflow('zopen.sales:sales_query')
 
+关联工作流
+====================
+目前工作流主要是和数据项关联，保存在数据容器的设置项中::
+
+   datacontainer.get_setting('item_workflow')
+
+另外，任何流程，都可以发起关联流程，可选关联流程保存容器里面::
+
+   container.set_setting('related_workflow', ['zopen.docreview:reivew','zopen.borrow:borrow'])
+
+注意由于每个流程定义的时候，还有试用对象类型，因此具体显示的时候还会进行因此筛选。
+
 执行工作流
 ====================
 可以为任何一个item，启动一个流程::
@@ -111,6 +124,22 @@ description: 表单和流程操作接口，包括表单自动生成
 查看工作项::
 
    item.workitems.list_workitems(pid, state)
+
+每个工作项，包括如下属性::
+
+   {'name':'1',  # 序号
+    'created':'2012-12-12',       # 创建时间
+    'title':'计划项 - 审批',      #  工作名称
+    'workflow': 'zopen.plan:plan',# 流程名
+    'responsible':['users.panjunyong'], # 负责人
+    'delegated': ['users.liang'], # 委托负责人
+    'step': 'review',             # 具体的步骤
+    'deadline': '2012-12-13',     # 工作期限
+    'stage': 'finished',          # 所在阶段
+    'stati': 'active/',           # 状态
+    'finished': '',               # 完结时间
+   }
+
 
 通过程序触发某个操作，推动流程前进::
 
@@ -135,6 +164,14 @@ description: 表单和流程操作接口，包括表单自动生成
         print '负责人', workitem['responsibles']
         print '完成时间', workitem['end']
         print '期限', workitem['deadline']
+
+流程转交
+===============
+可以将某个具体的工作，转交给其他人::
+
+   item.workitems.delegate(workitem_id, pids)
+
+每个人可以设置转交策略::
 
 导出为python格式
 ===================

@@ -309,8 +309,8 @@ Schema自定义语义
   
 活动属性集的内的属性值的存取::
 
-  obj.get_mdset('archive')['number']
-  obj.get_mdset('archive')['number'] = 'DD222'
+  obj.mdset('archive')['number']
+  obj.mdset('archive')['number'] = 'DD222'
 
 也可以批量更改属性值::
 
