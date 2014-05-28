@@ -195,7 +195,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 可以查看自身的运行信息::
 
-  root.sys_info()
+  root.sys_info
 
 返回如下信息:
 
@@ -209,7 +209,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 查看站点的运营选项参数::
 
-    root.operation_options()
+    root.operation_options
 
 可以是如下参数：
 
