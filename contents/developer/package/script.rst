@@ -17,17 +17,27 @@ description: 编写脚本代码
 使用 ``@`` 定位一个脚本，典型的::
 
    http://<server.com>/<path/to/context>/@<package_name>:<script_name>
-   http://localhsot/files/@zopen.archive:file_stats
+   http://localhost/files/@zopen.archive:file_stats
 
-调用一个脚本
+通过浏览器调用的脚本，自动绑定如下变量:
+
+- root: 站点根对象
+- context: 访问路径的上下文对象
+- request: 请求对象
+
+在脚本中调用脚本
 ====================
 可以这样调用脚本::
 
-   root.call_script('zopen.api:calc', **kw)
+   root.call_script('zopen.api:calc', aa='blabla', bb='blabla')
+
+在脚本中调用脚本，可直接使用传入的参数，另外还可以访问 ``root`` 变量.
 
 如果希望异步执行，可以::
 
-   root.call_script_async('zopen.api:calc', **kw)
+   root.call_script_async('zopen.api:calc',  aa='blabla', bb='blabla')
+
+注意，异步执行传入的参数，必须是简单参数，不能是复杂的对象。
 
 使用代码创建python脚本
 ==============================
