@@ -94,7 +94,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
            anyof(path=[container]).\
            anyof(subjects=[‘aa’,’bb’]).
            range(created=[None, datetime.datetime.today()]).\
-           parse(title='我爱北京').\
+           parse('我爱北京', fields=['title']).\
            sort(‘-created’).limit(5)
 
 QuerySet常用操作：
