@@ -104,9 +104,9 @@ QuerySet常用操作：
 - allof: 满足全部
 - range: 一个区间范围
 - exclude: 等于
-- exclude_anyof: 满足任何一个
-- exclude_allof: 满足全部
-- exclude_range: 一个区间范围
+- exclude_anyof: 不满足任何一个
+- exclude_allof: 不满足全部
+- exclude_range: 不在一个区间范围
 - parse #搜索某字段
 - sum(field) #统计某一个字段的和
 - limit(x) #限制返回结果数 
