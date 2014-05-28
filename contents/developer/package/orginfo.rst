@@ -1,14 +1,16 @@
 ---
-title: 用户管理
+title: 用户组织架构
 description: 用户、组织结构和团队访问接口org_info
 ---
 
 ==============
-用户管理
+用户和组织架构
 ==============
 
 .. contents::
 .. sectnum::
+
+
 
 org_info API
 ------------------
