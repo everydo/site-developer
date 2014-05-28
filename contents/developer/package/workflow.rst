@@ -335,5 +335,5 @@ description: 表单和流程操作接口，包括表单自动生成
 
 将这个工作流转换成真正的工作流定义::
 
-   root.packages.import('zopen.sales:query', workflow_py)
+   root.packages.import_workflow('zopen.sales:query', workflow_py)
 
