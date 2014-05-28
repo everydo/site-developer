@@ -1,11 +1,12 @@
 title: 软件包
 description: 系统的介绍平台后端开发接口
 order: [overview.rst,
+        script.rst,
+        template.rst,
+
         storage.rst, 
         search.rst, 
 
-        code.rst,
-        pt.rst,
         form.rst, 
         workflow.rst,
         stage.rst, 

@@ -9,8 +9,28 @@ description: 编写脚本代码
 
 目前支持python，之后会支持javascript
 
-python脚本
-======================
+在软件包中创建一个脚本
+==========================
+
+通过浏览器访问脚本
+========================
+使用 ``@`` 定位一个脚本，典型的::
+
+   http://<server.com>/<path/to/context>/@<package_name>:<script_name>
+   http://localhsot/files/@zopen.archive:file_stats
+
+调用一个脚本
+====================
+可以这样调用脚本::
+
+   root.call_script('zopen.api:calc', **kw)
+
+如果希望异步执行，可以::
+
+   root.call_script_async('zopen.api:calc', **kw)
+
+使用代码创建python脚本
+==============================
 python脚本可以直接通过浏览器调用
 
 脚本采用python语言书写，存放在scripts中. 其中:
@@ -43,16 +63,6 @@ python脚本可以直接通过浏览器调用
 查看软件包的所有代码::
 
   root.packages.list_scripts(package_name)
-
-调用一个脚本
-====================
-可以这样调用脚本::
-
-   root.call_script('zopen.api:calc', **kw)
-
-如果希望异步执行，可以::
-
-   root.call_script_async('zopen.api:calc', **kw)
 
 导入导出
 ===============
