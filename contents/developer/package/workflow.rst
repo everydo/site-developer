@@ -49,6 +49,7 @@ description: 表单和流程操作接口，包括表单自动生成
                          "invisible_fields": ['plan_info', 'files', 'folder', 'lastlog', 'log', 'start'],
                          "on_enter": "",
                          "condition": '',
+                         "hours": 0,  # 时限, 如果非0，流程任务会创建生成 deadline
                          "stage": 'valid',
                          "responsibles": '[request.principal.id]',
                          "actions": [ { "name":'submit',
@@ -150,43 +151,62 @@ description: 表单和流程操作接口，包括表单自动生成
   - Responsible: 负责人
   - Delegator: 委托人
 
-- 'created':'2012-12-12',       # 创建时间
-- 'title':'计划项 - 审批',      #  工作名称
+- md 信息：
 
-- 'step': ('review',)             # 具体的步骤
-- 'deadline': '2012-12-13',     # 工作期限
-- 'stage': 'finished',          # 所在阶段
-- 'finished': '',               # 完结时间
-- delegations: { delegator: [pids] }
+    - 'step': ('review',)             # 具体的步骤
+    - 'deadline': '2012-12-13',     # 工作期限
+    - 'finished': '',               # 完结时间
+    - delegations: { delegator: [pids] }
 
-- actions
+- actions : 操作清单
 
-  - pid
-  - action
-  - date
+  - username: 用户名
+  - action_name": 操作id
+  - title: 操作名称
+  - time: 操作时间
+  - comment: 说明
 
+工作项的状态包括:
 
-可以查看某个用户可以编辑、已经不让查看的表单项::
+- flowtask.active: 活动', '任务正在处理中
+- flowtask.pending: '暂停', '暂停处理该任务'),
+- flowtask.abandoned: '取消', '任务已被取消'),
+- flowtask.finished: '完成', '任务已经处理完成')),
+
+可以查看某个用户可以编辑、已经不让查看的表单项(TODO)::
 
    item.workitems.allowed_fields(pid)
    item.workitems.disabled_fields(pid)
 
-可以设置某个具体的workitem的信息::
+流程时限
+================
+为提高效率，有些流程有严格的扭转时限，比如3个工作日之内必须完成。
 
-    for workitem in item.workitems.list_workitems():
-        print '创建时间', workitem['created']
-        print '工作项名', workitem['title']
-        print '负责人', workitem['responsibles']
-        print '完成时间', workitem['end']
-        print '期限', workitem['deadline']
+1. 定义流程的时候，设置后步骤时限 ``hours`` , 比如3天就是 3 * 24 = 72小时
+2. 可通过 ``deadline`` 属性来搜索近期即将到期的工作项
 
 流程转交
 ===============
 可以将某个具体的工作，转交给其他人::
 
-   item.workitems.delegate(workitem_id, pids)
+   workitem.delegate(responsible, delegators)
 
-每个人可以设置转交策略::
+如果取消某个负责人的代理::
+
+   workitem.undelegate(responsible)
+
+每个人可以根据转交策略进行转交(不同位置，委托给谁处理)::
+
+   root.profiles.delegate(pid, policy=[{'location':[], pids:[]}])
+
+也可以停止转交::
+
+   root.profiles.undelegate(pid)
+
+读取设置::
+
+   root.profiles.get(pid, 'delegation_policy')
+   root.profiles.get(pid, 'delegation')
 
 导出为python格式
 ===================

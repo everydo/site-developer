@@ -325,8 +325,8 @@ Schema自定义语义
 
   obj.list_mdsets()  # 返回： [archive, ]
 
-设置信息
------------
+对象设置信息
+----------------
 通常对于容器会有一系列的设置信息，如显示方式、添加子项的设置、关联流程等等.
 
 设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
@@ -471,6 +471,7 @@ Schema自定义语义
 - 'Creator': 文件夹创建人
 - 'ContainerCreator': 子栏目/容器创建人
 - 'Responsible' 负责人
+- Delegator 委托人
 - 'Subscriber' 订阅人
 - 'Accessor' 访问者
 - 'Reader5'
@@ -509,7 +510,8 @@ Schema自定义语义
 系统中常用权限，权限ID为字符串类型，下文中权限ID将用permisson_id来代替。
 
 - 'Public'：公开，任何人都可以访问
-- 'ManageContent'：管理
+- 'Manage'：管理
+- 'Delegate': 委托
 - 'View'：查看的权限
 - 'Access'：容器/栏目访问的权限
 - 'Edit'：编辑的权限
@@ -544,6 +546,8 @@ Schema自定义语义
 
    'visible.default' in context.stati
 
+文档的状态
+----------------
 modify: 发布
 
 - modify.default	草稿
@@ -557,7 +561,24 @@ visible: 保密
 - visible.default	普通
 - visible.private	保密
 
-使用状态机IStateMachine，来控制对象状态的变化::
+数据项的状态
+-----------------
+flowsheet.active', '活动', '流程单正在处理中'),
+            State('flowsheet.pending', '暂停', '暂停处理该流程单'),
+            State('flowsheet.abandoned', '废弃', '流程单已被废弃，不可做任何其他处理'),
+            State('flowsheet.finished', '完结', '流程单已经处理完成')),
+
+
+数据容器的状态
+-----------------------
+- datamanager.started', '活动', '流程启动, 正式使用'),
+- datamanager.finished', '关闭', '流程已经冻结, 禁止添加新流程'),
+- datamanager.planning', '规划中', '流程规划中, 新建流程单会自动暂停'),
+- datamanager.template', '模板', '将流程作为模板, 新建流程单会自动暂停')),
+
+状态变化
+----------------
+使用set_state，来控制对象状态的变化::
 
     # 不进行权限检查，直接发布某个文档
     context.set_state('modify.archived', do_check=False)
@@ -647,4 +668,17 @@ visible: 保密
  # 查看回收站的内容
  # 从回收站收回一个对象
  # 从回收站里面永久删除
+
+个人信息profile
+=========================
+每个人会有一些个性化的设置, 比如个人偏好设置等。
+
+可以设置profile::
+
+   root.profiles.set(pid, name, value)
+
+获取::
+
+   root.profiles.get(pid, name, default)
+
 
