@@ -43,7 +43,6 @@ description: 表单和流程操作接口，包括表单自动生成
     workflow_json = {'name':'sales',
                      'title':'销售流程',
                      'description':'销售',
-                     'object_types':['File', 'ShorCut'], # 关联对象类型
                      'steps':[ {"name":"start",
                          "title" : '新的销售机会',
                          "fields": ['title', 'client', 'responsibles', 'case_info', 'subjects'],
@@ -109,7 +108,10 @@ description: 表单和流程操作接口，包括表单自动生成
 
 另外，任何流程，都可以发起关联流程，可选关联流程保存容器里面::
 
-   container.set_setting('related_workflow', ['zopen.docreview:reivew','zopen.borrow:borrow'])
+   container.set_setting('related_workflow', {'File':['zopen.docreview:reivew','zopen.borrow:borrow'],
+                                              'Folder':[],
+                                              'DataContainer':
+                                              'DataItem':})
 
 注意由于每个流程定义的时候，还有试用对象类型，因此具体显示的时候还会进行因此筛选。
 
@@ -123,27 +125,6 @@ description: 表单和流程操作接口，包括表单自动生成
    dataitem.workitems.start('zopen.sales:query')
 
 一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。 
-查看工作项::
-
-   workitems = item.workitems.query(pid, state)
-
-每个工作项:
-
-- object_types: (WorkItem, Item)
-- schema: 'zopen.plan:plan',# 流程名
-- stati: flowtask.active
-- acl: Responsile/Delegated
-- md:
-
-  - 'created':'2012-12-12',       # 创建时间
-  - 'title':'计划项 - 审批',      #  工作名称
-  - 'responsible':['users.panjunyong'], # 负责人
-  - 'delegated': ['users.liang'], # 委托负责人
-  - 'step': 'review',             # 具体的步骤
-  - 'deadline': '2012-12-13',     # 工作期限
-  - 'stage': 'finished',          # 所在阶段
-  - 'finished': '',               # 完结时间
-  - actions
 
 通过程序触发某个操作，推动流程前进::
 
@@ -154,6 +135,36 @@ description: 表单和流程操作接口，包括表单自动生成
 - step_name: 步骤
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
+
+查看工作项::
+
+   workitems = item.workitems.query(pid, state)
+
+每个工作项:
+
+- object_types: (WorkItem, Item)
+- schema: ('zopen.plan:plan',) # 流程名
+- stati: flowtask.active
+- acl: 
+
+  - Responsible: 负责人
+  - Delegator: 委托人
+
+- 'created':'2012-12-12',       # 创建时间
+- 'title':'计划项 - 审批',      #  工作名称
+
+- 'step': ('review',)             # 具体的步骤
+- 'deadline': '2012-12-13',     # 工作期限
+- 'stage': 'finished',          # 所在阶段
+- 'finished': '',               # 完结时间
+- delegations: { delegator: [pids] }
+
+- actions
+
+  - pid
+  - action
+  - date
+
 
 可以查看某个用户可以编辑、已经不让查看的表单项::
 
