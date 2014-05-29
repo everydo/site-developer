@@ -117,7 +117,7 @@ QuerySet常用操作：
 -----------
 另外，可以将2个QuerySet相加，进行搜索合并::
 
- result = Queryset().anyof(...) | QuerySet().allof(...).exclude(...)
+ result = QuerySet().anyof(...) | QuerySet().allof(...).exclude(...)
 
 如果2个QeurySet都有排序和sum操作，以第一个为准.
 
@@ -134,6 +134,20 @@ QuerySet常用操作：
 
    .anyof(number=['A101', 'C103'], mdset="zopen.archive:archive")
 
+dict字段
+------------------------------
+授权信息 acl_grant /acl_deny 等，存放为dict格式，这时候搜索自动名是::
+
+   <主字段名>.<dict的key (点号替换为_)>
+
+搜索给zhangsan授权Owner的内容::
+
+   QuerySet().anyof(Owner=['users.pan', 'users.zhang'], field='acl_user')
+
+表单中的分用户存储字段，也是dict类型. 比如搜索属性集archive中的reviewer_comment字段::
+
+   QuerySet().anyof(users_zhansan=['A101', 'C103'], field='review_comment', mdset="archive")
+
 多行表格字段
 --------------------------------
 多行表格值 ``review_table`` 类似如下::
@@ -143,33 +157,11 @@ QuerySet常用操作：
 
 搜索表单中的动态表格reviewer_table中的dept字段::
 
-   anyof(dept=['groups.1213', ], parent="review_table", )
+   anyof(dept=['groups.1213', ], nested='review_table' )
 
 搜索自定义属性集archive中的动态表格reviewer_table的dept字段::
 
-   anyof(dept=['groups.1213', ], parent="review_table", mdset="archive")
-
-dict字段
-------------------------------
-存储(dict)示例如下::
-
-    {'panjy':'good', 'li':'well', 'dd':'asdfa'}
-
-这种字段的数据搜索，也是采用类似表格字段, 内置 ``key`` 和 ``value`` 这2个子字段::
-
-   [{'key':'panjy', 'value':'good'},
-    {'key':'li', 'value':'well'},
-    {'key':'dd', 'value':'asdfa'}]
-
-搜索表单中的reviewer_reviewcomment字段::
-
-   anyof(key=['users.pan', 'users.zhang'], parent="review_comment")
-   parse(key='同意', parent="review_comment")
-
-搜索属性集archive中的reviewer_comment字段::
-
-   anyof(key=['A101', 'C103'], parent="review_comment", mdset="archive")
-   parse(value='同意', parent="review_comment", mdset="archive")
+   anyof(dept=['groups.1213', ], nested="review_table", mdset="archive")
 
 全文搜索parse
 ------------------
