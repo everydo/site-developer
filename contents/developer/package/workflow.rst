@@ -113,33 +113,37 @@ description: 表单和流程操作接口，包括表单自动生成
 
 注意由于每个流程定义的时候，还有试用对象类型，因此具体显示的时候还会进行因此筛选。
 
-执行工作流
-====================
-可以为任何一个item，启动一个流程::
+工作项 WorkItem
+=======================
+这是有系统在工作流进行过程中，自行管理的一种对象。
 
-   item.workitems.start('zopen.sales:query')
+用户不能手工创建，只能通过流程驱动来管理。 
+可以为任何一个数据dataitem，启动一个流程::
 
-一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。
+   dataitem.workitems.start('zopen.sales:query')
 
+一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。 
 查看工作项::
 
-   item.workitems.list_workitems(pid, state)
+   workitems = item.workitems.query(pid, state)
 
-每个工作项，包括如下属性::
+每个工作项:
 
-   {'name':'1',  # 序号
-    'created':'2012-12-12',       # 创建时间
-    'title':'计划项 - 审批',      #  工作名称
-    'workflow': 'zopen.plan:plan',# 流程名
-    'responsible':['users.panjunyong'], # 负责人
-    'delegated': ['users.liang'], # 委托负责人
-    'step': 'review',             # 具体的步骤
-    'deadline': '2012-12-13',     # 工作期限
-    'stage': 'finished',          # 所在阶段
-    'stati': 'active/',           # 状态
-    'finished': '',               # 完结时间
-   }
+- object_types: (WorkItem, Item)
+- schema: 'zopen.plan:plan',# 流程名
+- stati: flowtask.active
+- acl: Responsile/Delegated
+- md:
 
+  - 'created':'2012-12-12',       # 创建时间
+  - 'title':'计划项 - 审批',      #  工作名称
+  - 'responsible':['users.panjunyong'], # 负责人
+  - 'delegated': ['users.liang'], # 委托负责人
+  - 'step': 'review',             # 具体的步骤
+  - 'deadline': '2012-12-13',     # 工作期限
+  - 'stage': 'finished',          # 所在阶段
+  - 'finished': '',               # 完结时间
+  - actions
 
 通过程序触发某个操作，推动流程前进::
 
