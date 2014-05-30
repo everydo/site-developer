@@ -131,59 +131,62 @@ on_update脚本: 表单保存触发
 
 得到表单
 ----------------
-数据容器的设置信息中，保存了使用的表单信息::
-
-  schema = data_container.get_setting('item_schema')[0]
-
-可以得到注册的表单对象::
-
-  form = root.packages.get_schema_obj( schema[0] )
-
-也可以无需注册到软件包，直接通过json得到表单定义::
+直接通过json得到表单定义::
 
   form = init_form(form_json)
 
-生成表单html
+如果有需要使用数据容器的关联的表单定义::
+
+  schema = data_container.get_setting('item_schema')[0]
+  form = root.packages.get_schema_obj( schema )
+
+表单生成和处理
 ------------------
-::
+最简单的渲染表单方法::
 
-  # 渲染表单
-  html_form = form.render_html({'description':'请说清楚'}, fields.keys(), errors)
+  html_form = form.render()
 
-其中::
+用户提交表单，这时候可以对提交表单数据处理（原始数据放在 ``request_form`` 中)::
 
-  render_html(storage, edit_fields, errors, **options)
+  errors, results = form.submit(request_form=request.form)
 
-生成表单函数
+如果正确提交，errors为空，可以得到提交的结果数据存放在results。
 
-- storage 生成表单时需要运行某些表达式，而storage则是表达式运行的上下文, 这里可以存放初始值
+如果发现错误, 需要提示用户重新提交::
+
+  html_form = form.render(request.form, errors=errors)
+
+``form.render`` 完整API::
+
+    form.render(data={}, template=None, edit_fields=None, errors={}, **options):
+
+- data: 存放各字段初始值
 - edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
-- errors 表单提交错误
+- errors 各字段的错误信息
+- template: 个性化的模板
+- options: 动态计算需要的额外参数
 
-为了计算初始值，需要传入更多变量::
+``form.submit`` 完整API::
 
-  html_form = form.render_html(template, {}, fields.keys(), errors,
-                            request, context=context, container = container)
+    errors, result = form.submit(request_form, fields=None, check_required=True, pid=None, **options)
 
-- request HTTP请求对象，同样作为表达式执行时的对象
-- context
-- container
+- fields: 仅仅处理那几个字段
+- check_required: 是否需要判断必填条件
+- pid：如果有需要分用户存储字段，这个是当前用户id
+- options: 动态计算需要的额外参数
 
-保存结果
---------------
-用于输入合法性校验，和更改时候的触发逻辑，数据存放到results中::
+获取表单的默认值
+-----------------------
+得到表单的初始值::
 
-  results = {}
-  errors = form.save(results, values=requrest.form)
+  results = form.get_defaults()
 
-完整定义::
+完整API::
 
-  form.save(storage, values, fields=None, init=False, check_required=True, **options):``
+  form.get_defaults(fields=None, **options)
 
-- storage 数据会保存在这个dict接口对象中
-- fileds 需要保存的字段，一个List
-- init: 是否把各个字段初始化
-
+- fields: 需要计算初始值的字段
+- options：计算初始值需要的额外参数
 
 软件包文件
 ====================
