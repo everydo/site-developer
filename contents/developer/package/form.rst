@@ -130,7 +130,7 @@ on_validation脚本
 如果有需要使用数据容器的关联的表单定义::
 
   schema = data_container.get_setting('item_schema')[0]
-  form = root.packages.get_schema_obj( schema )
+  form = root.packages.get_form( schema )
 
 表单生成和处理
 ------------------
@@ -150,10 +150,11 @@ on_validation脚本
 
 ``form.render`` 完整API::
 
-    form.render(data={}, template=None, edit_fields=None, errors={}, **options):
+    form.render(data={}, template=None, edit_fields=None, omit_fields=(), errors={}, **options):
 
 - data: 存放各字段初始值
 - edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
+- omit_fields 表单中需要忽略的字段
 - errors 各字段的错误信息
 - template: 个性化的模板
 - options: 动态计算需要的额外参数
