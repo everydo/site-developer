@@ -10,11 +10,6 @@ description: 自动生成表单、合法性校验，数据存储等
 .. Contents::
 .. sectnum::
 
-表单也用在如下地方：
-
-- 流程容器设置 
-- 流程表单
-- 应用容器的设置
 
 注册表单定义
 ================
@@ -29,13 +24,8 @@ json定义表单
     "name":'sales',
     "title":'',
     "description":'',
-    "tag_groups":"", # 标签组设置
-    'object_types':['DataItem'], # 语义定义用于的对象类型
-    "on_update": "", # 保存的时候调用，用于校验等
     "template": "", # 生成表单的模板
-     'related_workflow':'zopen.sales:sales',   # 关联的流程定义
-     'realted_datacontainer':'zopen.sales:sales_container',  # 关联的容器设置
-     'related_stage':'zopen.sales:sales', # 关联的阶段定义
+    'on_validation': "", # 字段正确性整体校验脚本
     "fields" : [     # 所有的字段
             {"name":"title",
               "type":"TextLineField", 
@@ -93,31 +83,33 @@ json定义表单
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
-on_update脚本: 表单保存触发
------------------------------------
-调用save的时候，会自动调用on_update::
+on_validation脚本
+----------------------------
+用于校验表单提交值是否合法, 用于多个输入项联合校验::
 
-  def on_update(storage, values, **options)
+   on_validation(fields, values, **options)
 
-- storage: 存储对象，可查看之前的旧的数据
-- values: 新的数据
-- options: 其他的参数，包括
+- fields: 本次提交可输入的字段
+- values: 实际得到的值
 
-  - context: 是当前操作的对象
-  - container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
+其他的参数(options)，通常包括
+
+- context: 是当前操作的对象
+- container: 是当前对象context所在的容器对象，比如文件夹或者数据管理器。
+- request: 请求对象
 
 返回值:
 
-如果表单提交数据校验正常，不返回任何值; 
-如果表单字段校验有问题，可返回错误字段的错误信息，比如::
+- 如果表单提交数据校验正常，不返回任何值; 
+- 如果表单字段校验有问题，可返回错误字段的错误信息，比如::
 
-  {'title':'can not be empty',
-   'age':'must greater than '
-  }
+      {'title':'can not be empty',
+       'age':'must greater than '
+      }
 
-注意，仅仅这些表单是可输入项的时候，这些错误信息才能显示。如果错误信息和输入项无关，可这样返回::
+- 注意，仅仅这些表单是可输入项的时候，这些错误信息才能显示。如果错误信息和输入项无关，可这样返回::
 
-  {'':'something wrong！'}
+      {'':'something wrong！'}
 
 注册
 -----
@@ -187,6 +179,23 @@ on_update脚本: 表单保存触发
 
 - fields: 需要计算初始值的字段
 - options：计算初始值需要的额外参数
+
+平台相关的表单
+=================
+系统的表单在如下地方：
+
+- 数据容器的设置 
+- 数据容器的表单
+- 应用容器的设置
+
+由于使用场景的特殊性，有一些额外的属性：
+
+- object_types':['DataItem'], # 语义定义用于的对象类型
+- tag_groups: 所在容器的标签组设置
+- on_save": 表单保存的时候, 会触发调用on_update, 这个方法和on_validatation脚本类似。但是调用这个参数的时候，对象数据保存了。
+- related_workflow':'zopen.sales:sales' 这个表单关联的流程定义
+- realted_datacontainer':'zopen.sales:sales_container',  关联的容器设置
+- related_stage':'zopen.sales:sales', 关联的阶段定义
 
 软件包文件
 ====================
