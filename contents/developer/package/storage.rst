@@ -188,7 +188,6 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 
 其object_type为： ``('DataItem', 'Item')``
 
-
 站点对象
 ------------------
 根站点是一个特殊AppContainer
@@ -357,7 +356,15 @@ Schema自定义语义
 
 5) 和阶段相关的设置::
 
-    container.set_setting('item_stage', ('zopen.sales:query',)): 容器的阶段定义(list)
+    container.set_setting('item_stage', ('zopen.sales:query',))
+
+6) 容器表格显示列::
+
+    container.set_setting('grid_columns', ('title', 'size', 'created', 'zopen.sales:query',))
+
+7) 默认视图::
+
+    container.set_setting('default_view', '@@thumb_view.html',)
 
 关系
 ================
