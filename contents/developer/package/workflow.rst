@@ -127,9 +127,24 @@ description: 表单和流程操作接口，包括表单自动生成
 
 一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。 
 
+可以查看表单::
+
+    dataitem.workitems.get_form_elements(request)
+
+返回::
+
+    (   [], #fields, 
+        [], # invisible_fields, 
+        [(workitem_name, action_name, action_title)] #actions
+    )
+
+得到具体某个workitem::
+
+    workitem = dataitem.workitems.get(workitem_name)
+
 通过程序触发某个操作，推动流程前进::
 
-   item.workitems.excute_action(step_name, action_name, as_principal=None, comment="")
+   item.workitems.execute_action(step_name, action_name, as_principal=None, comment="")
 
 其中：
 
