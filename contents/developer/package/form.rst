@@ -46,9 +46,24 @@ json定义表单
               "size":18,},
             {"name":"responsibles",
              "type":"PersonSelectField",
-             "title":'负责人人', 
+             "title":'负责人', 
              "validation_expr":"not value and '需要一名检查人'",
-            } ],
+            } 
+            {"name":"reviewers",
+             "type":"GrowingTableField",
+             "title":'审核人', 
+             "fields": [
+                {"name":"title",
+                 "type":"TextLineField"
+                 "title""标题",
+                },
+                {"name":"description",
+                 "type":"TextField"
+                 "title""描述",
+                },
+             ]
+            } 
+        ],
     }
 
 
