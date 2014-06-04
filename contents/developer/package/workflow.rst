@@ -138,6 +138,13 @@ description: 表单和流程操作接口，包括表单自动生成
         [(workitem_name, action_name, action_title)] #actions
     )
 
+查看所有的工作项::
+
+    for workitem in dataitem.workitems.values():
+        print workitem.name
+        print workitem.title
+        print workitem.action_name
+
 得到具体某个workitem::
 
     workitem = dataitem.workitems.get(workitem_name)
@@ -187,11 +194,6 @@ description: 表单和流程操作接口，包括表单自动生成
 - flowtask.pending: '暂停', '暂停处理该任务'),
 - flowtask.abandoned: '取消', '任务已被取消'),
 - flowtask.finished: '完成', '任务已经处理完成')),
-
-可以查看某个用户可以编辑、已经不让查看的表单项(TODO)::
-
-   item.workitems.allowed_fields(pid)
-   item.workitems.disabled_fields(pid)
 
 流程时限
 ================

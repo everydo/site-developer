@@ -79,8 +79,7 @@ json定义表单
   如果初始值设置为 ``get_references()`` 就可以正确关联
 
 - FileField  : 文件上传
-- SingleSelectField : 单选
-- MultipleSelectField : 多选
+- SelectField : 选择框，如果multiple=True多选，否则单选
 - BooleanField : bool字段
 - LinesField : 多行字段, list
 - DateField : 日期字段
