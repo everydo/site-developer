@@ -123,7 +123,7 @@ description: 表单和流程操作接口，包括表单自动生成
 用户不能手工创建，只能通过流程驱动来管理。 
 可以为任何一个数据dataitem，启动一个流程::
 
-   dataitem.workitems.start(reqeust)
+   dataitem.workitems.start(request=request)
 
 一旦启动流程，流程定义的其实步骤就开始执行，产生一些工作项。 
 
