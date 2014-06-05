@@ -194,7 +194,7 @@ web访问地址为::
 -------------------------
 数据容器的object_type为： ``('DataContainer', 'Container')`` , 用于存放表单数据项::
 
-  item = collection.add_item(metadata)
+  item = collection.add_item({'title':'the title', 'description':'the desc'}, name='', **options)
 
 数据项 DataItem
 -------------------
