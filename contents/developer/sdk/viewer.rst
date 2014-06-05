@@ -76,9 +76,10 @@ description: 在外部系统中，查看易度的文档
         app_id: '',
         account: 'zopen',
         instance: 'default',
-        download_source: 1,
         username: 'panjunyong',
-        signcode: 'asdf123123asdf12', 
+        preview_signcode: 'asdf123123asdf12', 
+        pdf_signcode: 'asdf123123asdf12', 
+        download_signcode: 'asdf123123asdf12', 
     });
     viewer.load();
   </script>
@@ -94,8 +95,9 @@ description: 在外部系统中，查看易度的文档
 - account: 服务器密匙对应的账户(比如:zopen)
 - instance: account下具体的一个站点名，如果不设置，就是default
 - username: 访问用户的名字，仅作记录用
-- download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
-- signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
+- preview_signcode: 允许在线查看的签名. 具体算法见后(如果密匙为空，可省略签名)
+- pdf_signcode: 允许pdf下载的签名. 具体算法见后(如果密匙为空，可省略签名)
+- download_signcode: 下载原始文件的签名
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
 
@@ -116,22 +118,4 @@ description: 在外部系统中，查看易度的文档
 - loading_info: 文档正在加载的提示
 - converting_info: 文档正在转换的提示
 - timeout_info: 文档转换超时的提示
-
-PDF等下载链接 /download
---------------------------------------------
-对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求，附加参数包括:
-
-- server_url: 云查看服务器的地址
-- location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
-- source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
-- download_source: 下载原始文件，这个会影响能否下载压缩包里面的文件，以及能否对mp3直接下载原始文件播放
-
-- ip: 浏览器的ip地址，如不填写则不做IP检查
-- timestamp: 截止时间的时间戳，如果不填写，则永久可查看
-- app_id: 第三方应用的ID，默认为空即可
-- account: 服务器密匙对应的账户(比如:zopen)
-- instance: account下具体的一个站点名，如果不设置，就是default
-- username: 访问用户的名字，仅作记录用
-- signcode: 签名信息. 具体算法见后(如果密匙为空，可省略签名)
-- filename: 下载的时候显示的文件名
 

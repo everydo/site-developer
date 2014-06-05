@@ -16,17 +16,18 @@ description: 文件上传、下载、转换
 /api/v1/viewer/download
 ==================================
 
-对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求，附加参数包括:
+对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求
 
+
+参数
+------------------
 - account: 服务器密匙对应的账户(比如:zopen)
 - instance: account下具体的一个站点名，如果不设置，就是default
 - server_url: 云查看服务器的地址
 - location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
 - source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
 - mime(可选): 转换的mime类型
-- subfile(可选): 主要压缩包中包含的的文件路径
-- download_source: 是否可以下载压缩包里面的文件
-
+- subfile(可选): 比如转换html中的图片，或者某个大小的缩略图
 - ip: 浏览器的ip地址，如不填写则不做IP检查
 - timestamp: 截止时间的时间戳，如果不填写，则永久可查看
 - app_id: 第三方应用的ID，默认为空即可
@@ -36,8 +37,22 @@ description: 文件上传、下载、转换
 - username: 访问用户的名字，仅作记录用
 - filename: 下载的时候显示的文件名
 
-HTTP错误返回值:
+对于压缩包包含的文件，如果需要转换，可以在location中使用 ``$$$`` 来分隔解压之后的文件::
 
+   /files/ttt.tgz$$$folder/bbb.tgz$$$abc.doc
+
+这个表示将 ``/files/ttt.tgz`` 解压，找到 ``folder/bbb.tgz`` 后再次解压，最后找到abc.doc这个文件。
+
+注意，签名的时候，使用的location，还是原始的 ``/files/ttt.tgz`` 
+
+签名的时候permission参数的取值:
+
+- 如果mime类型是空，则permission为 download
+- 如果mime类型为application/pdf, 则permision为pdf
+- 其他情况，permission为preview
+
+HTTP返回值
+----------------------
 如果HTTP返回码是200，表示正确，正文是具体的转换内容
 
 否则，含义如下：
@@ -78,6 +93,8 @@ HTTP错误返回值:
 
 返回值见错误码
 
+此方法，签名的permission参数值为 ``transform``
+
 文档比较: /diff
 ======================
 直接比较2个文档的差异，可传递的参数包括：
@@ -91,6 +108,8 @@ HTTP错误返回值:
 - instance: 所属实例，默认default
 - username: 用户名
 - signcode: 签名信息, 签名算法见后，其中location使用location1 + location2计算
+
+此方法，签名的permission参数值为 ``diff``
 
 管理接口
 =================
@@ -136,3 +155,21 @@ HTTP错误返回值:
 ------------------------------
 查看实例的全部信息，包括访问策略
 
+签名算法
+==================
+使用将下面的信息连接，生成md5，这个md5就是signcode
+
+- location
+- ip
+- timestamp
+- app_id
+- account
+- instance
+- username
+- perimission: preview / pdf / download
+- secret
+
+
+如果只有source_url，没有location，可以这样计算location::
+
+   /MD5(source_url) + '.' + 文件后缀
