@@ -693,15 +693,15 @@ flowsheet.active', '活动', '流程单正在处理中'),
 
 可以通过操作历史，查找到最近删除的内容，你可以恢复删除项::
 
-  root.recycle.restore(uid, new_parent)
+  root.recycle_bin.restore(uid, new_parent)
 
 也可以彻底删除::
 
-  root.recycle.purge(uid)
+  root.recycle_bin.purge(uid)
 
 或者清空整个回收站::
 
-  root.recycle.clear()
+  root.recycle_bin.clear()
 
 个人信息profile
 =========================
