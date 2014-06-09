@@ -141,13 +141,15 @@ web访问地址为::
 
 应用容器的object_type是 ``('AppContainer', 'Container')``
 
-应用容器可以管理子栏目，子栏目可以是一个子应用或者一个软件包里面的脚本::
+应用容器可以管理子栏目导航，子栏目可以是一个子应用或者一个软件包里面的脚本::
 
-  app_container.append_tab(sub_container)  # 添加一个应用
-  app_container.append_tab('zopen.sales:overview') # 添加一个软件包脚本, 作为视图
-  app_container.insert_tab(0, sub_container) # 插入到最前面
-  tabs = app_container.list_tabs()  # 返回 应用或者脚本名的列表
-  app_container.remove_tab(sub_container) # 去除一个列表
+  app_container.navs.append(sub_container)  # 添加一个应用
+  app_container.navs.append('zopen.sales:overview') # 添加一个软件包脚本, 作为视图
+  app_container.navs.insert(0, sub_container) # 插入到最前面
+  app_container.navs.clear() # 清除所有 
+  tabs = app_container.navs.get()  # 返回 应用或者脚本名的列表
+  app_container.navs.remove(sub_container) # 去除一个列表
+  app_container.navs.json() # json格式的导航设置
 
 文件夹 Folder
 -----------------------
