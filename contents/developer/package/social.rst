@@ -54,17 +54,23 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
 添加评注的方法为：::
 
-    context.comments.add_comment(body, author, email)
+    context.comments.add(body, author, email)
 
 列表显示评注的方法为：::
 
-    for comment in context.comments:
+    cm = context.comments
+    length = len(cm)
+    cm.reverse() # 反序排
+    for comment in Batch(cm):
         print comment.body
         print comment.creators
         print comment.modified
 
-最后的评论::
+最后一个评论::
 
-   print len(context.comments)
-   last_comment = context.comments[-1]
+    last_comment = Batch(cm, length-1, 1)[0]
 
+删除对象的评论::
+
+    context.comments.remove(comment_id)
+    context.comments.clear()
