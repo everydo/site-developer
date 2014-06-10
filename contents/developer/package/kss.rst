@@ -1,73 +1,28 @@
 ---
-title: AJAX交互
+title: KSS交互
 description: 编写ajax交互应用
 ---
 
 ====================
-AJAX交互
+KSS交互
 ====================
 
 .. Contents::
 .. sectnum::
 
-(不推荐使用, 即将过时)
+使用kss，无须编写javascript，便可编写前端ajax界面. 基本原理::
 
-编写KSS类
-================
-命名和基类:  
-------------------
-kss的view一般命名为 XXXKssView，需要继承zopen.kssaddons.KSSView 
 
-表单内容的展现
--------------------
-对于展现表单的kss，名字为 addAppForm (url: add_app_form)::
+向服务端发起KSS请求
+=========================
+分连接和表单和js这3种
 
-    render_add_app =  ViewPageTemplateFile('add_app.pt')
-
-    @kssaction
-    def addAppForm(self):
-        # ... 这里可补充本来应该在update里面处理的东西
-
-        # 内容区
-        self.ksszopen.showContentForm(self.render_add_app())
-
-如果上方区域的，则是::
-
-        self.ksszopen.showTabPage(self.render_add_app())
-
-通用变量param1, param2
-----------------------------------
-使用前换成一个友好的变量名，比如::
-    mode, url = param1, param2
-
-对于表单提交后，仍然是kss处理： addFlowSubmit (add_flow_submit)
-
-错误提示
---------------
-在正文区域提示信息::
-
-  self.ksszopen.issuePortalMessage(self, message, msgtype='info', )
-  self.ksszopen.issuePortalMessage(self, message, msgtype=‘error', )
-
-在上方contentbar区域提示信息::
-
-  self.ksszopen.issuePortalMessage(self, message, msgtype='info', position='contentbar')
-
-ActionServer模式
-================================
-不需要另外写kss规则，就进行服务器端的kss交互。
-
-这样可减少kss规则的数量，提升性能。
-
-一般有2中情况会导致ActionServer: onclick 和 onsubmit.
-
-页面的写法
+链接
 --------------------------
-::
+点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
 
- <a class="KSSActionServer"
-    kssattr:url="" 
-    kssattr:kssfiles="" 
+ <a class="kss"
+    kssattr:url="@zopen.sales:test" 
     kssattr:node="div|.profile" 
     kssattr:param1="" 
     kssattr:param2="" 
@@ -75,39 +30,60 @@ ActionServer模式
     kssattr:param4="" 
     > click me </a>
 
-KSS写法
---------------------------
-::
+其中:
 
- action-server: url(ssss) notloadedKss('upload.kss adsfa.kss');
+- kssattr:url: 指定action-server的链接，是必需的
+- kssattr:node: 节点
+- kssattr:param1,kss:param2: 向服务端发起的参数，如果没有需要可以不写. 如果使用，对应的kssview中需要做 相应的代码调整。
 
-DOM结构
---------------------------
-.KSSActionServer
-    点击会发生action-server操作的按钮或链接
+表单
+-----
+把表单的内容，发给扩展软件包zopen.sales的test脚本::
 
-编码步骤
---------------------------
-1. 所有resource.zcml中，对该kss的引用。对于界面中需要使用action-server的操作，做如下的处理
+ <form action="@zopen.sales:test" class="kss">
+ </form>
 
-#. 给需要发生action-server操作的按钮或链接的class加上KSSActionServer
+js函数
+----------------
+在javascript中发送kss请求::
 
-#. kssview中用到的kssaction,KSSView改为从zopen.kssaddons中导入::
+   kss(node, url, parms)
 
-    from zopen.kssaddons import kssaction,KSSView
+服务端kss请求处理
+====================
 
-#. 参照上面的页面的写法给按钮或链接加上kssattr:url,kssattr:kssfiles,kssattr:param1,kssattr:param2
+在软件包里面, 创建一个python脚本，将模板设置为 kss 即可.
 
-   kssattr:url: 
-        指定action-server的链接，是必需的
+kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
-   kssattr:kssfiles: 
-        用于action-server返回的html需要的kss,例如点击权限按钮后，需要动态加载localrole.kss,
-        可以这样写：kssattr:kssfiles="localrole.kss"
-        需要加载多个kss：kssattr:kssfiles="localrole.kss selector.kss",以空格分开
+消息提示
+-------------
+在正文区域提示信息::
 
-   kssattr:param1,kss:param2：
-        这两个是用于提交你需要的参数的，如果没有需要可以不写. 如果使用，对应的kssview中需要做 相应的代码调整。
+      kss.issuePortalMessage(message, msgtype='info', )
+      kss.issuePortalMessage(message, msgtype=‘error', )
+
+跳转 redirect
+------------------
+跳转, 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
+
+   kss.redirect(url, taget)
+
+clear
+    清除
+
+addSectionOption
+    给select添加option
+
+
+选择器
+-----------------
+parentnodecss('tr|.kk')
+    父节点下的某个css，如果是形式 table|*pageid ，则会先从kssattr中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
+
+parentnodenextnode('tr')
+    父节点的下一个节点
+
 
 Close模式
 ====================================================
@@ -171,7 +147,7 @@ DOM结构
 --------------------
 由服务器再次触发一次ShowHide操作::
 
- ksszopen.actionShowHide()
+ kss.actionShowHide()
 
 鼠标移动Hover模式
 =========================
@@ -279,9 +255,9 @@ XXX
 
 使用方法
 ---------------------
-kssview::
+::
 
-  ksszopen.showTabPage(page_html)
+  kss.showTabPage(page_html)
 
 
 ContentForm模式
@@ -323,122 +299,5 @@ Action Server
 ---------------------
 现在kssaddons里面有方法，统一处理::
 
-  ksszopen = self.getCommandSet('zopen')
-  ksszopen.showContentForm(form_html)
-
-
-formsubmit模式
-=======================
-使用场景
---------------------
-非常多，几乎所有的ajax表单提交都可以用
-
-DOM结构
---------------------
-.KSSFormArea
-  整个表单区域
-
-form.KSSFormSubmit
-  需要ajax提交的表单
-
-.KSSFormShowHide
-  表单提交时需要切换状态的地方
-
-页面的写法
---------------------
-::
-
- <form action="@@submit.html" class="KSSFormSubmit" kssattr:kssfiles="">
- </form>
-
-action-server
--------------------------
-如果发现表单出错，可取消::
-
-  ksszopen.resetForm()
-
-全选和全不选
-=======================
-典型使用场景
-------------------
-项目中发送消息的时候，全选项目成员
-
-DOM结构
------------------
-.KSSCheckArea
-  整个选择的作用区
-
-.KSSCheckAll
-  全选checkbox
-
-.KSSUnCheckAll
-  全不选checkbox
-
-.KSSCheckItem
-  需要被选中或不选的checkbox
-
-.KSSSelect
-  选择全选或全不选后需要变换显示的地方
-
-kss代码优化步骤
-============================
-action-client
-----------------------------
-1.清理.kss中已经没有用的kss代码，虽然没有用到，但每次加载都会计算的，所以要去除
-
-2.规范id与class的写法，id为'kss-xxxxx'，class为'KSSxxxxx'
-  例如：kss-portal-search，KSSSearch
-
-3..kss中要以id为基准去写
-   例如：#kss-prtal-search a:click
-
-4.套用模式，不要写重复的同样效果的kss代码
-
-action-server
----------------------------
-1.找出页面中不常用的功能
-
-2.对于不常用的功能，用ActionServer模式可以改为action-server的操作，具体参照该模式的编码步骤
-
-3.使用ActionServer模式后kssview中的代码有些是可能可以去除，要去除多余的代码
-
-注释
---------------------------
-无论是kss还是kssview中都希望能加上正确的注释，因为没有注释，维护会变得很困难
-
-
-"ksszopen" 插件
-========================
-命令
--------------
-redirect
-    跳转, 参数包括url和target，url是跳转到地址，target如果有值，就是内嵌iframe的名字。
-
-clear
-    清除
-
-addSectionOption
-    给select添加option
-
-issurePortalMessage
-    显示消息，三个参数 msg, type, position。其中 position表示位置，contentbar就是上方contentbar区域的提示
-
-选择器
------------------
-parentnodecss('tr|.kk')
-    父节点下的某个css，如果是形式 table|*pageid ，则会先从kssattr中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
-
-parentnodenextnode('tr')
-    父节点的下一个节点
-
-辅助函数
-------------------
-kssAttrJoin('lal', '*itemid', '/@@edit.html')
-    合并kss，其中带 * 的标记表示需要从kssattr中获取的
-
-函数
-----------------
-kssServerAction(node, actionName, parms)
-    在javascript中发送消息
-
+  kss.showContentForm(form_html)
 

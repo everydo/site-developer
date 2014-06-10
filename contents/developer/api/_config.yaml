@@ -5,6 +5,7 @@ order: [overview.rst,
         auth.rst, 
         account.rst,
         content.rst,
+        viewer.rst,
         file.rst,
         webdav.rst]
 

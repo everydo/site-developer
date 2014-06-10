@@ -107,10 +107,13 @@ description: 表单和流程操作接口，包括表单自动生成
 
    datacontainer.get_setting('item_workflow')
 
-另外，任何流程，都可以发起关联流程. 相关的流程，包括容器相关流程和条目相关的流程::
+另外，任何流程，都可以发起关联流程或表单. 容器和条目，可以分别设置不同的关联流程::
 
-    container.set_setting('item_related_workflows', ('zopen.sales:chance',))
-    container.set_setting('container_related_workflows', ('zopen.sales:chance',))
+    container.set_setting('item_related_datacontainers', 
+                (root.object_uid(datacontainer1), root.object_uid(datacontainer2)))
+
+    container.set_setting('container_related_datacontainers', 
+                (root.object_uid(datacontainer3),))
 
 工作项 WorkItem
 =======================

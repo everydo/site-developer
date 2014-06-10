@@ -40,9 +40,10 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 -----------
 容器提供类似dict的访问方法::
 
+   root.keys()   # root是全局可访问的对象，返回： ['container1', 'container2']
+   root.values()
+   root.items()
    container1 = root['container1']
-   root.keys()   # ['container1', 'container2']
-   root.values(), root.items()
    
 容器中的名字
 -------------
@@ -204,9 +205,9 @@ web访问地址为::
 
 其object_type为： ``('DataItem', 'Item')``
 
-站点对象
+站点对象root
 ------------------
-根站点是一个特殊AppContainer
+根站点root, 是一个特殊AppContainer, 这个对象在所有的脚本中可以直接使用。
 
 可以查看自身的运行信息::
 
@@ -389,8 +390,9 @@ Schema自定义语义
 
 8) 相关的流程，包括容器相关流程和条目相关的流程::
 
-    container.set_setting('item_related_workflows', ('zopen.sales:chance',))
-    container.set_setting('container_related_workflows', ('zopen.sales:chance',))
+    container.set_setting('item_related_datacontainers', 
+                (root.object_uid(datacontainer1), root.object_uid(datacontainer2)))
+    container.set_setting('container_related_datacontainers', (root.object_uid(datacontainer3),))
 
 关系
 ================
