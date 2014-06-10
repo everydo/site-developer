@@ -10,7 +10,7 @@ KSS交互
 .. Contents::
 .. sectnum::
 
-使用kss，无须编写javascript，便可编写前端ajax界面. 基本原理::
+使用kss，无须编写javascript，便可编写前端ajax界面. 
 
 
 向服务端发起KSS请求
