@@ -112,8 +112,6 @@ description: 表单和流程操作接口，包括表单自动生成
     container.set_setting('item_related_workflows', ('zopen.sales:chance',))
     container.set_setting('container_related_workflows', ('zopen.sales:chance',))
 
-注意由于每个流程定义的时候，还有试用对象类型，因此具体显示的时候还会进行因此筛选。
-
 工作项 WorkItem
 =======================
 这是有系统在工作流进行过程中，自行管理的一种对象。
