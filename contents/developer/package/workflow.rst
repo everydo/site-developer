@@ -107,12 +107,10 @@ description: 表单和流程操作接口，包括表单自动生成
 
    datacontainer.get_setting('item_workflow')
 
-另外，任何流程，都可以发起关联流程，可选关联流程保存容器里面::
+另外，任何流程，都可以发起关联流程. 相关的流程，包括容器相关流程和条目相关的流程::
 
-   container.set_setting('related_workflow', {'File':['zopen.docreview:reivew','zopen.borrow:borrow'],
-                                              'Folder':[],
-                                              'DataContainer':
-                                              'DataItem':})
+    container.set_setting('item_related_workflows', ('zopen.sales:chance',))
+    container.set_setting('container_related_workflows', ('zopen.sales:chance',))
 
 注意由于每个流程定义的时候，还有试用对象类型，因此具体显示的时候还会进行因此筛选。
 

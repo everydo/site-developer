@@ -387,6 +387,11 @@ Schema自定义语义
 
     container.set_setting('default_view', '@@thumb_view.html',)
 
+8) 相关的流程，包括容器相关流程和条目相关的流程::
+
+    container.set_setting('item_related_workflows', ('zopen.sales:chance',))
+    container.set_setting('container_related_workflows', ('zopen.sales:chance',))
+
 关系
 ================
 
