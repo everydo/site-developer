@@ -146,6 +146,10 @@ on_validation脚本
   schema = data_container.get_setting('item_schema')[0]
   form = root.packages.get_form( schema )
 
+也可以得到原始的表单定义json::
+
+  form_json = root.packages.get_schema( schema )
+
 表单生成和处理
 ------------------
 最简单的渲染表单方法::

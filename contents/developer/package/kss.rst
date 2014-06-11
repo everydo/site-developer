@@ -22,12 +22,12 @@ KSS交互
 点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
 
  <a class="kss"
-    kssattr:url="@zopen.sales:test" 
-    kssattr:node="div|.profile" 
-    kssattr:param1="" 
-    kssattr:param2="" 
-    kssattr:param3="" 
-    kssattr:param4="" 
+    kss:url="zopen.sales:test" 
+    kss:node="div|.profile" 
+    kss:param1="" 
+    kss:param2="" 
+    kss:param3="" 
+    kss:param4="" 
     > click me </a>
 
 其中:
@@ -40,7 +40,7 @@ KSS交互
 -----
 把表单的内容，发给扩展软件包zopen.sales的test脚本::
 
- <form action="@zopen.sales:test" class="kss">
+ <form action="zopen.sales:test" class="kss">
  </form>
 
 js函数
@@ -56,34 +56,35 @@ js函数
 
 kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
-消息提示
--------------
-在正文区域提示信息::
+站点提示信息::
 
       kss.issuePortalMessage(message, msgtype='info', )
       kss.issuePortalMessage(message, msgtype=‘error', )
 
-跳转 redirect
-------------------
 跳转, 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
    kss.redirect(url, taget)
 
-clear
+遮罩方式显示一个表单::
+
+    form = init_form(form_json)
+    content = kss.render_form(form, errors=errors, title, action, action_url, id, class)
+    kss.dialogModal(content, focus=True, fixed=False, async=True, width=600, mode=None)
+
+kss.clear
     清除
 
-addSectionOption
+kss.addSectionOption
     给select添加option
 
 
 选择器
 -----------------
 parentnodecss('tr|.kk')
-    父节点下的某个css，如果是形式 table|*pageid ，则会先从kssattr中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
+    父节点下的某个css，如果是形式 table|*pageid ，则会先从kss属性中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
 
 parentnodenextnode('tr')
     父节点的下一个节点
-
 
 Close模式
 ====================================================
