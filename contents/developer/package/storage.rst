@@ -370,7 +370,6 @@ Schema自定义语义
 3) 和显示相关的设置::
 
     container.set_setting('default_view', ('@@table_list')) : 显示哪些列
-    container.set_setting('table_columns', ('title', 'description')) : 显示哪些列(list)
 
 4) 和属性集相关的设置::
 
@@ -384,11 +383,7 @@ Schema自定义语义
 
     container.set_setting('grid_columns', ('title', 'size', 'created', 'zopen.sales:query',))
 
-7) 默认视图::
-
-    container.set_setting('default_view', '@@thumb_view.html',)
-
-8) 相关的流程，包括容器相关流程和条目相关的流程::
+7) 相关的流程，包括容器相关流程和条目相关的流程::
 
     container.set_setting('item_related_datacontainers', 
                 (root.object_uid(datacontainer1), root.object_uid(datacontainer2)))

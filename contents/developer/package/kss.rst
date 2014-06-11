@@ -39,19 +39,17 @@ KSS交互
 点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
 
  <a class="kss"
-    kss:url="zopen.sales:test" 
-    kss:node="div|.profile" 
-    kss:param1="" 
-    kss:param2="" 
-    kss:param3="" 
-    kss:param4="" 
-    > click me </a>
+    kss="{url:'zopen.sales:test', node:'div|.profile', param1='', param2=''}"> 
+        click me </a>
 
 其中:
 
-- kssattr:url: 指定action-server的链接，是必需的
-- kssattr:node: 节点
-- kssattr:param1,kss:param2: 向服务端发起的参数，如果没有需要可以不写. 如果使用，对应的kssview中需要做 相应的代码调整。
+- ``class="kss"`` 表示发起kss请求
+- ``kss`` 属性，表示后面是相关的数据
+
+  - url: 指定action-server的链接，是必需的
+  - node: 当前节点是什么
+  - param1,param2: 向服务端发起的参数，如果没有需要可以不写. 
 
 表单
 -----
