@@ -13,11 +13,9 @@ description: 文件上传、下载、转换
 
 为了文件预览，缩略图、参数提取等，提供文档转换的服务。
 
-/download
+/download 下载
 ==================================
-
 对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求
-
 
 参数
 ------------------
@@ -70,10 +68,8 @@ HTTP返回值
 
    {"msg": "文件加密" }
 
-/transform
+/transform 发起文档转换
 ==============================
-发起文档转换请求 
-
 转换和回调接口. 可主动发起转换，转换完成，进行回调。
 
 如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
@@ -97,7 +93,7 @@ HTTP返回值
 
 此方法，签名的permission参数值为 ``transform``
 
-文档比较: /diff
+/diff: 文档比较
 ======================
 直接比较2个文档的差异，可传递的参数包括：
 
@@ -113,9 +109,31 @@ HTTP返回值
 
 此方法，签名的permission参数值为 ``diff``
 
+签名算法
+==================
+使用将下面的信息连接，生成md5，这个md5就是signcode
+
+- location
+- ip
+- timestamp
+- app_id
+- account
+- instance
+- username
+- perimission: preview / pdf / download
+- secret
+
+注意：
+
+1. 如果只有source_url，没有传入location，上述签名中的location应该按照下面的算法填入::
+
+     /MD5(source_url) + '.' + 文件后缀
+
+2. 密匙secret可以在易度平台上安装 “云查看管理工具” 活得密匙
+
 管理接口
 =================
-管理接口用于存储服务商的管理后台
+管理接口用于存储服务商的管理后台 , 下面的接口基于OAuth API
 
 /api/v1/admin/get_secret
 -------------------------------------------------------------
@@ -152,26 +170,9 @@ HTTP返回值
 
 - account
 - instance
+- policy: 可以为private, 或public
 
 /api/v1/admin/info
 ------------------------------
 查看实例的全部信息，包括访问策略
-
-签名算法
-==================
-使用将下面的信息连接，生成md5，这个md5就是signcode
-
-- location
-- ip
-- timestamp
-- app_id
-- account
-- instance
-- username
-- perimission: preview / pdf / download
-- secret
-
-注意：如果只有source_url，没有传入location，上述签名中的location应该按照下面的算法填入::
-
-   /MD5(source_url) + '.' + 文件后缀
 
