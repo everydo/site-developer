@@ -21,7 +21,6 @@ description: 文件上传、下载、转换
 ------------------
 - account: 服务器密匙对应的账户(比如:zopen)
 - instance: account下具体的一个站点名，如果不设置，就是default
-- server_url: 云查看服务器的地址
 - location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
 - source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
 - mime(可选): 转换的mime类型

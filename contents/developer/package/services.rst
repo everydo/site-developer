@@ -30,9 +30,9 @@ description: 访问其他的服务
 
 得到云查看的访问策略等信息::
 
-  secret = viewer.info()
+  info = viewer.info()
 
 设置云查看的访问策略为公开::
 
-  secret = viewer.set_access_policy('public')
+  viewer.set_access_policy('public')
 
