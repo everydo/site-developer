@@ -31,7 +31,7 @@ url参数：
 - uid
 - path
 - bytes
-- object_type
+- object_types
 - content_type
 - revision
 - created

@@ -34,7 +34,7 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
       'Owner':['users.cc'],
      }
 
-- object_type: 是什么类型的对象
+- object_types: 是什么类型的对象
 
   - 文件： File
   - 快捷方式：FileShortCut, FolderShortCut

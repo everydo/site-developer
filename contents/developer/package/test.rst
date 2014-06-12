@@ -25,7 +25,7 @@ description: 如何对后端开发进行测试
 
 objects是一个yaml格式的站点结构描述文件::
 
-  [ {object_type:
+  [ {object_types:
      title:
      description:
      schema:(,),

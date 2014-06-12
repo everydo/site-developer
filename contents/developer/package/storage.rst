@@ -110,11 +110,11 @@ web访问地址为::
 
    obj.uid_url(request)
 
-对象类型: object_type
+对象类型: object_types
 =============================
-约定属性 ``object_type`` 表示对象类型，让不同类型的对象有不同的行为。
+约定属性 ``object_types`` 表示对象类型，让不同类型的对象有不同的行为。
 
-容器和条目的object_type分别是 ``(Container, )`` 和 ``(Item, )`` , 系统还可以是如下对象：
+容器和条目的object_types分别是 ``(Container, )`` 和 ``(Item, )`` , 系统还可以是如下对象：
 
 应用容器 AppContainer
 ------------------------------
@@ -140,7 +140,7 @@ web访问地址为::
 
   app_contaner.choose_name('plans') # 如果重复，则返回 plans-1 / plans-2
 
-应用容器的object_type是 ``('AppContainer', 'Container')``
+应用容器的object_types是 ``('AppContainer', 'Container')``
 
 应用容器可以管理子栏目导航，子栏目可以是一个子应用或者一个软件包里面的脚本::
 
@@ -160,12 +160,12 @@ web访问地址为::
   new_file = folder.add_file(name, data='', content_type='')
   shortcut = folder.add_shortcut(obj, version_id='')
 
-文件夹的object_type是： ``('Folder', 'Container')``
+文件夹的object_types是： ``('Folder', 'Container')``
 
 
 文件 File
 -------------
-文件的object_type为 ``('File', 'Item')``
+文件的object_types为 ``('File', 'Item')``
 
 文件是最基础的内容形态，用于存放非结构化的数据，不能包含其他内容::
 
@@ -186,8 +186,8 @@ web访问地址为::
 ---------------------
 分为：
 
-- 文件快捷方式, 其object_type为: ``('FileShortCut', 'Item')`` 
-- 文件夹快捷方式，object_type: ``('FolderShortCut', 'Item')``
+- 文件快捷方式, 其object_types为: ``('FileShortCut', 'Item')`` 
+- 文件夹快捷方式，object_types: ``('FolderShortCut', 'Item')``
 
 快捷方式可以指向其他的文件或者文件夹::
 
@@ -195,7 +195,7 @@ web访问地址为::
 
 数据容器 DataContainer
 -------------------------
-数据容器的object_type为： ``('DataContainer', 'Container')`` , 用于存放表单数据项::
+数据容器的object_types为： ``('DataContainer', 'Container')`` , 用于存放表单数据项::
 
   item = collection.add_item({'title':'the title', 'description':'the desc'}, name='', **options)
 
@@ -203,7 +203,7 @@ web访问地址为::
 -------------------
 数据项用来存放结构化的表单数据，是系统的基础内容，不能包含其他内容.
 
-其object_type为： ``('DataItem', 'Item')``
+其object_types为： ``('DataItem', 'Item')``
 
 站点对象root
 ------------------
