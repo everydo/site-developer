@@ -13,7 +13,7 @@ description: 文件上传、下载、转换
 
 为了文件预览，缩略图、参数提取等，提供文档转换的服务。
 
-/api/v1/viewer/download
+/download
 ==================================
 
 对于转换生成的PDF、缩略图等文件，需要直接下载，可发起 ``/download`` 请求
@@ -70,7 +70,7 @@ HTTP返回值
 
    {"msg": "文件加密" }
 
-/api/v1/file/transform
+/transform
 ==============================
 发起文档转换请求 
 
@@ -78,17 +78,19 @@ HTTP返回值
 
 如果文件准备好，可以预先要求云查看服务器进行转换。可传递的参数包括:
 
-- account: 帐号，在云查看密匙管理中可以得到，如default.zopen.standalone
-- instance: 具体的站点好
-- location：具体的文件存放位置
-- source_url: 如果文件不存在，在哪里下载
-- targets: 目标文件的mime类型
-- callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
+- account: 帐号，在云查看密匙管理中可以得到，如zopen
+- instance: 具体的站点号，如 default
+- location：具体的文件存放位置，可不填
+- source_url: 如果文件不存在，下载的url地址
+- targets: 目标文件的mime类型, 比如::
 
-- ip: 浏览器的ip地址，如不填写则不做IP检查
-- timestamp：失效时间
-- app_id: 应用id，默认为空
-- username: 用户名
+    application/pdf,text/html
+
+- callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
+- ip: 浏览器的ip地址，不填写则不做IP检查
+- timestamp：失效时间的时间戳，不填表示不失效
+- app_id: 应用id，可不填
+- username: 用户名, 可不填
 - signcode: 签名, 具体算法见后
 
 返回值见错误码
@@ -169,7 +171,7 @@ HTTP返回值
 - perimission: preview / pdf / download
 - secret
 
-
-如果只有source_url，没有location，可以这样计算location::
+注意：如果只有source_url，没有传入location，上述签名中的location应该按照下面的算法填入::
 
    /MD5(source_url) + '.' + 文件后缀
+

@@ -39,7 +39,8 @@ KSS交互
 点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
 
  <a class="kss"
-    kss="{url:'zopen.sales:test', node:'div|.profile', param1='', param2=''}"> 
+    href="zopen.sales:test"
+    kss="node:'div|.profile', param1='', param2=''}"> 
         click me </a>
 
 其中:
