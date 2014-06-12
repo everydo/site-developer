@@ -22,17 +22,17 @@ description: 访问其他的服务
 
 得到云查看客户端::
 
-  viewer = root.get_client('viewer', 'default')
+  viewer_client = root.get_client('viewer', 'default')
 
 得到云查看访问密匙::
 
-  secret = viewer.get_secret()
+  secret = viewer_client.viewer.get_secret()
 
 得到云查看的访问策略等信息::
 
-  info = viewer.info()
+  info = viewer_client.viewer.info()
 
 设置云查看的访问策略为公开::
 
-  viewer.set_access_policy('public')
+  viewer_client.viewer.set_access_policy('public')
 
