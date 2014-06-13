@@ -60,12 +60,12 @@ description: 自定义皮肤，更换皮肤
 ==================
 设置某个容器，采用新的皮肤::
 
-    container.set_setting('skin', 'bootstrap')
-    container.set_setting('skin', 'zopen.cool_skin:bootstrap')
+    container.setting['skin'] = 'bootstrap'
+    container.setting['skin'] = 'zopen.cool_skin:bootstrap'
 
 实际查找皮肤可以::
 
-    container.get_setting('skin', default='bootstrap', inherit=True)
+    container.settings.get('skin', default='bootstrap', inherit=True)
 
 资源文件
 ==============

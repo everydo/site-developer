@@ -143,7 +143,7 @@ on_validation脚本
 
 如果有需要使用数据容器的关联的表单定义::
 
-  schema = data_container.get_setting('item_schema')[0]
+  schema = data_container.settings['item_schema'][0]
   form = root.packages.get_form( schema )
 
 也可以得到原始的表单定义json::

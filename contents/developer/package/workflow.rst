@@ -105,15 +105,15 @@ description: 表单和流程操作接口，包括表单自动生成
 ====================
 目前工作流主要是和数据项关联，保存在数据容器的设置项中::
 
-   datacontainer.get_setting('item_workflow')
+   datacontainer.settings['item_workflow']
 
 另外，任何流程，都可以发起关联流程或表单. 容器和条目，可以分别设置不同的关联流程::
 
-    container.set_setting('item_related_datacontainers', 
-                (root.object_uid(datacontainer1), root.object_uid(datacontainer2)))
+    container.settings['item_related_datacontainers'] =
+                (root.object_uid(datacontainer1), root.object_uid(datacontainer2))
 
-    container.set_setting('container_related_datacontainers', 
-                (root.object_uid(datacontainer3),))
+    container.settings['container_related_datacontainers'] =
+                (root.object_uid(datacontainer3),)
 
 工作项 WorkItem
 =======================
@@ -259,9 +259,9 @@ description: 表单和流程操作接口，包括表单自动生成
         def submit(step, context):
             #建立项目文件夹
             case_obj = container
-            if case_obj.md('folder'):
+            if case_obj.md['folder']:
                 try:
-                    filerepos = root.object_by_uid(case_obj.md('folder')
+                    filerepos = root.object_by_uid(case_obj.md['folder'])
                     year = str(datetime.datetime.now().year)
                     month = str(datetime.datetime.now().month) + '月'
                     if year not in filerepos:
@@ -277,7 +277,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
                     project_folder = month_folder.add_folder(context['title'])
                     project_folder.index()
-                    context.set_md('folder', root.object_uid(project_folder))
+                    context.md['folder'] = root.object_uid(project_folder)
                 except KeyError:
                     pass
             else:

@@ -142,10 +142,9 @@ web访问地址为::
 
 应用容器的object_types是 ``('AppContainer', 'Container')``
 
-应用容器可以管理子栏目导航，子栏目可以是一个子应用或者一个软件包里面的脚本::
+应用容器可以管理子栏目导航，子栏目可以是一个子应用(应用容器、文件夹、数据容器)::
 
   app_container.navs.append(sub_container)  # 添加一个应用
-  app_container.navs.append('zopen.sales:overview') # 添加一个软件包脚本, 作为视图
   app_container.navs.insert(0, sub_container) # 插入到最前面
   app_container.navs.clear() # 清除所有 
   tabs = app_container.navs.get()  # 返回 应用或者脚本名的列表
@@ -205,7 +204,7 @@ web访问地址为::
 
 其object_types为： ``('DataItem', 'Item')``
 
-站点对象root
+站点对象 root
 ------------------
 根站点root, 是一个特殊AppContainer, 这个对象在所有的脚本中可以直接使用。
 
@@ -239,6 +238,10 @@ web访问地址为::
 - flow_customize: 流程定制
 - apps_scripting: 允许开发软件包
 
+工作台个人区 Home
+------------------
+每个人都有一个工作台个人区，这里是个人自行部署的应用。
+
 
 Schema自定义语义
 =======================
@@ -265,57 +268,49 @@ Schema自定义语义
 --------------------------------------
 系统的所有对象，都包括一组标准的属性，有系统自动维护，或者有特殊的含义。属性也称作元数据，metadata.
 
+metadata保存在 ``item.md`` 属性中::
+
+   title = item.md['title']
+   title = item.md.get('title', 'no title')
+
+   item.md['title'] = 'new title'
+   item.md.set('title', 'new title')
+   item.md.update(title='new title')
+
 对象一旦加入到仓库，可以查看其创建人、修改人，创建时间、修改时间::
 
-   item.md('creators')
-   item.md('contributors')
-   item.md('created')
-   item.md('modified')
+   item.md['creators']
+   item.md['contributors']
+   item.md['created']
+   item.md['modified']
 
 其他的基础属性，还包括::
 
-  obj.md('identifier') 这个也就是文件的编号
-  obj.md('expires') 对象的失效时间
-  obj.md('effective') 对象的生效时间
-
-可以更改对象的各种属性，如基础标题、描述、分类，表单字段::
-
-   item1.set_md('title', 'Item 1')
-   item1.update_md(title = 'Item 1',
-                    description = 'this is a sample item',
-                    subjects = ('tag1', 'tag2'))
-
-对于非容器类型的内容，比如文件、数据项，可以直接通过切分来访问属性::
-
-  title = item1['title']
-  item1['title'] = 'new title'
-
+  obj.md['identifier'] 这个也就是文件的编号
+  obj.md['expires'] 对象的失效时间
+  obj.md['effective'] 对象的生效时间
 
 自定义属性
 ---------------
 可自由设置属性，对于需要在日历上显示的对象，通常有如下属性::
 
-  obj.update_md(responsibles = ('users.panjy', 'users.lei'), # 负责人
-                        start = datetime.now(), # 开始时间 
-                        end = datetime.now(), 结束时间
+  obj.md['responsibles'] = ('users.panjy', 'users.lei') # 负责人
+  obj.md['start'] = datetime.now() # 开始时间 
+  obj.md['end'] = datetime.now(), 结束时间
 
 对于联系人类型的对象，通常可以有如下表单属性::
 
-  obj.set_md('mail', 'panjy@foobar.com') #邮件
-  obj.set_md('mobile', '232121') # 手机
+  obj.md['mail'] = 'panjy@foobar.com' #邮件
+  obj.md['mobile'] = '232121' # 手机
 
 经费相关的属性::
 
-  obj.set_md('amount', 211)
+  obj.md['amount'] = 211
 
 地理相关的属性::
 
-  obj.set_md('longitude', 123123.12312) #经度
-  obj.set_md('latitude', 12312.12312) # 纬度
-
-查看全部的属性::
-
-  obj.md_items()
+  obj.md['longitude'] = 123123.12312 #经度
+  obj.md['latitude'] = 12312.12312 # 纬度
 
 属性集
 ---------------
@@ -323,28 +318,28 @@ Schema自定义语义
 
 创建一个属性集::
 
-  obj.new_mdset('archive')
+  obj.mdset.new('archive')
 
 设置一个新的属性集内容::
 
-  obj.set_mdset('archive', {'number':'DE33212', 'copy':33})
+  obj.mdset.set('archive', {'number':'DE33212', 'copy':33})
   
 活动属性集的内的属性值的存取::
 
-  obj.mdset('archive')['number']
-  obj.mdset('archive')['number'] = 'DD222'
+  number = obj.mdset['archive']['number']
+  obj.mdset['archive']['number'] = 'DD222'
 
 也可以批量更改属性值::
 
-  obj.update_mdset('archive', copy=34, number='ES33')
+  obj.mdset['archive'].update(copy=34, number='ES33')
 
 删除属性集::
 
-  obj.remove_mdset('archive')
+  obj.mdset.remove('archive')
 
 查看对象所有属性集::
 
-  obj.list_mdsets()  # 返回： [archive, ]
+  obj.mdset.keys()  # 返回： [archive, ]
 
 对象设置信息
 ----------------
@@ -352,42 +347,47 @@ Schema自定义语义
 
 设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
 
-   container.set_setting(field_name, value)
-   container.get_setting(field_name, default='blabla', inherit=True)
+   container.settings[setting_name]
+   container.settings.get(setting_name, default_value)
 
-如果inherit为True，会自动往上找值，直到站点根。
+   container.settings[setting_name] = 'blabla'
+   container.settings.set(setting_name, 'blabla')
+
+如果需要继承上级容器的设置，可以::
+
+   container.settings.get(setting_name, inherit=True, default=default_value)
 
 具体包括：
 
 1) 和表单相关的设置::
 
-    datacontainer.set_setting('item_schema', ('zopen.sales:query',))   # 包含条目的表单定义
+    datacontainer.settings['item_schema'] = ('zopen.sales:query',)   # 包含条目的表单定义
 
 2) 流程相关的::
 
-    datacontainer.set_setting('item_workflow', ('zopen.sales:query',)): 容器的工作流定义(list)
+    datacontainer.settings['item_workflow'] = ('zopen.sales:query',): 容器的工作流定义(list)
 
 3) 和显示相关的设置::
 
-    container.set_setting('default_view', ('@@table_list')) : 显示哪些列
+    container.settings['default_view'] = ('@@table_list') : 显示哪些列
 
 4) 和属性集相关的设置::
 
-    container.set_setting('item_mdsets', ('archive_archive', 'zopen.contract:contract')) : 表单属性集(list)
+    container.settings['item_mdsets'] = ('archive_archive', 'zopen.contract:contract') : 表单属性集(list)
 
 5) 和阶段相关的设置::
 
-    container.set_setting('item_stage', ('zopen.sales:query',))
+    container.settings['item_stage'] = ('zopen.sales:query',)
 
 6) 容器表格显示列::
 
-    container.set_setting('grid_columns', ('title', 'size', 'created', 'zopen.sales:query',))
+    container.settings['grid_columns'] = ('title', 'size', 'created', 'zopen.sales:query',)
 
 7) 相关的流程，包括容器相关流程和条目相关的流程::
 
-    container.set_setting('item_related_datacontainers', 
-                (root.object_uid(datacontainer1), root.object_uid(datacontainer2)))
-    container.set_setting('container_related_datacontainers', (root.object_uid(datacontainer3),))
+    container.settings['item_related_datacontainers'] =
+                (root.object_uid(datacontainer1), root.object_uid(datacontainer2))
+    container.settings['container_related_datacontainers'] = (root.object_uid(datacontainer3),)
 
 关系
 ================
@@ -685,8 +685,8 @@ flowsheet.active', '活动', '流程单正在处理中'),
 
 注意，标签存放在名字叫做 ``subjects`` 的属性中，可以直接维护::
 
-  context.md('subjects')
-  context.set_md('subjects', ['完成', '部门'])
+  context.md['subjects']
+  context.md['subjects'] = ['完成', '部门']
 
 回收站
 ============
