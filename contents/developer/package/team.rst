@@ -27,7 +27,7 @@ description: 团队是类似项目、工作组等临时组成的团队
 ==========================
 默认应用容器的团队功能是关闭的。可以激活:: 
 
-   appcontainer.set_state('team.active')
+   appcontainer.state.set('team.active')
 
 可以查看容器的团队功能是否激活::
 
@@ -41,7 +41,7 @@ description: 团队是类似项目、工作组等临时组成的团队
 
 一旦项目、工作组结束，团队自动解散, 可以再次关闭团队::
 
-   appcontainer.set_state('team.close')
+   appcontainer.state.set('team.close')
 
 这时候针对团队的授权自动失效。
 

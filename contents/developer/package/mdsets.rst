@@ -53,5 +53,5 @@ description: 自动生成表单、合法性校验，数据存储等
 
 同样可以导入这样一个文件::
 
-  root.packages.import_mdset('zopen.sales:inquery', schema_file_conent)
+  root.packages.import_mdset('zopen.sales:inquery', metadata_file_conent)
 

@@ -128,13 +128,13 @@ web访问地址为::
 添加一个流程容器::
 
   collection = app_container.add_datacontainer(name='plan', 
-                item_schema="zopen.plan:plan",  # 表单的定义
-                )  
+                item_metadata="zopen.plan:plan",  # 表单的定义
+                )
 
 添加一个子应用容器::
 
   sub_container = app_container.add_appcontainer(name='plans', 
-                                                schema="zopen.plan:appcontainer",)
+                                                metadata="zopen.plan:appcontainer",)
 
 注意部署的子应用名字不能重复，可以通过下面的方法选择一个名字(自带加上)::
 
@@ -243,23 +243,23 @@ web访问地址为::
 每个人都有一个工作台个人区，这里是个人自行部署的应用。
 
 
-Schema自定义语义
+Metadata元数据
 =======================
-所有内容对象都可以自定义字段，可以通过 ``schema`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
+所有内容对象都可以自定义字段，可以通过 ``metadata`` 进一步了解对象的详细字段，说明对象编辑、显示和存储信息。
 
-应用容器天气查看，可通过 ``schema`` 来进行应用设置天气区域等字段(软件包zopen.weather的appcontainer表单)::
+应用容器天气查看，可通过 ``metadata`` 来进行应用设置天气区域等字段(软件包zopen.weather的appcontainer表单)::
 
-  appcontainer.schema = ('zopen.weather:appcontainer', )
+  appcontainer.metadata = ('zopen.weather:appcontainer', )
 
 数据容器可能是故障跟踪，有故障跟踪的一些设置项需要定义(软件包zopen.issuetracker的issue_container表单)::
 
-  datacontainer.schema = ('zopen.issuetracker:issue_container', )
+  datacontainer.metadata = ('zopen.issuetracker:issue_container', )
 
 具体的一个故障单数据项，则可能是(软件包zopen.isssuetracker的issue表单)::
 
-  dataitemitem.schema = ('zopen.issuetracker:issue', )
+  dataitemitem.metadata = ('zopen.issuetracker:issue', )
 
-如果这里有多个，表示继承。schema的具体定义和使用，参照 《表单处理》 一节
+如果这里有多个，表示继承。metadata 的具体定义和使用，参照 《表单处理》 一节
 
 对象属性
 ==============================================
@@ -361,7 +361,7 @@ metadata保存在 ``item.md`` 属性中::
 
 1) 和表单相关的设置::
 
-    datacontainer.settings['item_schema'] = ('zopen.sales:query',)   # 包含条目的表单定义
+    datacontainer.settings['item_metadata'] = ('zopen.sales:query',)   # 包含条目的表单定义
 
 2) 流程相关的::
 
@@ -593,10 +593,10 @@ visible: 保密
 
 数据项的状态
 -----------------
-flowsheet.active', '活动', '流程单正在处理中'),
-            State('flowsheet.pending', '暂停', '暂停处理该流程单'),
-            State('flowsheet.abandoned', '废弃', '流程单已被废弃，不可做任何其他处理'),
-            State('flowsheet.finished', '完结', '流程单已经处理完成')),
+- flowsheet.active, '活动', '流程单正在处理中'
+- flowsheet.pending, '暂停', '暂停处理该流程单'
+- flowsheet.abandoned, '废弃', '流程单已被废弃，不可做任何其他处理'
+- flowsheet.finished, '完结', '流程单已经处理完成'
 
 
 数据容器的状态
@@ -608,16 +608,16 @@ flowsheet.active', '活动', '流程单正在处理中'),
 
 状态变化
 ----------------
-使用set_state，来控制对象状态的变化::
+使用 ``state`` ，来控制对象状态的变化::
 
     # 不进行权限检查，直接发布某个文档
-    context.set_state('modify.archived', do_check=False)
+    context.state.set('modify.archived', do_check=False)
     # 设置文件夹为受控，需要检查权限
-    context.set_state('folder.control', do_check=True)
+    context.state.set('folder.control', do_check=True)
 
 也可以得到某个状态::
 
-    context.get_state('visible') # 得到可见状态	
+    context.state.get('visible') # 得到可见状态	
 
 标签组
 ============

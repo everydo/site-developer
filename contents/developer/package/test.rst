@@ -28,7 +28,7 @@ objects是一个yaml格式的站点结构描述文件::
   [ {object_types:
      title:
      description:
-     schema:(,),
+     metadata:(,),
      mdset:(,),
      fields: {''},
      acl_allow:

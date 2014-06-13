@@ -129,7 +129,7 @@ on_validation脚本
 -----
 可以注册一个表单语义，用于数据项、数据容器，或者应用容器::
 
-  root.packages.register_schema('zopen.sales', form_def)
+  root.packages.register_metadata('zopen.sales', form_def)
   
 
 使用表单
@@ -143,12 +143,12 @@ on_validation脚本
 
 如果有需要使用数据容器的关联的表单定义::
 
-  schema = data_container.settings['item_schema'][0]
-  form = root.packages.get_form( schema )
+  metadata = data_container.settings['item_metadata'][0]
+  form = root.packages.get_form( metadata)
 
 也可以得到原始的表单定义json::
 
-  form_json = root.packages.get_schema( schema )
+  form_json = root.packages.get_metadata( metadata)
 
 表单生成和处理
 ------------------
@@ -220,7 +220,7 @@ on_validation脚本
 ====================
 可以导出导入为一个python文件::
 
-  root.packages.export_schema('zopen.sales:inquery')
+  root.packages.export_metadata('zopen.sales:inquery')
 
 示例如下::
 
@@ -289,5 +289,5 @@ on_validation脚本
 
 同样可以导入这样一个文件::
 
-  root.packages.import_schema('zopen.sales:inquery', schema_file_conent)
+  root.packages.import_metadata('zopen.sales:inquery', metadata_file_conent)
 

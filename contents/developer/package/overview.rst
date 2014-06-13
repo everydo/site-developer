@@ -35,11 +35,11 @@ description: 系统架构、接口层次
     sales_chance.pt
   stages/   # 阶段定义
     sales_chance.yaml
-  schemas/ # 表单数据
+  metadata/ # 元数据定义
     sales_chance.yaml
     sales_chance_container.yaml
     appcontainers.yaml # 应用容器设置
-  mdsets/  # 属性集
+  mdsets/  # 属性集定义
     archive.py
   workflows/  # 工作流
     sales_chance.py

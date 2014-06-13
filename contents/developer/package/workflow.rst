@@ -165,7 +165,7 @@ description: 表单和流程操作接口，包括表单自动生成
 每个工作项:
 
 - object_types: (WorkItem, Item)
-- schema: ('zopen.plan:plan',) # 流程名
+- metadata: ('zopen.plan:plan',) # 流程名
 - stati: flowtask.active
 - acl: 
 
