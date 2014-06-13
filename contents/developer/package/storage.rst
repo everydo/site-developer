@@ -345,7 +345,7 @@ metadata保存在 ``item.md`` 属性中::
 ----------------
 通常对于容器会有一系列的设置信息，如显示方式、添加子项的设置、关联流程等等.
 
-设置信息是一个名字叫 ``_settings`` 特殊的属性集，存放一些杂碎的设置信息. 由于使用频繁，提供专门的操作接口::
+由于使用频繁，提供专门的操作接口::
 
    container.settings[setting_name]
    container.settings.get(setting_name, default_value)
