@@ -367,9 +367,9 @@ metadata保存在 ``item.md`` 属性中::
 
     datacontainer.settings['item_workflow'] = ('zopen.sales:query',): 容器的工作流定义(list)
 
-3) 和显示相关的设置::
+3) 默认视图::
 
-    container.settings['default_view'] = ('@@table_list') : 显示哪些列
+    container.settings['default_view'] = ('@@table_list', ) : 默认视图是什么
 
 4) 和属性集相关的设置::
 

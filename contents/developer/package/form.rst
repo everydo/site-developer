@@ -144,7 +144,7 @@ on_validation脚本
 如果有需要使用数据容器的关联的表单定义::
 
   metadata = data_container.settings['item_metadata'][0]
-  form = root.packages.get_form( metadata)
+  form = root.packages.get_metadata_obj( metadata)
 
 也可以得到原始的表单定义json::
 
@@ -155,6 +155,12 @@ on_validation脚本
 最简单的渲染表单方法::
 
   html_form = form.render()
+
+这个是表单输入字段，如果要做一个完整表单，可以::
+
+  "<form>%s %s</form" % (form.render(), form.actions([('form.save', ('保存')]))
+
+``form.actions`` 生成表单的按钮部分，会自动带一个 ``form.submitted`` 的hidden变量识别是否提交表单.
 
 用户提交表单，这时候可以对提交表单数据处理（原始数据放在 ``request_form`` 中)::
 
