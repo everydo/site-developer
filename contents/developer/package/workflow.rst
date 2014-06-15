@@ -117,9 +117,6 @@ description: 表单和流程操作接口，包括表单自动生成
 
 工作项 WorkItem
 =======================
-这是有系统在工作流进行过程中，自行管理的一种对象。
-
-用户不能手工创建，只能通过流程驱动来管理。 
 可以为任何一个数据dataitem，启动一个流程::
 
    dataitem.workitems.start(request=request)

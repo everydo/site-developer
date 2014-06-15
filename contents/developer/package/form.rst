@@ -192,6 +192,10 @@ on_validation脚本
 - pid：如果有需要分用户存储字段，这个是当前用户id
 - options: 动态计算需要的额外参数
 
+这个result可以加入到一个数据容器中::
+
+    datacontainer.add_dataitem(result, name='', request=request):
+
 获取表单的默认值
 -----------------------
 得到表单的初始值::
