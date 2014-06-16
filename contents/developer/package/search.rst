@@ -21,7 +21,6 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - bytes: 大小
 - content_type:   全文的内容类型，对于无法知道的内容类型，以 ``application/x-ext-{ext}`` 来替代
 - metadata: 元数据
-- mdsets: 属性集
 - acl_grant::
 
      {'Reader1': ['users.aa', 'groups.bb'],
@@ -61,6 +60,18 @@ description: 对象数据库和普通的关系数据库不一样，需要手工�
 - file_content:     文件内包含的文本文件，用于全文搜索 
 - allowed_principals:     授权的人
 - disallowed_principals:  禁止的人
+
+下面是分子字段的索引:
+
+- fields: 各个字段的值
+- settings: 设置信息::
+
+     {"defaul_view": 'index',
+      "item_schema": ('zopen.sales:changes', ),
+      "test": {'a':'aa', 'b':'bb'}
+     }
+
+- mdsets: 属性集  
 
 索引维护
 ===============
@@ -134,6 +145,13 @@ QuerySet常用操作：
 
    .anyof(number=['A101', 'C103'], mdset="zopen.archive:archive")
 
+搜索设置信息
+-----------------
+::
+
+   .anyof(default_view=['index', 'tabular'], field="settings")
+   .anyof(aa=['index', 'tabular'], field="settings.default_view")
+
 dict字段
 ------------------------------
 授权信息 acl_grant /acl_deny 等，存放为dict格式，这时候搜索自动名是::
@@ -142,7 +160,7 @@ dict字段
 
 搜索给zhangsan授权Owner的内容::
 
-   QuerySet().anyof(Owner=['users.pan', 'users.zhang'], field='acl_user')
+   QuerySet().anyof(Owner=['users.pan', 'users.zhang'], field='acl_grant')
 
 表单中的分用户存储字段，也是dict类型. 比如搜索属性集archive中的reviewer_comment字段::
 
