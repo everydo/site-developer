@@ -542,6 +542,8 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
   >>> context.revisions.merge(obj)
   
 如果context发生变化，则merge失败。必须手工合并，并且修改fork的revision之后，才能合并。
+如果obj和context之间没有fork关系，则也可以直接保存为新版本。
+merge之后obj不会被删除，如果不需要，可以再次手工删除。
 
 权限控制
 ================
