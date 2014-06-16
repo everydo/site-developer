@@ -421,6 +421,10 @@ metadata保存在 ``item.md`` 属性中::
 
   >>> container.views.get_default()
 
+得到默认视图的url地址::
+
+  >>> container.views.get_default_url(request)
+
 如果没有设置默认视图，则使用第一个可选视图。
 
 关系
