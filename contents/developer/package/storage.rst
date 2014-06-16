@@ -369,7 +369,7 @@ metadata保存在 ``item.md`` 属性中::
 
 3) 默认视图::
 
-    container.settings['default_view'] = ('@@table_list', ) : 默认视图是什么
+    container.settings['default_view'] = ('index', ) : 默认视图是什么
 
 4) 和属性集相关的设置::
 
@@ -388,6 +388,40 @@ metadata保存在 ``item.md`` 属性中::
     container.settings['item_related_datacontainers'] =
                 (root.object_uid(datacontainer1), root.object_uid(datacontainer2))
     container.settings['container_related_datacontainers'] = (root.object_uid(datacontainer3),)
+
+容器视图
+=================
+所有容器都可以进行不同的视图切换，比如:
+
+- 文件夹有列表、缩略图等视图
+- 数据容器有 日历、列表等视图
+
+可以查看所有的可选视图::
+
+  >>> folder.views.items()
+  [('tabular', '内容列表'), ('listing', '摘要清单'),
+   ('thumbnail', '缩略图'), ('taglisting', '分类清单'),
+   ('update', '最近更新'), ('category','纵览列表') ]
+
+  >>> appcontainer.views.items()
+  [('listing', '应用列表'), ('workitems', '流程视图')]
+
+  >>> datacontainer.views.items()
+  [('tabular', '内容列表'), ('calendar', '日历'), ('update', '最近更新')]
+
+设置从其的默认视图::
+
+  >>> container.views.set_default('tabular')
+
+也可以使用软件包中的视图::
+
+  >>> container.views.set_default('zopen.project:overview')
+
+得到默认视图::
+
+  >>> container.views.get_default()
+
+如果没有设置默认视图，则使用第一个可选视图。
 
 关系
 ================
