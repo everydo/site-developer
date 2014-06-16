@@ -417,15 +417,13 @@ metadata保存在 ``item.md`` 属性中::
 
   >>> container.views.set_default('zopen.project:overview')
 
-得到默认视图::
+得到默认视图(如果没有设置默认视图，则使用第一个可选视图)::
 
   >>> container.views.get_default()
 
-得到默认视图的url地址::
+得到某个视图的url地址::
 
-  >>> container.views.get_default_url(request)
-
-如果没有设置默认视图，则使用第一个可选视图。
+  >>> container.views.get_url(view, request)
 
 关系
 ================
@@ -473,51 +471,77 @@ metadata保存在 ``item.md`` 属性中::
 
 版本管理
 ==================
-文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识.
 
-任何对象都可以保存历史版本，一旦保存当前对象的版本号发生变化::
+版本信息查看
+----------------------
+文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识::
 
-   context.revisions.save() # TODO
+   >>> context.revisions.keys(include_temp=True) 
+   [1, 2, 4, 5]
 
-文档每次变更，默认保存为临时版本，临时版本过期会自动清理。
+可得到某个版本信息::
 
-可以降文档定版，一旦定版，版本就是正式版本::
-
-  context.revisions.fix(revision_id=None, major_version=None, minor_version=None) # TODO
-
-- 如果不传revision_id，表示对当前的工作版本进行定版
-- 如果不传 major_version，继续沿用上一个version_number
-- 如果不传 minor_version，自动增长上一个revision_number
-
-可查询工作版本的信息::
-
-  context.revisions.info(revision_id=None) # TODO
-
-如果revision_id为None，表示工作版本。返回::
-
-   {'revision_id' : 12, # 版本ID
-    'major_version' : 1,   # 版本号
-    'minor_version' : 0,  # 版次号
+   >>> context.revisions.info(2)
+   {'revision_id' : 2, # 版本ID
+    'major_version' : '1',   # 版本号
+    'minor_version' : '0',  # 版次号
     'user' : 'users.panjy',  # 版本修改人
     'timestamp' : 12312312.123,  # 版本修改时间
     'comment' : 'some comments',   # 版本说明
    }
 
-其中如果 major_version 为空，表示没有定版。
+得到历史版本对象::
 
-查看所有历史版本信息::
+   >>> obj = context.revisions.get(revision_id=2)
+   >>> obj.revisions.info() # 改对象的版本信息
 
-   context.revisions.list(include_temp=True) 
+head()得到最新的工作版本对象::
 
-返回revision_info的清单
+   >>> obj.revisions.head() is context
 
-得到一个历史版本::
+版本更新
+------------------
+任何对象都可以保存历史版本，一旦保存当前对象的版本号发生变化::
 
-   context.revisions.get(revision_id) # TODO
+   rev = context.revisions.save()
+
+文档每次变更，默认保存为临时版本，临时版本定期会自动清理，不会永久存储。
+
+可以对文档定版打上版本号，一旦定版，版本就是正式版本，可永久存储::
+
+  context.revisions.tag(revision_id=None, major_version=None, minor_version=None)
+
+- 如果不传revision_id，表示对当前的工作版本进行定版
+- 如果不传 major_version，继续沿用上一个version_number
+- 如果不传 minor_version，自动增长上一个revision_number
 
 删除一个版本::
 
-   context.revisions.remove(revision_id) # TODO
+   context.revisions.remove(revision_id)
+
+分支、合并
+----------------
+如果对原始文件没有直接修改权限，则需要通过分支、合并的方法来做。
+
+fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
+
+  >>> obj = context.revisions.fork(container, new_name='')
+
+分支采用关系记录，可以查看所有分支版本::
+  
+  >>> context.relations.list_sources('fork') 
+  >>> obj.relations.list_target('fork')
+
+可以查看当时分支的版本号::
+
+  >>> obj.relations.get_metadata('fork', context)
+  {'revision':2}
+
+编辑完成，可以合并版本::
+
+  >>> context.revisions.merge(obj)
+  
+如果context发生变化，则merge失败。必须手工合并，并且修改fork的revision之后，才能合并。
 
 权限控制
 ================
