@@ -369,7 +369,7 @@ metadata保存在 ``item.md`` 属性中::
 
 3) 默认视图::
 
-    container.settings['default_view'] = ('index', ) : 默认视图是什么
+    container.settings['default_view'] = 'index' # 默认视图是什么
 
 4) 和属性集相关的设置::
 

@@ -255,6 +255,6 @@ render_tags(context, request)     # 标签(参数parent默认False)
 
 如果需要改变默认的视图，只需要::
 
- IAppletData(flow_container).default_view = 'xxx_account.xxx_package.view_foobar_xxx'
+ flow_container.views.set_default('xxx_account.xxx_package:view_foobar_xxx')
 
 
