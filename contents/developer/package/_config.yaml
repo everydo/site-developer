@@ -21,6 +21,8 @@ order: [overview.rst,
 
         rdb.rst, 
         orginfo.rst, 
-        anyflow.rst,
+        front.rst,
         kss.rst, 
-        others.rst]
+        others.rst,
+        anyflow.rst
+        ]

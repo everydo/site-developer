@@ -26,6 +26,14 @@ TODO
 - context: 访问路径的上下文对象
 - request: 请求对象
 
+脚本可以返回一个html文本，也可以返回一个页面布局信息::
+
+    {'left': '',
+     'right': '',
+     'body': '',
+     'title': '',
+     'description': ''}
+
 在脚本中调用脚本
 ====================
 可以这样调用脚本::
@@ -39,6 +47,20 @@ TODO
    root.call_script_async('zopen.api:calc',  aa='blabla', bb='blabla')
 
 注意，异步执行传入的参数，必须是简单参数，不能是复杂的对象。
+
+流程查看视图
+================
+只需使用特殊的python脚本命名前缀，就可实现流程单的多种查看方式。
+
+对于表单的名字 foobar，命名方式为::
+
+ view_foobar_xxx
+
+其中xxx为真正的脚本名称。
+
+如果需要改变默认的视图，只需要::
+
+ flow_container.views.set_default('xxx_account.xxx_package:view_foobar_xxx')
 
 使用代码创建python脚本
 ==============================
@@ -62,10 +84,11 @@ python脚本可以直接通过浏览器调用
 其中template是输出套用的模板：
 
 - standard: 系统标准模版，支持应用权限、编辑和设置
-- blank: 不使用现有模版页首和页脚，但保持现有界面风格
+- blank: 不使用现有模版页首和页脚，但保持现有界面风格, 保留css/js的模板
 - kss: KSS服务脚本
 - json: json api
 - none: 不使用任何模版
+
 
 也可以得到一个代码::
 
