@@ -97,6 +97,41 @@ json定义表单
 - TextComputedField : 公式字段(文本)
 - ReferenceComputedField : 公式字段(链接)
 
+字段属性
+-----------------
+所有字段都公有的属性：
+
+- name: 字段名
+- title: 字段名称
+- description: 说明帮助信息
+- storage: user: 分用户存储；field: 普通存储
+- default_value_exp: 默认值, 表达式
+- read_condition: 查看条件, 表达式
+- write_condition: 修改条件, 表达式
+- required: 是否必填
+
+一些特有：
+
+- multiple: 是否允许多值
+- vocabulary_exp
+- size
+- precision
+- showtime
+- minutestep
+- rows
+- cols
+- rich_text
+- upload: 是否允许上传
+- container_exp
+- is_global
+- search_subtree
+- addrow_condition
+- delrow_condition
+- multiple_selection: -> mutiple
+- selectable_object: persononly, persongroup, grouponly
+- edoclass -> metadata
+- show_info
+
 on_validation脚本
 ----------------------------
 用于校验表单提交值是否合法, 用于多个输入项联合校验::
