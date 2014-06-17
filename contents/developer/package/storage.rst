@@ -400,7 +400,7 @@ metadata保存在 ``item.md`` 属性中::
 
   >>> folder.views.items()
   [('tabular', '内容列表'), ('listing', '摘要清单'),
-   ('thumbnail', '缩略图'), ('taglisting', '分类清单'),
+   ('thumbnail', '缩略图'), ('taggroup', '分类清单'),
    ('update', '最近更新'), ('category','纵览列表') ]
 
   >>> appcontainer.views.items()
@@ -542,7 +542,8 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
   >>> context.revisions.merge(obj)
   
 如果context发生变化，则merge失败。必须手工合并，并且修改fork的revision之后，才能合并。
-如果obj和context之间没有fork关系，则也可以直接保存为新版本。
+
+注意：即便obj和context之间没有fork关系，也可以直接保存为新版本。
 merge之后obj不会被删除，如果不需要，可以再次手工删除。
 
 权限控制
