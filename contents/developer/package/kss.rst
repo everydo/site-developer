@@ -24,18 +24,24 @@ description: 编写ajax交互应用
 
 这个指导思想，让软件包的前端开发更简单、API更持久，未来甚至可以兼容到手机原生界面。
 
+针对这2个需求，我们提供了2套API：
+
+- ui: 生成界面，包括通用基础的、以及系统特有的组件
+- kss: 服务端驱动前端交互变化
+
 示例
 ============
 一个独立的页面::
 
-    return ui.h1('新的表单') + \
-           ui.form(action='', title='', description='')\
+    h1 = ui.h1('新的表单')
+    form = ui.form(action='', title='', description='')\
                     .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors)\
                     .action('save', '保存')\ 
-                    .kss(@zopen.sales:test) +\
-           ui.panel('some help')
+                    .kss(@zopen.sales:test)  # 发起一个服务端kss请求
+    help = ui.div('some help')
+    return h1 + form + help
 
-kss处理::
+kss请求提交到服务端，处理数据，并驱动前端UI::
 
   h1 = ui.h1('新的表单')
   form = ui.form(action='', title='', description='')\
@@ -79,9 +85,23 @@ kss处理::
 --------------
 ::
 
-   pannel = ui.pannel()\
+   pannel = ui.div()\
                 .add(form)\  # 增加一个表单对象
                 .add(button) # 再增加一个按钮
+
+下拉菜单
+-------------
+::
+
+  ui.dropmenu()
+
+标签页
+--------------------
+::
+
+  ui.tabs()\
+        .tem()
+
 
 导航树
 ------------
@@ -123,19 +143,6 @@ children 值为None,不会出现展开图标。没有children表示用于Ajax展
 
    ui.batch(context, request, batch)
 
-下拉菜单
--------------
-::
-
-  ui.dropmenu()
-
-标签页
---------------------
-::
-
-  ui.tabs()\
-        .tem()
-
 内置功能按钮
 ------------------
 关注按钮::
@@ -150,9 +157,17 @@ children 值为None,不会出现展开图标。没有children表示用于Ajax展
 
     ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
 
-可选视图菜单::
+新建流程::
 
-    ui.views_menu(context, request)
+   ui.buttons.new_dataitem(datacontainer, title='发起新流程')
+
+文件、流程、文件夹的遮罩查看::
+
+   ui.buttons.preview(obj, title='发起新流程')
+
+可选视图菜单按钮::
+
+   ui.buttons.views(context, request)
 
 内置面板
 -----------------
@@ -172,19 +187,11 @@ children 值为None,不会出现展开图标。没有children表示用于Ajax展
 
     ui.portlets.tag_groups(context, request)     # 标签组面板
 
-内置视图
+内置链接
 ==================
-新建流程::
-
-   ui.new_dataitem_button(datacontainer, title='发起新流程')
-
-文件、流程、文件夹的遮罩查看::
-
-   ui.preview_button(obj, title='发起新流程')
-
 查看个人的profile::
 
-   ui.profile_link(pid)
+   ui.links.profile(pid)
 
 服务端kss请求处理
 ====================
@@ -195,8 +202,8 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
 站点提示信息::
 
-   kss.issuePortalMessage(message, msgtype='info', )
-   kss.issuePortalMessage(message, msgtype='error', )
+   kss.message(message, type='info', )
+   kss.message(message, type='error', )
 
 跳转, 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
