@@ -41,6 +41,10 @@ description: 编写ajax交互应用
     help = ui.div('some help')
     return h1 + form + help
 
+上面返回的是界面对象，我们会根据前端的类型（web、手机、桌面应用）自动适配，当然也可以只返回html::
+
+    return h1.html() + form.html() + help.html()
+
 kss请求提交到服务端，处理数据，并驱动前端UI::
 
   h1 = ui.h1('新的表单')
