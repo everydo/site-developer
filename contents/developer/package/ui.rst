@@ -35,8 +35,10 @@ description: 编写ajax交互应用
 
     h1 = ui.h1('新的表单')
     form = ui.form(action='', title='', description='')\
-                    .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors)\
-                    .action('save', '保存')\ 
+                    .fields([{'name':'title', type="input"}], 
+                            data={'title':'the title'}, 
+                            errors=errors)\
+                    .action('save', '保存')\
                     .kss(@zopen.sales:test)  # 发起一个服务端kss请求
     help = ui.div('some help')
     return h1 + form + help
@@ -49,9 +51,9 @@ kss请求提交到服务端，处理数据，并驱动前端UI::
 
   h1 = ui.h1('新的表单')
   form = ui.form(action='', title='', description='')\
-                .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors)\
+                .fields({'name':'title', type="textline"}, data={'title':'the title'}, errors=errors)\
                 .action('save', '保存')\
-                .kss(@zopen.sales:test)
+                .kss('@zopen.sales:test')
   kss.modal(h1 + form)
 
 ui 元素
@@ -72,9 +74,17 @@ ui 元素
 前面表单一章，表单生成的描述::
 
    form = ui.form(action='', title='', description='')\  # 表单的标题和action
-                .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors).\
+                .fields({'name':'title', type="textline"}, data={'title':'the title'}, errors=errors).\
                 .action('save', '保存')\ # 增加一个按钮
-                .kss(@zopen.sales:test)  # kss表单，而不是普通的表单
+                .kss('@zopen.sales:test')  # kss表单，而不是普通的表单
+
+其中fields的书写方法，见 ``表单处理`` 
+
+输入控件
+-----------------
+只显示一个控件::
+
+   input = ui.field({'name':'title', type='textline'})
 
 按钮
 ----------------------
