@@ -217,11 +217,10 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
 选择器
 -----------------
-::
+可以类似jquery选择对象进行操作, 选择方法和jquery完全相同::
 
-    kss.select("#content")
-    kss.closet("div").find('dd')
-    kss.select("#content").closet("div").find('dd')
+    kss.select("#content")   # 直接css定位
+    kss.closet("div").find('dd')  # 采用漫游traves的方法
 
 清空某个输入项::
 
@@ -241,6 +240,6 @@ ShowHide模式
 
 由服务器再次触发一次ShowHide操作::
 
-  kss.actionShowHide()
-  kss.closet('.KSSShowHideAction').actionShowHide()
+  kss.showhide()
+  kss.closet('.KSSShowHideAction').showhide()
 
