@@ -6,6 +6,12 @@ description: 界面显示相关的一些组件
 .. Contents::
 .. sectnum::
 
+内置视图
+==================
+新建一个流程表单::
+
+   <a class="kss" 
+      href="path/to/datacontainer/@@issue_workflow_show">发起新流程</a>
 
 界面组件
 ==================

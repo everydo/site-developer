@@ -39,24 +39,20 @@ KSS交互
 点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
 
  <a class="kss"
-    href="zopen.sales:test"
-    kss="node:'div|.profile', param1='', param2=''}"> 
-        click me </a>
+    href="@zopen.sales:test"
+    kss:param1="" kss:param2=""> click me </a>
 
 其中:
 
-- ``class="kss"`` 表示发起kss请求
-- ``kss`` 属性，表示后面是相关的数据
-
-  - url: 指定action-server的链接，是必需的
-  - node: 当前节点是什么
-  - param1,param2: 向服务端发起的参数，如果没有需要可以不写. 
+- ``class="kss"`` : 表示发起kss请求
+- ``href="@zopen.sales:test"`` : 指定action-server的链接，是必需的
+- ``kss:param1`` ``kss:param2`` : 向服务端发起的参数，如果没有需要可以不写. 
 
 表单
 -----
 把表单的内容，发给扩展软件包zopen.sales的test脚本::
 
- <form action="zopen.sales:test" class="kss">
+ <form action="@zopen.sales:test" class="kss">
  </form>
 
 js函数
@@ -93,13 +89,12 @@ kss.clear
 kss.addSectionOption
     给select添加option
 
-
 选择器
 -----------------
-parentnodecss('tr|.kk')
+kss.parentnodecss('tr|.kk')
     父节点下的某个css，如果是形式 table|*pageid ，则会先从kss属性中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
 
-parentnodenextnode('tr')
+kss.parentnodenextnode('tr')
     父节点的下一个节点
 
 Close模式
@@ -109,7 +104,6 @@ Close模式
 交互过程
 -----------------------
 1. 点击关闭某个区域
-
 2. 点击，隐藏区域A(.KSSCloseArea)，然后删除区域A中的需要删除的区域(.KSSDeleteItem)
 
 典型使用场景
@@ -164,7 +158,7 @@ DOM结构
 --------------------
 由服务器再次触发一次ShowHide操作::
 
- kss.actionShowHide()
+  kss.actionShowHide()
 
 鼠标移动Hover模式
 =========================
@@ -275,7 +269,6 @@ XXX
 ::
 
   kss.showTabPage(page_html)
-
 
 ContentForm模式
 ======================
