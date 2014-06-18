@@ -155,8 +155,16 @@ listInstances(skip_cache=False):
 
 审核(上下级)相关
 ................
-lookupReviewer( user_id, reviewer_table, step=''):
+lookupReviewer(pid, reviewer_table, step=''):
      查找审核人，通过审核人表来查找，主要在流程中使用
+
+``reviewer_table`` 应该是一个三列的动态表格：
+
+- step: (步骤，可选，限制某个步骤，单行文本),
+- reviewer（审核人，人员选择，）
+- members（审核人，人员选择，可选择人和组）
+
+用户id优先级，高于组id优先级，先找用户id, 找不到再找组id
 
 同步接口
 .................

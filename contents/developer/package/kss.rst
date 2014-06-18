@@ -1,65 +1,190 @@
 ---
-title: KSS交互
+title: 前端组件和交互
 description: 编写ajax交互应用
 ---
 
 ====================
-KSS交互
+前端组件和交互
 ====================
 
 .. Contents::
 .. sectnum::
 
-使用kss，无须编写javascript，便可编写前端ajax界面. 
+``一切皆python``, 这是前端的指导思想：
 
-问题:
+1. 使用python来输出UI
 
-1. 编写ajax页面，过于复杂，需要懂javascript，而且前后端交互非常麻烦
-2. 前端技术变化非常快，各种MVC框架，各种开发模式，前端框架的变化，导致应用需要重写
-3. 手机版，出于性能考虑，需要原生界面
+   - 无需了解前端UI框架的html细节
+   - 前端UI框架的更替，对软件包毫无影响
 
-解决方法：
+2. 使用python来驱动交互
 
-- 根据前端的类型，在服务器采用python生成需要的js或者json命令
-- 前端解释执行这些命令
-- 服务端的UI操作逻辑，可以使用DOM, 但是尽量不能和html绑太死
+   - 无需懂javascript，便可编写前端ajax界面
+   - 前端框架的选择更替，对软件包毫无影响
 
-好处：
+这个指导思想，让软件包的前端开发更简单、API更持久，未来甚至可以兼容到手机原生界面。
 
-- 无需学习js便可写出ajax应用
-- 学习曲线非常平滑
-- 前端框架变化，不影响
+示例
+============
+一个独立的页面::
 
-向服务端发起KSS请求
+    return ui.h1('新的表单') + \
+           ui.form(action='', title='', description='')\
+                    .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors)\
+                    .action('save', '保存')\ 
+                    .kss(@zopen.sales:test) +\
+           ui.panel('some help')
+
+kss处理::
+
+  h1 = ui.h1('新的表单')
+  form = ui.form(action='', title='', description='')\
+                .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors)\
+                .action('save', '保存')\
+                .kss(@zopen.sales:test)
+  kss.modal(h1 + form)
+
+向服务端发起请求
 =========================
-分连接和表单和js这3种
+分链接和表单和js这3种
 
 链接
 --------------------------
-点击触发kss请求的DOM结构要求, 可以给链接或者button设置::
+::
 
- <a class="kss"
-    href="@zopen.sales:test"
-    kss:param1="" kss:param2=""> click me </a>
+  link = ui.link('click me', 'http://google.com')\    # 创建一个连接
+                .kss('@zopen.sales:test?param1=xx&param2=xxx')  # 发起kss请求
+                .loading('请稍等...')  # 点击发起kss之后，显示正在加载
 
-其中:
-
-- ``class="kss"`` : 表示发起kss请求
-- ``href="@zopen.sales:test"`` : 指定action-server的链接，是必需的
-- ``kss:param1`` ``kss:param2`` : 向服务端发起的参数，如果没有需要可以不写. 
+其中kss表示，点击此链接，将向服务器发起一个ajax请求。
 
 表单
 -----
-把表单的内容，发给扩展软件包zopen.sales的test脚本::
+前面表单一章，表单生成的描述::
 
- <form action="@zopen.sales:test" class="kss">
- </form>
+   form = ui.form(action='', title='', description='')\  # 表单的标题和action
+                .fields({'name':'title', type="input"}, data={'title':'the title'}, errors=errors).\
+                .action('save', '保存')\ # 增加一个按钮
+                .kss(@zopen.sales:test)  # kss表单，而不是普通的表单
 
-js函数
-----------------
-在javascript中发送kss请求::
+按钮
+----------------------
+::
 
-   kss(node, url, parms)
+   button = ui.button('发起新流程')\   # 按钮的连接
+            .kss('@@issue_workflow_show')\  # 发起kss请求
+            .loading('请稍等...')  # 点击发起kss之后，显示正在加载
+
+面板
+--------------
+::
+
+   pannel = ui.pannel()\
+                .add(form)\  # 增加一个表单对象
+                .add(button) # 再增加一个按钮
+
+导航树
+------------
+::
+
+   navtree = ui.navtree(link_pattern='', 
+                        kss_pattern='', 
+                        expand_pattern='',  
+                        data=[
+                           {'title': 'level1_root',
+                            'uid':'23423',
+                            'icon': '',
+                            'children': [ {
+                                 'title': 'level1_1',
+                                 'uid': '1231231',
+                                 'icon': '',
+                                 'children':[], },
+                                {'title': 'level1_2',
+                                 'uid': '1312312',
+                                 'icon': '',
+                                 'children': [ {
+                                       'title':'level2_1',
+                                       'uid': '23123',
+                                       'icon':'',
+                                       'children':[], },
+                               ] } ] ])
+
+children 值为None,不会出现展开图标。没有children表示用于Ajax展开。
+
+文件预览
+----------
+::
+
+   ui.file_preview()
+
+分页条
+----------
+::
+
+   ui.batch(context, request, batch)
+
+下拉菜单
+-------------
+::
+
+  ui.dropmenu()
+
+标签页
+--------------------
+::
+
+  ui.tabs()\
+        .tem()
+
+内置功能按钮
+------------------
+关注按钮::
+
+  ui.buttons.subscribe(context, request)
+
+授权按钮::
+
+  ui.buttons.permission(context, request)
+
+关注按钮::
+
+    ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
+
+可选视图菜单::
+
+    ui.views_menu(context, request)
+
+内置面板
+-----------------
+通知方式面板::
+
+    ui.portlets.notification(context, request)     # 通知方式面板
+
+关注面板::
+
+    ui.portlets.subscription(context, request)    # 关注面板
+
+评注区域::
+
+    ui.portlets.comment(context, request)        # 评注组件
+
+标签组面板::
+
+    ui.portlets.tag_groups(context, request)     # 标签组面板
+
+内置视图
+==================
+新建流程::
+
+   ui.new_dataitem_button(datacontainer, title='发起新流程')
+
+文件、流程、文件夹的遮罩查看::
+
+   ui.preview_button(obj, title='发起新流程')
+
+查看个人的profile::
+
+   ui.profile_link(pid)
 
 服务端kss请求处理
 ====================
@@ -70,51 +195,33 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
 站点提示信息::
 
-      kss.issuePortalMessage(message, msgtype='info', )
-      kss.issuePortalMessage(message, msgtype=‘error', )
+   kss.issuePortalMessage(message, msgtype='info', )
+   kss.issuePortalMessage(message, msgtype='error', )
 
 跳转, 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
    kss.redirect(url, taget)
 
+显示一个modal窗口
+------------------------
 遮罩方式显示一个表单::
 
-    form = init_form(form_json)
-    content = kss.render_form(form, errors=errors, title, action, action_url, id, class)
-    kss.dialogModal(content, focus=True, fixed=False, async=True, width=600, mode=None)
-
-kss.clear
-    清除
-
-kss.addSectionOption
-    给select添加option
+   kss.modal(form, width=600)
 
 选择器
 -----------------
-kss.parentnodecss('tr|.kk')
-    父节点下的某个css，如果是形式 table|*pageid ，则会先从kss属性中获取到pagid的值作为css(如果css中包括空格，则用 * 代理)
+::
 
-kss.parentnodenextnode('tr')
-    父节点的下一个节点
+    kss.select("#content")
+    kss.closet("div").find('dd')
+    kss.select("#content").closet("div").find('dd')
 
-常见交互模式
-===============
+清空某个输入项::
 
-Close模式
----------------
-点击某个链接，关闭某个区域. 使用场景非常多:
-
-1. 弹出消息
-2. 人员删除
-
-交互过程：
-
-1. 点击界面元素 ``.KSSCloseAction``
-2. 从点击处向上找到区域 ``.KSSDeleteArea`` , 如果存在，删除之
-3. 从点击处向上找到区域 ``.KSSCloseArea`` , 如果存在，删除此区域下的 ``.KSSDeleteItem`` 区域
+   kss.closet("#input").clear()
 
 ShowHide模式
-------------------
+======================
 纯client端的展开/收缩切换，所有右侧面板，均采用这个模式
 
 交互过程:
@@ -128,45 +235,5 @@ ShowHide模式
 由服务器再次触发一次ShowHide操作::
 
   kss.actionShowHide()
-
-KSSDefault模式
-------------------------
-kss默认是禁止preventdefault的，这个可以打开
-
-比如点击链接的时候，执行关闭操作，同时进入某个链接。
-
-只需要在class中增加 KSSDefault即可
-
-Tab模式
------------
-一组标签按钮的选中状态切换 , 使用场景:
-
-1. 右侧的功能选择按钮，比如文件的上传、编写、创建文件夹等。
-2. 上方的按钮
-3. 任务展开的下方操作功能区
-
-交互过程:
-
-1. 点击一个 ``.KSSTabItem`` ，进入选中状态 ``.KSSTabSelected``
-2. 向上找到区域 ``.KSSTabArea`` , 此区域找到所有的其他的 ``.KSSTabItem`` ，设置为未选中 ``.KSSTabPlain``
-
-TabPage模式
---------------------
-是Tab模式的扩展，支持页面的切换。 使用场景
-
-1. 上方的功能切换
-2. 任务展开页面的操作
-
-交互模式:
-
-1. 点击某个tab
-2. tab变成选中
-3. tab页面开始显示正在加载
-4. 加载页面完成，正在加载去除
-5. 切换tab，页面隐藏，显示正在加载
-6. 点击关闭链接，可关闭当前的tab页面，同时tab标签也不选中
-
-服务端使用方法::
-
-  kss.showTabPage(page_html)
+  kss.closet('.KSSShowHideAction').actionShowHide()
 
