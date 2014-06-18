@@ -54,9 +54,8 @@ kss请求提交到服务端，处理数据，并驱动前端UI::
                 .kss(@zopen.sales:test)
   kss.modal(h1 + form)
 
-向服务端发起请求
+ui 元素
 =========================
-分链接和表单和js这3种
 
 链接
 --------------------------
@@ -192,24 +191,28 @@ children 值为None,不会出现展开图标。没有children表示用于Ajax展
     ui.portlets.tag_groups(context, request)     # 标签组面板
 
 内置链接
-==================
+--------------
 查看个人的profile::
 
    ui.links.profile(pid)
 
-服务端kss请求处理
+kss交互命令
 ====================
 
 在软件包里面, 创建一个python脚本，将模板设置为 kss 即可.
 
 kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
+站点消息提示
+-----------------
 站点提示信息::
 
    kss.message(message, type='info', )
    kss.message(message, type='error', )
 
-跳转, 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
+跳转
+---------
+参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
    kss.redirect(url, taget)
 
