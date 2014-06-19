@@ -28,37 +28,37 @@ json定义表单
     'on_validation': "", # 字段正确性整体校验脚本
     "fields" : [     # 所有的字段
             {"name":"title",
-              "type":"TextLineField", 
+              "type":"TextLine", 
               "title":'任务标题', },
             { "name":'description': 
-               "type": "TextField",       
+               "type": "Text",       
                "title":'任务说明',      
                "rows":3, },
             {"name": "start,
-              "type": "DateField",
+              "type": "Date",
               "title": '开始时间',},
             { "name":"end",
-              "type": "DateField",
+              "type": "Date",
               "title": '结束时间',},
             { "name":"level",
-              "type": "IntegerField",
+              "type": "Integer",
               "title": '任务等级',
               "size":18,},
             {"name":"responsibles",
-             "type":"PersonSelectField",
+             "type":"PersonSelect",
              "title":'负责人', 
              "validation_expr":"not value and '需要一名检查人'",
             } 
             {"name":"reviewers",
-             "type":"GrowingTableField",
+             "type":"GrowingTable",
              "title":'审核人', 
              "fields": [
                 {"name":"title",
-                 "type":"TextLineField"
+                 "type":"TextLine"
                  "title""标题",
                 },
                 {"name":"description",
-                 "type":"TextField"
+                 "type":"Text"
                  "title""描述",
                 },
              ]
@@ -69,33 +69,31 @@ json定义表单
 
 表单由各种字段组成:
 
-- IntegerField : 整数
-- TextField : 文本框
-- TextLineField : 单行文本框
-- FixedPointField : 小数
-- PasswordField : 密码
-- ReferenceField : 文件选择
+- Integer: 整数
+- Text: 文本框
+- TextLine: 单行文本框
+- FixedPoint: 小数
+- Password: 密码
+- FileSelect: 文件选择
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
 
-- FileField  : 文件上传
-- SelectField : 选择框，如果multiple=True多选，否则单选
-- BooleanField : bool字段
-- LinesField : 多行字段, list
-- DateField : 日期字段
-- GrowingTableField: 动态表格字段，有几个特殊参数可以利用:
+- Select: 选择框，如果multiple=True多选，否则单选
+- Boolean: bool字段
+- Lines: 多行字段, list
+- Date: 日期字段
+- GrowingTable: 动态表格字段，有几个特殊参数可以利用:
 
   - row_index : 当前是第几行
   - this_row : 当前行的数据，是一个dict ，{field_name:value}
 
-- PersonSelectField : 人员选择
-- FolderSelectField : 文件夹选择
-
-- IntegerComputedField : 公式字段(整数)
-- FloatComputedField : 公式字段(浮点)
-- ListComputedField : 公式字段(多值)
-- TextComputedField : 公式字段(文本)
-- ReferenceComputedField : 公式字段(链接)
+- PersonSelect: 人员选择
+- LocationSelect: 位置选择(可选择站点任何一个地方)
+- FolderSelect: 文件夹选择
+- DataItemSelect: 表单选择
+- DataContainerSelect: 表单容器选择 
+- TagSelect: 标签组选择
+- Computed: 公式字段
 
 字段属性
 -----------------
