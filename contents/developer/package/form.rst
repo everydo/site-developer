@@ -171,18 +171,23 @@ on_validation脚本
 ----------------
 如果有需要使用数据容器的关联的表单定义::
 
-  metadata = data_container.settings['item_metadata'][0]
-  form_json = root.packages.get_metadata( metadata)
+  form_name = data_container.settings['item_metadata'][0]
+  form = root.packages.get_metadata_obj( form_name)
+
+或者::
+
+  form_json = root.packages.get_metadata( form_name)
+  form = init_form(form_json) 
 
 表单生成和处理
 ------------------
 最简单的渲染表单方法::
 
-  form = ui.form(action='', title='', description='')\
-                .fields(form_json['fields'])\
-                .action('form.save', '保存')\
-                .kss('@zopen.sales:test')
-  html = form.html()
+  html_form = form.render()
+
+这个是表单输入字段，如果要做一个完整表单，可以::
+
+  "<form>%s %s</form" % (form.render(), form.buttons([('form.save', ('保存')]))
 
 用户提交表单，这时候可以对提交表单数据处理（原始数据放在 ``request_form`` 中)::
 
@@ -192,15 +197,11 @@ on_validation脚本
 
 如果发现错误, 需要提示用户重新提交::
 
-  form = ui.form(action='', title='', description='')\
-                .fields(form_json['fields'], reqeust.form, errors=errors)\
-                .action('form.save', '保存')\
-                .kss('@zopen.sales:test')
-  html = form.html()
+  html_form = form.render(request.form, errors=errors)
 
 ``ui.form.fields`` 完整API::
 
-    ui.form().fields(fields_json, data={}, template=None, edit_fields=None, omit_fields=(), errors={}, **options):
+   form.render(data={}, template=None, edit_fields=None, omit_fields=(), errors={}, **options):
 
 - data: 存放各字段初始值
 - edit_fields 需要编辑的字段，如果不是编辑字段，则自动渲染为只读形式
@@ -209,7 +210,7 @@ on_validation脚本
 - template: 个性化的模板
 - options: 动态计算需要的额外参数
 
-``ui.form.submit`` 完整API::
+``form.submit`` 完整API::
 
     errors, result = form.submit(request_form, fields=None, check_required=True, pid=None, **options)
 
