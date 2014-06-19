@@ -127,9 +127,9 @@ json定义表单
 - search_subtree
 - addrow_condition
 - delrow_condition
-- multiple_selection: -> mutiple
+- mutiple
 - selectable_object: persononly, persongroup, grouponly
-- edoclass -> metadata
+- metadata
 - show_info
 
 on_validation脚本

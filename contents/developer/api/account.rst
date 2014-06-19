@@ -22,12 +22,12 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入：
 
 - account
-- user_id
+- user
 
 返回::
    
     {'account' :
-     'user_id' :
+     'user' :
      'roles'   : ['AccountAdmin'], }
 
 这里的roles，是用户在账户管理中的全局组, 比如 ``AccountAdmin`` 就是账户管理员.
@@ -39,13 +39,13 @@ description: 应用的创建、服务级别切换、缴费、管理员设置等
 输入：
 
 - account
-- role_id
+- role
 
 返回::
    
     {'account' : 'zopen',
      'role' : 'AccountAdmin',
-     'user_ids'   : ['zhangsan', 'lisi'], }
+     'users'   : ['zhangsan', 'lisi'], }
 
 实例管理
 ===================

@@ -9,10 +9,11 @@ description: 访问其他的服务
 
 系统包括多个服务，可以使用当前用户身份去访问这些服务::
 
-  client = root.get_client(applicaiton, instance)
+  client = root.get_client(request, applicaiton, instance)
 
 其中 application 可以为:
 
+- workonline: 工作平台
 - viewer: 云查看
 - oc: 运营中心
 - org: 账户组织结构

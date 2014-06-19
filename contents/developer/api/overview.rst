@@ -163,6 +163,6 @@ access_token
 
    {'app_id'  : 'workonline',
     'account' : 'zopen',
-    'user_id' : 'test',
+    'user' : 'test',
     }
 
