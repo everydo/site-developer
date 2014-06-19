@@ -63,9 +63,13 @@ objects是一个yaml格式的站点结构描述文件::
 ----------------------
 返回测试结果::
 
-  return testcase.get_result()
+  return testcase.get_results()
 
 返回测试结果的列表::
 
  [ {title:"某某测试", result:true/false} ] 
+
+可以直接打印出结果::
+
+  return testcase.render_result()
 
