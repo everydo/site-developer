@@ -63,7 +63,7 @@ ui 元素
 --------------------------
 ::
 
-  link = ui.link('click me', 'http://google.com')\    # 创建一个连接
+  link = ui.link('click me', href='http://google.com')\    # 创建一个连接
                 .kss('@zopen.sales:test?param1=xx&param2=xxx')  # 发起kss请求
                 .loading('请稍等...')  # 点击发起kss之后，显示正在加载
 
@@ -84,7 +84,7 @@ ui 元素
 -----------------
 只显示一个控件::
 
-   input = ui.field({'name':'title', type='textline'})
+   input = ui.field(name='title', type='TextLine')
 
 按钮
 ----------------------
