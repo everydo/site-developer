@@ -248,7 +248,7 @@ on_validation脚本
 
 - object_types':['DataItem'], # 语义定义用于的对象类型
 - tag_groups: 所在容器的标签组设置
-- on_save": 表单保存的时候, 会触发调用on_update, 这个方法和on_validatation脚本类似。但是调用这个参数的时候，对象数据保存了。
+- on_update": 表单保存的时候, 会触发调用on_update, 这个方法和on_validatation脚本类似。但是调用这个参数的时候，对象数据保存了。
 - related_workflow':'zopen.sales:sales' 这个表单关联的流程定义
 - realted_datacontainer':'zopen.sales:sales_container',  关联的容器设置
 - related_stage':'zopen.sales:sales', 关联的阶段定义
