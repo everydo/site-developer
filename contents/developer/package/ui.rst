@@ -176,7 +176,7 @@ ui布局组件
 --------------
 ::
 
-   pannel = ui.pannel(form, button)
+   pannel = ui.pannel(form, button).horizon()
 
 显示一个modal窗口
 ------------------------
@@ -282,4 +282,11 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
    @zopen.test:refresh?event=dateitem-change&uid=1312&title=123123
 
 在 ``zopen.test:refresh`` 中做事件处理
+
+前端脚本
+==============
+可以直接写python来执行前端逻辑，python会解释生成前端需要的语言，比如javascript::
+
+   ui.button('aa').on('click', "process_click")')
+   ui.script('zopen.tests:python/base.py')
 
