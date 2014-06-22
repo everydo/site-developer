@@ -93,26 +93,27 @@ description: 如果定制一个可高度自定义的流程
 
 流程设置的约定
 =========================
-设置需要包括2个字段:
+设置需要包括2个字段
 
-- 自定义步骤: steps (动态表格)
+自定义步骤: steps
+----------------------
+这是一个动态表格
 
-  - title: 步骤名
-  - step_type: 类型
+- title: 步骤名
+- step_type: 类型
 
-    - 审核
-    - 指定审核人
+- 审核
+- 指定审核人
 
-  - responsible: 审核人查找方式
+- responsible: 审核人查找方式
 
-    - review_table: 查审核人表
-    - creators: 创建人审核
-    - handwork: 手工指定人，必填
-    - handwork_optional: 手工指定人，可选。如果没有指定跳过该步骤
+- review_table: 查审核人表
+- creators: 创建人审核
+- handwork: 手工指定人，必填
+- handwork_optional: 手工指定人，可选。如果没有指定跳过该步骤
 
-  - 通过条件 condition
+- 通过条件 condition
 
-- 审核人表：reviewers
 
 具体::
 
@@ -161,6 +162,11 @@ description: 如果定制一个可高度自定义的流程
             name=u'condition'
             ), ]
     ) ,
+
+审核人表：reviewers
+---------------------------
+::
+
     GrowingTableField(
         title=u'审批人表',
         description=u'根据提交人所在的范围，确定步骤的审批人。同一步骤，可设置多行审批人: 不同审批人，负责审批不同的部门',
@@ -206,7 +212,7 @@ description: 如果定制一个可高度自定义的流程
 
 自定义审核步骤的前一步
 ----------------------------
-- 触发操作脚本, 计算下一步信息(存放在context['_next_step']中)::
+触发操作脚本, 计算下一步信息(存放在context['_next_step']中)::
 
      next_step = IUserDefinedSteps(container).calc_next_step(context)
      if next_step is None:
@@ -243,27 +249,15 @@ description: 如果定制一个可高度自定义的流程
 ---------------------
 步骤名必须为review
 
-- 步骤进入条件::
+- 步骤进入条件: ``context.get('_next_step')``
 
-      context.get('_next_step')
+- 进入步骤触发脚本，设置当前任务的名称: ``task.title = context['_next_step']['title']``
 
-- 触发脚本
+- 执行人: ``context['_next_step']['responsibles']``
 
-设置当前任务的名称::
+- 审核通过操作, 通过条件: ``IUserDefinedSteps(container).finish_condition(context, task, u'通过')``
 
-    task.title = context['_next_step']['title']
-
-- 执行人::
-
-    context['_next_step']['responsibles']
-
-- reviewer步骤 -> 审核通过操作 
-
-  - 通过条件::
- 
-        IUserDefinedSteps(container).finish_condition(context, task, u'通过')
-
-  - 触发脚本::
+- 操作触发脚本::
 
      if 'flowtask.finished' in task.stati:
         next_step = IUserDefinedSteps(container).calc_next_step(context,
@@ -283,7 +277,6 @@ description: 如果定制一个可高度自定义的流程
         responsibles=u"context['_next_step']['responsibles']",
         trigger=ur"""
         task.title = context['_next_step']['title']
-        return root.call_script('zopen.review:reviewing_started', task=task, context=context, request=request, container=container)
         """,
     actions=[
 
@@ -294,7 +287,6 @@ description: 如果定制一个可高度自定义的流程
             nextsteps=[u'review'],
             finish_condition=u"IUserDefinedSteps(container).finish_condition(context, task, u'通过')",
             trigger=ur"""
-            error = root.call_script('zopen.review:reviewing_passed', context=context, request=request, container=container)
             if error: return error
             if 'flowtask.finished' in task.stati:
                 root.call_script('zopen.review:finish_step', task=task, context=context, request=request, container=container)
