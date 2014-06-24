@@ -38,7 +38,7 @@ description: 编写ajax交互应用
 
     h1 = ui.h1('新的表单')
     form = ui.form(action='', title='', description='')\
-                    .fields([{'name':'title', type="input"}], 
+                    .fields(form_def,
                             data={'title':'the title'}, 
                             errors=errors)\
                     .button('save', '保存')\
@@ -54,7 +54,7 @@ kss请求提交到服务端，处理数据，并驱动前端UI::
 
   h1 = ui.h1('新的表单')
   form = ui.form(action='', title='', description='')\
-                .fields({'name':'title', type="textline"}, data={'title':'the title'}, errors=errors)\
+                .fields(form_def, data={'title':'the title'}, errors=errors)\
                 .button('save', '保存')\
                 .kss('@zopen.sales:test')
   kss.modal(h1 + form)
@@ -77,7 +77,7 @@ ui 元素
 前面表单一章，表单生成的描述::
 
    form = ui.form(action='', title='', description='')\  # 表单的标题和action
-                .fields({'name':'title', type="textline"}, data={'title':'the title'}, errors=errors).\
+                .fields(form_def, data={'title':'the title'}, errors=errors).\
                 .action('save', '保存')\ # 增加一个按钮
                 .kss('@zopen.sales:test')  # kss表单，而不是普通的表单
 
@@ -100,19 +100,16 @@ ui 元素
 
 可选的size: lg, sm, xs
 
-
 下拉菜单
 -------------
 ::
 
-  ui.dropdown( ui.button('hello') )
-                .append(ui.menuitem('aaa', url='google.com').kss('@zopen.test:tt'))
-                .append(ui.divider())
-                .append(ui.menuitem('bbbb').disable())
+  menu = ui.menu().append('aaa', url='google.com', kss='@zopen.test:tt')
+           .separate()
+           .append('bbb', url='google.com', kss='@zopen.test:tt')
 
-::
-
-  ui.dropup(...
+  button.dropdown(menu)
+  button.dropup(menu)
 
 按钮组
 ---------------
@@ -260,6 +257,15 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 清空某个输入项::
 
    kss.closet("#input").clear()
+
+操作历史
+---------------
+::
+
+   kss.history.push_state(data, title)
+   kss.history.replace_state(data, title)
+   kss.history.back()
+   kss.history.go(2)
 
 跳转
 ---------
