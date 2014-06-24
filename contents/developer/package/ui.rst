@@ -67,7 +67,7 @@ ui 元素
 ::
 
   link = ui.link('click me', href='http://google.com')\    # 创建一个连接
-                .kss('@zopen.sales:test?param1=xx&param2=xxx')  # 发起kss请求
+                .kss('@zopen.sales:test?param1=xx&param2=xxx')\  # 发起kss请求
                 .loading('请稍等...')  # 点击发起kss之后，显示正在加载
 
 其中kss表示，点击此链接，将向服务器发起一个ajax请求。
@@ -104,9 +104,9 @@ ui 元素
 -------------
 ::
 
-  menu = ui.menu().append('aaa', url='google.com', kss='@zopen.test:tt')
-           .separate()
-           .append('bbb', url='google.com', kss='@zopen.test:tt')
+  menu = ui.menu(ui.link('aaa', url='google.com').kss('@zopen.test:tt').active(),
+           ui.separator(),
+           ui.link('bbb', url='google.com').kss('@zopen.test:tt'))
 
   button.dropdown(menu)
   button.dropup(menu)
@@ -118,41 +118,37 @@ ui 元素
   ui.button_group(btn1, btn2).virtical().justify()
   
 
-标签页
+导航
 --------------------
 ::
 
+  ui.nav(ui.link('title', url).kss('@zopen.test:tt').active(),
+         ui.link('title 2', url).kss('@zopen.test:tt'),
+        )
+
+带切换页面的tab也导航::
+
   ui.tabs()\
-        .tem()
+        .tab(ui.link('title', url="").active(), ui.pannel())\
+        .tab(ui.link('title', url="").kss('@zopen.test:tt'), ui.pannel())
 
+路径
+--------------
+::
 
-导航树
+  ui.breadcrumb(
+        ui.link('node 2', url='').kss.('@zopen.test:tt')
+        ui.link('node 1', url='').active().kss('@zopen.test:tt'),
+                )
+
+树
 ------------
 ::
 
-   navtree = ui.navtree(link_pattern='', 
-                        kss_pattern='', 
-                        expand_pattern='',  
-                        data=[
-                           {'title': 'level1_root',
-                            'uid':'23423',
-                            'icon': '',
-                            'children': [ {
-                                 'title': 'level1_1',
-                                 'uid': '1231231',
-                                 'icon': '',
-                                 'children':[], },
-                                {'title': 'level1_2',
-                                 'uid': '1312312',
-                                 'icon': '',
-                                 'children': [ {
-                                       'title':'level2_1',
-                                       'uid': '23123',
-                                       'icon':'',
-                                       'children':[], },
-                               ] } ] ])
-
-children 值为None,不会出现展开图标。没有children表示用于Ajax展开。
+   tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
+                        .add(ui.link('level1').kss('@zopen.sael:bb'))\
+                        .add(ui.link('level2').kss('@zopen.sael:bb')\
+                                .add('level2 1').kss('@zopen.sales:cc')))
 
 文件预览
 ----------
