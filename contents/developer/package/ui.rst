@@ -165,11 +165,11 @@ ui 元素
                         .add(ui.link('level2').kss('@zopen.sael:bb')\
                                 .add('level2 1').kss('@zopen.sales:cc')))
 
-文件预览
-----------
+文件查看器
+----------------
 ::
 
-   ui.file_preview()
+   ui.doc_viewer(context, request)
 
 分页条
 ----------
