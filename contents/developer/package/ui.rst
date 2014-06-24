@@ -288,7 +288,7 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 =======================
 首先需要在网页上设置事件处理方法::
 
-   ui.on('dataitem-change').kss("@zopen.test:refresh")
+   ui.script().on('dataitem-change', kss="@zopen.test:refresh")
 
 在kss触发一个事件::
 
@@ -304,6 +304,6 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 ==============
 可以直接写python来执行前端逻辑，python会解释生成前端需要的语言，比如javascript::
 
-   ui.button('aa').on('click', "process_click")')
+   ui.button('aa').on('click', func="process_click")
    ui.script('zopen.tests:python/base.py')
 
