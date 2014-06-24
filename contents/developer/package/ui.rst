@@ -89,6 +89,16 @@ ui 元素
 
    input = ui.field(name='title', type='TextLine')
 
+一段文字
+---------------
+:: 
+
+   ui.div('some html text')
+
+改为inline::
+
+   ui.div('some html text').inline()
+
 按钮
 ----------------------
 ::
@@ -111,12 +121,17 @@ ui 元素
   button.dropdown(menu)
   button.dropup(menu)
 
+代码编辑
+----------------
+::
+
+  ace = ui.ace()
+
 按钮组
 ---------------
 ::
 
   ui.button_group(btn1, btn2).virtical().justify()
-  
 
 导航
 --------------------
