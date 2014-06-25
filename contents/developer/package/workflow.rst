@@ -147,7 +147,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 通过程序触发某个操作，推动流程前进::
 
-   item.workitems.execute_action(workitem_name, action_name, as_principal=None, comment="")
+   item.workitems.execute(workitem_name, action_name, as_principal=None, comment="")
 
 其中：
 
