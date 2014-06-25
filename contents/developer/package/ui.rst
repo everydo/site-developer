@@ -152,7 +152,7 @@ ui 元素
 ::
 
   ui.breadcrumb(
-        ui.link('node 2', url='').kss.('@zopen.test:tt')
+        ui.link('node 2', url='').kss('@zopen.test:tt')
         ui.link('node 1', url='').active().kss('@zopen.test:tt'),
                 )
 
@@ -161,15 +161,17 @@ ui 元素
 ::
 
    tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
-                        .add(ui.link('level1').kss('@zopen.sael:bb'))\
-                        .add(ui.link('level2').kss('@zopen.sael:bb')\
-                                .add(ui.link('level2 1').kss('@zopen.sales:cc'))))
+                        .child( ui.link('level1').kss('@zopen.sael:bb') )\
+                        .child( ui.link('level2').kss('@zopen.sael:bb')\
+                                   .child(ui.link('level2 1').kss('@zopen.sales:cc'))
+                              )
+                  )
 
 文件查看器
 ----------------
 ::
 
-   ui.doc_viewer(context, request)
+   ui.doc_viewer(context, request).image()
 
 分页条
 ----------
@@ -305,5 +307,5 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 可以直接写python来执行前端逻辑，python会解释生成前端需要的语言，比如javascript::
 
    ui.button('aa').on('click', func="process_click")
-   ui.script('zopen.tests:python/base.py')
+   ui.script('zopen.tests:python/base.py').on('data-change', func, kss)
 
