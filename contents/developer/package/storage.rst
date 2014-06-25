@@ -509,7 +509,7 @@ head()得到最新的工作版本对象::
 
 可以对文档定版打上版本号，一旦定版，版本就是正式版本，可永久存储::
 
-  context.revisions.tag(revision_id=None, major_version=None, minor_version=None)
+  context.revisions.tag(revision_id=None, major_version=None, minor_version=None, as_principal=None, comment=''):
 
 - 如果不传revision_id，表示对当前的工作版本进行定版
 - 如果不传 major_version，继续沿用上一个version_number
@@ -540,8 +540,36 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
 编辑完成，可以合并版本::
 
   >>> context.revisions.merge(obj)
-  
-如果context发生变化，则merge失败。必须手工合并，并且修改fork的revision之后，才能合并。
+
+如果版本冲突，会有异常抛出::
+
+  >>> context.revisions.merge(obj)
+  VersionConflicted: ...
+
+则需要开始进行手工合并::
+
+  >>> obj.revisions.start_resolve(context)
+
+此时可以检查冲突信息(resolve是需要合并的版本)::
+
+  >>> obj.relations.get_metadata('fork', context)
+  {'revision':2, 'resolve':3}
+
+手工合并完成，并作出标识，解决冲突::
+
+  >>> obj.revisions.resolve()
+  >>> obj.relations.get_metadata('fork', context)
+  {'revision':3, 'resolve':3}
+  >>> context.revisions.merge(obj)
+
+如果冲突解决期间，context再次发生变化，仍然可能导致merge失败, 需要再次合并::
+
+  >>> context.revisions.merge(obj)
+  VersionConflicted: ...
+  >>> obj.revisions.start_resolve(context)
+  (手工合并obj和context的内容差异)
+  >>> obj.revisions.resolve()
+  >>> context.revisions.merge(obj)
 
 注意：即便obj和context之间没有fork关系，也可以直接保存为新版本。
 merge之后obj不会被删除，如果不需要，可以再次手工删除。
