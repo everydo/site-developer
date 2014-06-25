@@ -163,7 +163,7 @@ ui 元素
    tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
                         .add(ui.link('level1').kss('@zopen.sael:bb'))\
                         .add(ui.link('level2').kss('@zopen.sael:bb')\
-                                .add('level2 1').kss('@zopen.sales:cc')))
+                                .add(ui.link('level2 1').kss('@zopen.sales:cc'))))
 
 文件查看器
 ----------------
