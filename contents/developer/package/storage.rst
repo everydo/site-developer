@@ -568,7 +568,7 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
   VersionConflicted: ...
   >>> obj.revisions.start_resolve(context)
   (手工合并obj和context的内容差异)
-  >>> obj.revisions.resolve()
+  >>> obj.revisions.resolve(context)
   >>> context.revisions.merge(obj)
 
 注意：即便obj和context之间没有fork关系，也可以直接保存为新版本。
