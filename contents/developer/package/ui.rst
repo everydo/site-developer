@@ -93,11 +93,11 @@ ui 元素
 ---------------
 :: 
 
-   ui.div('some html text')
+   ui.text('some html text')
 
-改为inline::
+如果需要完全保留原始格式, 不折行::
 
-   ui.div('some html text').inline()
+   ui.text('some html text').pre()
 
 按钮
 ----------------------
