@@ -147,11 +147,11 @@ description: 表单和流程操作接口，包括表单自动生成
 
 通过程序触发某个操作，推动流程前进::
 
-   item.workitems.execute_action(step_name, action_name, as_principal=None, comment="")
+   item.workitems.execute_action(workitem_name, action_name, as_principal=None, comment="")
 
 其中：
 
-- step_name: 步骤
+- workitem_name: 某个工作项的name
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
 

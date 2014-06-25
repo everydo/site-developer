@@ -214,7 +214,9 @@ dict字段
 -------------------------
 流程的工作项，是一个独立的索引，搜索方法为::
 
-   QuerySet('workitem').anyof(path=[project])
+   QuerySet('workitem').anyof(path=[project])\
+            .anyof(stati=('flowtask.active', 'flowtask.pending')).\
+                    anyof(Responsible=(pid, ), field='acl_grant')
 
 无权限和历史版本文档
 -----------------------
