@@ -144,8 +144,8 @@ ui 元素
 带切换页面的tab也导航::
 
   ui.tabs()\
-        .tab(ui.link('title', url="").active(), ui.pannel())\
-        .tab(ui.link('title', url="").kss('@zopen.test:tt'), ui.pannel())
+        .tab(ui.link('title', url="").active(), ui.panel())\
+        .tab(ui.link('title', url="").kss('@zopen.test:tt'), ui.panel())
 
 其中kss用于动态加载页面内容，动态加载kss脚本可以这样写::
 
@@ -193,7 +193,7 @@ ui布局组件
 --------------
 ::
 
-   pannel = ui.pannel(form, button).horizon()
+   panel = ui.panel(form, button).horizon()
 
 显示一个modal窗口
 ------------------------
@@ -306,6 +306,12 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
    kss.redirect(url, taget)
+
+禁用选择处的kss
+----------------------
+有些内容一次加载之后，不希望再次加载，可以禁用kss::
+
+   kss.disable_kss()
 
 事件触发和捕获
 =======================
