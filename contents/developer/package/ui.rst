@@ -147,6 +147,13 @@ ui 元素
         .tab(ui.link('title', url="").active(), ui.pannel())\
         .tab(ui.link('title', url="").kss('@zopen.test:tt'), ui.pannel())
 
+其中kss用于动态加载页面内容，动态加载kss脚本可以这样写::
+
+    text = ui.text('this is kss page from server. :-)')
+    kss.select(ui.tabs.active_pannel).set_content(text)
+
+其中 ``ui.tabs.active_pannel`` 用于寻找当前的面板
+
 路径
 --------------
 ::
@@ -267,9 +274,23 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
     kss.select("#content")   # 直接css定位
     kss.closet("div").find('dd')  # 采用漫游traves的方法
 
+可以借助ui对象提供的选择器进行选择，比如上面的::
+
+    kss.select(ui.tabs.active_pannel)
+
 清空某个输入项::
 
    kss.closet("#input").clear()
+
+内容操作
+------------
+设置某个界面的内容，可以::
+
+   kss.select(".tabBody").set_content(form)
+
+如果将这个界面直接取代，可以::
+
+   kss.select(".tabBody").replace(form)
 
 操作历史
 ---------------

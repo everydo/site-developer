@@ -103,7 +103,7 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
 ----------------
 系统的所有对象，创建后均会注册一个永久的ID，无论以后对象是否移动或者改名，都不会改变::
 
-   uid = root.obejct_uid(obj)
+   uid = root.object_uid(obj)
    obj = root.object_by_uid(uid)  # 通过uid找到对象
 
 web访问地址为::
