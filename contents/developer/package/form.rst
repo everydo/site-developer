@@ -157,6 +157,29 @@ on_validation脚本
 
       {'':'something wrong！'}
 
+系统的表单
+----------------
+系统的表单在如下地方：
+
+- 数据容器的设置 
+- 数据容器的表单
+- 应用容器的设置
+
+由于使用场景的特殊性，有一些额外的属性::
+
+  form_def = {
+    "name": ...
+    ...
+    'object_types':['DataItem'], # 语义定义用于的对象类型
+    'tag_groups': "", # 所在容器的标签组设置
+    'on_update': """ """, # 保存之后的触发脚本
+    'related_workflow':'zopen.sales:sales' # 这个表单关联的流程定义
+    'realted_datacontainer':'zopen.sales:sales_container',  # 关联的容器设置
+    'related_stage':'zopen.sales:sales', # 关联的阶段定义
+     ...
+
+其中，表单保存的时候, 会触发调用 ``on_update`` 脚本, 这和 ``on_validatation`` 脚本类似。但是调用这个参数的时候，对象数据保存了。
+
 注册
 -----
 可以注册一个表单语义，用于数据项、数据容器，或者应用容器::
@@ -235,23 +258,6 @@ on_validation脚本
 
 - fields: 需要计算初始值的字段
 - options：计算初始值需要的额外参数
-
-平台相关的表单
-=================
-系统的表单在如下地方：
-
-- 数据容器的设置 
-- 数据容器的表单
-- 应用容器的设置
-
-由于使用场景的特殊性，有一些额外的属性：
-
-- object_types':['DataItem'], # 语义定义用于的对象类型
-- tag_groups: 所在容器的标签组设置
-- on_update": 表单保存的时候, 会触发调用on_update, 这个方法和on_validatation脚本类似。但是调用这个参数的时候，对象数据保存了。
-- related_workflow':'zopen.sales:sales' 这个表单关联的流程定义
-- realted_datacontainer':'zopen.sales:sales_container',  关联的容器设置
-- related_stage':'zopen.sales:sales', 关联的阶段定义
 
 软件包文件
 ====================
