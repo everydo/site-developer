@@ -292,6 +292,14 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
    kss.select(".tabBody").replace(form)
 
+设置中间的主区域内容，可以::
+
+   kss.select(ui.template.main_slot).set_content(form)
+
+设置右侧区域的内容，可以::
+
+   kss.select(ui.template.right_slot).set_content(form)
+
 操作历史
 ---------------
 ::
