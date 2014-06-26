@@ -474,14 +474,18 @@ metadata保存在 ``item.md`` 属性中::
 
 版本信息查看
 ----------------------
-文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一自增长的ID来标识::
+文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一从1开始自增长的ID来标识::
 
-   >>> context.revisions.keys(include_temp=True) 
+   >>> context.revisions.keys(tagged_only=False) 
    [1, 2, 4, 5]
+
+也可以得到全部历史版本::
+
+   >>> context.revisions.values(tagged_only=False) 
 
 可得到某个版本信息::
 
-   >>> context.revisions.info(2)
+   >>> context.revisions.history_info(2)
    {'revision_id' : 2, # 版本ID
     'major_version' : '1',   # 版本号
     'minor_version' : '0',  # 版次号
@@ -493,11 +497,15 @@ metadata保存在 ``item.md`` 属性中::
 得到历史版本对象::
 
    >>> obj = context.revisions.get(revision_id=2)
-   >>> obj.revisions.info() # 改对象的版本信息
+   >>> obj.revisions.version_info() # 该对象的版本信息
 
 head()得到最新的工作版本对象::
 
    >>> obj.revisions.head() is context
+
+也可以找到最新的定版版本::
+
+   >>> obj.revisions.head(tagged=True) is context
 
 版本更新
 ------------------
