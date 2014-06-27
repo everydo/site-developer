@@ -150,9 +150,15 @@ ui 元素
 其中kss用于动态加载页面内容，动态加载kss脚本可以这样写::
 
     text = ui.text('this is kss page from server. :-)')
-    kss.select(ui.tabs.active_tab).set_content(text)
+    kss.tabs.closet().active_panel().set_content(text)
 
-其中 ``ui.tabs.active_tab`` 用于寻找当前的面板
+其中：
+
+- ``kss.tabs.closet()`` 找到最近的一个tabs组件；
+- ``active_panel()`` 找到tabs当前活动的panel
+- ``set_content(text)`` 设置panel的内容
+
+可以看到每个组件包括ui方法来构建组件，和kss命令来操作组件
 
 路径
 --------------
