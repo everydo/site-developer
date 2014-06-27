@@ -556,7 +556,7 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
 
 则需要开始进行手工合并::
 
-  >>> obj.revisions.start_resolve(context)
+  >>> obj.revisions.start_resolve()
 
 此时可以检查冲突信息(resolve是需要合并的版本)::
 
@@ -574,9 +574,9 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
 
   >>> context.revisions.merge(obj)
   VersionConflicted: ...
-  >>> obj.revisions.start_resolve(context)
+  >>> obj.revisions.start_resolve()
   (手工合并obj和context的内容差异)
-  >>> obj.revisions.resolve(context)
+  >>> obj.revisions.resolve()
   >>> context.revisions.merge(obj)
 
 注意：即便obj和context之间没有fork关系，也可以直接保存为新版本。
