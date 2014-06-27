@@ -138,7 +138,7 @@ description: 如果定制一个可高度自定义的流程
             title=u'步骤类型',
             required=False,
             storage=u'field',
-            vocabulary_exp=u"[('review', '审批'), ('inform', '知会')]",
+            vocabulary_exp=u"[('review', '审批'), ('inform', '知会'), ('assign_reviewer', '指定审核人')]",
             limit=1,
             default_value_exp=u'"review"',
             name=u'step_type'

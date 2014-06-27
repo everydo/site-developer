@@ -476,7 +476,7 @@ metadata保存在 ``item.md`` 属性中::
 ----------------------
 文件File、数据项Item支持版本管理，可以保存多个版本，每个版本有唯一从1开始自增长的ID来标识::
 
-   >>> context.revisions.keys(tagged_only=False) 
+   >>> context.revisions.keys(include_temp=True) 
    [1, 2, 4, 5]
 
 也可以得到全部历史版本::
