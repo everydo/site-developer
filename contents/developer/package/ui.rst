@@ -204,11 +204,31 @@ ui 元素
 ui布局组件
 =================
 
+列表组
+---------------
+列表组包括一组对象, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
+
+   ui.list_group(ui.link('abc', href='').kss('@zopen.test:test'),
+                ui.link('dd', href=''),
+                )
+
 面板
 --------------
-::
+一个面包包括多个组件，默认竖排::
 
-   panel = ui.panel(form, button).horizon()
+   panel = ui.panel(form, button)
+
+也可以横排::
+
+   panel.horizon()
+
+可以增加title, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#panels>`__ ::
+
+   panel.title(ui.text('面板示例'))
+
+也可以增加一个footer::
+
+   panel.footer(ui.link('sss', url))
 
 显示一个modal窗口
 ------------------------
