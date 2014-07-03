@@ -174,7 +174,7 @@ ui 元素
 ::
 
    tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
-                        .child( ui.link('level1').kss('@zopen.sael:bb') )\
+                        .child( ui.link('level1').kss('@zopen.sael:bb'), expand_kss_url='@zopen.test:aaa')\
                         .child( ui.link('level2').kss('@zopen.sael:bb')\
                                    .child(ui.link('level2 1').kss('@zopen.sales:cc'))
                               )
@@ -183,6 +183,11 @@ ui 元素
 默认tree是收缩的，可以将第一级展开::
 
    tree.expand()
+
+对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``expand_kss_url`` ，这里可以动态为该节点增加子节点::
+
+   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb') )
+   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb'), expand_kss_url )
 
 文件查看器
 ----------------
