@@ -38,21 +38,8 @@ url参数：
 - modified
 - title
 - description
-- subjects
-- schemas:
-- mdsets:
-- fields: 对象schema定义的字段
 
-  - ...
-
-- properties: mdset的实际值
-
-  - zopen.archive:archive
-
-    - number
-    - dept
-
-/api/v1/content/list
+/api/v1/content/items
 -------------------------
 文件夹内容, 也可以是查找一个文件的信息
 
@@ -69,25 +56,6 @@ url参数：
 
 文件夹自身信息，以及内容的清单, 参照 metadata的返回
 
-/api/v1/content/search
--------------------------
-搜索.  只能搜索到有权限查看的内容，在body中填写查询条件, 具体参照软件包中搜索一节::
-
-  'query':[ # 类似ES
-               ],
-  'sort':{},
-  'aggs':{},
-      'limit':1
-  'size':20
-  'from':1
-
-搜索结果::
-
-  {count:10,
-   results: [ { ''  },
-            ]
-  }
-
 api/v1/content/create_folder
 ----------------------------------
 创建文件夹
@@ -101,6 +69,20 @@ url参数：
 - name : 文件夹名
 
 返回：创建的文件夹的元数据
+
+api/v1/content/upload
+----------------------------------
+POST方法上传文件一个文件到指定位置
+
+form参数：
+
+- account
+- instance
+- uid: 所在文件夹
+- path: 文件夹位置，和uid二选一
+- filename: 文件名
+
+返回：上传文件的metadata信息
 
 api/v1/content/delete
 ----------------------------------
@@ -147,6 +129,22 @@ url参数：
 
 返回：新对象的元数据
 
+api/v1/content/download
+----------------------------------
+获取带签名信息的下载的临时url
+
+参数：
+
+- account
+- instance
+- uid : 123123,所在文件夹，和path二选一
+- path: /files/folder_a/ 文件夹路径， 和uid二选一
+- mime：下载的mime类型，如果下载原始文件，不传递此参数
+
+返回：
+
+- 302直接跳转到具体的文件服务地址
+
 api/v1/content/delta
 ----------------------------------
 查找更新日志，用于文件同步
@@ -173,25 +171,21 @@ api/v1/content/delta
 
 https://www.dropbox.com/developers/core/docs#delta
 
-api/v1/content/download_url
-----------------------------------
-获取带签名信息的下载的临时url
+/api/v1/content/search
+-------------------------
+搜索.  只能搜索到有权限查看的内容，在body中填写查询条件, 具体参照软件包中搜索一节::
 
-参数：
+  'query':[ # 类似ES
+               ],
+  'sort':{},
+  'aggs':{},
+      'limit':1
+  'size':20
+  'from':1
 
-- account
-- instance
-- uid : 123123,所在文件夹，和path二选一
-- path: /files/folder_a/ 文件夹路径， 和uid二选一
-- mime：下载的mime类型，如果下载原始文件，不传递此参数
+搜索结果::
 
-返回：
-
-- 302直接跳转到具体的文件服务地址
-- 返回结果
-
-  - account
-  - instance
-  - signcode
-  - username
-  - app_id
+  {count:10,
+   results: [ { ''  },
+            ]
+  }
