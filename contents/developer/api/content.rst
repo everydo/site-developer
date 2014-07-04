@@ -113,22 +113,6 @@ url参数：
 
 返回：对象的元数据
 
-api/v1/content/copy
-----------------------------------
-复制对象
-
-url参数：
-
-- account
-- instance
-- uid
-- path
-- to_uid: 目标文件夹的uid
-- to_path: 目标文件夹的path，和上面二选一
-- name: 新的文件名(可选）
-
-返回：新对象的元数据
-
 api/v1/content/download
 ----------------------------------
 获取带签名信息的下载的临时url
@@ -144,6 +128,41 @@ api/v1/content/download
 返回：
 
 - 302直接跳转到具体的文件服务地址
+
+/api/v1/content/search
+-------------------------
+搜索.  只能搜索到有权限查看的内容，在body中填写查询条件, 具体参照软件包中搜索一节::
+
+  'query':[ # 类似ES
+               ],
+  'sort':{},
+  'aggs':{},
+      'limit':1
+  'size':20
+  'from':1
+
+搜索结果::
+
+  {count:10,
+   results: [ { ''  },
+            ]
+  }
+
+api/v1/content/copy
+----------------------------------
+复制对象
+
+url参数：
+
+- account
+- instance
+- uid
+- path
+- to_uid: 目标文件夹的uid
+- to_path: 目标文件夹的path，和上面二选一
+- name: 新的文件名(可选）
+
+返回：新对象的元数据
 
 api/v1/content/delta
 ----------------------------------
@@ -170,22 +189,3 @@ api/v1/content/delta
   - action: movein/moveout/rename/remove/new/update
 
 https://www.dropbox.com/developers/core/docs#delta
-
-/api/v1/content/search
--------------------------
-搜索.  只能搜索到有权限查看的内容，在body中填写查询条件, 具体参照软件包中搜索一节::
-
-  'query':[ # 类似ES
-               ],
-  'sort':{},
-  'aggs':{},
-      'limit':1
-  'size':20
-  'from':1
-
-搜索结果::
-
-  {count:10,
-   results: [ { ''  },
-            ]
-  }
