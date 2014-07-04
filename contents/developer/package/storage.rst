@@ -238,10 +238,14 @@ web访问地址为::
 - flow_customize: 流程定制
 - apps_scripting: 允许开发软件包
 
-工作台个人区 Home
-------------------
+工作台个人区 HomeContainer/Home
+-------------------------------------
 每个人都有一个工作台个人区，这里是个人自行部署的应用。
 
+可以设置每个工作台的默认导航::
+
+  homecontainer.default_navs.insert(0, 'zopen.sales:newest')
+  homecontainer.default_navs.append('zopen.sales:newest')
 
 Metadata元数据
 =======================

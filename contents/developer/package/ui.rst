@@ -330,6 +330,18 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 也可以在右侧区域，补充一个内容::
 
    kss.layout.right().append(form)
+   kss.layout.right().prepend(form)
+
+清空内容区上方列::
+
+   kss.layout.above().empty()
+
+左右侧列都可以显示隐藏::
+
+   kss.layout.hide_left()
+   kss.layout.show_left()
+   kss.layout.hide_right()
+   kss.layout.show_right()
 
 操作历史
 ---------------
