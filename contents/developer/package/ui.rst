@@ -174,7 +174,7 @@ ui 元素
 ::
 
    tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
-                        .child( ui.link('level1').kss('@zopen.sael:bb'), expand_kss_url='@zopen.test:aaa')\
+                        .child( ui.link('level1').kss('@zopen.sael:bb'), kss_expand='@zopen.test:aaa')\
                         .child( ui.link('level2').kss('@zopen.sael:bb')\
                                    .child(ui.link('level2 1').kss('@zopen.sales:cc'))
                               )
@@ -184,10 +184,10 @@ ui 元素
 
    tree.expand()
 
-对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``expand_kss_url`` ，这里可以动态为该节点增加子节点::
+对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``kss_expand`` ，这里可以动态为该节点增加子节点::
 
    kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb') )
-   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb'), expand_kss_url )
+   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb'), kss_expand)
 
 文件查看器
 ----------------
@@ -311,7 +311,7 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
 可以借助ui对象提供的选择器进行选择，比如上面的::
 
-    kss.select(ui.tabs.active_tab)
+    kss.tabs.closest().active_panel()
 
 清空某个输入项::
 
@@ -319,21 +319,17 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
 
 内容操作
 ------------
-设置某个界面的内容，可以::
-
-   kss.select(".tabBody").set_content(form)
-
-如果将这个界面直接取代，可以::
-
-   kss.select(".tabBody").replace(form)
-
 设置中间的主区域内容，可以::
 
-   kss.select(ui.template.main_slot).set_content(form)
+   kss.layout.main().set_content(form)
 
 设置右侧区域的内容，可以::
 
-   kss.select(ui.template.right_slot).set_content(form)
+   kss.layout.right().set_content(form)
+
+也可以在右侧区域，补充一个内容::
+
+   kss.layout.right().append(form)
 
 操作历史
 ---------------
