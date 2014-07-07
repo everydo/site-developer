@@ -81,6 +81,7 @@ form参数：
 - uid: 所在文件夹
 - path: 文件夹位置，和uid二选一
 - filename: 文件名
+- base_version:版本基准（可选），只在上传新版本时使用
 
 返回：上传文件的metadata信息
 
