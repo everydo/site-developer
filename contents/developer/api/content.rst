@@ -72,17 +72,30 @@ url参数：
 
 api/v1/content/upload
 ----------------------------------
-POST方法上传文件一个文件到指定位置
+POST方法上传文件到指定位置
 
 form参数：
 
 - account
 - instance
-- uid: 所在文件夹，或者需要上传新版本的文件
+- uid: 所在文件夹
 - path: 文件夹位置，和uid二选一
-- filename: 文件名(也上传文件)
-- base_revision: （可选）如果服务器最新版本不是这个版本，就报告冲突
-- base_version:版本基准（可选），只在上传新版本时使用
+- file: 文件
+
+返回：上传文件的metadata信息
+
+api/v1/content/upload_rev
+----------------------------------
+POST方法上传文件的新版本
+
+form参数：
+
+- account
+- instance
+- uid: 文件
+- path: 文件的路径，和uid二选一
+- file: 文件
+- parent_rev: 基准版本，用于冲突检测（可选）如果服务器最新版本不是这个版本，就报告冲突
 
 返回：上传文件的metadata信息
 
