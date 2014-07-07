@@ -246,6 +246,11 @@ on_validation脚本
 
     datacontainer.add_dataitem(result, name='', request=request):
 
+也可以直接加入数据::
+
+    datacontainer.add_dataitem({'xlsfile':[uid], 'title':'lala', 
+                                'start':datetime.datetime(), 'amount':12}, request=request)
+
 获取表单的默认值
 -----------------------
 得到表单的初始值::
