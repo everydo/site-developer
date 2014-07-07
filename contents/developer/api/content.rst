@@ -81,6 +81,7 @@ form参数：
 - uid: 所在文件夹
 - path: 文件夹位置，和uid二选一
 - filename: 文件名
+- base_revision: （可选）如果服务器最新版本不是这个版本，就报告冲突
 
 返回：上传文件的metadata信息
 
