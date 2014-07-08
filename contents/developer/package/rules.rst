@@ -37,7 +37,7 @@ description: 如何在文件夹和流程中使用规则进行个性化定制
 
 event
 ---------
-其中事件event包括:
+不同的事件，会有不同的参数，供脚本使用。其中事件event包括:
 
 - created: 容器中添加新对象，包括移入和创建
 - removed：容器中去除对象，包括删除和移出
@@ -49,6 +49,10 @@ event
 - clock: 站点定时时间
 - login: 登陆站点
 - workflow-executed: 工作流执行某步骤
+
+  - event.workitem : 当时对于的工作流步骤
+  - event.context : 流程单
+
 - file-downloaded: 下载
 
 条件
