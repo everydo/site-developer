@@ -72,6 +72,10 @@ ui 元素
 
 其中kss表示，点击此链接，将向服务器发起一个ajax请求。
 
+如果连接需要配一个图标，则可以::
+
+  link.icon('star')
+
 表单
 -----
 前面表单一章，表单生成的描述::
@@ -105,10 +109,11 @@ ui 元素
 
    button = ui.button('发起新流程')\   # 按钮的连接
             .kss('@@issue_workflow_show')\  # 发起kss请求
-            .loading('请稍等...')  # 点击发起kss之后，显示正在加载
-            .size('lg')
+            .loading('请稍等...')\  # 点击发起kss之后，显示正在加载
+            .size('large')\  # 大尺寸
+            .icon('star')
 
-可选的size: lg, sm, xs
+可选的size: large, small, xsmall
 
 下拉菜单
 -------------
@@ -221,6 +226,10 @@ ui布局组件
 也可以横排::
 
    panel.horizon()
+
+可将面板做成可折叠的::
+
+   panel.collapse(True)  # True表示初始折叠
 
 可以增加title, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#panels>`__ ::
 
