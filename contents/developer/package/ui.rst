@@ -81,6 +81,16 @@ ui 元素
   link.loading('正在加载...', 'main')
   link.loading('', 'right')
 
+有些链接，内部可以是多个内容，比如::
+
+  ui.link('', href='#')\
+        .child(ui.h1('大标题'))\
+        .child(ui.text('一些描述信息'))
+
+如果链接需要增加徽章::
+
+  link.badge('12')
+
 表单
 -----
 前面表单一章，表单生成的描述::
@@ -107,6 +117,10 @@ ui 元素
 如果需要完全保留原始格式, 不折行::
 
    ui.text('some html text').pre()
+
+如果希望黯淡的方式显示次要文字，可以::
+
+   ui.text('lalal a').discreet()
 
 按钮
 ----------------------
@@ -216,10 +230,22 @@ ui布局组件
 
 列表组
 ---------------
-列表组包括一组对象, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
+列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
 
-   ui.list_group(ui.link('abc', href='').kss('@zopen.test:test'),
+   ui.list_group(ui.link('abc', href='').kss('@zopen.test:test').active(),
                 ui.link('dd', href=''),
+                )
+
+可以做出比较复杂的列表组::
+
+   ui.list_group(
+      ui.link('', href='#')\
+            .child(ui.text('大标题'))\
+            .child(ui.text('一些描述信息').discreet())\
+            .kss('@zopen.test:testt')\
+            .active(),
+
+      ui.link('abc', href='').kss('@zopen.test:test'),
                 )
 
 面板

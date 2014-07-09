@@ -824,4 +824,6 @@ visible: 保密
 
    root.profiles.get(pid, name, default)
 
+得到某个人的HOME容器::
 
+   home_container = root.profiles.get_home(pid)
