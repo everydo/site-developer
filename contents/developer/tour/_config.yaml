@@ -8,4 +8,4 @@ order: [custom.rst,
         faq.rst, 
         python.rst, 
        ]
-exclude: [img, pic]
+exclude: [img, pic, index.rst]
