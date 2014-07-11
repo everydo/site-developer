@@ -17,6 +17,9 @@ description: 如果从老版本升级到新版本
 ===================
 - deployApplet 改为 container.add_folder / add_appcontainer /add_datacontaner , 不会自动授权，不会自动添加到导航
 - IAppletData -> context.navs
+- installPackage -> root.packages.install
+- callScript -> root.call_script
+- render_template -> root.render_template
 
 对象基础
 ============
