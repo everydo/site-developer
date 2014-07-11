@@ -609,12 +609,12 @@ merge之后obj不会被删除，如果不需要，可以再次手工删除。
 - Delegator 委托人
 - 'Subscriber' 订阅人
 - 'Accessor' 访问者
-- 'Reader5'
+- 'Reader' : 5级查看人
 - 'Reader4'
 - 'Reader3'
 - 'Reader2'
 - 'Reader1'
-- 'PrivateReader5' 超级查看人
+- 'PrivateReader' 超级查看人
 - 'PrivateReader4' 仅仅文件授权的时候用，不随保密变化
 - 'PrivateReader3' 仅仅文件授权的时候用，不随保密变化
 - 'PrivateReader2' 仅仅文件授权的时候用，不随保密变化
