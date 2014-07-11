@@ -56,5 +56,22 @@ description: 如果从老版本升级到新版本
 
 表单
 ===========
-- IFormEngine过时
+- IFormEngine过时，直接用FieldsContainer
+- IFieldStorage(context)过时 -> context.md
+- IExtendedMetadata过时 -> context.mdset
+- ISettings(container)过时，改为 container.md
+- 表单分离校验和触发2个脚本
+- related_edoclass过时，改为 container.settings['item_metadata']
 
+团队
+============
+- 改为所有的appcontainer都支持团队
+- ITeams(container) -> container.teams
+
+流程
+============
+- related_workflow过时，改为 container.settings['item_workflow']
+- 后续流程条件 ``nextsteps_conditions`` 过时，不推荐使用，改为后续步骤的进入条件
+- 步骤支持auto_steps，自动步骤
+- IFlowTasksManager(context) -> context.workitems
+- 流程支持委托
