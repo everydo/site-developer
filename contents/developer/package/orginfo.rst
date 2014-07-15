@@ -29,9 +29,6 @@ getPrincipalInfo(pid,skip_cache=False):
 
              {'id':id, 'title': title, 'parent':}
 
-hasUser(username):
-   是否存在username,没有users.开头
-
 listPrincipalInfo(pids,skip_cache=False):
      得到一组实体的基本信息。实体：用户、组(部门、群组、角色)等
 
@@ -60,18 +57,6 @@ listGroupMembers(group_id):
      列出组(部门、群组、角色、岗位)的人员清单，子部门、子组里面包含的用户，都会返回。这个用于发信。返回：::
 
            [member_id, ...]
-
-getOUDetail(ou_id, include_disabled=False, skip_cache=False):
-     部门详细信息，直接包含人员清单、组、子部门详细信息。
-     返回：::
-
-          {  'id':
-             'title':
-             'parent':
-             'users':[id]
-             'groups':[id] 
-             'ous':[id]
-          }
 
 listOrgStructure(hide_team=False):
  得到组织架构信息，包括组织架构中的组(部门、群组、岗位)信息::
@@ -140,10 +125,30 @@ listOrgStructure(hide_team=False):
 
 公司和实例信息
 ....................
-listCompanies():
-  得到(客户)公司的清单，返回::
+search(ou, q='', scope='onelevel', object_type='', include_disabled=False):
+  搜索组织架构
 
-    [{'id':id, 'title':title}]
+- ou: 搜索的部门ID，如根节点 ``default``
+- scope: 可以取值 单层 ``onelevel`` ，或者整个子树 ``subtree``
+- object_type: 一个或者多个对象类型，比如： ``ou,group,person``
+- include_diabled: 是否包含禁用的对象，默认 ``false``
+- q: 搜索词，采用类似全文搜索的方式
+
+返回::
+   
+   {'count': 10,
+    'result': [{'id': 'admin',
+                'object_type': 'person',
+                'parent': 'default',
+                'title': 'admin',
+                'disable': false,
+                'email': 'test@zopen.cn',
+                'mobile': None,
+                'number': 9223372036854775807,
+                'phone': '123445566',
+                'xmpp_username': 'admin#zopen@127.0.0.1'}
+              ]
+   }
 
 listInstances(skip_cache=False):
  得到全部的站点实例::
