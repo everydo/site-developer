@@ -26,6 +26,7 @@ description: 如果从老版本升级到新版本
 - getParent(obj) -> obj.parent
 - getName(obj) -> obj.name
 - getRoot() -> root
+- getSite() -> root
 - absoluteURL(obj,request) -> obj.absolute_url(request)
 - intids.getObject(obj) -> root.object_uid(obj)
 - intids.getId(obj) -> root.object_by_uid(obj)
