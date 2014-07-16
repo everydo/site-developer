@@ -42,7 +42,8 @@ UI组件和交互
                             data={'title':'the title'}, 
                             errors=errors)\
                     .button('save', '保存')\
-                    .kss(@zopen.sales:test)  # 发起一个服务端kss请求
+                    .kss(@zopen.sales:test) \ # 发起一个服务端kss请求
+                    .loading('加载中...')  # 设置加载提示文字
     help = ui.div('some help')
     return h1 + form + help
 
