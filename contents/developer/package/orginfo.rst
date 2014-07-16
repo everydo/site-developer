@@ -136,10 +136,9 @@ search(ou, q='', scope='onelevel', object_type='', include_disabled=False):
 
 返回::
    
-   {'count': 10,
-    'result': [{'id': 'admin',
+    [{'id': 'users.admin',
                 'object_type': 'person',
-                'parent': 'default',
+                'parent': 'groups.tree.default',
                 'title': 'admin',
                 'disable': false,
                 'email': 'test@zopen.cn',
@@ -147,8 +146,7 @@ search(ou, q='', scope='onelevel', object_type='', include_disabled=False):
                 'number': 9223372036854775807,
                 'phone': '123445566',
                 'xmpp_username': 'admin#zopen@127.0.0.1'}
-              ]
-   }
+   ]
 
 listInstances(skip_cache=False):
  得到全部的站点实例::
@@ -175,41 +173,25 @@ lookupReviewer(pid, reviewer_table, step=''):
 .................
 同步主要用于多用户数据源之间的同步，主要涉及 新增和编辑，不会有删除操作。
 
-sync(ous=None, groups=None, users=None, send_mail=True, async=False)
+sync(objects_detail=None, send_mail=True, async=False)
    参数::
-
-        ous: [{'id':, title:, parent:}]
-        groups: [{'id':'', title:,  parent:'', members:[]}]
-        users: [{'id':, 'title':, 'email':, 'mobile':, 'phone':, 'location':, 'parent':, ldap_username': 'disable': 'password':},]
+        objects_detail: 新增对象的详细信息列表
         send_mail: 当新建人员的时候，默认发送邮件
         async： 这个接口默认是同步执行，当这个参数为真，以异步执行
 
-   - 如果name不传递，则会新建一个。
-   - name、parent 不需要加入users. 或groups.tree.
-   - 如果title等属性不传入，则不修改该属性
-   - parent 值都是部门id
-   - ous 不传parent， 创建的是外部公司
 
 管理接口
 .............
-removeOUs( ous_ids):
-   删除一组部门
+remove_objects(objects):
+--------------------------
+删除一个对象，可以是ou/person/group
 
-removeGroups( groups_ids):
-   删除一组部门
+- objects: 带对象类型的对象id清单，比如： ``person:zhangsan,ou:1212,group:32112``
 
-removeUser( name)
-   删除一个用户
+返回::
 
-set_allowed_services(username, app_name, instance_name, services)
-   给用户分配许可::
+   { status:true }
 
-      services: [service_name, service_name ...] # docs/projects/depts
-
-get_allowed_services(username, app_name, instance_name)
-   取得用户分配许可, 返回 ::
-
-      [service_name, service_name ...]
 
 set_ldap_config(server_address, enable=True)
    设置ldap配置信息
