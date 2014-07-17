@@ -117,6 +117,8 @@ description: 表单和流程操作接口，包括表单自动生成
 
 工作项 WorkItem
 =======================
+流程扭转
+--------------
 可以为任何一个数据dataitem，启动一个流程::
 
    dataitem.workitems.start(request=request)
@@ -155,6 +157,8 @@ description: 表单和流程操作接口，包括表单自动生成
 - action_name: 操作
 - as_principal: 可以指定以某人的身份去执行这个流程(如:users.admin)。
 
+工作项历史
+----------------
 查看工作项::
 
    workitems = item.workitems.query(pid, state)
@@ -192,17 +196,19 @@ description: 表单和流程操作接口，包括表单自动生成
 - flowtask.finished: '完成', '任务已经处理完成')),
 
 流程时限
-================
+-----------------
 为提高效率，有些流程有严格的扭转时限，比如3个工作日之内必须完成。
 
 1. 定义流程的时候，设置后步骤时限 ``hours`` , 比如3天就是 3 * 24 = 72小时
 2. 可通过 ``deadline`` 属性来搜索近期即将到期的工作项
 
-流程转交
-===============
-可以将某个具体的工作，转交给其他人::
+流程委托 ``delegate``
+------------------------
+场景：工作负责人休假、生病，临时不便做流程处理。此时大部分工作交给其他人处理，自己有时可能也可以进入平台自行处理部分工作。
 
-   workitem.delegate(responsible, delegators)
+流程协助，实际上是对当前的工作项创建一个分支工作::
+
+   workitem.delegate(original_responsible, new_responsibles)
 
 如果取消某个负责人的代理::
 
@@ -211,15 +217,24 @@ description: 表单和流程操作接口，包括表单自动生成
 每个人可以根据转交策略进行转交(不同位置，委托给谁处理)::
 
    root.profiles.delegate(pid, policy=[{'location':[], pids:[]}])
-
-也可以停止转交::
-
-   root.profiles.undelegate(pid)
+   root.profiles.undelegate(pid) # 停止转交
 
 读取设置::
 
    root.profiles.get(pid, 'delegation_policy')
    root.profiles.get(pid, 'delegation')
+
+流程转交转交 ``deliver``
+---------------------------------
+场景: 比如觉得这个工作不该自己负责，可以直接转交工作给其他人。此时工作不在归自己处理::
+
+   item.workitems.deliver(workitem_name, new_responsibles)
+
+协助 ``assist``
+-----------------------
+将工作转交给其他人给出意见，其他人完成之后，流程扭转到自己继续处理::
+
+   item.workitems.assist(workitem_name, new_responsibles)
 
 工作流脚本
 ===================
