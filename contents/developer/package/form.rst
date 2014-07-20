@@ -37,7 +37,7 @@ json定义表单
             {"name":"startend",
              "Type":"Panel",
              "title":"时间",
-             "direction":'horizon', # vertical
+             "layout":'horizontal', # vertical
              "fields":[
                 {"name": "start,
                   "type": "Date",
