@@ -100,7 +100,7 @@ json定义表单
 - DataContainerSelect: 表单容器选择 
 - TagSelect: 标签组选择
 - Computed: 公式字段
-- Panel: 面板字段，可以设置排列方式
+- Panel: 面板字段，可以设置排列方式，支持多个Panel嵌套
 
 字段属性
 -----------------

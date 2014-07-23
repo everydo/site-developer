@@ -75,6 +75,12 @@ description: 负责系统数据的存取，可以基于多种方式来存储。�
   root.set_order(('container2', 'container1'))
   container.ordered_keys()  # ('container2', 'container1')
 
+也可以直接访问排序的容器::
+
+  root.set_container_order(('container2', 'container1'))
+  container.ordered_container_keys()  # ('container2', 'container1')
+  root.ordered_containers()
+
 移动复制
 ----------
 可以对内容进行移动、改名或者复制::
