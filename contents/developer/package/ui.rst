@@ -30,7 +30,7 @@ UI组件和交互
 针对这2个需求，我们提供了2套API：
 
 - ui: 生成界面，包括通用基础的、以及系统特有的组件
-- kss: 服务端驱动前端交互变化
+- view: 服务端驱动前端交互变化
 
 示例
 ============
@@ -42,7 +42,8 @@ UI组件和交互
                             data={'title':'the title'}, 
                             errors=errors)\
                     .button('save', '保存')\
-                    .kss(@zopen.sales:test)  # 发起一个服务端kss请求
+                    .on_click('@zopen.sales:test') \ # 发起一个服务端请求
+                    .loading('加载中...')  # 设置加载提示文字
     help = ui.div('some help')
     return h1 + form + help
 
@@ -50,14 +51,14 @@ UI组件和交互
 
     return h1.html() + form.html() + help.html()
 
-kss请求提交到服务端，处理数据，并驱动前端UI::
+请求提交到服务端，处理数据，并驱动前端UI::
 
   h1 = ui.h1('新的表单')
   form = ui.form(action='', title='', description='')\
                 .fields(form_def, data={'title':'the title'}, errors=errors)\
                 .button('save', '保存')\
-                .kss('@zopen.sales:test')
-  kss.modal(h1 + form)
+                .on_submit('@zopen.sales:test')
+  view.modal(h1 + form)
 
 ui 元素
 =========================
@@ -67,10 +68,9 @@ ui 元素
 ::
 
   link = ui.link('click me', href='http://google.com')\    # 创建一个连接
-                .kss('@zopen.sales:test?param1=xx&param2=xxx')\  # 发起kss请求
-                .loading('请稍等...')  # 点击发起kss之后，显示正在加载
+                .on_click('@zopen.sales:test?param1=xx&param2=xxx')\  # 发起ajax请求
+                .loading('请稍等...')  # 点击发起请求之后，显示正在加载
 
-其中kss表示，点击此链接，将向服务器发起一个ajax请求。
 
 如果连接需要配一个图标，则可以::
 
@@ -98,7 +98,7 @@ ui 元素
    form = ui.form(action='', title='', description='')\  # 表单的标题和action
                 .fields(form_def, data={'title':'the title'}, errors=errors).\
                 .action('save', '保存')\ # 增加一个按钮
-                .kss('@zopen.sales:test')  # kss表单，而不是普通的表单
+                .on_submit('@zopen.sales:test')  # 表单，而不是普通的表单
 
 其中fields的书写方法，见 ``表单处理`` 
 
@@ -127,8 +127,8 @@ ui 元素
 ::
 
    button = ui.button('发起新流程')\   # 按钮的连接
-            .kss('@@issue_workflow_show')\  # 发起kss请求
-            .loading('请稍等...')\  # 点击发起kss之后，显示正在加载
+            .on_click('@@issue_workflow_show')\  # 发起请求
+            .loading('请稍等...')\  # 点击发起之后，显示正在加载
             .size('large')\  # 大尺寸
             .icon('star')
 
@@ -138,9 +138,9 @@ ui 元素
 -------------
 ::
 
-  menu = ui.menu(ui.link('aaa', url='google.com').kss('@zopen.test:tt').active(),
+  menu = ui.menu(ui.link('aaa', url='google.com').on_click('@zopen.test:tt').active(),
            ui.separator(),
-           ui.link('bbb', url='google.com').kss('@zopen.test:tt'))
+           ui.link('bbb', url='google.com').on_click('@zopen.test:tt'))
 
   button.dropdown(menu)
   button.dropup(menu)
@@ -161,24 +161,24 @@ ui 元素
 --------------------
 ::
 
-  ui.nav(ui.link('title', url).kss('@zopen.test:tt').active(),
-         ui.link('title 2', url).kss('@zopen.test:tt'),
+  ui.nav(ui.link('title', url).on_click('@zopen.test:tt').active(),
+         ui.link('title 2', url).on_click('@zopen.test:tt'),
         )
 
 带切换页面的tab也导航::
 
   ui.tabs()\
         .tab(ui.link('title', url="").active(), ui.panel())\
-        .tab(ui.link('title', url="").kss('@zopen.test:tt'), ui.panel())
+        .tab(ui.link('title', url="").on_click('@zopen.test:tt'), ui.panel())
 
 其中kss用于动态加载页面内容，动态加载kss脚本可以这样写::
 
     text = ui.text('this is kss page from server. :-)')
-    kss.tabs.closest().active_panel().set_content(text)
+    view.tabs.closest().active_panel().set_content(text)
 
 其中：
 
-- ``kss.tabs.closest()`` 找到最近的一个tabs组件；
+- ``view.tabs.closest()`` 找到最近的一个tabs组件；
 - ``active_panel()`` 找到tabs当前活动的panel
 - ``set_content(text)`` 设置panel的内容
 
@@ -189,18 +189,18 @@ ui 元素
 ::
 
   ui.breadcrumb(
-        ui.link('node 2', url='').kss('@zopen.test:tt')
-        ui.link('node 1', url='').active().kss('@zopen.test:tt'),
+        ui.link('node 2', url='').on_click('@zopen.test:tt')
+        ui.link('node 1', url='').active().on_click('@zopen.test:tt'),
                 )
 
 树
 ------------
 ::
 
-   tree = ui.tree(ui.link('level1_root').kss('@zopen.sales:aa')\
-                        .child( ui.link('level1').kss('@zopen.sael:bb'), kss_expand='@zopen.test:aaa')\
-                        .child( ui.link('level2').kss('@zopen.sael:bb')\
-                                   .child(ui.link('level2 1').kss('@zopen.sales:cc'))
+   tree = ui.tree(ui.link('level1_root').on_click('@zopen.sales:aa')\
+                        .child( ui.link('level1').on_click('@zopen.sael:bb'), on_expand='@zopen.test:aaa')\
+                        .child( ui.link('level2').on_click('@zopen.sael:bb')\
+                                   .child(ui.link('level2 1').on_click('@zopen.sales:cc'))
                               )
                   )
 
@@ -208,10 +208,10 @@ ui 元素
 
    tree.expand()
 
-对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``kss_expand`` ，这里可以动态为该节点增加子节点::
+对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``on_expand`` ，这里可以动态为该节点增加子节点::
 
-   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb') )
-   kss.tree.child( uilink('level1', id="uid").kss('@zopen.sael:bb'), kss_expand)
+   view.tree.child( uilink('level1', id="uid").on_click('@zopen.sael:bb') )
+   view.tree.child( uilink('level1', id="uid").on_click('@zopen.sael:bb'), on_expand)
 
 文件查看器
 ----------------
@@ -232,7 +232,7 @@ ui布局组件
 ---------------
 列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
 
-   ui.list_group(ui.link('abc', href='').kss('@zopen.test:test').active(),
+   ui.list_group(ui.link('abc', href='').on_click('@zopen.test:test').active(),
                 ui.link('dd', href=''),
                 )
 
@@ -242,10 +242,10 @@ ui布局组件
       ui.link('', href='#')\
             .child(ui.text('大标题'))\
             .child(ui.text('一些描述信息').discreet())\
-            .kss('@zopen.test:testt')\
+            .on_click('@zopen.test:testt')\
             .active(),
 
-      ui.link('abc', href='').kss('@zopen.test:test'),
+      ui.link('abc', href='').on_click('@zopen.test:test'),
                 )
 
 面板
@@ -274,7 +274,7 @@ ui布局组件
 ------------------------
 遮罩方式显示一个表单::
 
-   kss.modal(form, width=600)
+   view.modal(form, width=600)
 
 系统功能组件
 ==================
@@ -328,87 +328,87 @@ ui布局组件
 
    ui.links.profile(pid)
 
-kss交互命令
+view交互命令
 ====================
 
 在软件包里面, 创建一个python脚本，将模板设置为 kss 即可.
 
-kss模板的脚本，无需返回任何值，ui的操作通过 ``kss`` 来实现
+kss模板的脚本，无需返回任何值，ui的操作通过 ``view`` 来实现
 
 站点消息提示
 -----------------
 站点提示信息::
 
-   kss.message(message, type='info', )
-   kss.message(message, type='error', )
+   view.message(message, type='info', )
+   view.message(message, type='error', )
 
 选择器
 -----------------
 可以类似jquery选择对象进行操作, 选择方法和jquery完全相同::
 
-    kss.select("#content")   # 直接css定位
-    kss.closet("div").find('dd')  # 采用漫游traves的方法
+    view.select("#content")   # 直接css定位
+    view.closet("div").find('dd')  # 采用漫游traves的方法
 
 可以借助ui对象提供的选择器进行选择，比如上面的::
 
-    kss.tabs.closest().active_panel()
+    view.tabs.closest().active_panel()
 
 清空某个输入项::
 
-   kss.closet("#input").clear()
+   view.closet("#input").clear()
 
 内容操作
 ------------
 设置中间的主区域内容，可以::
 
-   kss.layout.main().set_content(form)
+   view.layout.main().set_content(form)
 
 设置右侧区域的内容，可以::
 
-   kss.layout.right().set_content(form)
+   view.layout.right().set_content(form)
 
 也可以在右侧区域，补充一个内容::
 
-   kss.layout.right().append(form)
-   kss.layout.right().prepend(form)
+   view.layout.right().append(form)
+   view.layout.right().prepend(form)
 
 清空内容区上方列::
 
-   kss.layout.above().empty()
+   view.layout.above().empty()
 
 左右侧列都可以显示隐藏::
 
-   kss.layout.hide_left()
-   kss.layout.show_left()
-   kss.layout.hide_right()
-   kss.layout.show_right()
+   view.layout.hide_left()
+   view.layout.show_left()
+   view.layout.hide_right()
+   view.layout.show_right()
 
 操作历史
 ---------------
 ::
 
-   kss.history.push_state(data, title)
-   kss.history.replace_state(data, title)
-   kss.history.back()
-   kss.history.go(2)
+   view.history.push_state(data, title)
+   view.history.replace_state(data, title)
+   view.history.back()
+   view.history.go(2)
 
 跳转
 ---------
 参数url是跳转到地址，target如果有值，就是内嵌iframe的名字::
 
-   kss.redirect(url, taget)
+   view.redirect(url, taget)
 
 禁用选择处的kss
 ----------------------
 有些内容一次加载之后，不希望再次加载，可以禁用kss::
 
-   kss.disable_kss()
+   view.disable_action()
 
 事件触发和捕获
 =======================
 首先需要在网页上设置事件处理方法::
 
-   ui.script().on('dataitem-change', kss="@zopen.test:refresh")
+   ui.script().on('dataitem-change', action="@zopen.test:refresh")
 
 在kss触发一个事件::
 

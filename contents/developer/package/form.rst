@@ -34,12 +34,19 @@ json定义表单
                "type": "Text",       
                "title":'任务说明',      
                "rows":3, },
-            {"name": "start,
-              "type": "Date",
-              "title": '开始时间',},
-            { "name":"end",
-              "type": "Date",
-              "title": '结束时间',},
+            {"name":"startend",
+             "Type":"Panel",
+             "title":"时间",
+             "layout":'horizontal', # vertical
+             "fields":[
+                {"name": "start,
+                  "type": "Date",
+                  "title": '开始时间',},
+                { "name":"end",
+                  "type": "Date",
+                  "title": '结束时间',},
+                ]
+            },
             { "name":"level",
               "type": "Integer",
               "title": '任务等级',
@@ -93,6 +100,7 @@ json定义表单
 - DataContainerSelect: 表单容器选择 
 - TagSelect: 标签组选择
 - Computed: 公式字段
+- Panel: 面板字段，可以设置排列方式，支持多个Panel嵌套
 
 字段属性
 -----------------
