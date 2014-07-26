@@ -204,11 +204,9 @@ description: 表单和流程操作接口，包括表单自动生成
 
 流程委托 ``delegate``
 ------------------------
-场景：工作负责人休假、生病，临时不便做流程处理。此时大部分工作交给其他人处理，自己有时可能也可以进入平台自行处理部分工作。
+当负责人休假、生病，可将工作委托其他人处理，期间他仍然可以选择自己处理::
 
-流程协助，实际上是对当前的工作项创建一个分支工作::
-
-   workitem.delegate(original_responsible, new_responsibles)
+   workitem.delegate(responsible, delegators)
 
 如果取消某个负责人的代理::
 
@@ -226,13 +224,13 @@ description: 表单和流程操作接口，包括表单自动生成
 
 流程转交转交 ``deliver``
 ---------------------------------
-场景: 比如觉得这个工作不该自己负责，可以直接转交工作给其他人。此时工作不在归自己处理::
+将工作完全转交工作给其他人负责，自己不再处理::
 
    item.workitems.deliver(workitem_name, new_responsibles)
 
 协助 ``assist``
 -----------------------
-将工作转交给其他人给出意见，其他人完成之后，流程扭转到自己继续处理::
+将工作转给其他人给出意见，其他人完成之后，流程扭转回自己继续处理::
 
    item.workitems.assist(workitem_name, new_responsibles)
 
