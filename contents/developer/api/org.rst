@@ -130,6 +130,7 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
 - ``account`` : 账户名，如： ``zopen``
 - ou_id: 部门ID, 如：13123
 - include_diabled，成员中是否包含被禁用人员
+
 返回子部门、组、成员的ID清单 ::
 
   {
