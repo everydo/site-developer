@@ -51,7 +51,7 @@ listUserGroups(user_id):
             }
 
 listOUDetail(ou_id, include_diabled):
-     列出人员所属的组(部门、群组、角色、岗位)信息。
+     列出部门下的子部门、群组、用户列表
      返回：::
 
            {'id':'groups.tree.ou1',
