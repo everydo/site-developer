@@ -50,6 +50,18 @@ listUserGroups(user_id):
             'licenses':[service_name, ...]
             }
 
+listOUDetail(ou_id, include_diabled):
+     列出人员所属的组(部门、群组、角色、岗位)信息。
+     返回：::
+
+           {'id':'groups.tree.ou1',
+           'title': '部门一',
+           'users':['users.test', 'users.two'],
+           'ous':['groups.tree.sub1', ...],
+           'groups':['groups.job.job1', ...],
+            }
+
+
 listFlatUserGroups(user_id):
      通过人员id找到所属的全部组，这个用于检查权限。
 
