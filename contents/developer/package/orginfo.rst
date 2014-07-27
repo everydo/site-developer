@@ -50,6 +50,18 @@ listUserGroups(user_id):
             'licenses':[service_name, ...]
             }
 
+listOUDetail(ou_id, include_diabled):
+     列出部门下的子部门、群组、用户列表
+     返回：::
+
+           {'id':'groups.tree.ou1',
+           'title': '部门一',
+           'users':['users.test', 'users.two'],
+           'ous':['groups.tree.sub1', ...],
+           'groups':['groups.job.job1', ...],
+            }
+
+
 listFlatUserGroups(user_id):
      通过人员id找到所属的全部组，这个用于检查权限。
 
