@@ -84,7 +84,10 @@ json定义表单
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
 
-- Select: 选择框，如果multiple=True多选，否则单选
+- Select: 选择框，如果multiple=True多选，否则单选. 
+
+  注意: 即便是单选，初始值以及最终保存的数据，也是list类型。
+
 - Boolean: bool字段
 - Lines: 多行字段, list
 - Date: 日期字段
