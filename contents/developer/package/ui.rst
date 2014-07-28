@@ -37,12 +37,12 @@ UI组件和交互
 一个独立的页面::
 
     h1 = ui.h1('新的表单')
-    form = ui.form(action='', title='', description='')\
+    form = ui.form(title='', description='')\
                     .fields(form_def,
                             data={'title':'the title'}, 
                             errors=errors)\
                     .button('save', '保存')\
-                    .on_click('@zopen.sales:test') \ # 发起一个服务端请求
+                    .on('submit', '@zopen.sales:test') \ # 发起一个服务端请求
                     .loading('加载中...')  # 设置加载提示文字
     help = ui.div('some help')
     return h1 + form + help
@@ -57,7 +57,7 @@ UI组件和交互
   form = ui.form(action='', title='', description='')\
                 .fields(form_def, data={'title':'the title'}, errors=errors)\
                 .button('save', '保存')\
-                .on_submit('@zopen.sales:test')
+                .on('submit', '@zopen.sales:test')
   view.modal(h1 + form)
 
 ui 元素
@@ -68,7 +68,7 @@ ui 元素
 ::
 
   link = ui.link('click me', href='http://google.com')\    # 创建一个连接
-                .on_click('@zopen.sales:test?param1=xx&param2=xxx')\  # 发起ajax请求
+                .on('click', '@zopen.sales:test?param1=xx&param2=xxx')\  # 发起ajax请求
                 .loading('请稍等...')  # 点击发起请求之后，显示正在加载
 
 
@@ -98,7 +98,7 @@ ui 元素
    form = ui.form(action='', title='', description='')\  # 表单的标题和action
                 .fields(form_def, data={'title':'the title'}, errors=errors).\
                 .action('save', '保存')\ # 增加一个按钮
-                .on_submit('@zopen.sales:test')  # 表单，而不是普通的表单
+                .on('submit', '@zopen.sales:test')  # 表单，而不是普通的表单
 
 其中fields的书写方法，见 ``表单处理`` 
 
@@ -127,7 +127,7 @@ ui 元素
 ::
 
    button = ui.button('发起新流程')\   # 按钮的连接
-            .on_click('@@issue_workflow_show')\  # 发起请求
+            .on('click', '@@issue_workflow_show')\  # 发起请求
             .loading('请稍等...')\  # 点击发起之后，显示正在加载
             .size('large')\  # 大尺寸
             .icon('star')
@@ -138,9 +138,9 @@ ui 元素
 -------------
 ::
 
-  menu = ui.menu(ui.link('aaa', url='google.com').on_click('@zopen.test:tt').active(),
-           ui.separator(),
-           ui.link('bbb', url='google.com').on_click('@zopen.test:tt'))
+  menu = ui.menu(ui.link('aaa', url='google.com').on('click', '@zopen.test:tt').active(),
+                   ui.separator(),
+                   ui.link('bbb', url='google.com').on('click', '@zopen.test:tt'))
 
   button.dropdown(menu)
   button.dropup(menu)
@@ -161,19 +161,19 @@ ui 元素
 --------------------
 ::
 
-  ui.nav(ui.link('title', url).on_click('@zopen.test:tt').active(),
-         ui.link('title 2', url).on_click('@zopen.test:tt'),
+  ui.nav(ui.link('title', url).on('click', '@zopen.test:tt').active(),
+         ui.link('title 2', url).on('click', '@zopen.test:tt'),
         )
 
 带切换页面的tab也导航::
 
   ui.tabs()\
         .tab(ui.link('title', url="").active(), ui.panel())\
-        .tab(ui.link('title', url="").on_click('@zopen.test:tt'), ui.panel())
+        .tab(ui.link('title', url="").on('click', '@zopen.test:tt'), ui.panel())
 
-其中kss用于动态加载页面内容，动态加载kss脚本可以这样写::
+其中 ``on`` 用于动态加载页面内容，动态加载脚本可以这样写::
 
-    text = ui.text('this is kss page from server. :-)')
+    text = ui.text('this is page from server. :-)')
     view.tabs.closest().active_panel().set_content(text)
 
 其中：
@@ -182,7 +182,7 @@ ui 元素
 - ``active_panel()`` 找到tabs当前活动的panel
 - ``set_content(text)`` 设置panel的内容
 
-可以看到每个组件包括ui方法来构建组件，和kss命令来操作组件
+可以看到每个组件包括ui方法来构建组件，和view命令来操作组件
 
 路径
 --------------
@@ -198,9 +198,9 @@ ui 元素
 ::
 
    tree = ui.tree(ui.link('level1_root').on_click('@zopen.sales:aa')\
-                        .child( ui.link('level1').on_click('@zopen.sael:bb'), on_expand='@zopen.test:aaa')\
+                        .child( ui.link('level1').on('click', '@zopen.sael:bb').on('expand', '@zopen.test:aaa')\
                         .child( ui.link('level2').on_click('@zopen.sael:bb')\
-                                   .child(ui.link('level2 1').on_click('@zopen.sales:cc'))
+                                   .child(ui.link('level2 1').on('click', '@zopen.sales:cc'))
                               )
                   )
 
@@ -208,10 +208,10 @@ ui 元素
 
    tree.expand()
 
-对于动态展开的，设置 ``.child`` 的时候，需要附加展开的kss处理方法 ``on_expand`` ，这里可以动态为该节点增加子节点::
+对于动态展开的，设置 ``.child`` 的时候，需要附加展开的处理方法 ``on('expand',`` ，这里可以动态为该节点增加子节点::
 
-   view.tree.child( uilink('level1', id="uid").on_click('@zopen.sael:bb') )
-   view.tree.child( uilink('level1', id="uid").on_click('@zopen.sael:bb'), on_expand)
+   view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
+   view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
 
 文件查看器
 ----------------
@@ -223,7 +223,7 @@ ui 元素
 ----------
 ::
 
-   ui.batch(context, request, batch)
+   ui.pagination(batch, start=0).on('click', '@zopen.sales:listing')
 
 ui布局组件
 =================
@@ -232,7 +232,7 @@ ui布局组件
 ---------------
 列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
 
-   ui.list_group(ui.link('abc', href='').on_click('@zopen.test:test').active(),
+   ui.list_group(ui.link('abc', href='').on('click', '@zopen.test:test').active(),
                 ui.link('dd', href=''),
                 )
 
@@ -242,10 +242,10 @@ ui布局组件
       ui.link('', href='#')\
             .child(ui.text('大标题'))\
             .child(ui.text('一些描述信息').discreet())\
-            .on_click('@zopen.test:testt')\
+            .on('click', '@zopen.test:testt')\
             .active(),
 
-      ui.link('abc', href='').on_click('@zopen.test:test'),
+      ui.link('abc', href='').on('click', '@zopen.test:test'),
                 )
 
 面板
@@ -331,9 +331,7 @@ ui布局组件
 view交互命令
 ====================
 
-在软件包里面, 创建一个python脚本，将模板设置为 kss 即可.
-
-kss模板的脚本，无需返回任何值，ui的操作通过 ``view`` 来实现
+在软件包里面, 创建一个python脚本，ui的操作通过 ``view`` 来实现
 
 站点消息提示
 -----------------
@@ -398,23 +396,23 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``view`` 来实�
 
    view.redirect(url, taget)
 
-禁用选择处的kss
+禁用选择处的
 ----------------------
-有些内容一次加载之后，不希望再次加载，可以禁用kss::
+有些内容一次加载之后，不希望再次加载，可以禁用::
 
-   view.disable_action()
+   view.off('click')
 
 事件触发和捕获
 =======================
 首先需要在网页上设置事件处理方法::
 
-   ui.script().on('dataitem-change', action="@zopen.test:refresh")
+   ui.script().on('dataitem-change', "@zopen.test:refresh")
 
-在kss触发一个事件::
+在view触发一个事件::
 
-   kss.trigger('dataitem-change', uid=12312, title=123123')
+   view.trigger('dataitem-change', uid=12312, title=123123')
 
-这时候会向服务器发起一个kss请求::
+这时候会向服务器发起一个请求::
 
    @zopen.test:refresh?event=dateitem-change&uid=1312&title=123123
 
@@ -424,6 +422,6 @@ kss模板的脚本，无需返回任何值，ui的操作通过 ``view`` 来实�
 ==============
 可以直接写python来执行前端逻辑，python会解释生成前端需要的语言，比如javascript::
 
-   ui.button('aa').on('click', func="process_click")
-   ui.script('zopen.tests:python/base.py').on('data-change', func, kss)
+   ui.button('aa').on('click', '', func="process_click")
+   ui.script('zopen.tests:python/base.py').on('data-change', '', func)
 

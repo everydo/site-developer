@@ -2,7 +2,6 @@ title: 软件包
 description: 系统的介绍平台后端开发接口
 order: [overview.rst,
         script.rst,
-        template.rst,
 
         storage.rst, 
         search.rst, 
@@ -24,4 +23,5 @@ order: [overview.rst,
         ui.rst, 
         others.rst,
         anyflow.rst
+        template.rst,
         ]
