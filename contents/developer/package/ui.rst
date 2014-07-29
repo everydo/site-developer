@@ -266,6 +266,11 @@ ui布局组件
 
    panel.title(ui.text('面板示例'))
 
+可以在title右侧增加一个toolbox::
+
+   panle.toolbox(ui.botton('设置').on('click', '@zopen.seals:ad')) # 一个按钮
+   panle.toolbox(menu) # 增加一个menu
+
 也可以增加一个footer::
 
    panel.footer(ui.link('sss', url))
