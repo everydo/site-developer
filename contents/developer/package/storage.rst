@@ -546,7 +546,7 @@ fork一个文档进行修改, 实际上就是拷贝文档到新的位置::
   >>> obj = context.revisions.fork(container, new_name='')
 
 分支采用关系记录，可以查看所有分支版本::
-  
+
   >>> context.relations.list_sources('fork') 
   >>> obj.relations.list_target('fork')
 

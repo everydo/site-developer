@@ -74,3 +74,11 @@ description: 关注、收藏属于知识管理的范畴，将内容和人建立�
 
     context.comments.remove(comment_id)
     context.comments.clear()
+
+搜索评论::
+
+    container.comments.search(self, author='', text='', restricted=True, time=(None, None), attachments=[])
+
+搜索全站的评论::
+
+    root.comments.search(...)

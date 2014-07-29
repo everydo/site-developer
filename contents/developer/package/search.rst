@@ -210,14 +210,6 @@ dict字段
 
    QuerySet('full').parse('北京', fields=['file_content'])
 
-搜索流程工作项
--------------------------
-流程的工作项，是一个独立的索引，搜索方法为::
-
-   QuerySet('workitem').anyof(path=[project])\
-            .anyof(stati=('flowtask.active', 'flowtask.pending')).\
-                    anyof(Responsible=(pid, ), field='acl_grant')
-
 无权限和历史版本文档
 -----------------------
 这个搜索默认只搜索当前用户有权限查看的文件，以及最新版本的文件，可以调整改变::
@@ -248,4 +240,12 @@ TODO
       ...
 
   batch_html = renderBatch(context, request, batch)
+
+搜索流程工作项
+-------------------------
+评论和流程的工作项，是独立的索引，搜索方法为::
+
+   QuerySet('workitem').anyof(path=[project])\
+            .anyof(stati=('flowtask.active', 'flowtask.pending')).\
+                    anyof(Responsible=(pid, ), field='acl_grant')
 
