@@ -347,18 +347,9 @@ view交互命令
 
 选择器
 -----------------
-可以类似jquery选择对象进行操作, 选择方法和jquery完全相同::
-
-    view.select("#content")   # 直接css定位
-    view.closet("div").find('dd')  # 采用漫游traves的方法
-
 可以借助ui对象提供的选择器进行选择，比如上面的::
 
     view.tabs.closest().active_panel()
-
-清空某个输入项::
-
-   view.closet("#input").clear()
 
 内容操作
 ------------
