@@ -196,7 +196,6 @@ on_validation脚本
 可以注册一个表单语义，用于数据项、数据容器，或者应用容器::
 
   root.packages.register_metadata('zopen.sales', form_def)
-  
 
 使用表单
 ==================
@@ -274,6 +273,16 @@ on_validation脚本
 
 - fields: 需要计算初始值的字段
 - options：计算初始值需要的额外参数
+
+渲染一个字段
+--------------------
+如果需要渲染一个字段，最简单的方法是::
+
+  form.render_field('field_name', value)
+
+当然可能这个字段有些表单式需要用到其他的变量，可更完整的表达::
+
+  form.render_field('field_name', value, context=context, request=request)
 
 软件包文件
 ====================
