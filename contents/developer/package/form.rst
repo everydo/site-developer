@@ -280,6 +280,11 @@ on_validation脚本
 
   form.render_field('field_name', value)
 
+默认会根据权限，决定编辑或者只读显示。也可以指定显示模式::
+
+  form.render_field('field_name', value, mode='edit')
+  form.render_field('field_name', value, mode='display')
+
 当然可能这个字段有些表单式需要用到其他的变量，可更完整的表达::
 
   form.render_field('field_name', value, context=context, request=request)
