@@ -491,7 +491,7 @@ metadata保存在 ``item.md`` 属性中::
 
 也可以得到全部历史版本::
 
-   >>> context.revisions.values(tagged_only=False) 
+   >>> context.revisions.values(include_temp=False) 
 
 可得到某个版本信息::
 

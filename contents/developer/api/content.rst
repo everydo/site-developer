@@ -204,3 +204,14 @@ api/v1/content/delta
   - action: movein/moveout/rename/remove/new/update
 
 https://www.dropbox.com/developers/core/docs#delta
+
+api/v1/content/assistent_info
+----------------------------------
+查询桌面助手的信息，包括版本、下载地址等
+
+返回:
+
+- build_number: build号
+- version: 版本号
+- url: 下载地址
+
