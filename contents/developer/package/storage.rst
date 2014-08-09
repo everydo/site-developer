@@ -702,6 +702,12 @@ visible: 保密
 - visible.default	普通
 - visible.private	保密
 
+attached: 附件状态
+
+- master: 带附件的主文件
+- attachment: 附件
+- none：普通文件
+
 数据项的状态
 -----------------
 - flowsheet.active, '活动', '流程单正在处理中'
