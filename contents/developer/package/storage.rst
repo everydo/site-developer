@@ -702,7 +702,7 @@ visible: 保密
 - visible.default	普通
 - visible.private	保密
 
-attached: 附件状态
+attach: 附件状态
 
 - master: 带附件的主文件
 - attachment: 附件
