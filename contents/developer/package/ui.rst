@@ -421,3 +421,11 @@ view交互命令
    ui.button('aa').on('click', '', func="process_click")
    ui.script('zopen.tests:python/base.py').on('data-change', '', func)
 
+如果希望和html混合
+==========================
+我们不希望你用html/css/js，如果你还是想用，可以使用 `.html()` 转换为html::
+
+   blabla = ui.link('a') + ui.link('b')
+   html = blabla.html() + '<a href=""> you html code</a>'
+   return html
+

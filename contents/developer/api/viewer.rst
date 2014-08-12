@@ -23,6 +23,7 @@ description: 文件上传、下载、转换
 - instance: account下具体的一个站点名，如果不设置，就是default
 - location: 在文件仓库中的相对地址，如果有sourceURL，这个可以不填写
 - source_url: 原始文件的下载地址，如果发现没有下载过，云查看会到这里自动去下线
+- source_mime(可选): 原始文件的mime类型，如果不输入，根据文件名计算Mime
 - mime(可选): 转换的mime类型
 - subfile(可选): 比如转换html中的图片，或者某个大小的缩略图
 - ip: 浏览器的ip地址，如不填写则不做IP检查
@@ -77,6 +78,7 @@ HTTP返回值
 - instance: 具体的站点号，如 default
 - location：具体的文件存放位置，可不填
 - source_url: 如果文件不存在，下载的url地址
+- source_mime(可选): 原始文件的mime类型，如果不输入，根据文件名计算Mime
 - targets: 目标文件的mime类型, 比如::
 
     application/pdf,text/html
