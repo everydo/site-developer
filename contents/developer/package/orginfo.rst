@@ -187,6 +187,7 @@ lookupReviewer(pid, reviewer_table, step=''):
 
 sync(objects_detail=None, send_mail=True, async=False)
    参数::
+
         objects_detail: 新增对象的详细信息列表
         send_mail: 当新建人员的时候，默认发送邮件
         async： 这个接口默认是同步执行，当这个参数为真，以异步执行
