@@ -191,6 +191,7 @@ sync(objects_detail=None, send_mail=True, async=False)
         send_mail: 当新建人员的时候，默认发送邮件
         async： 这个接口默认是同步执行，当这个参数为真，以异步执行
 
+objects_detail 参数如何编写请参见 `同步API  </api/org.rst>`_
 
 管理接口
 .............
