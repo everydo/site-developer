@@ -91,17 +91,6 @@ ui 元素
 
   link.badge('12')
 
-表单
------
-前面表单一章，表单生成的描述::
-
-   form = ui.form(action='', title='', description='')\  # 表单的标题和action
-                .fields(form_def, data={'title':'the title'}, errors=errors).\
-                .action('save', '保存')\ # 增加一个按钮
-                .on('submit', '@zopen.sales:test')  # 表单，而不是普通的表单
-
-其中fields的书写方法，见 ``表单处理`` 
-
 输入控件
 -----------------
 只显示一个控件::
@@ -134,6 +123,8 @@ ui 元素
 
 可选的size: large, small, xsmall
 
+UI集合
+===========================
 下拉菜单
 -------------
 ::
@@ -145,17 +136,50 @@ ui 元素
   button.dropdown(menu)
   button.dropup(menu)
 
-代码编辑
-----------------
-::
+表单
+-----
+前面表单一章，表单生成的描述::
 
-  ace = ui.ace()
+   form = ui.form(action='', title='', description='')\  # 表单的标题和action
+                .fields(form_def, data={'title':'the title'}, errors=errors).\
+                .action('save', '保存')\ # 增加一个按钮
+                .on('submit', '@zopen.sales:test')  # 表单，而不是普通的表单
+
+其中fields的书写方法，见 ``表单处理`` 
+
 
 按钮组
 ---------------
 ::
 
   ui.button_group(btn1, btn2).virtical().justify()
+
+面板
+--------------
+一个面包包括多个组件，默认竖排::
+
+   panel = ui.panel(form, button)
+
+也可以横排::
+
+   panel.horizon()
+
+可将面板做成可折叠的::
+
+   panel.collapse(True)  # True表示初始折叠
+
+可以增加title, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#panels>`__ ::
+
+   panel.title(ui.text('面板示例'))
+
+可以在title右侧增加一个toolbox::
+
+   panle.toolbox(ui.botton('设置').on('click', '@zopen.seals:ad')) # 一个按钮
+   panle.toolbox(menu) # 增加一个menu
+
+也可以增加一个footer::
+
+   panel.footer(ui.link('sss', url))
 
 导航
 --------------------
@@ -164,6 +188,12 @@ ui 元素
   ui.nav(ui.link('title', url).on('click', '@zopen.test:tt').active(),
          ui.link('title 2', url).on('click', '@zopen.test:tt'),
         )
+
+二级导航::
+
+  ui.nav(ui.link('title', url).on('click', '@zopen.test:tt').active(),
+         ui.link('title 2', url).on('click', '@zopen.test:tt'),
+        ).sub()
 
 带切换页面的tab也导航::
 
@@ -213,20 +243,20 @@ ui 元素
    view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
    view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
 
-文件查看器
-----------------
-::
-
-   ui.doc_viewer(context, request).image()
-
 分页条
 ----------
 ::
 
    ui.pagination(batch, start=0).on('click', '@zopen.sales:listing')
 
-ui布局组件
-=================
+UI视图
+================
+
+评论视图
+--------------
+
+Feed
+----------
 
 列表组
 ---------------
@@ -248,32 +278,12 @@ ui布局组件
       ui.link('abc', href='').on('click', '@zopen.test:test'),
                 )
 
-面板
---------------
-一个面包包括多个组件，默认竖排::
+Items
+---------
 
-   panel = ui.panel(form, button)
-
-也可以横排::
-
-   panel.horizon()
-
-可将面板做成可折叠的::
-
-   panel.collapse(True)  # True表示初始折叠
-
-可以增加title, 参看 `bootstrap章节 <http://v3.bootcss.com/components/#panels>`__ ::
-
-   panel.title(ui.text('面板示例'))
-
-可以在title右侧增加一个toolbox::
-
-   panle.toolbox(ui.botton('设置').on('click', '@zopen.seals:ad')) # 一个按钮
-   panle.toolbox(menu) # 增加一个menu
-
-也可以增加一个footer::
-
-   panel.footer(ui.link('sss', url))
+UI模块
+==============
+模块定义UI基础行为
 
 显示一个modal窗口
 ------------------------
@@ -281,8 +291,16 @@ ui布局组件
 
    view.modal(form, width=600)
 
+
 系统功能组件
 ==================
+
+文件查看器
+----------------
+::
+
+   ui.doc_viewer(context, request).image()
+
 内置功能按钮
 ------------------
 关注按钮::
