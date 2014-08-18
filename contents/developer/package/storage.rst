@@ -156,6 +156,7 @@ web访问地址为::
   tabs = app_container.navs.get()  # 返回 应用或者脚本名的列表
   app_container.navs.remove(sub_container) # 去除一个列表
   app_container.navs.json() # json格式的导航设置
+  app_container.settings.get('navs_dropdown_limit') # 栏目下拉展示的门限
 
 文件夹 Folder
 -----------------------
