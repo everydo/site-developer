@@ -54,6 +54,7 @@ description: 表单和流程操作接口，包括表单自动生成
                          "responsibles": '[request.principal.id]',
                          "actions": [ { "name":'submit',
                                         "title":'提交',
+                                        "type": 'default',   # 正常的流程操作
                                         "condition":'',
                                         "finish_condition":'',
                                         "next_steps":['communicate'],
@@ -80,12 +81,14 @@ description: 表单和流程操作接口，包括表单自动生成
                           "responsibles":'context["responsibles"]',
                           "actions": [ {"name":'duplicated',
                                         "title":'重复或无效, 不再跟进',
+                                        "type": 'error',   # 这里error，表示流程异常操作
                                         "next_steps":[],
                                         "finish_condition":'',
                                         "condition":'',
                                        },
                                        {"name": '8372',
                                         "title": '需求了解完毕',
+                                        "type": 'default',   
                                         "next_steps": ['submit_plan'],
                                         "finish_condition":'',
                                        }

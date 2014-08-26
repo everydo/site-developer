@@ -43,7 +43,13 @@ event
 - removed：容器中去除对象，包括删除和移出
 - modified: 对象被修改
 - status-added: 对象新增某个状态
+
+  - event.item: 新增的状态
+  - event.old_stati: 之前的状态
 - status-removed: 对象去除某个状态
+
+  - event.item: 去除的状态
+  - event.old_stati: 之前的状态
 - movein: 这个是移入的事件
 - moveout: 这个是移出的事件
 - clock: 站点定时时间
