@@ -111,7 +111,12 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"workers": [{"worker_id": "id", "worker_name": "name", "status": "running", "error_msg": ""}]}``
+- JSON内容::
+
+   {"workers": [{"worker_id": "id", 
+                 "worker_name": "name", 
+                 "status": "running", 
+                 "error_msg": ""}]}
 
 任务查询 ``/worker_status``
 ---------------------------------
