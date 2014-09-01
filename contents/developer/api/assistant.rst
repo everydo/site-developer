@@ -26,8 +26,8 @@ description: 桌面助手的对外API
 ===============
 文件相关操作的API封装在filestore模块的FileStore类中。
 
-文件下载
---------------
+文件下载 ``/new_task/download``
+---------------------------------------
 调用FileStore实例的 ``download_file`` 方法可以下载一个文件。
 
 参数：
@@ -42,8 +42,8 @@ description: 桌面助手的对外API
 
 - None
 
-文件上传
---------------
+文件上传 ``/new_task/upload``
+----------------------------------
 调用FileStore实例的upload_file方法可以上传一个文件。
 
 参数：
