@@ -243,7 +243,7 @@ JavaScript SDK用于简化Web端的开发，其中集成了一些通用的方法
 
   同步。其中:
   
-  - ``folder_uid``是同步区的uid；
-  - ``local_path``是同步区的本地路径；
-  - ``type``是同步类型，共有三种：pull、push和sync；
+  - ``folder_uid`` 是同步区的uid；
+  - ``local_path`` 是同步区的本地路径；
+  - ``type`` 是同步类型，共有三种：pull、push和sync；
 
