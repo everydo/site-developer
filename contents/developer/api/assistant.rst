@@ -124,7 +124,12 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"worker_id": "id", "worker_name": "name", "status": "running", "error_msg": ""}``
+- JSON内容::
+
+    {"worker_id": "id", 
+     "worker_name": "name", 
+     "status": "running", 
+     "error_msg": ""}
 
 选择文件夹 ``/select_folder``
 ----------------------------------
@@ -139,7 +144,11 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"selected": false, "path": null}` `若用户选择了路径，则selected为true且path为选择的路径
+- JSON内容::
+
+    {"selected": false, "path": null}
+
+  若用户选择了路径，则selected为true且path为选择的路径
 
 选择文件 ``/select_files``
 -------------------------------
@@ -152,7 +161,9 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"paths": ["path_to_file_1", "path_to_file_2"]}``
+- JSON内容::
+
+    {"paths": ["path_to_file_1", "path_to_file_2"]}
 
 
 显示服务端文件夹对应的本地同步区 ``/sync_paths``
