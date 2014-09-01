@@ -1,6 +1,6 @@
 ---
 title: 桌面助手
-description: 如何开发一个桌面助手
+description: 桌面助手的对外API
 ---
 
 =================
