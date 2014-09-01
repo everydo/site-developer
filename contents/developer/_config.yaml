@@ -1,6 +1,6 @@
 title: Easydo - 企业办公平台
 order: [index.rst, tour, sdk, api, package, blog]
-exclude: [img, cert]
+exclude: [img, cert, sdk]
 theme_base: /themes/developer-bootstrap
 theme: default.html
 domain_name: developer.everydo.com

@@ -1,6 +1,6 @@
-title: REST API
+title: API
 description: 易度是一个开放的平台，对外部系统提供全套的操作API，方便其他系统和易度进行集成。
-exclude: [img, java, swfx.rst, file.rst]
+exclude: [img, java, swfx.rst, file.rst, components.rst]
 order: [overview.rst, 
         auth.rst, 
         account.rst,
