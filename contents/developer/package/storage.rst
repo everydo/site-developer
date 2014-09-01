@@ -156,6 +156,7 @@ web访问地址为::
   tabs = app_container.navs.get()  # 返回 应用或者脚本名的列表
   app_container.navs.remove(sub_container) # 去除一个列表
   app_container.navs.json() # json格式的导航设置
+  app_container.settings.get('navs_dropdown_limit') # 栏目下拉展示的门限
 
 文件夹 Folder
 -----------------------
@@ -616,12 +617,10 @@ merge之后obj不会被删除，如果不需要，可以再次手工删除。
 - 'Subscriber' 订阅人
 - 'Accessor' 访问者
 - 'Reader' : 5级查看人
-- 'Reader4'
 - 'Reader3'
 - 'Reader2'
 - 'Reader1'
 - 'PrivateReader' 超级查看人
-- 'PrivateReader4' 仅仅文件授权的时候用，不随保密变化
 - 'PrivateReader3' 仅仅文件授权的时候用，不随保密变化
 - 'PrivateReader2' 仅仅文件授权的时候用，不随保密变化
 - 'PrivateReader1' 仅仅文件授权的时候用，不随保密变化
@@ -651,15 +650,16 @@ merge之后obj不会被删除，如果不需要，可以再次手工删除。
 系统中常用权限，权限ID为字符串类型，下文中权限ID将用permisson_id来代替。
 
 - 'Public'：公开，任何人都可以访问
-- 'Manage'：管理
-- 'Delegate': 委托
+- 'Manage'：管理，文件夹管理员，文件负责人，可以管理
+- 'Review': 审核，文件夹管理员、审核人，才可以审核
 - 'View'：查看的权限
-- 'Access'：容器/栏目访问的权限
-- 'Edit'：编辑的权限
+- 'Access'：文件夹、容器/栏目访问的权限
+- 'Edit'：编辑，文件负责人、文件的编辑人，都可以编辑
 - 'Add'：添加文件、流程单
 - 'AddFolder': 添加文件夹
 - 'AddContainer': 添加容器(子栏目)
 - 'Logined': 是否登录
+- 'Delegate': 委托
 
 'Access'和'View'的区别，需要进入文件夹(Access)，但是不希望查看文件夹包含的文档(View)。
 

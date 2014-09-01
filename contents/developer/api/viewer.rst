@@ -83,7 +83,12 @@ HTTP返回值
 
     application/pdf,text/html
 
-- callback： 转换完成的回调url, 如果转换已经完成，则立刻回调
+- callback： 各种转换完成的回调url, 如果转换已经完成，则立刻回调
+
+  可以设置多个不同的转换回调::
+
+   {"text/plain": "http://server.com/aa", "application/x-shockwave-flash": "http://blabla.com/bla"}
+
 - ip: 浏览器的ip地址，不填写则不做IP检查
 - timestamp：失效时间的时间戳，不填表示不失效
 - app_id: 应用id，可不填

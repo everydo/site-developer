@@ -54,6 +54,7 @@ description: 表单和流程操作接口，包括表单自动生成
                          "responsibles": '[request.principal.id]',
                          "actions": [ { "name":'submit',
                                         "title":'提交',
+                                        "type": 'default',   # 正常的流程操作
                                         "condition":'',
                                         "finish_condition":'',
                                         "next_steps":['communicate'],
@@ -80,12 +81,14 @@ description: 表单和流程操作接口，包括表单自动生成
                           "responsibles":'context["responsibles"]',
                           "actions": [ {"name":'duplicated',
                                         "title":'重复或无效, 不再跟进',
+                                        "type": 'error',   # 这里error，表示流程异常操作
                                         "next_steps":[],
                                         "finish_condition":'',
                                         "condition":'',
                                        },
                                        {"name": '8372',
                                         "title": '需求了解完毕',
+                                        "type": 'default',   
                                         "next_steps": ['submit_plan'],
                                         "finish_condition":'',
                                        }
@@ -166,7 +169,7 @@ description: 表单和流程操作接口，包括表单自动生成
 每个工作项:
 
 - object_types: (WorkItem, Item)
-- metadata: ('zopen.plan:plan',) # 流程名
+- metadata: ('zopen.plan:plan:review',) # 软件包名:流程名:步骤名
 - stati: flowtask.active
 - acl: 
 
@@ -175,7 +178,8 @@ description: 表单和流程操作接口，包括表单自动生成
 
 - md 信息：
 
-    - 'step': ('review',)             # 具体的步骤
+    - 'workflow': ('zopen.plan:plan',)  # 具体的流程定义
+    - 'step': ('review',)           # 具体的步骤
     - 'deadline': '2012-12-13',     # 工作期限
     - 'finished': '',               # 完结时间
     - delegations: { delegator: [pids] }
