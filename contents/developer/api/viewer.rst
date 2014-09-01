@@ -120,7 +120,7 @@ HTTP返回值
 
     application/pdf,text/html, text/index
 
-- index_id: 全文索引的ID(非必填)，只有targets中包含``text/index``才需要
+- index_id: 全文索引的ID(非必填)，只有targets中包含 ``text/index`` 才需要
 
 - callback： 各种转换完成的回调url, 如果转换已经完成，则立刻回调
   可以设置多个不同的转换回调::
