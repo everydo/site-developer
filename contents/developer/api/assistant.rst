@@ -185,7 +185,9 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"paths": ["localpath_1", "localpath_2_if_any"]}``
+- JSON内容::
+
+   {"paths": ["localpath_1", "localpath_2_if_any"]}
 
 冒泡提示 ``/message``
 ------------------------
