@@ -20,13 +20,13 @@ description: 桌面助手的对外API
 
 在所有发往这个地址的请求中，带上callback参数即可支持JSONP响应，解决Ajax跨域的问题。
 
-在所有发往桌面助手服务器的请求中，带上``build_number``参数指定需要的桌面助手最低build版本号，可以让低版本桌面助手自动升级。
+在所有发往桌面助手服务器的请求中，带上 ``build_number`` 参数指定需要的桌面助手最低build版本号，可以让低版本桌面助手自动升级。
 
 文件管理API
 ===============
 文件相关操作的API
 
-文件下载 ``/new_worker/download``
+文件下载 ``/worker/new/download``
 ---------------------------------------
 
 参数：
@@ -42,9 +42,14 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"is_alive": true, "worker_id": "id"}``
+- JSON内容::
 
-文件上传 ``/new_worker/upload``
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+文件上传 ``/worker/new/upload``
 ----------------------------------
 
 参数：
@@ -60,9 +65,14 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"is_alive": true, "worker_id": "id"}``
+- JSON内容::
 
-文件同步 ``/new_worker/sync``
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+文件同步 ``/worker/new/sync``
 ---------------------------------
 
 参数：
@@ -79,29 +89,45 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"is_alive": true, "worker_id": "id"}``
+- JSON内容::
 
-检查向上同步冲突 ``check_push_conflict``
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+获取冲突列表 ``get_conflict_list``
 ----------------------------------------
 
 参数：
 
-- local_path: 要检查的项目的本地路径
 - root_uid: 项目所属的本地同步区的uid
-- parent_uid: 项目所在父文件夹的uid
 - root_local_folder: 项目所属的本地同步区的路径
 - build_number: 所需的桌面助手最低build版本号
 
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: ``{"conflicted": true}``
+- JSON内容::
+
+    {
+        "conflicts": [
+            {
+                "uid": uid, 
+                "local_path": "path", 
+                "server_path": "path", 
+                "revision": "revision", 
+                "root_uid": "uid", 
+                "last_sync": "time"
+            }
+        ]
+    }
 
 通用API
 ============
 包括UI和任务管理方面的API。
 
-任务列表 ``/all_workers``
+任务列表 ``/worker/all``
 ----------------------------------
 
 参数：
@@ -113,12 +139,18 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容::
 
-   {"workers": [{"worker_id": "id", 
-                 "worker_name": "name", 
-                 "status": "running", 
-                 "error_msg": ""}]}
+    {
+        "workers": [
+            {
+                "worker_id": "id", 
+                "worker_name": "name", 
+                "status": "running", 
+                "error_msg": ""
+            }
+        ]
+    }
 
-任务查询 ``/worker_status``
+任务查询 ``/worker/status``
 ---------------------------------
 
 参数：
@@ -131,10 +163,85 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容::
 
-    {"worker_id": "id", 
-     "worker_name": "name", 
-     "status": "running", 
-     "error_msg": ""}
+    {
+        "worker_id": "id", 
+        "worker_name": "name", 
+        "status": "running", 
+        "error_msg": ""
+    }
+
+新建任务 ``/worker/new/<worker_name>``
+--------------------------------
+新建的任务会自动开始
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- ...相应任务模块需要的参数
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+暂停任务 ``/worker/pause``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+开始任务 ``/worker/start``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+取消任务 ``/worker/cancel``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
 
 选择文件夹 ``/select_folder``
 ----------------------------------
@@ -151,7 +258,10 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容::
 
-    {"selected": false, "path": null}
+    {
+        "selected": false, 
+        "path": null
+    }
 
   若用户选择了路径，则selected为true且path为选择的路径
 
@@ -168,7 +278,12 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容::
 
-    {"paths": ["path_to_file_1", "path_to_file_2"]}
+    {
+        "paths": [
+            "path_to_file_1", 
+            "path_to_file_2"
+        ]
+    }
 
 
 显示服务端文件夹对应的本地同步区 ``/sync_paths``
@@ -187,7 +302,12 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容::
 
-   {"paths": ["localpath_1", "localpath_2_if_any"]}
+    {
+        "paths": [
+            "localpath_1", 
+            "localpath_2_if_any"
+        ]
+    }
 
 冒泡提示 ``/message``
 ------------------------
@@ -201,14 +321,14 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: 成功则返回``{"status": "done"}``
+- JSON内容: 成功则返回 ``{"status": "done"}`` 
 
 JS SDK
 ============
 JavaScript SDK用于简化Web端的开发，其中集成了一些通用的方法。
 
 
-使用JavaScript SDK的方法是在页面尾部（或在定义了``edo_assistent_opts``变量后的任意位置）载入SDK脚本文件，脚本会自动初始化，并创建一个``edo_assistent``全局对象。通过调用这个对象的方法，可以完成页面上与桌面助手相关的大部分操作。
+使用JavaScript SDK的方法是在页面尾部（或在定义了 ``edo_assistent_opts`` 变量后的任意位置）载入SDK脚本文件，脚本会自动初始化，并创建一个 ``edo_assistent`` 全局对象。通过调用这个对象的方法，可以完成页面上与桌面助手相关的大部分操作。
 
 ``edo_assistent_opts`` 是用于初始化 ``edo_assistent`` 对象的一些设置，内容如下::
 
@@ -228,23 +348,23 @@ JavaScript SDK用于简化Web端的开发，其中集成了一些通用的方法
   
 - ``select_folder(callback)`` 
 
-  选择本地文件夹，选择之后将会调用传入的``callback``函数处理返回的JSON信息。
+  选择本地文件夹，选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息。
 
 - ``download(uids, localpath)`` 
 
-  下载若干个文件到指定的本地路径下。其中``uids``是多个uid的数组。
+  下载若干个文件到指定的本地路径下。其中 ``uids`` 是多个uid的数组。
   
 - ``select_files(callback)`` 
 
-  选择若干个本地文件，选择之后会调用传入的``callback``函数处理返回的JSON信息。
+  选择若干个本地文件，选择之后会调用传入的 ``callback`` 函数处理返回的JSON信息。
 
 - ``upload_files(folder_uid, local_files)`` 
 
-  上传若干个本地文件到指定文件夹中，其中``local_files``是多个本地文件路径的数组。
+  上传若干个本地文件到指定文件夹中，其中 ``local_files`` 是多个本地文件路径的数组。
   
 - ``select_sync_folder(folder_uid, callback)`` 
 
-  列出指定文件夹的本地同步区，获取数据之后会调用``callback``函数处理返回的JSON信息。
+  列出指定文件夹的本地同步区，获取数据之后会调用 ``callback`` 函数处理返回的JSON信息。
 
 - ``sync(folder_uid, local_path, type, callback)`` 
 
