@@ -120,7 +120,6 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
   {'13123':['panjy','zhangsan'], 
    '123123':['lisi', 'wangwu'], 
    '123':['lisi']
- 
    }
 
 /api/v1/org/get_ou_detail
@@ -139,6 +138,29 @@ description: 人员和组织的管理，方便其他系统自动导入现有人�
   'users':['panjy','zhangsan'], 
   'groups':['group1', 'group2'], 
   'ous':['ou1']
+  }
+
+/api/v1/org/list_relations
+-----------------------------------
+查找某个人的上下级同事关系
+
+参数 :
+
+- account: 如 ``zopen``
+- person: 人员的ID，如 ``zhangsan``
+- relation: 可以是下列中的一个
+
+  - superior : 上级
+  - subordinate : 下级
+  - colleague : 同级同事
+
+返回:
+
+范围关系和人员的清单::
+
+  {"superior":['admin'],
+   "subordinate":['zhangsan', 'lisi'],
+   "colleague" : [],
   }
 
 /api/v1/org/search
@@ -247,3 +269,26 @@ objects_detail事例 ::
 - group : 组ID
 - persons: 组成员的ID清单
 
+/api/v1/org/remove_relation
+-------------------------------
+去除人的关系:
+
+参数 :
+
+- account: 如 ``zopen``
+- person: 人员的ID，如 ``zhangsan``
+- superior: 上级
+- colleague: 同事, 多个用逗号分隔
+- subordinate: 下级, 多个用逗号分隔
+
+/api/v1/org/add_relation
+--------------------------------
+添加人的关系:
+
+参数 :
+
+- account: 如 ``zopen``
+- person: 人员的ID，如 ``zhangsan``
+- superior: 上级
+- colleague: 同事, 多个用逗号分隔
+- subordinate: 下级, 多个用逗号分隔
