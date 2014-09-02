@@ -94,12 +94,14 @@ HTTP返回值
 
 - 400: 签名不正确
 - 401: 超时
+- 402: 站点不能为空
 - 403: 路径无权限
 - 404: 无此文件
 - 405: 正在转换
 - 406: 转换失败
 - 407: 正在下载
 - 409: 账户不存在
+- 411: 站点过期
 
 此时范围内容是详细错误原因::
 
@@ -116,16 +118,20 @@ HTTP返回值
 - location：具体的文件存放位置，可不填
 - source_url: 如果文件不存在，下载的url地址
 - source_mime(可选): 原始文件的mime类型，如果不输入，根据文件名计算Mime
-- targets: 目标文件的mime类型, 如果需要进行全文索引，``targets`` 参数加上 ``text/index`` 比如::
+- targets: 目标文件的mime类型, 比如::
 
-    application/pdf,text/html, text/index
+    application/pdf,text/html
 
-- index_id: 全文索引的ID(非必填)，只有targets中包含 ``text/index`` 才需要
 
 - callback： 各种转换完成的回调url, 如果转换已经完成，则立刻回调
   可以设置多个不同的转换回调::
 
    {"text/plain": "http://server.com/aa", "application/x-shockwave-flash": "http://blabla.com/bla"}
+  
+  支持方法回调，回调链接根据以下格式生成::
+
+   builtin://方法名?参数名=参数&参数名2=参数
+        
 
 - ip: 浏览器的ip地址，不填写则不做IP检查
 - timestamp：失效时间的时间戳，不填表示不失效
