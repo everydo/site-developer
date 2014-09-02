@@ -150,7 +150,7 @@ description: 桌面助手的对外API
         ]
     }
 
-通用API
+工作管理API
 ============
 包括UI和任务管理方面的API。
 
@@ -269,6 +269,9 @@ description: 桌面助手的对外API
         "is_alive": true, 
         "worker_id": "id"
     }
+
+用户界面API
+===================
 
 选择文件夹 ``/ui/select_folder``
 ----------------------------------
