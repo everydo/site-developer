@@ -301,6 +301,14 @@ UI模块
 
    ui.doc_viewer(context, request).image()
 
+我的工作
+--------------
+我的代办事项::
+
+   ui.my_workitems(context, reqeust, pid=None)
+
+其中pid表示谁的代办事项.
+
 内置功能按钮
 ------------------
 关注按钮::
