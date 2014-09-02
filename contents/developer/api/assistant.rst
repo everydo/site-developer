@@ -335,7 +335,8 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
 
 - 依赖
 
-  JavaScript SDK 依赖于 jQuery 库（1.4 以上版本）。
+  - jQuery 库（1.4 以上版本）
+  - jQuery-JSONP 用于解决跨域问题，项目地址 https://github.com/jaubourg/jquery-jsonp 
 
 - 使用方法
 
