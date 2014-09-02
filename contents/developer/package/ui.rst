@@ -123,6 +123,12 @@ ui 元素
 
 可选的size: large, small, xsmall
 
+html代码
+----------------
+也可以直接显示一段html代码::
+
+  html = ui.html('<ul><li>asdf</li></ul>')
+
 UI集合
 ===========================
 下拉菜单
