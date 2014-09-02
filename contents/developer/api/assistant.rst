@@ -96,7 +96,7 @@ description: 桌面助手的对外API
         "worker_id": "id"
     }
 
-获取冲突列表 ``get_conflict_list``
+获取冲突列表 ``/filestore/conflicts``
 ----------------------------------------
 
 参数：
@@ -123,6 +123,30 @@ description: 桌面助手的对外API
         ]
     }
 
+
+显示服务端文件夹对应的本地同步区 ``/filestore/sync_paths``
+----------------------------------------------------------
+
+参数：
+
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 文件夹的uid
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "paths": [
+            "localpath_1", 
+            "localpath_2_if_any"
+        ]
+    }
+
 通用API
 ============
 包括UI和任务管理方面的API。
@@ -144,13 +168,13 @@ description: 桌面助手的对外API
             {
                 "worker_id": "id", 
                 "worker_name": "name", 
-                "status": "running", 
-                "error_msg": ""
+                "state": "running", 
+                "error": ""
             }
         ]
     }
 
-任务查询 ``/worker/status``
+任务查询 ``/worker/state``
 ---------------------------------
 
 参数：
@@ -166,7 +190,7 @@ description: 桌面助手的对外API
     {
         "worker_id": "id", 
         "worker_name": "name", 
-        "status": "running", 
+        "state": "running", 
         "error_msg": ""
     }
 
@@ -243,7 +267,7 @@ description: 桌面助手的对外API
         "worker_id": "id"
     }
 
-选择文件夹 ``/select_folder``
+选择文件夹 ``/ui/select_folder``
 ----------------------------------
 
 参数：
@@ -265,8 +289,8 @@ description: 桌面助手的对外API
 
   若用户选择了路径，则selected为true且path为选择的路径
 
-选择文件 ``/select_files``
--------------------------------
+选择文件 ``/ui/select_files``
+---------------------------------
 通过向桌面助手服务器/select_files路径发送GET请求，来选择若干个本地文件
 
 参数：
@@ -285,32 +309,8 @@ description: 桌面助手的对外API
         ]
     }
 
-
-显示服务端文件夹对应的本地同步区 ``/sync_paths``
---------------------------------------------------
-
-参数：
-
-- server: 指定服务器
-- instance: 指定实例
-- account: 指定帐号
-- uid: 文件夹的uid
-- build_number: 所需的桌面助手最低build版本号
-
-响应：
-
-- 格式: JSON/JSONP
-- JSON内容::
-
-    {
-        "paths": [
-            "localpath_1", 
-            "localpath_2_if_any"
-        ]
-    }
-
-冒泡提示 ``/message``
-------------------------
+冒泡提示 ``/ui/message``
+---------------------------
 
 参数：
 
