@@ -7,6 +7,9 @@ description: 桌面助手的对外API
 桌面助手
 =================
 
+.. contents::
+.. sectnum::
+
 由于浏览器功能有限，一些特殊的功能，必须借助桌面助手来完成，比如：
 
 - 外部编辑
@@ -16,207 +19,432 @@ description: 桌面助手的对外API
 桌面助手就是一个安装在用户电脑上的一个服务程序，一旦安装，可以通过http协议通知桌面助手执行相关工作。
 可以基于桌面助手开发很多复杂的应用。
 
-桌面助手服务器在 ``http://127.0.0.1:5000`` 监听请求。
+桌面助手服务器在 ``http://127.0.0.1:5000`` 监听GET请求。
 
 在所有发往这个地址的请求中，带上callback参数即可支持JSONP响应，解决Ajax跨域的问题。
 
-在所有发往桌面助手服务器的请求中，带上build参数指定需要的桌面助手最低build版本号，可以让低版本桌面助手自动升级。
+在所有发往桌面助手服务器的请求中，带上 ``build_number`` 参数指定需要的桌面助手最低build版本号，可以让低版本桌面助手自动升级。
 
 文件管理API
 ===============
-文件相关操作的API封装在filestore模块的FileStore类中。
+文件相关操作的API
 
-文件下载 ``/new_task/download``
+文件下载 ``/worker/new/download``
 ---------------------------------------
-调用FileStore实例的 ``download_file`` 方法可以下载一个文件。
 
 参数：
 
-- ``token`` token
-- ``metadata`` 文件的metadata
-- ``local_folder`` 要将文件下载到的本地文件夹路径
-- ``root_uid=None`` （下载单个文件时不需要）指定这个文件属于哪个同步区
-- ``last_sync=None`` （下载单个文件时不需要，但文件属于同步区内时才需要）指定这个文件最近的同步时间
+- uids: 要下载的文件/文件夹的uid，可以出现多个
+- server: 指定服务器
+- account: 指定账户
+- instance: 指定实例
+- path: 要下载到的本地文件夹路径
+- build_number: 所需的桌面助手最低build版本号
+- token: token
 
-返回值：
+响应：
 
-- None
+- 格式: JSON/JSONP
+- JSON内容::
 
-文件上传 ``/new_task/upload``
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+文件上传 ``/worker/new/upload``
 ----------------------------------
-调用FileStore实例的upload_file方法可以上传一个文件。
 
 参数：
 
-- ``token`` token
-- folder_uid 要上传到服务端文件夹的uid
-- local_path 文件的本地路径
-- root_uid=None （上传单个文件时不需要，进行文件夹同步时才需要）指定这个文件属于哪个同步区
-- last_sync=None （上传单个文件时不需要，进行文件夹同步时才需要）指定这个文件最近的同步时间
-- parent_rev=None （上传单个文件时不需要，进行文件夹同步时才需要）revision，指定这个文件是基于哪个版本进行修改的
-- file_uid=None （上传单个文件时不需要，进行文件夹同步时才需要）这个文件的uid
+- uid: 要上传到服务端文件夹的uid
+- server: 指定服务器
+- account: 指定账户
+- instance: 指定实例
+- paths: 要上传的本地文件/文件夹的路径，可以出现多个
+- build_number: 所需的桌面助手最低build版本号 
+- token: token
 
-返回值：
+响应：
 
-- None
+- 格式: JSON/JSONP
+- JSON内容::
 
-文件同步
---------------
-文件同步分为向上和向下同步。
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
 
-向上同步调用FileStore实例的push方法来完成。
-
-参数：
-
-- token token
-- uid 同步区的uid
-- local_folder 同步区的本地文件夹路径
-
-返回值：
-
-- None
-
-检查冲突
---------------
-调用FileStore实例的check_push_conflict方法可以检查本地项目是否与服务端冲突。
+文件同步 ``/worker/new/sync``
+---------------------------------
 
 参数：
 
-- client=None WoClient实例，必需
-- item=None 由local_diff返回的项目，必需。结构是：`{'type': 'new_folder', 'item': 'database record dict or path string'}`
-- root_uid=None 项目所属的本地同步区的uid， 必需
-- parent_uid=None 项目所在父文件夹的uid，必需
-- root_local_folder=None 项目所属的本地同步区的路径，必需
+- uid: 要同步的文件夹的uid
+- type: 同步类型，共有三种类型pull、push与sync分别对应向下、向上和双向同步
+- server: 指定服务器
+- account: 指定账户
+- instance: 指定实例
+- path: 要同步的本地同步区路径
+- build_number: 所需的桌面助手最低build版本号
+- token: token
 
-返回值：
+响应：
 
-- 冲突时返回True，并在返回前在本地数据库中标记好冲突；不冲突返回False
+- 格式: JSON/JSONP
+- JSON内容::
 
-通用API
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+获取冲突列表 ``/filestore/conflicts``
+----------------------------------------
+
+参数：
+
+- root_uid: 项目所属的本地同步区的uid
+- root_local_folder: 项目所属的本地同步区的路径
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "conflicts": [
+            {
+                "uid": uid, 
+                "local_path": "path", 
+                "server_path": "path", 
+                "revision": "revision", 
+                "root_uid": "uid", 
+                "last_sync": "time"
+            }
+        ]
+    }
+
+
+显示服务端文件夹对应的本地同步区 ``/filestore/sync_paths``
+----------------------------------------------------------
+
+参数：
+
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 文件夹的uid
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "paths": [
+            "localpath_1", 
+            "localpath_2_if_any"
+        ]
+    }
+
+工作管理API
 ============
 包括UI和任务管理方面的API。
 
-任务查询
---------------
+任务列表 ``/worker/all``
+----------------------------------
 
+参数：
 
-选择文件夹
---------------
-选择本地文件夹有两种方式：
+- build_number: 所需的桌面助手最低build版本号
 
-- 通过向桌面助手服务器/select_folder路径发送GET请求
-- 调用ui_client模块的select_folder方法
-- 通过ui_client.select_folder方法
+响应：
 
-  参数：
+- 格式: JSON/JSONP
+- JSON内容::
 
-  - default=None 默认路径，可选，建议为None
-  - title='选择文件夹' 对话框的标题，可选
-  - description='' 描述，可选
-  - server=None 指定服务器（可以使用WoClient获取），必需
-  - account=None 指定账户（可以使用WoClient获取），必需
-  - instance=None 指定实例（可以使用WoClient获取），必需
+    {
+        "workers": [
+            {
+                "worker_id": "id", 
+                "worker_name": "name", 
+                "state": "running", 
+                "error": ""
+            }
+        ]
+    }
 
-  返回值：
+任务查询 ``/worker/state``
+---------------------------------
 
-  - 格式：字符串
-  - JSON内容：`{"selected": false, "path": null}` 若用户选择了路径，则selected为true且path为选择的路径
+参数：
 
-- 通过向桌面助手服务器/select_folder路径发送GET请求
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
 
-  参数：
+响应：
 
-  - server 指定服务器，必需
-  - account: 指定账户，必需
-  - instance: 指定实例，必需
+- 格式: JSON/JSONP
+- JSON内容::
 
-  响应：
+    {
+        "worker_id": "id", 
+        "worker_name": "name", 
+        "state": "running", 
+        "error_msg": ""
+    }
 
-  - 格式：JSON/JSONP
-  - JSON内容：`{"selected": false, "path": null}` 若用户选择了路径，则selected为true且path为选择的路径
+新建任务 ``/worker/new/<worker_name>``
+-------------------------------------------------
+新建的任务会自动开始
 
-选择文件
---------------
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- ...相应任务模块需要的参数
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+暂停任务 ``/worker/pause``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+开始任务 ``/worker/start``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+取消任务 ``/worker/cancel``
+--------------------------------
+
+参数：
+
+- worker_id: 任务的id
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
+用户界面API
+===================
+
+选择文件夹 ``/ui/select_folder``
+----------------------------------
+
+参数：
+
+- server 指定服务器，必需
+- account: 指定账户，必需
+- instance: 指定实例，必需
+- build_number: 所需的桌面助手最低build版本号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "selected": false, 
+        "path": null
+    }
+
+  若用户选择了路径，则selected为true且path为选择的路径
+
+选择文件 ``/ui/select_files``
+---------------------------------
 通过向桌面助手服务器/select_files路径发送GET请求，来选择若干个本地文件
 
 参数：
 
-- 不需要额外参数
+- build_number: 所需的桌面助手最低build版本号
 
 响应：
 
-- 格式：JSON/JSONP
-- JSON内容：`{"paths": ["path_to_file_1", "path_to_file_2"]}`
+- 格式: JSON/JSONP
+- JSON内容::
 
+    {
+        "paths": [
+            "path_to_file_1", 
+            "path_to_file_2"
+        ]
+    }
 
-显示服务端文件夹对应的本地同步区
---------------------------------------
-通过向桌面助手服务器/sync_paths路径发送GET请求，来获取一个服务端文件夹对应的本地同步区列表
+冒泡提示 ``/ui/message``
+---------------------------
 
 参数：
 
-- server 指定服务器（可以通过WoClient获取）
-- instance 指定实例（可以通过WoClient获取）
-- account 指定帐号(可以通过WoClient获取)
-- uid 文件夹的uid
+- title: 提示信息的标题，通常是简短的描述
+- body: 提示信息的正文
+- build_number: 所需的桌面助手最低build版本号
 
 响应：
-- 格式：JSON/JSONP
-- JSON内容：`{"paths": ["localpath_1", "localpath_2_if_any"]}`
 
-冒泡提示
---------------
-提供冒泡提示有两种方式：
-
-- 可以通过调用ui_client模块的message方法
-- 或向桌面助手服务器发送GET请求
-- 通过ui_client.message方法
-
-    参数：
-
-    - title 提示信息的标题，通常是简短的描述
-    - body 提示信息的正文
-
-    返回值：
-
-    - None
-
-- 通过向桌面助手服务器/message路径发送GET请求
-
-    参数：
-
-    - title 提示信息的标题，通常是简短的描述
-    - body 提示信息的正文
-
-    响应：
-
-    - 格式：JSON/JSONP
-    - JSON内容：成功则返回`{"status": "done"}`
+- 格式: JSON/JSONP
+- JSON内容: 成功则返回 ``{"status": "done"}`` 
 
 JS SDK
 ============
-JavaScript SDK用于简化Web端的开发，其中集成了一些通用的方法。
+JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简化Web端的开发，其中集成了一些通用的方法。
 
+- 依赖
 
-使用JavaScript SDK的方法是在页面尾部（或在定义了edo_assistent_opts变量后的任意位置）载入SDK脚本文件，脚本会自动初始化，并创建一个edo_assistent全局对象。通过调用这个对象的方法，可以完成页面上与桌面助手相关的大部分操作。
+  - jQuery 库（1.4 以上版本）
+  - jQuery-JSONP 用于解决跨域问题，项目地址 https://github.com/jaubourg/jquery-jsonp 
 
-edo_assistent_opts是用于初始化edo_assistent对象的一些设置，内容如下::
+- 使用方法
 
-    {
-        server: "服务器", 
-        account: "帐号", 
-        instance: "实例", 
-        token: "token", 
-        min_build: 1 // 这是所需的最低桌面助手build版本号
-    }
+  引入 SDK 脚本文件，初始化一个 ``Assistent`` 对象，使用这个对象完成页面上与桌面助手相关的大部分操作。
 
-初始化好的edo_assistent有以下方法。
+可以自动初始化 JavaScript SDK ，也可以手动初始化。
 
-- ``fail_back()`` 当桌面助手没有正确响应请求时（通常是由于没有安装或没有启动桌面助手）调用这个方法，会在页面上提示用户安装或启动桌面助手。
-- ``select_folder(callback)`` 选择本地文件夹，选择之后将会调用传入的callback函数处理返回的JSON信息。
-- ``download(uids, localpath)`` 下载若干个文件到指定的本地路径下。其中uids是多个uid的数组。
-- select_files(callback) 选择若干个本地文件，选择之后会调用传入的callback函数处理返回的JSON信息。
-- upload_files(folder_uid, local_files) 上传若干个本地文件到指定文件夹中，其中local_files是多个本地文件路径的数组。
-- select_sync_folder(folder_uid, callback) 列出指定文件夹的本地同步区，获取数据之后会调用callback函数处理返回的JSON信息。
-- sync(folder_uid, local_path, type, callback) 同步。其中folder_uid是同步区的uid；local_path是同步区的本地路径；type是同步类型，共有三种：pull、push和sync；
+- 自动初始化
 
+  自动初始化，要求在引入 SDK 脚本文件之前定义一个名为 ``edo_assistent_opts`` 的全局变量。
+  这个变量的内容如下::
+
+      {
+          server: "服务器", 
+          account: "帐号", 
+          instance: "实例", 
+          token: "token", 
+          min_build: 1 // 这是所需的最低桌面助手build版本号
+      }
+
+  定义这个变量后，引入 SDK 脚本文件，会自动完成初始化，创建一个名为 ``edo_assistent`` 的 ``Assistent`` 对象。
+
+- 手动初始化
+  只要不提供名为 ``edo_assistent_opts`` 的全局变量，SDK 就不会进行自动初始化，而是将 ``Assistent`` 暴露在 ``window`` 上。可以手动使用 ``var assistent = new Assistent(opts)`` 来创建一个 ``Assistent`` 对象。
+
+- ``Assistent`` 的方法
+  
+  - ``select_folder(callback)`` 
+
+    选择本地文件夹，选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息。
+    Demo::
+
+        edo_assistent.select_folder(function(local_path){
+            console.log('选择的文件夹路径是：' + local_path);
+        });
+    
+  - ``select_files(callback)`` 
+
+    选择若干个本地文件，选择之后会调用传入的 ``callback`` 函数处理返回的JSON信息。
+    Demo::
+
+        edo_assistent.select_files(function(paths){
+            for(var i = 0, l = paths.length; i < l; i ++){
+                console.log('选择了文件：' + paths[i]);
+            }
+        });
+
+  - ``download(uids, localpath, callback)`` 
+
+    下载若干个文件到指定的本地路径下。其中 ``uids`` 是多个uid的数组。
+
+    任务添加之后会调用 ``callback`` 函数处理任务信息。
+    Demo::
+
+        edo_assistent.download([123, 124], 'D:/', function(worker_info){
+            if(worker_info.is_alive){
+                console.log('下载任务正在运行');
+                console.log('任务 ID 是：' + worker_info.worker_id);
+            }
+        });
+
+  - ``upload_files(folder_uid, local_files, callback)`` 
+
+    上传若干个本地文件到指定文件夹中，其中 ``local_files`` 是多个本地文件路径的数组。
+
+    任务添加之后会调用 ``callback`` 函数处理任务信息。
+    Demo::
+
+        edo_assistent.upload_files(
+            110, 
+            ['D:/new.txt', 'E:/old.doc'], 
+            function(worker_info){
+                if(worker_info.is_alive){
+                    console.log('上传任务正在运行');
+                    console.log('任务 ID 是：' + worker_info.worker_id);
+                }
+        });
+    
+  - ``select_sync_folder(folder_uid, callback)`` 
+
+    列出指定文件夹的本地同步区，获取数据之后会调用 ``callback`` 函数处理返回的路径。
+    Demo::
+
+        edo_assistent.select_sync_folder(110, function(paths){
+            for(var path in paths){
+                console.log('发现一个同步区：' + path);
+            }
+        });
+
+  - ``sync(folder_uid, local_path, type, callback)`` 
+
+    同步。
+    其中:
+    
+    - ``folder_uid`` 是同步区的uid；
+    - ``local_path`` 是同步区的本地路径；
+    - ``type`` 是同步类型，共有三种： ``pull`` 、 ``push`` 和 ``sync`` ；
+
+    任务添加之后会调用 ``callback`` 函数处理返回的任务信息。
+    Demo::
+
+        edo_assistent.sync(
+            110, 
+            'D:/sync_folder', 
+            'push', 
+            function(worker_info){
+                if(worker_info.is_alive){
+                    console.log('向上同步任务正在进行');
+                    console.log('任务 ID 是：' + worker_info.worker_id);
+                }
+        });
