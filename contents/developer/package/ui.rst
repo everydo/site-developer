@@ -123,6 +123,12 @@ ui 元素
 
 可选的size: large, small, xsmall
 
+html代码
+----------------
+也可以直接显示一段html代码::
+
+  html = ui.html('<ul><li>asdf</li></ul>')
+
 UI集合
 ===========================
 下拉菜单
@@ -300,6 +306,14 @@ UI模块
 ::
 
    ui.doc_viewer(context, request).image()
+
+我的工作
+--------------
+我的代办事项::
+
+   ui.my_workitems(context, reqeust, pid=None)
+
+其中pid表示谁的代办事项.
 
 内置功能按钮
 ------------------

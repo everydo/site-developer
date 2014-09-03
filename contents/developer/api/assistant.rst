@@ -104,6 +104,9 @@ description: 桌面助手的对外API
 
 参数：
 
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
 - root_uid: 项目所属的本地同步区的uid
 - root_local_folder: 项目所属的本地同步区的路径
 - build_number: 所需的桌面助手最低build版本号
@@ -116,12 +119,15 @@ description: 桌面助手的对外API
     {
         "conflicts": [
             {
-                "uid": uid, 
-                "local_path": "path", 
-                "server_path": "path", 
-                "revision": "revision", 
-                "root_uid": "uid", 
-                "last_sync": "time"
+                'uid': "id", 
+                'revision': "revision", 
+                'local_path': "local_path", 
+                'server_path': "server_path", 
+                'modified': "time string", 
+                'md5': "md5 string", 
+                'root_uid': "id", 
+                'conflict': true, 
+                'last_sync': "time string"
             }
         ]
     }
