@@ -303,17 +303,53 @@ UI模块
 
 文件查看器
 ----------------
-::
+显示一个文件预览区，可控制是否显示属性集::
 
-   ui.doc_viewer(context, request).image()
+   ui.items.file_viewer(context, request, show_mdset=True)
+
+表单查看器
+-----------------
+显示一个表单，可控制是否显示属性集::
+
+   ui.items.dataitem_viewer(context, request, show_mdset=True)
 
 我的工作
 --------------
 我的代办事项::
 
-   ui.my_workitems(context, reqeust, pid=None)
+   ui.collections.my_workitems(context, reqeust, pid=None)
 
 其中pid表示谁的代办事项.
+
+流程历史
+----------------
+某个流程单对象的全部流程历史::
+
+   ui.collections.workflow_workitems(context, reqeust)
+
+文件列表
+--------------
+::
+
+  ui.collections.file_list(file_batch, request, columns=['title', 'responsibles', 'modified', 'size'])
+
+其中：
+
+- ``file_batch`` 是一个文件/文件夹/快捷方式的batch对象
+- ``columns`` 显示哪些列
+
+根据需要可以自动生成分页条.
+
+表单列表
+--------------
+::
+
+  ui.collections.dataitem_list(dataitem_batch, request, columns=['title', 'creators', 'created'])
+
+其中:
+
+- ``dataitem_batch`` 是一个表单的batch对象，渲染结果，可以自动分页
+- ``columns`` 显示哪些列
 
 内置功能按钮
 ------------------
@@ -327,7 +363,7 @@ UI模块
 
 关注按钮::
 
-    ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
+  ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
 
 新建流程::
 
@@ -343,14 +379,6 @@ UI模块
 
 内置面板
 -----------------
-通知方式面板::
-
-    ui.portlets.notification(context, request)     # 通知方式面板
-
-关注面板::
-
-    ui.portlets.subscription(context, request)    # 关注面板
-
 评注区域::
 
     ui.portlets.comment(context, request)        # 评注组件
