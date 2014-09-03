@@ -339,63 +339,29 @@ JS SDK
 ============
 JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简化Web端的开发，其中集成了一些通用的方法。
 
-- 依赖
+依赖
+------------------
 
-  - jQuery 库（1.4 以上版本）
-  - jQuery-JSONP 用于解决跨域问题，项目地址 https://github.com/jaubourg/jquery-jsonp 
+- jQuery 库（1.4 以上版本）
+- jQuery-JSONP 用于解决跨域问题，项目地址 https://github.com/jaubourg/jquery-jsonp 
 
-- 使用方法
+初始化
+-------------------
 
-  引入 SDK 脚本文件，初始化一个 ``Assistent`` 对象，使用这个对象完成页面上与桌面助手相关的大部分操作。
+引入 SDK 脚本文件，初始化一个 ``Assistent`` 对象，使用这个对象完成页面上与桌面助手相关的大部分操作::
 
-可以自动初始化 JavaScript SDK ，也可以手动初始化。
+  var assistent = new Assistent({
+                     })
 
-- 自动初始化
+下载 ``download``
+-----------------------------------------------------------
+::
 
-  自动初始化，要求在引入 SDK 脚本文件之前定义一个名为 ``edo_assistent_opts`` 的全局变量。
-  这个变量的内容如下::
+   download(uids, localpath, callback)
 
-      {
-          server: "服务器", 
-          account: "帐号", 
-          instance: "实例", 
-          token: "token", 
-          min_build: 1 // 这是所需的最低桌面助手build版本号
-      }
+下载若干个文件到指定的本地路径下。其中 ``uids`` 是多个uid的数组
 
-  定义这个变量后，引入 SDK 脚本文件，会自动完成初始化，创建一个名为 ``edo_assistent`` 的 ``Assistent`` 对象。
-
-- 手动初始化
-  只要不提供名为 ``edo_assistent_opts`` 的全局变量，SDK 就不会进行自动初始化，而是将 ``Assistent`` 暴露在 ``window`` 上。可以手动使用 ``var assistent = new Assistent(opts)`` 来创建一个 ``Assistent`` 对象。
-
-- ``Assistent`` 的方法
-  
-  - ``select_folder(callback)`` 
-
-    选择本地文件夹，选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息。
-    Demo::
-
-        edo_assistent.select_folder(function(local_path){
-            console.log('选择的文件夹路径是：' + local_path);
-        });
-    
-  - ``select_files(callback)`` 
-
-    选择若干个本地文件，选择之后会调用传入的 ``callback`` 函数处理返回的JSON信息。
-    Demo::
-
-        edo_assistent.select_files(function(paths){
-            for(var i = 0, l = paths.length; i < l; i ++){
-                console.log('选择了文件：' + paths[i]);
-            }
-        });
-
-  - ``download(uids, localpath, callback)`` 
-
-    下载若干个文件到指定的本地路径下。其中 ``uids`` 是多个uid的数组。
-
-    任务添加之后会调用 ``callback`` 函数处理任务信息。
-    Demo::
+任务添加之后会调用 ``callback`` 函数处理任务信息::
 
         edo_assistent.download([123, 124], 'D:/', function(worker_info){
             if(worker_info.is_alive){
@@ -404,12 +370,15 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
             }
         });
 
-  - ``upload_files(folder_uid, local_files, callback)`` 
+上传 ``upload_files``
+------------------------------------------------------------------------
+::
 
-    上传若干个本地文件到指定文件夹中，其中 ``local_files`` 是多个本地文件路径的数组。
+  upload_files(folder_uid, local_files, callback)
 
-    任务添加之后会调用 ``callback`` 函数处理任务信息。
-    Demo::
+上传若干个本地文件到指定文件夹中，其中 ``local_files`` 是多个本地文件路径的数组。
+
+任务添加之后会调用 ``callback`` 函数处理任务信息::
 
         edo_assistent.upload_files(
             110, 
@@ -420,29 +389,20 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
                     console.log('任务 ID 是：' + worker_info.worker_id);
                 }
         });
-    
-  - ``select_sync_folder(folder_uid, callback)`` 
 
-    列出指定文件夹的本地同步区，获取数据之后会调用 ``callback`` 函数处理返回的路径。
-    Demo::
+同步 ``sync``
+----------------------
+::
 
-        edo_assistent.select_sync_folder(110, function(paths){
-            for(var path in paths){
-                console.log('发现一个同步区：' + path);
-            }
-        });
+   sync(folder_uid, local_path, type, callback)`` 
 
-  - ``sync(folder_uid, local_path, type, callback)`` 
-
-    同步。
-    其中:
+其中:
     
     - ``folder_uid`` 是同步区的uid；
     - ``local_path`` 是同步区的本地路径；
     - ``type`` 是同步类型，共有三种： ``pull`` 、 ``push`` 和 ``sync`` ；
 
-    任务添加之后会调用 ``callback`` 函数处理返回的任务信息。
-    Demo::
+任务添加之后会调用 ``callback`` 函数处理返回的任务信息::
 
         edo_assistent.sync(
             110, 
@@ -454,3 +414,44 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
                     console.log('任务 ID 是：' + worker_info.worker_id);
                 }
         });
+
+选择文件夹 ``select_folder``
+----------------------------------------
+::
+
+   select_folder(callback)
+
+选择本地文件夹，选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息::
+
+        edo_assistent.select_folder(function(local_path){
+            console.log('选择的文件夹路径是：' + local_path);
+        });
+    
+选择文件 ``select_files``
+-----------------------------------------
+::
+
+   select_files(callback)
+
+选择若干个本地文件，选择之后会调用传入的 ``callback`` 函数处理返回的JSON信息::
+
+        edo_assistent.select_files(function(paths){
+            for(var i = 0, l = paths.length; i < l; i ++){
+                console.log('选择了文件：' + paths[i]);
+            }
+        });
+
+选择同步文件夹 ``select_sync_folder``
+----------------------------------------------------
+::
+
+  select_sync_folder(folder_uid, callback)
+
+列出指定文件夹的本地同步区，获取数据之后会调用 ``callback`` 函数处理返回的路径::
+
+        edo_assistent.select_sync_folder(110, function(paths){
+            for(var path in paths){
+                console.log('发现一个同步区：' + path);
+            }
+        });
+
