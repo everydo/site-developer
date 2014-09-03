@@ -131,6 +131,27 @@ html代码
 
 UI集合
 ===========================
+
+列表组
+---------------
+列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
+
+   ui.list_group(ui.link('abc', href='').on('click', '@zopen.test:test').active(),
+                ui.link('dd', href=''),
+                )
+
+可以做出比较复杂的列表组::
+
+   ui.list_group(
+      ui.link('', href='#')\
+            .child(ui.text('大标题'))\
+            .child(ui.text('一些描述信息').discreet())\
+            .on('click', '@zopen.test:testt')\
+            .active(),
+
+      ui.link('abc', href='').on('click', '@zopen.test:test'),
+                )
+
 下拉菜单
 -------------
 ::
@@ -263,26 +284,6 @@ UI视图
 
 Feed
 ----------
-
-列表组
----------------
-列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
-
-   ui.list_group(ui.link('abc', href='').on('click', '@zopen.test:test').active(),
-                ui.link('dd', href=''),
-                )
-
-可以做出比较复杂的列表组::
-
-   ui.list_group(
-      ui.link('', href='#')\
-            .child(ui.text('大标题'))\
-            .child(ui.text('一些描述信息').discreet())\
-            .on('click', '@zopen.test:testt')\
-            .active(),
-
-      ui.link('abc', href='').on('click', '@zopen.test:test'),
-                )
 
 Items
 ---------
