@@ -51,6 +51,12 @@ json定义表单
               "type": "Integer",
               "title": '任务等级',
               "size":18,},
+            { "name":"local_files",
+              "type": "LocalFileSelect",
+              "title": '本地文件',
+              "multiple": False,
+              "mode": "fileonly",
+              },
             {"name":"responsibles",
              "type":"PersonSelect",
              "title":'负责人', 
@@ -83,6 +89,11 @@ json定义表单
 - FileSelect: 文件选择
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
+
+- LocalFileSelect: 桌面文件选择，需要安装桌面助手
+
+  - multiple: 能否多选
+  - mode：fileonly, folderonly, filefolder
 
 - Select: 选择框，如果multiple=True多选，否则单选. 
 

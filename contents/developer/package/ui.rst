@@ -297,7 +297,6 @@ UI模块
 
    view.modal(form, width=600)
 
-
 系统功能组件
 ==================
 
@@ -408,6 +407,20 @@ view交互命令
    view.layout.show_left()
    view.layout.hide_right()
    view.layout.show_right()
+
+桌面助手
+-----------------
+上传文件::
+
+   view.assistent.upload_files(folder_uid, local_files)
+
+下载文件::
+
+   view.assistent.download_files(uids)
+
+文件夹同步::
+
+   view.assistent.sync_folder(folder_uid)
 
 操作历史
 ---------------
