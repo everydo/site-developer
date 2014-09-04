@@ -280,8 +280,8 @@ description: 桌面助手的对外API
 用户界面API
 ===================
 
-选择文件夹 ``/ui/select_folder``
-----------------------------------
+选择本地路径 ``/ui/select_paths``
+----------------------------------------------------
 
 参数：
 
@@ -289,26 +289,8 @@ description: 桌面助手的对外API
 - account: 指定账户，必需
 - instance: 指定实例，必需
 - build_number: 所需的桌面助手最低build版本号
-
-响应：
-
-- 格式: JSON/JSONP
-- JSON内容::
-
-    {
-        "selected": false, 
-        "path": null
-    }
-
-  若用户选择了路径，则selected为true且path为选择的路径
-
-选择文件 ``/ui/select_files``
----------------------------------
-通过向桌面助手服务器/select_files路径发送GET请求，来选择若干个本地文件
-
-参数：
-
-- build_number: 所需的桌面助手最低build版本号
+- mode: 是否能选择文件、文件夹：fileonly/folderonly/filefolder
+- mutilple: 是否多选, true/false
 
 响应：
 
@@ -351,7 +333,7 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
 
 引入 SDK 脚本文件，初始化一个 ``Assistent`` 对象，使用这个对象完成页面上与桌面助手相关的大部分操作::
 
-  var assistent = new Assistent({
+  var edo_assistent = new Assistent({
     'server': '服务器', 
     'instance': '实例', 
     'account': '账户', 
@@ -421,32 +403,26 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
                 }
         });
 
-选择文件夹 ``select_folder``
+选择文件夹 ``select_paths``
 ----------------------------------------
 ::
 
-   select_folder(callback)
+   select_paths(mode, mutilple, callback)
 
-选择本地文件夹，选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息::
+其中，mutilple表示是否支持多选，mode指示可以选择什么：
 
-        edo_assistent.select_folder(function(local_path){
-            console.log('选择的文件夹路径是：' + local_path);
-        });
-    
-选择文件 ``select_files``
------------------------------------------
-::
+- fileonly: 仅仅选择文件
+- folderonly: 仅仅选择文件夹
+- filefolder: 选择文件或者文件夹
 
-   select_files(callback)
+选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息::
 
-选择若干个本地文件，选择之后会调用传入的 ``callback`` 函数处理返回的JSON信息::
-
-        edo_assistent.select_files(function(paths){
+        edo_assistent.select_paths('filefolder', true, function(paths){
             for(var i = 0, l = paths.length; i < l; i ++){
                 console.log('选择了文件：' + paths[i]);
             }
         });
-
+    
 选择同步文件夹 ``select_sync_folder``
 ----------------------------------------------------
 ::
