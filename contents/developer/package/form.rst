@@ -95,6 +95,12 @@ json定义表单
   - multiple: 能否多选
   - mode：fileonly, folderonly, filefolder
 
+- SyncFolderSelect: 桌面同步区选择，可以自动创建新的同步区
+
+  - folder_uid：可选，仅仅和某个文件夹关联
+  - mutilple: 能否多选
+  - allow_add: 能否新增（仅仅存在folder_uid时有效）
+
 - Select: 选择框，如果multiple=True多选，否则单选. 
 
   注意: 即便是单选，初始值以及最终保存的数据，也是list类型。
