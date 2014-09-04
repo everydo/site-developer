@@ -51,9 +51,9 @@ json定义表单
               "type": "Integer",
               "title": '任务等级',
               "size":18,},
-            { "name":"local_files",
-              "type": "LocalFileSelect",
-              "title": '本地文件',
+            { "name":"local_paths",
+              "type": "LocalPathSelect",
+              "title": '本地路径',
               "multiple": False,
               "mode": "fileonly",
               },
@@ -90,7 +90,7 @@ json定义表单
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
 
-- LocalFileSelect: 桌面文件选择，需要安装桌面助手
+- LocalPathSelect: 桌面文件选择，需要安装桌面助手
 
   - multiple: 能否多选
   - mode：fileonly, folderonly, filefolder
