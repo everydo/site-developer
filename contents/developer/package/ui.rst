@@ -454,11 +454,11 @@ view交互命令
 
 下载文件::
 
-   view.assistent.download_files(uids)
+   view.assistent.download_files(uids, local_folder)
 
 文件夹同步::
 
-   view.assistent.sync_folder(folder_uid)
+   view.assistent.sync(folder_uid, local_folder, mode)
 
 操作历史
 ---------------
