@@ -182,6 +182,8 @@ description: 表单和流程操作接口，包括表单自动生成
     - 'step': ('review',)           # 具体的步骤
     - 'deadline': '2012-12-13',     # 工作期限
     - 'finished': '',               # 完结时间
+    - start: 计划开始时间(工作安排)
+    - end: 计划结束时间(工作安排)
     - delegations: { delegator: [pids] }
 
 - actions : 操作清单
