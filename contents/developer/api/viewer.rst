@@ -289,6 +289,11 @@ HTTP返回值
 
 还可以有更多的参数：
 
+- mode: 查看模式 有些文档可以通过flash/html等多种方式查看，这里参数，可以控制显示方式
+
+  - flash: 如果浏览器支持，通过flash方式查看
+  - html: 强制html方式查看
+
 - width：宽度
 - height：高度
 - bgcolor: 查看器边框背景的颜色，比如'#ffffff'
