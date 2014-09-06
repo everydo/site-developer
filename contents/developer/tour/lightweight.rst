@@ -13,7 +13,7 @@ description: 给Django/pylons/TG的python开发人员
 
 首先要说的是，易度并不是一个简单的轻量级web开发框架，而是支持类轻量级web开发模式的一个云办公平台: 
 
-http://everydo.com
+http://easydo.cn
 
 易度软件包结构
 ===================
@@ -71,7 +71,7 @@ code.google.com上的 `everydo-marketplace <http://code.google.com/p/everydo-mar
 ==================
 必须注册一个易度开发版账号
 -------------------------------------
-http://everydo.com/signup.rst
+http://easydo.cn/signup.rst
 
 注意，应该选择开发版，而不是运营版
 
