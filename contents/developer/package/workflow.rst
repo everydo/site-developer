@@ -148,7 +148,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 得到具体某个workitem::
 
-    workitem = dataitem.workitems.get(workitem_name)
+   workitem = dataitem.workitems.get(workitem_name)
 
 通过程序触发某个操作，推动流程前进::
 
@@ -212,11 +212,11 @@ description: 表单和流程操作接口，包括表单自动生成
 ------------------------
 当负责人休假、生病，可将工作委托其他人处理，期间他仍然可以选择自己处理::
 
-   workitem.delegate(responsible, delegators)
+   dataitem.delegate(responsible, delegators)
 
 如果取消某个负责人的代理::
 
-   workitem.undelegate(responsible)
+   dataitem.undelegate(responsible)
 
 每个人可以根据转交策略进行转交(不同位置，委托给谁处理)::
 
@@ -230,15 +230,18 @@ description: 表单和流程操作接口，包括表单自动生成
 
 流程转交转交 ``deliver``
 ---------------------------------
-将工作完全转交工作给其他人负责，自己不再处理::
+将某个人的工作完全转交工作给其他人负责，自己不再处理::
 
-   item.workitems.deliver(workitem_name, new_responsibles)
+   item.workitems.deliver(workitem_name, pid, new_responsibles)
 
 协助 ``assist``
 -----------------------
 将工作转给其他人给出意见，其他人完成之后，流程扭转回自己继续处理::
 
-   item.workitems.assist(workitem_name, new_responsibles)
+   item.workitems.assist(workitem_name, pid, new_responsibles)
+
+协助的工作，只会有一个 "确定" 操作，可以通过 ``workitem.next_workitem`` 是否为空来甄别是否是协助工作 , 
+``workitem.assist_to`` 存放了协助的对象
 
 工作流脚本
 ===================

@@ -336,6 +336,12 @@ UI模块
 
    ui.collections.workflow_workitems(context, reqeust)
 
+容器下的对象树
+..................
+某个应用容器下的对象树，可以方便的添加表单::
+
+   ui.collections.container_tree(context, reqeust)
+
 文件列表
 ...............
 ::

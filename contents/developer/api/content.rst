@@ -209,9 +209,13 @@ api/v1/content/assistent_info
 ----------------------------------
 查询桌面助手的信息，包括版本、下载地址等
 
-返回:
+返回各个版本的下载信息::
 
-- build_number: build号
-- version: 版本号
-- url: 下载地址
-
+ { 'windows': {
+      'build_number': 1, #build号
+      'version': '1.0', # 版本号
+      'filename': 'assistent.exe', #下载地址
+      },
+   'mac': {},
+   'linux': {},
+ }
