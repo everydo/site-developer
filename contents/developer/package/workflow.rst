@@ -164,7 +164,7 @@ description: 表单和流程操作接口，包括表单自动生成
 ----------------
 查看工作项::
 
-   workitems = item.workitems.query(pid, state)
+   workitems = item.workitems.query(pid=None, state=['flowtask.active'])
 
 每个工作项:
 
