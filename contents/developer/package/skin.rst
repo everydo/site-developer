@@ -79,9 +79,9 @@ description: 自定义皮肤，更换皮肤
 
 这个返回最终cdn中的地址::
 
-   http://easydo-cdn.server.com/__cdn__/packages/zopen.sales/abc.css
+   http://easydo-cdn.server.com/__cdn__/packages/zopen.sales/resources/abc.css
 
 在皮肤中可以这样引用::
 
-    <script charset="utf-8" src="{{cdn_base}}/packages/zopen.sales/abc.css"></script>
+    <script charset="utf-8" src="{{cdn_base}}/packages/zopen.sales/resources/abc.css"></script>
 
