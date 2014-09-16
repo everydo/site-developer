@@ -75,13 +75,9 @@ description: 自定义皮肤，更换皮肤
 
 因此在浏览器上引用资源文件，应该使用版本号::
 
-   root.packages.resource_url('zopen.sales:abc.css')
-
-这个返回最终cdn中的地址::
-
-   http://easydo-cdn.server.com/__cdn__/packages/zopen.sales/resources/abc.css
+   root.packages.cache_url(request) + 'zopen.sales/resources/abc.css'
 
 在皮肤中可以这样引用::
 
-    <script charset="utf-8" src="{{cdn_base}}/packages/zopen.sales/resources/abc.css"></script>
+    <script charset="utf-8" src="{{packages_cache_url}}zopen.sales/resources/abc.css"></script>
 
