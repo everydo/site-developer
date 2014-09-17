@@ -74,7 +74,7 @@ ui 元素
 
 如果连接需要配一个图标，则可以::
 
-  link.icon('star')
+  link.icon('add')
 
 ``.loading('请稍等...', '')`` 表示点击后，在链接处出现加载标识。如果希望整个页面主区域出现加载等待，可以设置所在的layout区域::
 
@@ -123,7 +123,7 @@ ui 元素
             .on('click', '@@issue_workflow_show')\  # 发起请求
             .loading('请稍等...')\  # 点击发起之后，显示正在加载
             .size('large')\  # 大尺寸
-            .icon('star')
+            .icon('add')
 
 可选的size: large, small, xsmall
 
