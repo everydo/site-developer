@@ -87,6 +87,10 @@ ui 元素
         .child(ui.h1('大标题'))\
         .child(ui.text('一些描述信息'))
 
+把一个链接变成按钮, 加上icon::
+
+  link.button().icon('add')
+
 如果链接需要增加徽章::
 
   link.badge('12')
@@ -382,7 +386,7 @@ UI模块
 
 新建流程::
 
-   ui.buttons.new_dataitem(datacontainer, title='发起新流程')
+   ui.buttons.new_dataitem(datacontainer, request, title='发起新流程')
 
 文件、流程、文件夹的遮罩查看::
 
