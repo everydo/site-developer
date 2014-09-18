@@ -24,15 +24,24 @@ description: 总体说明系统的开放API架构
   .............|............/\..................
                |           /  \
   +----------------------+/    +----------------+
-  | 工作平台: workonline |-----| 文件存储: file |
+  | 工作平台: workonline |-----| 云查看: viewer |
   +----------------------+     +----------------+
-                    |
-               +------------------+
-               | 文件转换: viewer |
-               +------------------+
 
-其中账户管理、组织架构有唯一的服务API入口地址，其他服务的API入口地址，需要通过account提供的 ``get_instance`` 接口来查询.
+易度在线服务的API入口地址为：
 
+- 账户管理: oc.api.easydo.cn
+- 组织结构：org.api.easydo.cn
+- 工作平台: wo.api.easydo.cn
+- 云查看: viewer.api.easydo.cn
+
+对于独立部署的服务，默认地址为:
+
+- 账户管理: http://xx.xx.xx.xx:xx/oc_api/
+- 组织结构: http://xx.xx.xx.xx:xx/org_api/
+- 工作平台: http://xx.xx.xx.xx:xx/wo_api/
+- 云查看: http://xx.xx.xx.xx:xx/
+
+API入口地址，也可通过account提供的 ``get_instance`` 接口来查询.
 
 Oauth2简介
 =============
