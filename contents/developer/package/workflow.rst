@@ -243,6 +243,18 @@ description: 表单和流程操作接口，包括表单自动生成
 协助的工作，只会有一个 "确定" 操作，可以通过 ``workitem.next_workitem`` 是否为空来甄别是否是协助工作 , 
 ``workitem.assist_to`` 存放了协助的对象
 
+工作安排
+------------------
+每个人都可以进行工作安排，工作安排调整了这2个时间::
+
+   workitem.md['start']
+   workitem.md['end']
+
+可以把个人的工作安排，共享给其他人(通常是上级领导)协助安排::
+
+   managers = root.prfiles.get(pid, 'workitem_managers')
+   root.prfiles.set(pid, 'workitem_managers', maangers)
+
 工作流脚本
 ===================
 on_submit: 操作提交
