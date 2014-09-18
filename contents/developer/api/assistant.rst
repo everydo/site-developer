@@ -338,7 +338,8 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
     'instance': '实例', 
     'account': '账户', 
     'token': 'token', 
-    'min_build': '所需的桌面助手最低版本号'
+    'min_build': '所需的桌面助手最低版本号',
+    'download': {'mac':url, 'linux':url, 'windows':}
   })
 
 下载 ``download``
