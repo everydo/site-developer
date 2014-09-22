@@ -157,6 +157,29 @@ description: 桌面助手的对外API
         ]
     }
 
+建立同步关联 ``/filestore/link_sync``
+---------------------------------------------------------
+建立指定服务端文件夹和指定本地文件夹的同步关联
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 服务端文件夹的uid
+- local_path: 指定的本地文件夹路径
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "success": true, 
+        "msg": "Some messge"
+    }
+
 工作管理API
 ============
 包括UI和任务管理方面的API。
@@ -179,7 +202,18 @@ description: 桌面助手的对外API
                 "worker_id": "id", 
                 "worker_name": "name", 
                 "state": "running", 
-                "error": ""
+                "title": "human_readable_descriptions", 
+                "detail": {
+                    "account": "account", 
+                    "build_number": "1", 
+                    "instance": "default", 
+                    "name": "download", 
+                    "path": "D:\\local_path", 
+                    "server": "http://your_server:your_port", 
+                    "state": "running/finished/error", 
+                    "token": "token_string", 
+                    "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
+                }
             }
         ]
     }
@@ -201,7 +235,17 @@ description: 桌面助手的对外API
         "worker_id": "id", 
         "worker_name": "name", 
         "state": "running", 
-        "error_msg": ""
+        "detail": {
+            "account": "account", 
+            "build_number": "1", 
+            "instance": "default", 
+            "name": "download", 
+            "path": "D:\\local_path", 
+            "server": "http://your_server:your_port", 
+            "state": "running/finished/error", 
+            "token": "token_string", 
+            "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
+        }
     }
 
 新建任务 ``/worker/new/<worker_name>``
@@ -315,7 +359,7 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: 成功则返回 ``{"status": "done"}`` 
+- JSON内容: 成功则返回 ``{"success": true}`` 
 
 JS SDK
 ============
