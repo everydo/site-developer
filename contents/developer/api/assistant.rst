@@ -289,8 +289,7 @@ description: 桌面助手的对外API
 - account: 指定账户，必需
 - instance: 指定实例，必需
 - build_number: 所需的桌面助手最低build版本号
-- mode: 是否能选择文件、文件夹：fileonly/folderonly/filefolder
-- multiple: 是否多选, true/false
+- mode: file/files/folder
 
 响应：
 
@@ -408,17 +407,17 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
 ----------------------------------------
 ::
 
-   select_paths(mode, multiple, callback)
+   select_paths(mode, callback)
 
 其中，multiple表示是否支持多选，mode指示可以选择什么：
 
-- fileonly: 仅仅选择文件
-- folderonly: 仅仅选择文件夹
-- filefolder: 选择文件或者文件夹
+- file: 选择单个文件
+- files: 选择多个文件
+- folder: 选择单个文件夹
 
 选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息::
 
-        edo_assistent.select_paths('filefolder', true, function(paths){
+        edo_assistent.select_paths('files', function(paths){
             for(var i = 0, l = paths.length; i < l; i ++){
                 console.log('选择了文件：' + paths[i]);
             }
