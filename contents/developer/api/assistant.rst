@@ -169,6 +169,7 @@ description: 桌面助手的对外API
 - account: 指定帐号
 - uid: 服务端文件夹的uid
 - local_path: 指定的本地文件夹路径
+- server_path: 指定的服务端文件夹路径
 
 响应：
 
