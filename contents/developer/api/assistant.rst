@@ -157,6 +157,30 @@ description: 桌面助手的对外API
         ]
     }
 
+建立同步关联 ``/filestore/setup_sync``
+---------------------------------------------------------
+建立指定服务端文件夹和指定本地文件夹的同步关联
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 服务端文件夹的uid
+- local_path: 指定的本地文件夹路径
+- token: token
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "success": true, 
+        "msg": "Some messge"
+    }
+
 工作管理API
 ============
 包括UI和任务管理方面的API。
@@ -179,7 +203,18 @@ description: 桌面助手的对外API
                 "worker_id": "id", 
                 "worker_name": "name", 
                 "state": "running", 
-                "error": ""
+                "title": "human_readable_descriptions", 
+                "detail": {
+                    "account": "account", 
+                    "build_number": "1", 
+                    "instance": "default", 
+                    "name": "download", 
+                    "path": "D:\\local_path", 
+                    "server": "http://your_server:your_port", 
+                    "state": "running/finished/error", 
+                    "token": "token_string", 
+                    "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
+                }
             }
         ]
     }
@@ -201,7 +236,17 @@ description: 桌面助手的对外API
         "worker_id": "id", 
         "worker_name": "name", 
         "state": "running", 
-        "error_msg": ""
+        "detail": {
+            "account": "account", 
+            "build_number": "1", 
+            "instance": "default", 
+            "name": "download", 
+            "path": "D:\\local_path", 
+            "server": "http://your_server:your_port", 
+            "state": "running/finished/error", 
+            "token": "token_string", 
+            "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
+        }
     }
 
 新建任务 ``/worker/new/<worker_name>``
@@ -289,8 +334,7 @@ description: 桌面助手的对外API
 - account: 指定账户，必需
 - instance: 指定实例，必需
 - build_number: 所需的桌面助手最低build版本号
-- mode: 是否能选择文件、文件夹：fileonly/folderonly/filefolder
-- multiple: 是否多选, true/false
+- mode: file/files/folder
 
 响应：
 
@@ -316,7 +360,7 @@ description: 桌面助手的对外API
 响应：
 
 - 格式: JSON/JSONP
-- JSON内容: 成功则返回 ``{"status": "done"}`` 
+- JSON内容: 成功则返回 ``{"success": true}`` 
 
 JS SDK
 ============
@@ -408,17 +452,17 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
 ----------------------------------------
 ::
 
-   select_paths(mode, multiple, callback)
+   select_paths(mode, callback)
 
 其中，multiple表示是否支持多选，mode指示可以选择什么：
 
-- fileonly: 仅仅选择文件
-- folderonly: 仅仅选择文件夹
-- filefolder: 选择文件或者文件夹
+- file: 选择单个文件
+- files: 选择多个文件
+- folder: 选择单个文件夹
 
 选择之后将会调用传入的 ``callback`` 函数处理返回的JSON信息::
 
-        edo_assistent.select_paths('filefolder', true, function(paths){
+        edo_assistent.select_paths('files', function(paths){
             for(var i = 0, l = paths.length; i < l; i ++){
                 console.log('选择了文件：' + paths[i]);
             }
