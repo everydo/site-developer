@@ -41,7 +41,7 @@ objects是一个yaml格式的站点结构描述文件::
 --------------
 不需要用户输入用户名密码信息，可以直接用下面的脚本登陆::
 
-  testcase.login(username, groups)
+  testcase.login(pid, request)
 
 运行测试脚本
 -------------------
