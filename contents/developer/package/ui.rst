@@ -406,6 +406,10 @@ UI模块
 
     ui.portlets.tag_groups(context, request)     # 标签组面板
 
+流程历史::
+
+    ui.portlets.workflow_history(context, request) # 流程历史
+
 内置链接 ui.links
 -----------------------
 查看个人的profile::
