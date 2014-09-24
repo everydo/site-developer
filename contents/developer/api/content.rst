@@ -219,3 +219,43 @@ api/v1/content/assistent_info
    'mac': {},
    'linux': {},
  }
+
+
+api/v1/content/notify
+----------------------------------
+发送消息
+
+url参数：
+
+- account
+- instance
+- uid
+- path
+- action: 具体做了什么操作
+- body: 消息正文
+- title: 可选的标题
+- from_pid: 来自谁
+- to_pids: 发送给谁, 如果为空，发送给对象的订阅人
+- exclude_me: 排除自己
+- excldue_ids: 排除那些人
+- attachments: 附件的uid集合
+- methods: 通知方式
+
+action: 操作名
+
+每个action对应的各种翻译msgid为： action_xxx
+
+- share： 分享
+- new : 新建
+- edit: 编辑
+- upload：上传
+- comment: 评论
+- new_revision: 更新版本
+- fix_revision: 定版
+- workflow_sign ： 触发流程
+- workflow_resign ： 更改流程
+- remind: 催办
+
+注意：根据不同的action，以及不同的object_types类型，自动选择不同的消息通知频道进行提醒
+
+返回：成功与否
