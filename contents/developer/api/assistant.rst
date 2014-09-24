@@ -355,6 +355,7 @@ description: 桌面助手的对外API
 
 - title: 提示信息的标题，通常是简短的描述
 - body: 提示信息的正文
+- type: 消息类型，可能的值为：none, info, warn, error 。将会在消息上显示对应的图标。
 - build_number: 所需的桌面助手最低build版本号
 
 响应：
