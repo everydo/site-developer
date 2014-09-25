@@ -34,9 +34,13 @@ description: 表单和流程操作接口，包括表单自动生成
 =================
 和之前版本的改进：
 
-1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
-2. 如果步骤没有操作，表示这个步骤无需人员干预
-3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
+1. 操作分为几种类型：
+
+   - default: 默认
+   - auto: 进入步骤，自动触发的操作
+   - error：异常的操作流程，流程图绘制会略去这种操作
+
+2. 去除操作项中的nextsteps_condition, 在步骤中增加stage
 
 工作流由步骤Step和操作Action组成::
 
@@ -68,7 +72,15 @@ description: 表单和流程操作接口，包括表单自动生成
                           "condition":'',
                           "on_enter": "",
                           "stage":'planing', 
-                          "auto_steps":['communicate', ],
+                          "actions": [ { "name":'submit',
+                                        "title":'触发',
+                                        "type": 'auto',   # 自动步骤
+                                        "condition":'',
+                                        "finish_condition":'',
+                                        "next_steps":['communicate'],
+                                        "on_submit":"",
+                                      }
+                                    ]
                         },
 
                         {"name": "communicate",
@@ -433,10 +445,12 @@ on_enter: 进入新的步骤
         condition=''
         stage='turnover'
 
-        auto_steps=['ConfirmLost']
-
         # 进入这个步骤触发
         def __init__(): 
+            pass
+
+        @action( '自动触发', ['Communicate'], type="auto", condition="", finish_condition='')
+        def confire_fail( context, container, step, workitem):
             pass
 
   class ConfirmLost:
