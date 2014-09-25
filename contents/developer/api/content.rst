@@ -229,13 +229,13 @@ url参数：
 
 - account
 - instance
-- uid
-- path
+- uid: 关联对象的uid, 如无关联对象，可不传
+- path: 关联对象的path，和上面二选一，如无关联对象可不传
 - action: 具体做了什么操作
 - body: 消息正文
 - title: 可选的标题
 - from_pid: 来自谁
-- to_pids: 发送给谁, 如果为空，发送给对象的订阅人
+- to_pids: 发送给谁, 如果为空，发送给关联对象的关注人
 - exclude_me: 排除自己
 - excldue_ids: 排除那些人
 - attachments: 附件的uid集合
