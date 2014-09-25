@@ -384,6 +384,7 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
     'instance': '实例', 
     'account': '账户', 
     'token': 'token', 
+    'pid': '任务发起的账户，例如 users.test ', 
     'min_build': '所需的桌面助手最低版本号',
     'download': {'mac':url, 'linux':url, 'windows':}
   })
