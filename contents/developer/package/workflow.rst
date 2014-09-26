@@ -34,9 +34,13 @@ description: 表单和流程操作接口，包括表单自动生成
 =================
 和之前版本的改进：
 
-1. 步骤可设置 自动触发的后续步骤: auto_steps, 方便实现无需人员干预的自动步骤
-2. 如果步骤没有操作，表示这个步骤无需人员干预
-3. 去除操作项中的stage, nextsteps_condition, 在步骤中增加stage
+1. 操作分为几种类型：
+
+   - default: 默认
+   - auto: 进入步骤，自动触发的操作
+   - error：异常的操作流程，流程图绘制会略去这种操作
+
+2. 去除操作项中的nextsteps_condition, 在步骤中增加stage
 
 工作流由步骤Step和操作Action组成::
 
@@ -68,7 +72,15 @@ description: 表单和流程操作接口，包括表单自动生成
                           "condition":'',
                           "on_enter": "",
                           "stage":'planing', 
-                          "auto_steps":['communicate', ],
+                          "actions": [ { "name":'submit',
+                                        "title":'触发',
+                                        "type": 'auto',   # 自动步骤
+                                        "condition":'',
+                                        "finish_condition":'',
+                                        "next_steps":['communicate'],
+                                        "on_submit":"",
+                                      }
+                                    ]
                         },
 
                         {"name": "communicate",
@@ -148,7 +160,7 @@ description: 表单和流程操作接口，包括表单自动生成
 
 得到具体某个workitem::
 
-    workitem = dataitem.workitems.get(workitem_name)
+   workitem = dataitem.workitems.get(workitem_name)
 
 通过程序触发某个操作，推动流程前进::
 
@@ -164,7 +176,7 @@ description: 表单和流程操作接口，包括表单自动生成
 ----------------
 查看工作项::
 
-   workitems = item.workitems.query(pid, state)
+   workitems = item.workitems.query(pid=None, state=['flowtask.active'])
 
 每个工作项:
 
@@ -182,6 +194,8 @@ description: 表单和流程操作接口，包括表单自动生成
     - 'step': ('review',)           # 具体的步骤
     - 'deadline': '2012-12-13',     # 工作期限
     - 'finished': '',               # 完结时间
+    - start: 计划开始时间(工作安排)
+    - end: 计划结束时间(工作安排)
     - delegations: { delegator: [pids] }
 
 - actions : 操作清单
@@ -210,11 +224,11 @@ description: 表单和流程操作接口，包括表单自动生成
 ------------------------
 当负责人休假、生病，可将工作委托其他人处理，期间他仍然可以选择自己处理::
 
-   workitem.delegate(responsible, delegators)
+   dataitem.delegate(responsible, delegators)
 
 如果取消某个负责人的代理::
 
-   workitem.undelegate(responsible)
+   dataitem.undelegate(responsible)
 
 每个人可以根据转交策略进行转交(不同位置，委托给谁处理)::
 
@@ -228,15 +242,30 @@ description: 表单和流程操作接口，包括表单自动生成
 
 流程转交转交 ``deliver``
 ---------------------------------
-将工作完全转交工作给其他人负责，自己不再处理::
+将某个人的工作完全转交工作给其他人负责，自己不再处理::
 
-   item.workitems.deliver(workitem_name, new_responsibles)
+   item.workitems.deliver(workitem_name, pid, new_responsibles)
 
 协助 ``assist``
 -----------------------
 将工作转给其他人给出意见，其他人完成之后，流程扭转回自己继续处理::
 
-   item.workitems.assist(workitem_name, new_responsibles)
+   item.workitems.assist(workitem_name, pid, new_responsibles)
+
+协助的工作，只会有一个 "确定" 操作，可以通过 ``workitem.next_workitem`` 是否为空来甄别是否是协助工作 , 
+``workitem.assist_to`` 存放了协助的对象
+
+工作安排
+------------------
+每个人都可以进行工作安排，工作安排调整了这2个时间::
+
+   workitem.md['start']
+   workitem.md['end']
+
+可以把个人的工作安排，共享给其他人(通常是上级领导)协助安排::
+
+   managers = root.prfiles.get(pid, 'workitem_managers')
+   root.prfiles.set(pid, 'workitem_managers', maangers)
 
 工作流脚本
 ===================
@@ -416,10 +445,12 @@ on_enter: 进入新的步骤
         condition=''
         stage='turnover'
 
-        auto_steps=['ConfirmLost']
-
         # 进入这个步骤触发
         def __init__(): 
+            pass
+
+        @action( '自动触发', ['Communicate'], type="auto", condition="", finish_condition='')
+        def confire_fail( context, container, step, workitem):
             pass
 
   class ConfirmLost:

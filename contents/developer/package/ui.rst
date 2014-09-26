@@ -74,7 +74,7 @@ ui 元素
 
 如果连接需要配一个图标，则可以::
 
-  link.icon('star')
+  link.icon('add')
 
 ``.loading('请稍等...', '')`` 表示点击后，在链接处出现加载标识。如果希望整个页面主区域出现加载等待，可以设置所在的layout区域::
 
@@ -86,6 +86,10 @@ ui 元素
   ui.link('', href='#')\
         .child(ui.h1('大标题'))\
         .child(ui.text('一些描述信息'))
+
+把一个链接变成按钮, 加上icon::
+
+  link.button().icon('add')
 
 如果链接需要增加徽章::
 
@@ -119,7 +123,7 @@ ui 元素
             .on('click', '@@issue_workflow_show')\  # 发起请求
             .loading('请稍等...')\  # 点击发起之后，显示正在加载
             .size('large')\  # 大尺寸
-            .icon('star')
+            .icon('add')
 
 可选的size: large, small, xsmall
 
@@ -131,6 +135,27 @@ html代码
 
 UI集合
 ===========================
+
+列表组
+---------------
+列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
+
+   ui.list_group(ui.link('abc', href='').on('click', '@zopen.test:test').active(),
+                ui.link('dd', href=''),
+                )
+
+可以做出比较复杂的列表组::
+
+   ui.list_group(
+      ui.link('', href='#')\
+            .child(ui.text('大标题'))\
+            .child(ui.text('一些描述信息').discreet())\
+            .on('click', '@zopen.test:testt')\
+            .active(),
+
+      ui.link('abc', href='').on('click', '@zopen.test:test'),
+                )
+
 下拉菜单
 -------------
 ::
@@ -264,26 +289,6 @@ UI视图
 Feed
 ----------
 
-列表组
----------------
-列表组包括一组对象, 每个对象占一行，鼠标经过会高亮，选中行业可加亮。 参看 `bootstrap章节 <http://v3.bootcss.com/components/#list-group>`__ ::
-
-   ui.list_group(ui.link('abc', href='').on('click', '@zopen.test:test').active(),
-                ui.link('dd', href=''),
-                )
-
-可以做出比较复杂的列表组::
-
-   ui.list_group(
-      ui.link('', href='#')\
-            .child(ui.text('大标题'))\
-            .child(ui.text('一些描述信息').discreet())\
-            .on('click', '@zopen.test:testt')\
-            .active(),
-
-      ui.link('abc', href='').on('click', '@zopen.test:test'),
-                )
-
 Items
 ---------
 
@@ -297,26 +302,76 @@ UI模块
 
    view.modal(form, width=600)
 
+系统功能组件 ui.xxx
+======================
+系统默认界面的所有局部组件，我们都准备做出接口，方便使用。
 
-系统功能组件
-==================
+提供企业应用的 乐高积木， 方便自由组合，产生新的玩法。
+
+单条目ui.items
+-------------------
 
 文件查看器
-----------------
-::
+..................
+显示一个文件预览区，可控制是否显示属性集::
 
-   ui.doc_viewer(context, request).image()
+   ui.items.file_viewer(context, request, show_mdset=True)
+
+表单查看器
+..................
+显示一个表单，可控制是否显示属性集::
+
+   ui.items.dataitem_viewer(context, request, show_mdset=True)
+
+批量功能组件 ui.collections
+--------------------------------
 
 我的工作
---------------
+...........
 我的代办事项::
 
-   ui.my_workitems(context, reqeust, pid=None)
+   ui.collections.my_workitems(context, reqeust, pid=None)
 
 其中pid表示谁的代办事项.
 
-内置功能按钮
-------------------
+流程历史
+............
+某个流程单对象的全部流程历史::
+
+   ui.collections.workflow_workitems(context, reqeust)
+
+容器下的对象树
+..................
+某个应用容器下的对象树，可以方便的添加表单::
+
+   ui.collections.container_tree(context, reqeust)
+
+文件列表
+...............
+::
+
+  ui.collections.file_list(file_batch, request, columns=['title', 'responsibles', 'modified', 'size'])
+
+其中：
+
+- ``file_batch`` 是一个文件/文件夹/快捷方式的batch对象
+- ``columns`` 显示哪些列
+
+根据需要可以自动生成分页条.
+
+表单列表
+..............
+::
+
+  ui.collections.dataitem_list(dataitem_batch, request, columns=['title', 'creators', 'created'])
+
+其中:
+
+- ``dataitem_batch`` 是一个表单的batch对象，渲染结果，可以自动分页
+- ``columns`` 显示哪些列
+
+内置功能按钮 ui.buttons
+----------------------------
 关注按钮::
 
   ui.buttons.subscribe(context, request)
@@ -327,11 +382,11 @@ UI模块
 
 关注按钮::
 
-    ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
+  ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
 
 新建流程::
 
-   ui.buttons.new_dataitem(datacontainer, title='发起新流程')
+   ui.buttons.new_dataitem(datacontainer, request, title='发起新流程')
 
 文件、流程、文件夹的遮罩查看::
 
@@ -341,16 +396,8 @@ UI模块
 
    ui.buttons.views(context, request)
 
-内置面板
------------------
-通知方式面板::
-
-    ui.portlets.notification(context, request)     # 通知方式面板
-
-关注面板::
-
-    ui.portlets.subscription(context, request)    # 关注面板
-
+内置面板 ui.portlets
+--------------------------
 评注区域::
 
     ui.portlets.comment(context, request)        # 评注组件
@@ -359,8 +406,12 @@ UI模块
 
     ui.portlets.tag_groups(context, request)     # 标签组面板
 
-内置链接
---------------
+流程历史::
+
+    ui.portlets.workflow_history(context, request) # 流程历史
+
+内置链接 ui.links
+-----------------------
 查看个人的profile::
 
    ui.links.profile(pid)
@@ -408,6 +459,20 @@ view交互命令
    view.layout.show_left()
    view.layout.hide_right()
    view.layout.show_right()
+
+桌面助手
+-----------------
+上传文件::
+
+   view.assistent.upload_files(folder_uid, local_files)
+
+下载文件::
+
+   view.assistent.download_files(uids, local_folder)
+
+文件夹同步::
+
+   view.assistent.sync(folder_uid, local_folder, mode)
 
 操作历史
 ---------------

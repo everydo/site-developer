@@ -71,17 +71,13 @@ description: 自定义皮肤，更换皮肤
 ==============
 皮肤会使用各种资源文件，包括 css/js/图片 等。
 
-所有资源文件，会在浏览器缓存，一旦变化，会自动更新。
+所有资源文件，会在浏览器缓存。
 
 因此在浏览器上引用资源文件，应该使用版本号::
 
-   root.packages.resource_url('zopen.sales:abc.css')
-
-这个返回最终cdn中的地址::
-
-   http://easydo-cdn.server.com/zopen.sales/abc-1das1121.css
+   root.packages.cache_url(request) + 'zopen.sales/resources/abc.css'
 
 在皮肤中可以这样引用::
 
-    <script charset="utf-8" src="{{reource_url/zopen.sales:abc.js}}"></script>
+    <script charset="utf-8" src="{{packages_cache_url}}zopen.sales/resources/abc.css"></script>
 

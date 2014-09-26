@@ -85,7 +85,7 @@ description: 如果从老版本升级到新版本
 ============
 - related_workflow过时，改为 container.settings['item_workflow']
 - 后续流程条件 ``nextsteps_conditions`` 过时，不推荐使用，改为后续步骤的进入条件
-- 步骤支持auto_steps，自动步骤
+- 步骤支持type， default, error, auto自动步骤
 - IFlowTasksManager(context) -> context.workitems
 - 流程支持委托
 

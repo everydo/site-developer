@@ -210,7 +210,7 @@ Namespace为::
 ======================
 - 可在线注册
 
-  http://everydo.com/paas/signup.rst 
+  http://easydo.cn/paas/signup.rst 
 
 无需安装，在线调试, 永远最新版本 
 

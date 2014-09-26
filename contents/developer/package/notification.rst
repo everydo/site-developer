@@ -39,7 +39,7 @@ action: 操作名
 - fix_revision: 定版
 - workflow_sign ： 触发流程
 - workflow_resign ： 更改流程
-- remind: 提醒
+- remind: 催办
 
 注意：根据不同的action，以及不同的object_types类型，自动选择不同的消息通知频道进行提醒
 

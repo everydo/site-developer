@@ -209,9 +209,53 @@ api/v1/content/assistent_info
 ----------------------------------
 查询桌面助手的信息，包括版本、下载地址等
 
-返回:
+返回各个版本的下载信息::
 
-- build_number: build号
-- version: 版本号
-- url: 下载地址
+ { 'windows': {
+      'build_number': 1, #build号
+      'version': '1.0', # 版本号
+      'filename': 'assistent.exe', #下载地址
+      },
+   'mac': {},
+   'linux': {},
+ }
 
+
+api/v1/content/notify
+----------------------------------
+发送消息
+
+url参数：
+
+- account
+- instance
+- uid: 关联对象的uid, 如无关联对象，可不传
+- path: 关联对象的path，和上面二选一，如无关联对象可不传
+- action: 具体做了什么操作
+- body: 消息正文
+- title: 可选的标题
+- from_pid: 来自谁
+- to_pids: 发送给谁, 如果为空，发送给关联对象的关注人
+- exclude_me: 排除自己
+- excldue_ids: 排除那些人
+- attachments: 附件的uid集合
+- methods: 通知方式
+
+action: 操作名
+
+每个action对应的各种翻译msgid为： action_xxx
+
+- share： 分享
+- new : 新建
+- edit: 编辑
+- upload：上传
+- comment: 评论
+- new_revision: 更新版本
+- fix_revision: 定版
+- workflow_sign ： 触发流程
+- workflow_resign ： 更改流程
+- remind: 催办
+
+注意：根据不同的action，以及不同的object_types类型，自动选择不同的消息通知频道进行提醒
+
+返回：成功与否

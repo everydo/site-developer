@@ -51,6 +51,12 @@ json定义表单
               "type": "Integer",
               "title": '任务等级',
               "size":18,},
+            { "name":"local_paths",
+              "type": "LocalPathSelect",
+              "title": '本地路径',
+              "multiple": False,
+              "mode": "fileonly",
+              },
             {"name":"responsibles",
              "type":"PersonSelect",
              "title":'负责人', 
@@ -83,6 +89,17 @@ json定义表单
 - FileSelect: 文件选择
 
   如果初始值设置为 ``get_references()`` 就可以正确关联
+
+- LocalPathSelect: 桌面文件选择，需要安装桌面助手
+
+  - multiple: 能否多选
+  - mode：fileonly, folderonly, filefolder
+
+- SyncFolderSelect: 桌面同步区选择，可以自动创建新的同步区
+
+  - folder_uid：可选，仅仅和某个文件夹关联
+  - mutilple: 能否多选
+  - allow_add: 能否新增（仅仅存在folder_uid时有效）
 
 - Select: 选择框，如果multiple=True多选，否则单选. 
 
