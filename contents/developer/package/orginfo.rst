@@ -50,7 +50,7 @@ listUserGroups(user_id):
             'licenses':[service_name, ...]
             }
 
-listOUDetail(ou_id, include_diabled, skip_cache=False):
+getOUDetail(ou_id, include_diabled, skip_cache=False):
      列出部门下的子部门、群组、用户列表
      返回：::
 
