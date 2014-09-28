@@ -157,6 +157,64 @@ description: 桌面助手的对外API
         ]
     }
 
+列出本地所有同步区 ``/filestore/list_syncs``
+--------------------------------------------------
+列出所有同步区信息
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        'syncs': [
+            {
+                'local_path': 'local_folder_path', 
+                'server_path': 'server_folder_path', 
+                'uid': 'unique_id_on_server', 
+                'modified': 'last_modified_time_in_UTC'
+            }
+        ]
+    }
+
+列出下载的零散文件 ``/filestore/list_files``
+------------------------------------------------------
+零散文件是不在同步区中的文件，也就是用户单独下载的文件。
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        'files': [
+            {
+                'uid': 'unique_id_on_server', 
+                'revision': 'revision_on_server', 
+                'local_path': 'local_path_to_file', 
+                'server_path': 'server_path_to_file', 
+                'modified': 'last_modified_time_in_UTC', 
+                'md5': 'MD5_hash_value', 
+                'conflict': false, 
+                'usage': 'sync/download/view/edit'
+            }
+        ]
+    }
+
 建立同步关联 ``/filestore/setup_sync``
 ---------------------------------------------------------
 建立指定服务端文件夹和指定本地文件夹的同步关联
