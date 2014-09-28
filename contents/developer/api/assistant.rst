@@ -159,14 +159,14 @@ description: 桌面助手的对外API
 
 列出本地所有同步区 ``/filestore/list_sync_folders``
 --------------------------------------------------------------------
-列出所有同步区信息
+列出所有同步区信息。（如果提供可选参数，必须提供3个完整的参数）
 
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器
-- instance: 指定实例
-- account: 指定帐号
+- server: 指定服务器（可选），指定此参数则只返回此站点同步区
+- instance: 指定实例（可选）
+- account: 指定帐号（可选）
 
 响应：
 
@@ -176,6 +176,9 @@ description: 桌面助手的对外API
     {
         'sync_folders': [
             {
+                'server': 'api_server_address', 
+                'instance': 'instance', 
+                'account': 'account', 
                 'local_path': 'local_folder_path', 
                 'server_path': 'server_folder_path', 
                 'uid': 'unique_id_on_server', 
@@ -186,14 +189,14 @@ description: 桌面助手的对外API
 
 列出下载的零散文件 ``/filestore/list_files``
 ------------------------------------------------------
-零散文件是不在同步区中的文件，也就是用户单独下载的文件。
+零散文件是不在同步区中的文件，也就是用户单独下载的文件。（如果提供可选参数，必须提供3个完整的参数）
 
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器
-- instance: 指定实例
-- account: 指定帐号
+- server: 指定服务器（可选），指定此参数则只返回此站点同步区
+- instance: 指定实例（可选）
+- account: 指定帐号（可选）
 
 响应：
 
@@ -203,6 +206,9 @@ description: 桌面助手的对外API
     {
         'files': [
             {
+                'server': 'api_server_address', 
+                'instance': 'instance', 
+                'account': 'account', 
                 'uid': 'unique_id_on_server', 
                 'revision': 'revision_on_server', 
                 'local_path': 'local_path_to_file', 
