@@ -157,7 +157,7 @@ description: 桌面助手的对外API
         ]
     }
 
-列出本地所有同步区 ``/filestore/list_syncs``
+列出本地所有同步区 ``/filestore/list_sync_folders``
 --------------------------------------------------
 列出所有同步区信息
 
@@ -174,7 +174,7 @@ description: 桌面助手的对外API
 - JSON内容::
 
     {
-        'syncs': [
+        'sync_folders': [
             {
                 'local_path': 'local_folder_path', 
                 'server_path': 'server_folder_path', 
