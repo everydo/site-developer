@@ -231,7 +231,6 @@ description: 桌面助手的对外API
 - server: 指定服务器
 - instance: 指定实例
 - account: 指定帐号
-- uid: 文件的uid
 - local_path: 文件的本地路径
 
 响应：
@@ -254,7 +253,6 @@ description: 桌面助手的对外API
 - server: 指定服务器
 - instance: 指定实例
 - account: 指定帐号
-- uid: 同步区的uid
 - local_path: 同步区的本地路径
 
 响应：
