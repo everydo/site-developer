@@ -221,6 +221,52 @@ description: 桌面助手的对外API
         ]
     }
 
+删除下载的文件 ``/filestore/delete_file``
+---------------------------------------------------------
+删除下载的文件，如果文件下载之后被修改过，会删除指定文件记录而保留磁盘上的文件。
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 文件的uid
+- local_path: 文件的本地路径
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "success": true, 
+        "msg": "Some message"
+    }
+
+解除同步关联 ``/filestore/remove_sync_folder``
+---------------------------------------------------------
+解除同步关联，只删除指定同步区，不会改动磁盘上的内容。
+
+参数：
+
+- build_number: 所需的桌面助手最低build版本号
+- server: 指定服务器
+- instance: 指定实例
+- account: 指定帐号
+- uid: 同步区的uid
+- local_path: 同步区的本地路径
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "success": true, 
+        "msg": "Some message"
+    }
+
 建立同步关联 ``/filestore/setup_sync_folder``
 ---------------------------------------------------------
 建立指定服务端文件夹和指定本地文件夹的同步关联
