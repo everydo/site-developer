@@ -472,6 +472,19 @@ description: 桌面助手的对外API
 - 格式: JSON/JSONP
 - JSON内容: 成功则返回 ``{"success": true}`` 
 
+打开文件或文件夹 ``/ui/open``
+--------------------------------------
+传递的参数是文件夹则调用默认文件管理器打开文件夹，是文件则调用默认的处理程序打开文件。
+
+参数：
+
+- local_path: 文件或文件夹的本地路径
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容: ``{"success": true}``
+
 JS SDK
 ============
 JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简化Web端的开发，其中集成了一些通用的方法。
