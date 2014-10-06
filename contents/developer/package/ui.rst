@@ -84,16 +84,24 @@ ui 元素
 有些链接，内部可以是多个内容，比如::
 
   ui.link('', href='#')\
-        .child(ui.h1('大标题'))\
-        .child(ui.text('一些描述信息'))
+        .add(ui.h1('大标题'))\
+        .add(ui.text('一些描述信息'))
 
 把一个链接变成按钮, 加上icon::
 
   link.button().icon('add')
 
-如果链接需要增加徽章::
+徽章
+--------
 
-  link.badge('12')
+通常在徽章上显示数字::
+
+  ui.badge('12')
+
+可以在链接上显示徽章::
+
+  ui.link('blabla', href='')\
+        .add(ui.badge('12'))
 
 输入控件
 -----------------
@@ -107,13 +115,13 @@ ui 元素
 
    ui.text('some html text')
 
-如果需要完全保留原始格式, 不折行::
-
-   ui.text('some html text').pre()
-
 如果希望黯淡的方式显示次要文字，可以::
 
    ui.text('lalal a').discreet()
+
+如果需要完全保留原始格式, 不折行::
+
+   ui.pre('some html text')
 
 按钮
 ----------------------
@@ -148,8 +156,8 @@ UI集合
 
    ui.list_group(
       ui.link('', href='#')\
-            .child(ui.text('大标题'))\
-            .child(ui.text('一些描述信息').discreet())\
+            .add(ui.text('大标题'))\
+            .add(ui.text('一些描述信息').discreet())\
             .on('click', '@zopen.test:testt')\
             .active(),
 
@@ -259,9 +267,9 @@ UI集合
 ::
 
    tree = ui.tree(ui.link('level1_root').on_click('@zopen.sales:aa')\
-                        .child( ui.link('level1').on('click', '@zopen.sael:bb').on('expand', '@zopen.test:aaa')\
-                        .child( ui.link('level2').on_click('@zopen.sael:bb')\
-                                   .child(ui.link('level2 1').on('click', '@zopen.sales:cc'))
+                        .add( ui.link('level1').on('click', '@zopen.sael:bb').on('expand', '@zopen.test:aaa')\
+                        .add( ui.link('level2').on_click('@zopen.sael:bb')\
+                                   .add(ui.link('level2 1').on('click', '@zopen.sales:cc'))
                               )
                   )
 
@@ -269,10 +277,10 @@ UI集合
 
    tree.expand()
 
-对于动态展开的，设置 ``.child`` 的时候，需要附加展开的处理方法 ``on('expand',`` ，这里可以动态为该节点增加子节点::
+对于动态展开的，设置 ``.add`` 的时候，需要附加展开的处理方法 ``on('expand',`` ，这里可以动态为该节点增加子节点::
 
-   view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
-   view.tree.child( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
+   view.tree.add( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
+   view.tree.add( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
 
 分页条
 ----------
