@@ -243,12 +243,12 @@ UI集合
 其中 ``on`` 用于动态加载页面内容，动态加载脚本可以这样写::
 
     text = ui.text('this is page from server. :-)')
-    view.tabs.closest().active_panel().set_content(text)
+    view.closest('tabs').find('tab-panel.active').set_content(text)
 
 其中：
 
-- ``view.tabs.closest()`` 找到最近的一个tabs组件；
-- ``active_panel()`` 找到tabs当前活动的panel
+- ``view.closest('tabs')`` 找到最近的一个tabs组件；
+- ``.find('tab-panel.active')`` 找到tabs当前活动的panel
 - ``set_content(text)`` 设置panel的内容
 
 可以看到每个组件包括ui方法来构建组件，和view命令来操作组件
@@ -279,8 +279,8 @@ UI集合
 
 对于动态展开的，设置 ``.add`` 的时候，需要附加展开的处理方法 ``on('expand',`` ，这里可以动态为该节点增加子节点::
 
-   view.tree.add( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
-   view.tree.add( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
+   view.closest('tree').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
+   view.closest('tree').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
 
 分页条
 ----------
@@ -438,9 +438,15 @@ view交互命令
 
 选择器
 -----------------
-可以借助ui对象提供的选择器进行选择，比如上面的::
+选择器的使用，类似jquery，但是可以直接选择组件，包括:
 
-    view.tabs.closest().active_panel()
+- tree
+- tabs
+
+找到最近的::
+
+    view.closest('tree')
+    view.closest('tabs').find('tab-panel.active')
 
 内容操作
 ------------
