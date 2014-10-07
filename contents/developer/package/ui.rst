@@ -243,12 +243,12 @@ UI集合
 其中 ``on`` 用于动态加载页面内容，动态加载脚本可以这样写::
 
     text = ui.text('this is page from server. :-)')
-    view.closest('tabs').find('tab-panel.active').set_content(text)
+    view.closest('tabs').active_panel().set_content(text)
 
 其中：
 
 - ``view.closest('tabs')`` 找到最近的一个tabs组件；
-- ``.find('tab-panel.active')`` 找到tabs当前活动的panel
+- ``.active_panel()`` 找到tabs当前活动的panel
 - ``set_content(text)`` 设置panel的内容
 
 可以看到每个组件包括ui方法来构建组件，和view命令来操作组件
@@ -446,7 +446,7 @@ view交互命令
 找到最近的::
 
     view.closest('tree')
-    view.closest('tabs').find('tab-panel.active')
+    view.closest('tabs').active_panel()
 
 内容操作
 ------------
@@ -513,7 +513,7 @@ view交互命令
 =======================
 首先需要在网页上设置事件处理方法::
 
-   ui.script().on('dataitem-change', "@zopen.test:refresh")
+   ui.script.on('dataitem-change', "@zopen.test:refresh")
 
 在view触发一个事件::
 
@@ -524,13 +524,6 @@ view交互命令
    @zopen.test:refresh?event=dateitem-change&uid=1312&title=123123
 
 在 ``zopen.test:refresh`` 中做事件处理
-
-前端脚本
-==============
-可以直接写python来执行前端逻辑，python会解释生成前端需要的语言，比如javascript::
-
-   ui.button('aa').on('click', '', func="process_click")
-   ui.script('zopen.tests:python/base.py').on('data-change', '', func)
 
 如果希望和html混合
 ==========================
