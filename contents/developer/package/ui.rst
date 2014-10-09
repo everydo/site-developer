@@ -513,7 +513,7 @@ view交互命令
 =======================
 首先需要在网页上设置事件处理方法::
 
-   ui.script.on('dataitem-change', "@zopen.test:refresh")
+   ui.script().on('dataitem-change', "@zopen.test:refresh")
 
 在view触发一个事件::
 
