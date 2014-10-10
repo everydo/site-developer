@@ -44,7 +44,7 @@ UI组件和交互
                     .button('save', '保存')\
                     .on('submit', '@zopen.sales:test') \ # 发起一个服务端请求
                     .loading('加载中...')  # 设置加载提示文字
-    help = ui.div('some help')
+    help = ui.paragraph('some help')
     return h1 + form + help
 
 上面返回的是界面对象，我们会根据前端的类型（web、手机、桌面应用）自动适配，当然也可以只返回html::
@@ -118,6 +118,10 @@ ui 元素
 如果希望黯淡的方式显示次要文字，可以::
 
    ui.text('lalal a').discreet()
+
+段落方式::
+
+   ui.paragraph('blabla')
 
 如果需要完全保留原始格式, 不折行::
 
