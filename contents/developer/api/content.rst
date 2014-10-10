@@ -39,6 +39,21 @@ url参数：
 - title
 - description
 
+api/v1/content/view_url
+----------------------------------
+得到对象(文件夹、文件、快捷方式、容器、表单)的站点访问url地址
+
+url参数：
+
+- account: zopen, 账户名
+- instance: default, 站点名
+- uid: 12312312, 文件唯一ID，和path任选一个
+- path: /files/abc.doc, 文件路径，和uid任选一个
+
+返回：
+
+- url
+
 /api/v1/content/items
 -------------------------
 文件夹内容, 也可以是查找一个文件的信息
@@ -265,3 +280,4 @@ action: 操作名
 注意：根据不同的action，以及不同的object_types类型，自动选择不同的消息通知频道进行提醒
 
 返回：成功与否
+

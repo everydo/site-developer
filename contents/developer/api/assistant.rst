@@ -36,6 +36,7 @@ description: 桌面助手的对外API
 
 - uids: 要下载的文件/文件夹的uid，可以出现多个
 - server: 指定服务器
+- oc_server: 指定oc服务器
 - account: 指定账户
 - instance: 指定实例
 - path: 要下载到的本地文件夹路径
@@ -59,6 +60,7 @@ description: 桌面助手的对外API
 
 - uid: 要上传到服务端文件夹的uid
 - server: 指定服务器
+- oc_server: 指定oc服务器
 - account: 指定账户
 - instance: 指定实例
 - paths: 要上传的本地文件/文件夹的路径，可以出现多个
@@ -83,6 +85,7 @@ description: 桌面助手的对外API
 - uid: 要同步的文件夹的uid
 - mode: 同步类型，共有三种类型pull、push与sync分别对应向下、向上和双向同步
 - server: 指定服务器
+- oc_server: 指定oc服务器
 - account: 指定账户
 - instance: 指定实例
 - path: 要同步的本地同步区路径
@@ -99,39 +102,6 @@ description: 桌面助手的对外API
         "worker_id": "id"
     }
 
-获取冲突列表 ``/filestore/conflicts``
-----------------------------------------
-
-参数：
-
-- server: 指定服务器
-- instance: 指定实例
-- account: 指定帐号
-- root_uid: 项目所属的本地同步区的uid
-- root_local_folder: 项目所属的本地同步区的路径
-- build_number: 所需的桌面助手最低build版本号
-
-响应：
-
-- 格式: JSON/JSONP
-- JSON内容::
-
-    {
-        "conflicts": [
-            {
-                'uid': "id", 
-                'revision': "revision", 
-                'local_path': "local_path", 
-                'server_path': "server_path", 
-                'modified': "time string", 
-                'md5': "md5 string", 
-                'root_uid': "id", 
-                'conflict': true, 
-                'last_sync': "time string"
-            }
-        ]
-    }
-
 
 显示本地同步区 ``/filestore/sync_paths``
 ----------------------------------------------------------
@@ -140,6 +110,7 @@ description: 桌面助手的对外API
 参数：
 
 - server: 指定服务器
+- oc_server: 指定oc服务器
 - instance: 指定实例
 - account: 指定帐号
 - uid: 文件夹的uid
@@ -164,7 +135,7 @@ description: 桌面助手的对外API
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器（可选），指定此参数则只返回此站点同步区
+- oc_server: 指定oc服务器
 - instance: 指定实例（可选）
 - account: 指定帐号（可选）
 
@@ -176,7 +147,7 @@ description: 桌面助手的对外API
     {
         'sync_folders': [
             {
-                'server': 'api_server_address', 
+                'oc_server': 'api_server_address', 
                 'instance': 'instance', 
                 'account': 'account', 
                 'local_path': 'local_folder_path', 
@@ -194,7 +165,7 @@ description: 桌面助手的对外API
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器（可选），指定此参数则只返回此站点同步区
+- oc_server: 指定oc服务器（可选），指定此参数则只返回此站点同步区
 - instance: 指定实例（可选）
 - account: 指定帐号（可选）
 
@@ -206,7 +177,7 @@ description: 桌面助手的对外API
     {
         'files': [
             {
-                'server': 'api_server_address', 
+                'oc_server': 'api_server_address', 
                 'instance': 'instance', 
                 'account': 'account', 
                 'uid': 'unique_id_on_server', 
@@ -228,7 +199,7 @@ description: 桌面助手的对外API
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器
+- oc_server: 指定oc服务器
 - instance: 指定实例
 - account: 指定帐号
 - local_path: 文件的本地路径
@@ -250,7 +221,7 @@ description: 桌面助手的对外API
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器
+- oc_server: 指定oc服务器
 - instance: 指定实例
 - account: 指定帐号
 - local_path: 同步区的本地路径
@@ -272,7 +243,8 @@ description: 桌面助手的对外API
 参数：
 
 - build_number: 所需的桌面助手最低build版本号
-- server: 指定服务器
+- oc_server: 指定oc服务器
+- server: 指定wo服务器
 - instance: 指定实例
 - account: 指定帐号
 - uid: 服务端文件夹的uid
@@ -319,6 +291,7 @@ description: 桌面助手的对外API
                     "name": "download", 
                     "path": "D:\\local_path", 
                     "server": "http://your_server:your_port", 
+                    "oc_server": "http://your_server:your_port", 
                     "state": "running/finished/error", 
                     "token": "token_string", 
                     "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
@@ -351,6 +324,7 @@ description: 桌面助手的对外API
             "name": "download", 
             "path": "D:\\local_path", 
             "server": "http://your_server:your_port", 
+            "oc_server": "http://your_server:your_port", 
             "state": "running/finished/error", 
             "token": "token_string", 
             "uids": "uid_1,uid_2,uid_3,uid_4_if_any"
@@ -439,7 +413,7 @@ description: 桌面助手的对外API
 
 参数：
 
-- server 指定服务器，必需
+- oc_server 指定oc服务器，必需
 - account: 指定账户，必需
 - instance: 指定实例，必需
 - build_number: 所需的桌面助手最低build版本号
@@ -502,6 +476,7 @@ JavaScript SDK 是一个 JavaScript 脚本文件 ``assistent.js`` ，用于简�
 
   var edo_assistent = new Assistent({
     'server': '服务器', 
+    'oc_server': 'oc服务器', 
     'instance': '实例', 
     'account': '账户', 
     'token': 'token', 
