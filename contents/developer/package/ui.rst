@@ -10,14 +10,14 @@ UI组件和交互
 .. Contents::
 .. sectnum::
 
-``一切皆python``, 这是前端的指导思想：
+``一切皆python, 组件化UI构建``, 这是前端的指导思想：
 
-1. 使用python来输出UI
+1. 使用python调用组件，输出UI
 
    - 无需了解前端UI框架的html细节
    - 前端UI框架的更替，对软件包毫无影响
 
-2. 使用python来驱动交互
+2. 使用python来驱动组件交互
 
    - 无需懂javascript，便可编写前端ajax界面
    - 前端框架的选择更替，对软件包毫无影响
@@ -217,8 +217,8 @@ UI集合
 
 可以在title右侧增加一个toolbox::
 
-   panle.toolbox(ui.botton('设置').on('click', '@zopen.seals:ad')) # 一个按钮
-   panle.toolbox(menu) # 增加一个menu
+   panel.toolbox(ui.botton('设置').on('click', '@zopen.seals:ad')) # 一个按钮
+   panel.toolbox(menu) # 增加一个menu
 
 也可以增加一个footer::
 
@@ -271,7 +271,7 @@ UI集合
 ::
 
    tree = ui.tree(ui.link('level1_root').on_click('@zopen.sales:aa')\
-                        .add( ui.link('level1').on('click', '@zopen.sael:bb').on('expand', '@zopen.test:aaa')\
+                        .add( ui.link('level1').on('click', '@zopen.sael:bb').on('expand', '@zopen.test:aaa'), id='aa')\
                         .add( ui.link('level2').on_click('@zopen.sael:bb')\
                                    .add(ui.link('level2 1').on('click', '@zopen.sales:cc'))
                               )
@@ -283,8 +283,9 @@ UI集合
 
 对于动态展开的，设置 ``.add`` 的时候，需要附加展开的处理方法 ``on('expand',`` ，这里可以动态为该节点增加子节点::
 
-   view.closest('tree').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
-   view.closest('tree').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
+   view.closest('tree').find_node(id='aa').expand()
+   view.closest('tree').find_node(id='aa').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb') )
+   view.closest('tree').find_node(id='aa').add( uilink('level1', id="uid").on('click', '@zopen.sael:bb').on('expand', '@zopen.aa:ff') )
 
 分页条
 ----------
@@ -440,7 +441,7 @@ view交互命令
    view.message(message, type='info', )
    view.message(message, type='error', )
 
-选择器
+组件选择
 -----------------
 选择器的使用，类似jquery，但是可以直接选择组件，包括:
 
@@ -507,27 +508,39 @@ view交互命令
 
    view.redirect(url, taget)
 
-禁用事件触发
-----------------------
-如果不希望每次点击都进行事件触发，可以禁用::
-
-   view.off('click')
-
-事件触发和捕获
+事件触发和处理
 =======================
+
+事件触发
+--------------
+表单、按钮、链接等都可以自动进行触发submit/click等事件。
+
+也可以人为触发一个全局的定制事件 ``dataitem-change`` , 附带uid/title参数::
+
+   view.trigger('dataitem-change', uid=12312, title=123123')
+
+系统包括如下内置事件：
+
+- dataitem-change
+- dataitem-removed
+
+事件处理
+------------
 首先需要在网页上设置事件处理方法::
 
    ui.script().on('dataitem-change', "@zopen.test:refresh")
-
-在view触发一个事件::
-
-   view.trigger('dataitem-change', uid=12312, title=123123')
 
 这时候会向服务器发起一个请求::
 
    @zopen.test:refresh?event=dateitem-change&uid=1312&title=123123
 
-在 ``zopen.test:refresh`` 中做事件处理
+在 ``zopen.test:refresh`` 中写事件处理逻辑
+
+禁用事件触发
+----------------------
+如果不希望每次点击都进行事件触发，可以禁用::
+
+   view.off('click')
 
 如果希望和html混合
 ==========================
