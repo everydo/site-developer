@@ -372,6 +372,12 @@ UI模块
 
 根据需要可以自动生成分页条.
 
+附件的展示
+.................
+::
+
+  ui.collections.attachments(file_objs, request)
+
 表单列表
 ..............
 ::
@@ -382,6 +388,14 @@ UI模块
 
 - ``dataitem_batch`` 是一个表单的batch对象，渲染结果，可以自动分页
 - ``columns`` 显示哪些列
+
+容器操作条
+....................
+根据context的类型，渲染标准的头部区域（比如设置权限、视图切换） ::
+
+   ui.items.actions_bar(context,request, title)
+
+context可以是文件夹、表单容器，应用容器
 
 内置功能按钮 ui.buttons
 ----------------------------
