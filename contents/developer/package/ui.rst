@@ -527,7 +527,7 @@ view交互命令
 
 也可以人为触发一个全局的定制事件 ``dataitem-modified`` , 附带uid/title参数::
 
-   view.trigger('dataitem-modified', uid=12312, title=123123')
+   view.trigger('dataitem-modified', {'uid':12312, 'title':'123123'})
 
 系统包括如下内置事件：
 
