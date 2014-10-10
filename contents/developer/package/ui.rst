@@ -453,6 +453,16 @@ view交互命令
     view.closest('tree')
     view.closest('tabs').active_panel()
 
+所有对象可以增加一个id，用来定义，比如::
+
+    view.link('asdfa', href="", id='12312')
+    view.form('asdfa', id='12312')
+    view.list_group(id='12312')
+
+可以通过ID来直接定位对象::
+
+   view.find('tree#asdfa')
+
 内容操作
 ------------
 设置中间的主区域内容，可以::
@@ -515,14 +525,15 @@ view交互命令
 --------------
 表单、按钮、链接等都可以自动进行触发submit/click等事件。
 
-也可以人为触发一个全局的定制事件 ``dataitem-change`` , 附带uid/title参数::
+也可以人为触发一个全局的定制事件 ``dataitem-modified`` , 附带uid/title参数::
 
-   view.trigger('dataitem-change', uid=12312, title=123123')
+   view.trigger('dataitem-modified', uid=12312, title=123123')
 
 系统包括如下内置事件：
 
-- dataitem-change
-- dataitem-removed
+- dataitem-modified: 增加了一个表单数据
+- dataitem-removed: 删除了一个表单数据
+- dataitem-added: 添加了一个数据表单
 
 事件处理
 ------------
