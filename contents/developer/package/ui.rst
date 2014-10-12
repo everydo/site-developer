@@ -10,7 +10,11 @@ UI组件和交互
 .. Contents::
 .. sectnum::
 
-``一切皆python, 组件化UI构建``, 这是前端的指导思想：
+概述
+==========
+理念：使用python组件化构建UI
+-----------------------------
+这时候易度前端的指导思想:
 
 1. 使用python调用组件，输出UI
 
@@ -24,16 +28,18 @@ UI组件和交互
 
 这个指导思想，让软件包的前端开发更简单、API更持久，未来甚至可以兼容到手机原生界面。
 
-参照 `GWT <http://www.gwtproject.org/doc/latest/RefWidgetGallery.html>`__ 和
+组成: ui/view
+----------------------
+易度前端UI借鉴了 `polymer <http://polymer-project.org>`__ 、 `GWT <http://www.gwtproject.org/doc/latest/RefWidgetGallery.html>`__ 和
 `pyjs <https://github.com/pyjs/pyjs/tree/master/pyjswidgets/pyjamas>`__ 以及
 `twitter bootstrap <http://v3.bootcss.com/components/>`__ ,
 针对这2个需求，我们提供了2套API：
 
-- ui: 生成界面，包括通用基础的、以及系统特有的组件
-- view: 服务端驱动前端交互变化
+- ui: 生成界面(html)，包括通用基础的、以及系统特有的组件
+- view: 服务端驱动前端交互(js)
 
 示例
-============
+----------
 一个独立的页面::
 
     h1 = ui.h1('新的表单')
@@ -49,7 +55,7 @@ UI组件和交互
 
 上面返回的是界面对象，我们会根据前端的类型（web、手机、桌面应用）自动适配，当然也可以只返回html::
 
-    return h1.html() + form.html() + help.html()
+    return (h1 + form + help).html()
 
 请求提交到服务端，处理数据，并驱动前端UI::
 
@@ -324,9 +330,17 @@ UI模块
 单条目ui.items
 -------------------
 
+容器操作条
+....................
+根据context的类型，渲染标准的头部区域（比如设置权限、视图切换） ::
+
+   ui.items.actions_bar(context,request, title)
+
+context可以是文件夹、表单容器，应用容器
+
 文件查看器
 ..................
-显示一个文件预览区，可控制是否显示属性集::
+显示一个文件查看::
 
    ui.items.file_viewer(context, request, show_mdset=True)
 
@@ -389,14 +403,6 @@ UI模块
 - ``dataitem_batch`` 是一个表单的batch对象，渲染结果，可以自动分页
 - ``columns`` 显示哪些列
 
-容器操作条
-....................
-根据context的类型，渲染标准的头部区域（比如设置权限、视图切换） ::
-
-   ui.items.actions_bar(context,request, title)
-
-context可以是文件夹、表单容器，应用容器
-
 内置功能按钮 ui.buttons
 ----------------------------
 关注按钮::
@@ -407,9 +413,9 @@ context可以是文件夹、表单容器，应用容器
 
   ui.buttons.permission(context, request)
 
-关注按钮::
+收藏按钮::
 
-  ui.buttons.favorite(context, request)    # 收藏按钮(参数show_text默认True)
+  ui.buttons.favorite(context, request, show_text=True)    # 收藏按钮(参数show_text默认True)
 
 新建流程::
 
