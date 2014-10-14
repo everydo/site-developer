@@ -1,5 +1,5 @@
 title: Easydo - 企业办公平台
-order: [index.rst, tour, sdk, api, package, blog]
+order: [index.rst, tour, package, api, blog]
 exclude: [img, cert, sdk]
 theme_base: /themes/developer-bootstrap
 theme: default.html
