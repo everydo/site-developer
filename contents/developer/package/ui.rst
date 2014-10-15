@@ -256,6 +256,8 @@ UI集合
          ui.link('title 2', url).on('click', '@zopen.test:tt'),
         ).sub()
 
+标签页
+---------------
 带切换页面的tab也导航::
 
   ui.tabs()\
