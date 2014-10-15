@@ -174,6 +174,18 @@ UI集合
       ui.link('abc', href='').on('click', '@zopen.test:test'),
                 )
 
+表格
+-------------
+::
+
+  ui.grid(2, 3)\
+        .set(0,0,'2323')
+        .set(0,1, ui.button('添加'))
+        .set(0,2, ui.button('娃娃'))
+        .set(1,0,'2323')
+        .set(1,1, ui.button('添加'))
+        .set(1,3, ui.button('娃娃'))
+
 下拉菜单
 -------------
 ::
