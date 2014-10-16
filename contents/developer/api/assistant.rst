@@ -102,6 +102,28 @@ description: 桌面助手的对外API
         "worker_id": "id"
     }
 
+文件编辑 ``/worker/new/edit``
+----------------------------------
+参数：
+
+- uid: 要编辑的文件的uid
+- server: 指定服务器
+- oc_server: 指定oc服务器
+- account: 指定账户
+- instance: 指定实例
+- build_number: 所需的桌面助手最低build版本号
+- token: token
+
+响应：
+
+- 格式: JSON/JSONP
+- JSON内容::
+
+    {
+        "is_alive": true, 
+        "worker_id": "id"
+    }
+
 
 显示本地同步区 ``/filestore/sync_paths``
 ----------------------------------------------------------
