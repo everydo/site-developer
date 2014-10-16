@@ -11,7 +11,7 @@ description: 小工具
 request是一个内置变量，存放了当前浏览器的请求信息。
 
 - ``request.principal.id #当前用户id``
-- ``request[field_name] #提交的表单信息``
+- ``request.form[field_name] #提交的表单信息``
 
     如果通过表单来上传文件，表单的action属性里面要给__disable_frs4wsgi=1这个参数，
     然后通过request.get('field_name','')来获取文件的对象进行操作，如果不加该参数，上传
@@ -79,5 +79,15 @@ Python的一些常用包
 - json , json格式的数据解析
 - xmlObjectify, xml文件对象化
 - minidom，dom解析
+
+拼音处理pinyin
+----------------------
+可以将汉字转换为拼音::
+
+  pinyin.hanzi2pinyin('我们')
+
+可以根据拼音进行排序汉字::
+
+  pinyin.sortbypinyin(['张三', '李四', '张武'])
 
 
