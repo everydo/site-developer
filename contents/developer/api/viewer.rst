@@ -7,7 +7,6 @@ description: 文件上传、下载、转换
 文件转换服务
 ==========================
 
-
 .. contents::
 .. sectnum::
 
@@ -266,6 +265,7 @@ HTTP返回值
         preview_signcode: 'asdf123123asdf12', 
         pdf_signcode: 'asdf123123asdf12', 
         download_signcode: 'asdf123123asdf12', 
+        image_url: 'http://zopen.everydo.cn/default/desks/users.panjunyong/files/img/${path}/@@download_url',
     });
     viewer.load();
   </script>
@@ -284,6 +284,7 @@ HTTP返回值
 - preview_signcode: 允许在线查看的签名. 具体算法见后(如果密匙为空，可省略签名)
 - pdf_signcode: 允许pdf下载的签名. 具体算法见后(如果密匙为空，可省略签名)
 - download_signcode: 下载原始文件的签名
+- image_url: 对于html/rst/md转换成html查看的时候，包含的图片的下载地址模板，这个用于工作平台的集成
 
 注意：如果云查看没有设置secret，则signcode可以为空，此时云查看不会做安全防护
 
